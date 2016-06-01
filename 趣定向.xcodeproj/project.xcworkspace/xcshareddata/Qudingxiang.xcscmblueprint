@@ -1,0 +1,24 @@
+{
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
+    "8a704681-5a24-d745-a967-a8f7d1b20364" : {
+
+    }
+  },
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
+    "8a704681-5a24-d745-a967-a8f7d1b20364" : 0
+  },
+  "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "2963C88A-BE6F-4D42-B921-2A0B8ABE79BC",
+  "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
+    "8a704681-5a24-d745-a967-a8f7d1b20364" : "Qudingxiang\/"
+  },
+  "DVTSourceControlWorkspaceBlueprintNameKey" : "Qudingxiang",
+  "DVTSourceControlWorkspaceBlueprintVersion" : 204,
+  "DVTSourceControlWorkspaceBlueprintRelativePathToProjectKey" : "Qudingxiang.xcodeproj",
+  "DVTSourceControlWorkspaceBlueprintRemoteRepositoriesKey" : [
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/oketion.com:8443\/svn\/oketion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8a704681-5a24-d745-a967-a8f7d1b20364"
+    }
+  ]
+}

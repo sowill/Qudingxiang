@@ -1,0 +1,85 @@
+#ifdef __OBJC__
+    #import "MJExtension.h"
+    #import "AFNetworking.h"
+    #import "MBProgressHUD+MJ.h"
+    #import "UIImageView+WebCache.h"
+    #import "MJRefresh.h"
+    #import "ToolView.h"
+    #import "LXActivity.h"
+    #import <TencentOpenAPI/QQApiInterface.h> 
+    #import <TencentOpenAPI/TencentOAuth.h>
+    #import "WXApi.h"
+    #import "WXApiObject.h"
+    #import "WechatAuthSDK.h"
+    #import <AlipaySDK/AlipaySDK.h>
+    #import "BaseViewController.h"
+    #import "RESideMenu.h"
+    #import "BaseService.h"
+    #import <MAMapKit/MAMapKit.h>
+#endif
+
+#define kWeChat_KEY       @"wxd7bdc3ac4f2505fe"
+#define kWeChat_Secret    @"d4624c36b6795d1d99dcf0547af5443d"
+
+#define QdxWidth [UIScreen mainScreen].bounds.size.width
+#define QdxHeight [UIScreen mainScreen].bounds.size.height
+
+//记住token
+#define     XWLAccountFile [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"XWLAccount.data"]
+
+#define    QDXTicketFile [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"QDXTicket.data"]
+
+//存储当前myLineid
+#define    QDXMyLineFile [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"QDXMyLine.data"]
+
+#define    QDXCurrentMyLineFile [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"QDXCurrentMyLine.data"]
+
+#define QDXVersion  [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"QDXVersion.data"]
+
+#define Version  [NSKeyedUnarchiver unarchiveObjectWithFile:QDXVersion]
+
+#define saveTicket_id [NSKeyedUnarchiver unarchiveObjectWithFile:QDXTicketFile]
+
+#define save [NSKeyedUnarchiver unarchiveObjectWithFile:XWLAccountFile]
+
+#define mylineid [NSKeyedUnarchiver unarchiveObjectWithFile:QDXCurrentMyLineFile]
+
+#define hostUrl @"http://www.qudingxiang.cn/"
+//#define save @"2016050911505897449"
+
+//图片上传接口：
+//Upmfile/upfile  参数imgfile  返回：上传图片的存放路径
+#define imageUrl @"Home/Upmfile/upfile"
+
+//banner
+#define IconUrl @"Home/Util/getPlayimg"
+
+//获取场地线路列表  参数：TokenKey、areatype_id
+#define detailUrl @"Home/goods/getListAjaxAct"
+
+//获取当前使用中门票 参数：TokenKey
+#define usingTicket @"Home/Ticketinfo/getCurrentTicket"
+
+//选择路线  参数: TokenKey、line_id
+#define choiceUrl @"index.php/Home/Myline/selectMyline"
+
+//我的当前线路 参数：TokenKey
+#define lineUrl @"index.php/Home/Myline/getCurrentLine"
+
+//门票获取线路  参数：TokenKey、ticket_id
+#define ticketUrl @"Home/Ticketline/getListByTicket"
+
+//获取场地线路列表  参数：TokenKey、area_id
+#define areaUrl @"Home/Line/getListAjax"
+
+//激活验证门票 参数：TokenKey、ticketinfo_name
+#define actUrl @"Home/Ticketinfo/checkTicket"
+
+//我的线路列表 参数：TokenKey
+#define mineUrl @"Home/Myline/getMyLineList"
+
+//获取产品报价列表  参数:TokenKey
+#define goodsUrl @"Home/goods/getListAjax"
+
+//获取团队线路  参数:TokenKey curr
+#define teamUrl @"Home/Myline/getMyTeamLineList"

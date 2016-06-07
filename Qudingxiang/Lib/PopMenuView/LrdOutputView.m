@@ -34,7 +34,7 @@
                         direction:(LrdOutputViewDirection)direction {
     if (self = [super initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)]) {
         //背景色为clearColor
-        self.backgroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.2];
+        self.backgroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.6];
         
         self.origin = origin;
         self.height = height;

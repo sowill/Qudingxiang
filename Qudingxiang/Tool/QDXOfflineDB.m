@@ -58,7 +58,7 @@ static sqlite3 *db = nil;
         
         const char *sql3 = "CREATE TABLE IF NOT EXISTS qdx_history (h_id integer PRIMARY KEY AUTOINCREMENT,edate text,myline_id text,point_id text,score text)";
         
-        const char *sql4 = "CREATE TABLE IF NOT EXISTS qdx_line_point (l_p_id integer PRIMARY KEY AUTOINCREMENT,line_id text NOT NULL,point_id text NOT NULL,pointmap_id text NOT NULL,pointmap_des text,pindex text)";
+        const char *sql4 = "CREATE TABLE IF NOT EXISTS qdx_line_point (l_p_id integer PRIMARY KEY AUTOINCREMENT,line_id text NOT NULL,point_id text NOT NULL,pointmap_id text NOT NULL,pointmap_des text,pindex text,linetype_id text)";
         
         const char *sql5 = "CREATE TABLE IF NOT EXISTS qdx_point (p_id integer PRIMARY KEY AUTOINCREMENT,point_id text NOT NULL,area_id text,LAT text,LON text,label text NOT NULL,point_name text NOT NULL,rssi text NOT NULL)";
         
@@ -176,6 +176,33 @@ static sqlite3 *db = nil;
     sqlite3_finalize(stmt);
 }
 
+-(NSArray *)selectAllPointWithPid:(NSArray *)point_idArray
+{
+    sqlite3_stmt *stmt = nil;
+    NSString *sql = [NSString stringWithFormat:@"SELECT * FROM qdx_point WHERE point_id IN %@",point_idArray];
+    int result = sqlite3_prepare_v2(db, [sql UTF8String], -1, &stmt, nil);
+    if (result == SQLITE_OK) {
+        NSMutableArray *array = [NSMutableArray array];
+        while (sqlite3_step(stmt) == SQLITE_ROW) {
+            NSString  *point_id = [NSString stringWithUTF8String:(const char *) sqlite3_column_text(stmt, 1)];
+            NSString *area_id = [NSString stringWithUTF8String:(const char *) sqlite3_column_text(stmt, 2)];
+            NSString *LAT = [NSString stringWithUTF8String:(const char *) sqlite3_column_text(stmt, 3)];
+            NSString *LON = [NSString stringWithUTF8String:(const char *) sqlite3_column_text(stmt, 4)];
+            NSString *label = [NSString stringWithUTF8String:(const char *) sqlite3_column_text(stmt, 5)];
+            NSString *point_name = [NSString stringWithUTF8String:(const char *) sqlite3_column_text(stmt, 6)];
+            NSString *rssi = [NSString stringWithUTF8String:(const char *) sqlite3_column_text(stmt, 7)];
+            QDXPointModel *point = [[QDXPointModel alloc] initWithP_id:point_id A_id:area_id LAT:LAT LON:LON Label:label P_name:point_name Rssi:rssi];
+            [array addObject:point];
+        }
+        sqlite3_finalize(stmt);
+        return array;
+    }else
+    {
+        sqlite3_finalize(stmt);
+        return nil;
+    }
+}
+
 -(QDXPointModel *)selectPointWithPid:(NSString *)point_id
 {
     NSString *sql = [NSString stringWithFormat:@"SELECT *FROM qdx_point WHERE point_id =  '%@'",point_id];
@@ -216,7 +243,8 @@ static sqlite3 *db = nil;
             NSString *pointmap_id = [NSString stringWithUTF8String:(const char *) sqlite3_column_text(stmt, 3)];
             NSString *pointmap_des = [NSString stringWithUTF8String:(const char *) sqlite3_column_text(stmt, 4)];
             NSString *pindex = [NSString stringWithUTF8String:(const char *) sqlite3_column_text(stmt, 5)];
-            line_pointModel *line_point = [[line_pointModel alloc] initWithL_id:line_id P_id:point_id P_mapid:pointmap_id P_mapdes:pointmap_des P_index:pindex];
+            NSString *linetype_id = [NSString stringWithUTF8String:(const char *) sqlite3_column_text(stmt, 6)];
+            line_pointModel *line_point = [[line_pointModel alloc] initWithL_id:line_id P_id:point_id P_mapid:pointmap_id P_mapdes:pointmap_des P_index:pindex l_typeid:linetype_id];
             [array addObject:line_point];
         }
         sqlite3_finalize(stmt);
@@ -335,7 +363,7 @@ static sqlite3 *db = nil;
 -(void)insertLineAndPoint:(line_pointModel *)line_point
 {
     sqlite3_stmt *stmt = nil;
-    NSString *sql = @"INSERT INTO qdx_line_point (l_p_id,line_id,point_id,pointmap_id,pointmap_des,pindex)VALUES(?,?,?,?,?,?)";
+    NSString *sql = @"INSERT INTO qdx_line_point (l_p_id,line_id,point_id,pointmap_id,pointmap_des,pindex,linetype_id)VALUES(?,?,?,?,?,?,?)";
     int result = sqlite3_prepare_v2(db, [sql UTF8String], -1, &stmt,nil);
     if (result == SQLITE_OK) {
         sqlite3_bind_text(stmt, 2, [line_point.line_id UTF8String], -1 , nil);
@@ -343,6 +371,7 @@ static sqlite3 *db = nil;
         sqlite3_bind_text(stmt, 4, [line_point.pointmap_id UTF8String], -1 , nil);
         sqlite3_bind_text(stmt, 5, [line_point.pointmap_des UTF8String], -1, nil);
         sqlite3_bind_text(stmt, 6, [line_point.pindex UTF8String], -1, nil);
+        sqlite3_bind_text(stmt, 7, [line_point.linetype_id UTF8String], -1, nil);
         sqlite3_step(stmt);
     }else
     {

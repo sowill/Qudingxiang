@@ -58,7 +58,7 @@
     [self.view addSubview:self.QDXScrollView];
     
     //添加地图
-    map = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, 250)];
+    map = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxWidth*0.59)];
     map.userInteractionEnabled = YES;
     [self.QDXScrollView addSubview:map];
     UITapGestureRecognizer *tap  = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(bigButtonTapped:)];
@@ -148,7 +148,7 @@
             [model setMap:infoDict[@"Msg"][@"area"][@"map"]];
             [model setArea_name:infoDict[@"Msg"][@"line_sub"]];
             [model setDescript:infoDict[@"Msg"][@"description"]];
-            [map setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,model.map]] placeholderImage:[UIImage imageNamed:@"1"]];
+            [map setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,model.map]] placeholderImage:[UIImage imageNamed:@"banner_cell"]];
             place.text = model.area_name;
             details.text = model.descript;
             

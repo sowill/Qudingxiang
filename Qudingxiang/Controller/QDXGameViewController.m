@@ -43,11 +43,11 @@
 {
     //搜索到的mac值
     NSString *macStr;
-
+    
     //要求获取的mac值不带冒号用来比较
     NSArray *mac_Label;
     NSString *rmoveMacStr;
-
+    
     //回答
     NSString *answer;
     
@@ -60,8 +60,8 @@
     
     //准备开始view
     UIView *readyView;
-//    UIButton *moreDetails;
-//    UIImageView *arrow;
+    //    UIButton *moreDetails;
+    //    UIImageView *arrow;
     
     //游戏中
     UIView *playView;
@@ -84,7 +84,7 @@
     UIButton *showOK_button;
     UIButton *showTitle_button;
     UIButton *cancel_button;
-    
+    UIView *buttom_line;
     //游戏完成
     UIImageView *certificate;
     
@@ -126,7 +126,7 @@
 }
 
 - (MAMapView *)mapView{
-
+    
     if(!_mapView) {
         self.mapView = [[MAMapView alloc]initWithFrame:CGRectMake(0,QdxHeight - MAPVIEWHEIGHT ,QdxWidth,MAPVIEWHEIGHT)];
         self.mapView.mapType = MAMapTypeStandard;
@@ -181,15 +181,15 @@
                 [self.mapView removeFromSuperview];
                 [self.QDXScrollView addSubview:readyView];
                 [self.QDXScrollView addSubview:_webView];
-//                [self.QDXScrollView addSubview:moreDetails];
+                //                [self.QDXScrollView addSubview:moreDetails];
                 
             }else if ([self.gameInfo.mstatus_id intValue] == 2){
                 [self.navigationItem setTitle:[game.line.line_sub stringByAppendingString:@"-活动中"]];
                 if ([self.gameInfo.isLeader intValue] == 1) {
                     self.MyCentralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
                 }
-//                self.navigationItem.leftBarButtonItem = nil;
-//                self.navigationItem.hidesBackButton = YES;
+                //                self.navigationItem.leftBarButtonItem = nil;
+                //                self.navigationItem.hidesBackButton = YES;
                 [readyView removeFromSuperview];
                 [_webView removeFromSuperview];
                 //                [moreDetails removeFromSuperview];
@@ -198,7 +198,7 @@
                 [self.QDXScrollView addSubview:map_click];
                 [self.QDXScrollView addSubview:task_button];
                 [self.QDXScrollView addSubview:history_button];
-            
+                
             }else if ([self.gameInfo.mstatus_id intValue] == 3){
                 lock = YES;
                 if (![mylineid isEqualToString:self.model.myline_id]){
@@ -216,7 +216,7 @@
                 [self.mapView removeFromSuperview];
                 [readyView removeFromSuperview];
                 [_webView removeFromSuperview];
-//                [moreDetails removeFromSuperview];
+                //                [moreDetails removeFromSuperview];
                 [playView removeFromSuperview];
                 [map_click removeFromSuperview];
                 [task_button removeFromSuperview];
@@ -238,13 +238,13 @@
                 [self.mapView removeFromSuperview];
                 [readyView removeFromSuperview];
                 [_webView removeFromSuperview];
-//                [moreDetails removeFromSuperview];
+                //                [moreDetails removeFromSuperview];
                 [playView removeFromSuperview];
                 [map_click removeFromSuperview];
                 [task_button removeFromSuperview];
                 [history_button removeFromSuperview];
                 self.navigationItem.title = @"强制结束";
-
+                
                 [self createSadView];
             }
         }
@@ -283,8 +283,8 @@
     //    });
     int b = abs([RSSI.description intValue]);
     CGFloat ci = (b - abs([self.gameInfo.point.rssi intValue])) / (10 * 4.);
-//            NSLog(@"距离:%.1fm",pow(10,ci));
-
+    //            NSLog(@"距离:%.1fm",pow(10,ci));
+    
     if (pow(10,ci) < 1 )
         //        int a = [RSSI.description intValue];
         //        if( abs(a) < abs([rssi intValue]))
@@ -440,17 +440,17 @@
     readyLabel.textColor = [UIColor colorWithWhite:0.067 alpha:1.000];
     readyLabel.font = [UIFont systemFontOfSize:14];
     [readyView addSubview:readyLabel];
-
+    
     self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, READYVIEWHEIGHT, QdxWidth, WEBVIEWHEIGHT)];
     self.webView.backgroundColor = [UIColor whiteColor];
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/myline/mylineweb/myline_id/%@/tmp/%@",mylineid,save]]]];
     
-//    moreDetails = [[UIButton alloc] initWithFrame:CGRectMake(0, READYVIEWHEIGHT + WEBVIEWHEIGHT, QdxWidth, 20)];
-//    [moreDetails addTarget:self action:@selector(hide_show:) forControlEvents:UIControlEventTouchUpInside];
-//    moreDetails.backgroundColor = [UIColor clearColor];
-//    arrow = [[UIImageView alloc] initWithFrame:CGRectMake(QdxWidth/2 - 5, 20/2 - 3, 10, 6)];
-//    arrow.image = [UIImage imageNamed:@"向下箭头"];
-//    [moreDetails addSubview:arrow];
+    //    moreDetails = [[UIButton alloc] initWithFrame:CGRectMake(0, READYVIEWHEIGHT + WEBVIEWHEIGHT, QdxWidth, 20)];
+    //    [moreDetails addTarget:self action:@selector(hide_show:) forControlEvents:UIControlEventTouchUpInside];
+    //    moreDetails.backgroundColor = [UIColor clearColor];
+    //    arrow = [[UIImageView alloc] initWithFrame:CGRectMake(QdxWidth/2 - 5, 20/2 - 3, 10, 6)];
+    //    arrow.image = [UIImage imageNamed:@"向下箭头"];
+    //    [moreDetails addSubview:arrow];
     
     playView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, SCOREVIEWHEIGHT)];
     playView.backgroundColor = [UIColor whiteColor];
@@ -463,7 +463,7 @@
     useTime.textAlignment = NSTextAlignmentCenter;
     useTime.textColor = [UIColor colorWithWhite:0.067 alpha:1.000];
     useTime.font = [UIFont fontWithName:@"Helvetica-Bold" size:30];
-
+    
     countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeFireMethod) userInfo:nil repeats:YES];
     [playView addSubview:useTime];
     currentTime = [[UILabel alloc] init];
@@ -481,7 +481,7 @@
     playLineView_One = [[UIView alloc] initWithFrame:CGRectMake(0, playline_Height, QdxWidth, 1)];
     playLineView_One.backgroundColor = [UIColor colorWithWhite:0.875 alpha:1];
     [playView addSubview:playLineView_One];
-    playLineView_Two = [[UIView alloc] initWithFrame:CGRectMake(QdxWidth/2, playline_Height, 1, SCOREVIEWHEIGHT - playline_Height)];
+    playLineView_Two = [[UIView alloc] initWithFrame:CGRectMake(QdxWidth/2, playline_Height+1, 1, SCOREVIEWHEIGHT - playline_Height-1)];
     playLineView_Two.backgroundColor = [UIColor colorWithWhite:0.875 alpha:1];
     [playView addSubview:playLineView_Two];
     
@@ -509,6 +509,9 @@
     score_sum_name.textColor = [UIColor colorWithWhite:0.400 alpha:1.000];
     score_sum_name.font = [UIFont systemFontOfSize:12];
     [playView addSubview:score_sum_name];
+    buttom_line = [[UIView alloc] initWithFrame:CGRectMake(0, SCOREVIEWHEIGHT, QdxWidth, 1)];
+    buttom_line.backgroundColor = [UIColor colorWithWhite:0.875 alpha:1];
+    [playView addSubview:buttom_line];
     
     map_click = [[UIButton alloc] initWithFrame:CGRectMake(0,QdxHeight - MAPVIEWHEIGHT ,QdxWidth,MAPVIEWHEIGHT)];
     [map_click addTarget:self action:@selector(mapClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -529,7 +532,7 @@
     UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     negativeSpacer.width = -10;
     self.navigationItem.rightBarButtonItems = @[negativeSpacer, buttonItem];
-
+    
 }
 
 //-(void)hide_show:(UIButton *)show
@@ -584,7 +587,7 @@
         NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
         int ret = [infoDict[@"Code"] intValue];
         if (ret == 1) {
-
+            
             QDXIsConnect *result = [QDXIsConnect mj_objectWithKeyValues:infoDict];
             self.resultInfo = result;
             
@@ -597,62 +600,62 @@
                 [_mapView addOverlay:groundOverlay];
                 [_mapView setVisibleMapRect:groundOverlay.boundingMapRect animated:YES];
                 
-//                CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(31.38, 121.53);
-//                //缩放比例
-//                MACoordinateSpan span = MACoordinateSpanMake(0.1, 0.8);
-//                MACoordinateRegion region = MACoordinateRegionMake(coordinate, span);
-//                //设置地图的显示区域
-//                [_mapView setRegion:region];
+                //                CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(31.38, 121.53);
+                //                //缩放比例
+                //                MACoordinateSpan span = MACoordinateSpanMake(0.1, 0.8);
+                //                MACoordinateRegion region = MACoordinateRegionMake(coordinate, span);
+                //                //设置地图的显示区域
+                //                [_mapView setRegion:region];
             }
             CLLocationCoordinate2D coor;
-//            if([self.gameInfo.line.linetype_id isEqualToString:@"2"]){//自由规划
+            //            if([self.gameInfo.line.linetype_id isEqualToString:@"2"]){//自由规划
             
-                for (line_pointModel *line_point in self.resultInfo.Unknown) {
-                    annotation_target = [[MAPointAnnotation alloc]init];
-                    coor.latitude = [line_point.point.LAT floatValue];
-                    coor.longitude = [line_point.point.LON floatValue];
-                    annotation_target.coordinate = coor;
-                    annotation_target.title = line_point.point.point_name;
-                    annotation_target.subtitle = line_point.pointmap_des;
-                    [self.mapView addAnnotation:annotation_target];
-                }
-                for (line_pointModel *line_point in self.resultInfo.History) {
-                    annotation_history = [[MAPointAnnotation alloc]init];
-                    coor.latitude = [line_point.point.LAT floatValue];
-                    coor.longitude = [line_point.point.LON floatValue];
-                    annotation_history.coordinate = coor;
-                    annotation_history.title = line_point.point.point_name;
-                    annotation_history.subtitle = line_point.pointmap_des;
-                    [self.mapView addAnnotation:annotation_history];
-                }
-//            }else{//依次穿越
-////                self.annotations_history = [NSMutableArray array];
-////                self.annotations_target = [NSMutableArray array];
-//                for (line_pointModel *line_point in self.resultInfo.History) {
-//                    // 添加一个PointAnnotation
-//                    annotation_history = [[MAPointAnnotation alloc]init];
-//                    coor.latitude = [line_point.point.LAT floatValue];
-//                    coor.longitude = [line_point.point.LON floatValue];
-//                    annotation_history.coordinate = coor;
-//                    annotation_history.title = line_point.point.point_name;
-//                    annotation_history.subtitle = line_point.pointmap_des;
-////                    [self.annotations_history addObject:annotation_history];
-//                    [self.mapView addAnnotation:annotation_history];
-//                }
-//                for (line_pointModel *line_point in self.resultInfo.Unknown) {
-//                    annotation_target = [[MAPointAnnotation alloc]init];
-//                    coor.latitude = [line_point.point.LAT floatValue];
-//                    coor.longitude = [line_point.point.LON floatValue];
-//                    annotation_target.coordinate = coor;
-//                    annotation_target.title = line_point.point.point_name;
-//                    annotation_target.subtitle = line_point.pointmap_des;
-////                    [self.annotations_target addObject:annotation_target];
-//                    [self.mapView addAnnotation:annotation_target];
-//                }
-////                NSLog(@"%ld",(long)self.annotations_history.count);
-////                [self.mapView addAnnotations:self.annotations_target];
-////                [self.mapView addAnnotations:self.annotations_history];
-//            }
+            for (line_pointModel *line_point in self.resultInfo.Unknown) {
+                annotation_target = [[MAPointAnnotation alloc]init];
+                coor.latitude = [line_point.point.LAT floatValue];
+                coor.longitude = [line_point.point.LON floatValue];
+                annotation_target.coordinate = coor;
+                annotation_target.title = line_point.point.point_name;
+                annotation_target.subtitle = line_point.pointmap_des;
+                [self.mapView addAnnotation:annotation_target];
+            }
+            for (line_pointModel *line_point in self.resultInfo.History) {
+                annotation_history = [[MAPointAnnotation alloc]init];
+                coor.latitude = [line_point.point.LAT floatValue];
+                coor.longitude = [line_point.point.LON floatValue];
+                annotation_history.coordinate = coor;
+                annotation_history.title = line_point.point.point_name;
+                annotation_history.subtitle = line_point.pointmap_des;
+                [self.mapView addAnnotation:annotation_history];
+            }
+            //            }else{//依次穿越
+            ////                self.annotations_history = [NSMutableArray array];
+            ////                self.annotations_target = [NSMutableArray array];
+            //                for (line_pointModel *line_point in self.resultInfo.History) {
+            //                    // 添加一个PointAnnotation
+            //                    annotation_history = [[MAPointAnnotation alloc]init];
+            //                    coor.latitude = [line_point.point.LAT floatValue];
+            //                    coor.longitude = [line_point.point.LON floatValue];
+            //                    annotation_history.coordinate = coor;
+            //                    annotation_history.title = line_point.point.point_name;
+            //                    annotation_history.subtitle = line_point.pointmap_des;
+            ////                    [self.annotations_history addObject:annotation_history];
+            //                    [self.mapView addAnnotation:annotation_history];
+            //                }
+            //                for (line_pointModel *line_point in self.resultInfo.Unknown) {
+            //                    annotation_target = [[MAPointAnnotation alloc]init];
+            //                    coor.latitude = [line_point.point.LAT floatValue];
+            //                    coor.longitude = [line_point.point.LON floatValue];
+            //                    annotation_target.coordinate = coor;
+            //                    annotation_target.title = line_point.point.point_name;
+            //                    annotation_target.subtitle = line_point.pointmap_des;
+            ////                    [self.annotations_target addObject:annotation_target];
+            //                    [self.mapView addAnnotation:annotation_target];
+            //                }
+            ////                NSLog(@"%ld",(long)self.annotations_history.count);
+            ////                [self.mapView addAnnotations:self.annotations_target];
+            ////                [self.mapView addAnnotations:self.annotations_history];
+            //            }
         }
         else{
             
@@ -704,11 +707,11 @@
 
 -(void)moreClick:(UIButton *)btn
 {
-    if ([self.gameInfo.mstatus_id intValue] == 1|| [self.gameInfo.mstatus_id intValue] == 2){
+    if ([self.gameInfo.mstatus_id intValue] == 1||[self.gameInfo.mstatus_id intValue] == 2){
         LrdCellModel *one = [[LrdCellModel alloc] initWithTitle:@"扫一扫" imageName:@"下拉－扫一扫"];
-        LrdCellModel *two = [[LrdCellModel alloc] initWithTitle:@"退赛" imageName:@"下拉－退赛"];
+        LrdCellModel *two = [[LrdCellModel alloc] initWithTitle:@"帮助" imageName:@"下拉－帮助"];
         LrdCellModel *three = [[LrdCellModel alloc] initWithTitle:@"组队" imageName:@"下拉－组队"];
-        LrdCellModel *four = [[LrdCellModel alloc] initWithTitle:@"帮助" imageName:@"下拉－帮助"];
+        LrdCellModel *four = [[LrdCellModel alloc] initWithTitle:@"退赛" imageName:@"下拉－退赛"];
         LrdCellModel *five = [[LrdCellModel alloc] initWithTitle:@"离线下载" imageName:@"下拉－离线"];
         self.dataArr = @[one, two, three, four, five];
     }else{
@@ -717,7 +720,7 @@
         LrdCellModel *three = [[LrdCellModel alloc] initWithTitle:@"打印成绩" imageName:@"下拉－打印"];
         self.dataArr = @[one, two, three];
     }
-
+    
     
     CGFloat x = btn.center.x + 10;
     CGFloat y = btn.frame.origin.y + btn.bounds.size.height + 50;
@@ -733,29 +736,28 @@
 
 - (void)didSelectedAtIndexPath:(NSIndexPath *)indexPath {
     
-    if ([self.gameInfo.mstatus_id intValue] == 1|| [self.gameInfo.mstatus_id intValue] == 2){
+    if ([self.gameInfo.mstatus_id intValue] == 1||[self.gameInfo.mstatus_id intValue] == 2){
         if (indexPath.row == 0) {
             if ([self.gameInfo.isLeader intValue] == 1) {
                 [self codeClick];
             }else{
                 UIAlertController *alert=[UIAlertController alertControllerWithTitle:@"提示" message:@"您不是队长!"preferredStyle:UIAlertControllerStyleAlert];
-                            //创建一个action
+                //创建一个action
                 UIAlertAction *cancel=[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
                 [alert addAction:cancel];
                 [self presentViewController:alert animated:YES completion:nil];
             }
         }else if (indexPath.row == 1){
-            [self giveUp];
-        }else if (indexPath.row == 2){
-            [self ready];
-        }else if (indexPath.row == 3){
             
+        }else if (indexPath.row == 2){
+            if ([self.gameInfo.mstatus_id intValue] == 2) {
+                [MBProgressHUD showError:@"游戏中不能组队"];
+            }else{
+                [self ready];
+            }
+        }else if (indexPath.row == 3){
+            [self giveUp];
         }else{
-//            UIAlertController *alert=[UIAlertController alertControllerWithTitle:@"主人，别戳人家" message:[NSString stringWithFormat:@"你点击了%ld行", (long)indexPath.row] preferredStyle:UIAlertControllerStyleAlert];
-//            //创建一个action
-//            UIAlertAction *cancel=[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:nil];
-//            [alert addAction:cancel];
-//            [self presentViewController:alert animated:YES completion:nil];
             QDXOffLineController *offline = [[QDXOffLineController alloc] init];
             [self.navigationController pushViewController:offline animated:YES];
         }
@@ -763,7 +765,7 @@
         if (indexPath.row == 0) {
             [self shareClick];
         }else if (indexPath.row == 1){
-
+            
         }else{
             [self setupCreateView];
         }
@@ -775,27 +777,27 @@
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     QDXHistoryViewController *viewController = [[QDXHistoryViewController alloc] init];
     viewController.Game = self.gameInfo;
-//    NSLog(@"count  %ld",(long)self.gameInfo.history.count);
+    //    NSLog(@"count  %ld",(long)self.gameInfo.history.count);
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
 -(void)task_buttonClick
 {
     [self setupCompleteView:1];
-//    [self setupCheckTask];
+    //    [self setupCheckTask];
 }
 
 -(void)mapClick:(UIButton *)map
 {
     map_click.selected = !map_click.isSelected;
     if (map_click.isSelected) {
-        
         [map_click removeFromSuperview];
         [playLineView_One removeFromSuperview];
         [score_sum removeFromSuperview];
         [score_sum_name removeFromSuperview];
         float pointHeight = (QdxHeight * 0.1 - (20 + 15 + 5))/2;
         playLineView_Two.frame = CGRectMake(QdxWidth/2, 0, 1, QdxHeight * 0.1);
+        buttom_line.frame = CGRectMake(0, QdxHeight * 0.1, QdxWidth, 1);
         point.frame = CGRectMake(QdxWidth/4 - 100/2, pointHeight, 100, 20);
         point_name.frame = CGRectMake(QdxWidth/4 - 100/2,pointHeight + 20 + 5, 100, 15);
         useTime.frame = CGRectMake((QdxWidth/4)* 3 - QdxWidth/2/2,pointHeight, QdxWidth/2, 20);
@@ -829,7 +831,8 @@
         currentTime.bounds = CGRectMake(0, 0, QdxWidth/2, 15);
         float playline_Height = currentTimeCenterY + 15/2 + 30;
         float pointHeight = playline_Height +((SCOREVIEWHEIGHT - playline_Height) - (20 + 15 + 5))/2;
-        playLineView_Two.frame = CGRectMake(QdxWidth/2, playline_Height, 1, SCOREVIEWHEIGHT - playline_Height);
+        buttom_line.frame = CGRectMake(0, SCOREVIEWHEIGHT, QdxWidth, 1);
+        playLineView_Two.frame = CGRectMake(QdxWidth/2, playline_Height+4, 1, SCOREVIEWHEIGHT - playline_Height-4);
         point.frame = CGRectMake(QdxWidth/4 - 100/2, pointHeight, 100, 20);
         point_name.frame = CGRectMake(QdxWidth/4 - 100/2,pointHeight + 20 + 5, 100, 15);
         score_sum.frame = CGRectMake((QdxWidth/4)* 3 - 100/2, pointHeight, 100, 20);
@@ -890,7 +893,7 @@
                     dispatch_group_leave(group);
                 });
             });
-
+            
         }
         else{
             
@@ -904,7 +907,7 @@
 {
     lock = YES;
     CYAlertController *alert = [CYAlertController alertWithTitle:self.gameInfo.line.line_sub
-                                                             message:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/Myline/getQuestionWeb/myline_id/%@/tmp/%@",mylineid,save]];
+                                                         message:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/Myline/getQuestionWeb/myline_id/%@/tmp/%@",mylineid,save]];
     alert.alertViewCornerRadius = 10;
     CYAlertAction *cancelAction_A = [CYAlertAction actionWithTitle:[@"A. " stringByAppendingString:self.questionInfo.question.qa] style:CYAlertActionStyleCancel handler:^{
         answer = @"A";
@@ -927,9 +930,9 @@
 {
     self.BGView                 = [[UIView alloc] init];
     self.BGView.frame           = [[UIScreen mainScreen] bounds];
-    self.BGView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.6];
+    self.BGView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
     [self.view addSubview:self.BGView];
-    self.BGView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.2];
+    
     
     self.deliverView                 = [[UIView alloc] init];
     self.deliverView.frame           = CGRectMake(QdxWidth/2 - TASKWEIGHT/2,(QdxHeight-64 - TASKHEIGHT)/2,TASKWEIGHT,TASKHEIGHT);
@@ -1017,12 +1020,14 @@
 {
     self.BGView                 = [[UIView alloc] init];
     self.BGView.frame           = [[UIScreen mainScreen] bounds];
-    self.BGView.backgroundColor = [UIColor colorWithRed:0 green:0 blue:0 alpha:0.6];
+    self.BGView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
     [self.view addSubview:self.BGView];
-    self.BGView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.2];
-    
+    float codeHeight = TASKHEIGHT;
+    if (QdxWidth > 320) {
+       codeHeight  = TASKHEIGHT * 0.75;
+    }
     self.deliverView                 = [[UIView alloc] init];
-    self.deliverView.frame           = CGRectMake(QdxWidth/2 - TASKWEIGHT/2,(QdxHeight-64 - TASKHEIGHT)/2,TASKWEIGHT,TASKHEIGHT);
+    self.deliverView.frame           = CGRectMake(QdxWidth/2 - TASKWEIGHT/2,(QdxHeight-64 - codeHeight)/2,TASKWEIGHT,codeHeight);
     self.deliverView.backgroundColor = [UIColor whiteColor];
     self.deliverView.layer.borderWidth = 1;
     self.deliverView.layer.cornerRadius = 8;
@@ -1050,14 +1055,14 @@
     UIView *printLine = [[UIView alloc] initWithFrame:CGRectMake(0, 15 + 20 + 15 + 15 + 10 + 15 + 15, TASKWEIGHT, 1)];
     printLine.backgroundColor = [UIColor colorWithWhite:0.875 alpha:1.000];
     [self.deliverView addSubview:printLine];
-    UIImageView * createCode = [[UIImageView alloc] initWithFrame:CGRectMake(TASKWEIGHT/2 - (250)/2, 15 + 20 + 15 + 15 + 10 + 15 + 15 + 1 , 250, 250)];
+    UIImageView * createCode = [[UIImageView alloc] initWithFrame:CGRectMake(TASKWEIGHT/2 - (300)/2, 15 + 20 + 15 + 15 + 10 + 15 + 15 + 1 , 300, 300)];
     if (QdxWidth < 640) {
         createCode.frame = CGRectMake(TASKWEIGHT/2 - (200)/2, 15 + 20 + 15 + 15 + 10 + 15 + 15 + 1 , 200, 200);
     }
     createCode.image = [QRCodeGenerator qrImageForString:self.gameInfo.printcode imageSize:createCode.bounds.size.width];
     [self.deliverView addSubview:createCode];
     
-    UIButton *cancelbutton = [[UIButton alloc] initWithFrame:CGRectMake(0, TASKHEIGHT - SHOWTASKHEIGHT,TASKWEIGHT, SHOWTASKHEIGHT)];
+    UIButton *cancelbutton = [[UIButton alloc] initWithFrame:CGRectMake(0, codeHeight - SHOWTASKHEIGHT,TASKWEIGHT, SHOWTASKHEIGHT)];
     [cancelbutton addTarget:self action:@selector(cancelbuttonClick) forControlEvents:UIControlEventTouchUpInside];
     CGFloat top = 25; // 顶端盖高度
     CGFloat bottom = 25; // 底端盖高度
@@ -1334,7 +1339,7 @@
 
 -(void)codeClick
 {
-        ImagePickerController *gameVC = [[ImagePickerController alloc] initWithBlock:^(NSString *result, BOOL flag,NSString *from) {
+    ImagePickerController *gameVC = [[ImagePickerController alloc] initWithBlock:^(NSString *result, BOOL flag,NSString *from) {
         gameVC.from = from;
         macStr = result;
         NSLog(@"%@",macStr);
@@ -1361,13 +1366,13 @@
                             });
                             
                         }
-
+                        
                     });
                 }
             }
             
         }
-
+        
     }];
     gameVC.hidesBottomBarWhenPushed =YES;
     [self.navigationController pushViewController:gameVC animated:YES];

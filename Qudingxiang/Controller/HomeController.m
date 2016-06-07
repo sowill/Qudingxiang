@@ -22,6 +22,7 @@
 #import "MineViewController.h"
 #import "QDXLoginViewController.h"
 #import "QDXNavigationController.h"
+#import "ImageScrollView.h"
 #define NotificaitonChange @"code"
 
 @interface HomeController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,UINavigationControllerDelegate,MJRefreshBaseViewDelegate,UIAlertViewDelegate>
@@ -53,6 +54,7 @@
     NSString *_msg;
     NSString *_codeMsg;
     UIButton *_scanBtn;
+    ImageScrollView *imgScrollView;
 }
 @end
 
@@ -61,14 +63,16 @@
 - (void)viewDidAppear:(BOOL)animated{
     [super viewDidAppear:animated];
     [self loadData];
-    [self addTimer];
+    //    [self addTimer];
     
 }
 
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    [self removeTimer];
+    _scrollArr = [NSMutableArray arrayWithCapacity:0];
+    //    [self removeTimer];
+    [imgScrollView stopTimer];
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -153,23 +157,31 @@
     view.frame = CGRectMake(0, 0, QdxWidth, viewMaxY+30);
     
     _tableView.tableHeaderView = view;
-    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxWidth*0.59)];
-    _scrollView.showsHorizontalScrollIndicator = NO;
-    _scrollView.backgroundColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.5];
-    _scrollView.pagingEnabled = YES;
-    _scrollView.userInteractionEnabled = YES;
-    _scrollView.delegate = self;
-    _scrollView.contentSize = CGSizeMake(4*QdxWidth, 0);
-    _scrollView.showsVerticalScrollIndicator = NO;
-    _scrollView.bounces = YES;
-    _scrollView.scrollEnabled = NO;
-    [view addSubview:_scrollView];
-    _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, QdxWidth*0.59-20, QdxWidth, 10)];
-    _pageControl.currentPageIndicatorTintColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1];
-    _pageControl.pageIndicatorTintColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.5];
-    _pageControl.numberOfPages = 4;
-    _pageControl.currentPage = 0;
-    [view addSubview:_pageControl];
+    //    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxWidth*0.59)];
+    //    _scrollView.showsHorizontalScrollIndicator = NO;
+    //    _scrollView.backgroundColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.5];
+    //    _scrollView.pagingEnabled = YES;
+    //    _scrollView.userInteractionEnabled = YES;
+    //    _scrollView.delegate = self;
+    //    _scrollView.contentSize = CGSizeMake(4*QdxWidth, 0);
+    //    _scrollView.showsVerticalScrollIndicator = NO;
+    //    _scrollView.bounces = YES;
+    //    _scrollView.scrollEnabled = YES;
+    //    [view addSubview:_scrollView];
+    //    _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, QdxWidth*0.59-20, QdxWidth, 10)];
+    //    _pageControl.currentPageIndicatorTintColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1];
+    //    _pageControl.pageIndicatorTintColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.5];
+    //    _pageControl.numberOfPages = 4;
+    //    _pageControl.currentPage = 0;
+    //    [view addSubview:_pageControl];
+    
+    //创建
+    imgScrollView = [[ImageScrollView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxWidth*0.59)];
+    [view addSubview:imgScrollView];
+    UIImageView *mask = [[UIImageView alloc] initWithFrame:CGRectMake(0, QdxWidth*0.59-QdxWidth*0.1, QdxWidth, QdxWidth*0.1)];
+    mask.image = [UIImage imageNamed:@"index_mask"];
+    [imgScrollView addSubview:mask];
+    
     [self createButtonWithView:view];
     [self.view addSubview:_tableView];
     
@@ -204,7 +216,7 @@
 {
     NSArray *titleArr = @[@"亲子",@"交友",@"拓展",@"挑战"];
     NSArray *imageArr = @[@"index_parenting",@"index_makefriends",@"index_expand",@"index_dekaron"];
-    CGFloat scrollViewMaxY = CGRectGetMaxY(_scrollView.frame);
+    CGFloat scrollViewMaxY = CGRectGetMaxY(imgScrollView.frame);
     for(int i=0; i<4; i++){
         UIButton *btn = [ToolView createButtonWithFrame:CGRectMake(i*QdxWidth/4+QdxWidth/17, scrollViewMaxY+20, QdxWidth/8, QdxWidth/8) title:titleArr[i] backGroundImage:imageArr[i] Target:self action:@selector(btnClick:) superView:view];
         btn.titleEdgeInsets = UIEdgeInsetsMake(QdxWidth/5, 0, 0, 0);
@@ -252,63 +264,63 @@
         }
     }
 }
-- (void)addTimer
-{
-    _myTimer = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(nextImage) userInfo:nil repeats:YES];
-    [[NSRunLoop currentRunLoop] addTimer:_myTimer forMode:NSRunLoopCommonModes];
-}
-
-- (void)nextImage
-{
-    // 1.增加pageControl的页码
-    _currentIndex = 0;
-    if (_pageControl.currentPage == 3) {
-        _currentIndex = 0;
-    } else {
-        _currentIndex = _pageControl.currentPage + 1;
-    }
-    
-    // 2.计算scrollView滚动的位置
-    CGFloat offsetX = _currentIndex * _scrollView.frame.size.width;
-    CGPoint offset = CGPointMake(offsetX, 0);
-    [_scrollView setContentOffset:offset animated:YES];
-}
-
-- (void)removeTimer
-{
-    [_myTimer invalidate];
-    _myTimer = nil;
-}
-
-- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-{
-    // 停止定时器(一旦定时器停止了,就不能再使用)
-    [self removeTimer];
-}
-//停止拖拽的时候调用
-
-- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-{
-    // 开启定时器
-    [self addTimer];
-}
-
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-{
-    
-    CGFloat scrollW = _scrollView.frame.size.width;
-    _currentIndex = (scrollView.contentOffset.x + scrollW * 0.5) / scrollW;
-    _pageControl.currentPage = _currentIndex;
-}
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-{
-    _currentIndex = _scrollView.contentOffset.x/QdxWidth;
-    if(_scrollView.contentOffset.x >=QdxWidth*3){
-        _scrollView.contentOffset = CGPointMake(0, 0);
-    }
-    _pageControl.currentPage = _currentIndex;
-    
-}
+//- (void)addTimer
+//{
+//    _myTimer = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(nextImage) userInfo:nil repeats:YES];
+//    [[NSRunLoop currentRunLoop] addTimer:_myTimer forMode:NSRunLoopCommonModes];
+//}
+//
+//- (void)nextImage
+//{
+//    // 1.增加pageControl的页码
+//    _currentIndex = 0;
+//    if (_pageControl.currentPage == 3) {
+//        _currentIndex = 0;
+//    } else {
+//        _currentIndex = _pageControl.currentPage + 1;
+//    }
+//
+//    // 2.计算scrollView滚动的位置
+//    CGFloat offsetX = _currentIndex * _scrollView.frame.size.width;
+//    CGPoint offset = CGPointMake(offsetX, 0);
+//    [_scrollView setContentOffset:offset animated:YES];
+//}
+//
+//- (void)removeTimer
+//{
+//    [_myTimer invalidate];
+//    _myTimer = nil;
+//}
+//
+//- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+//{
+//    // 停止定时器(一旦定时器停止了,就不能再使用)
+//    [self removeTimer];
+//}
+////停止拖拽的时候调用
+//
+//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+//{
+//    // 开启定时器
+//    [self addTimer];
+//}
+//
+//- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+//{
+//
+//    CGFloat scrollW = _scrollView.frame.size.width;
+//    _currentIndex = (scrollView.contentOffset.x + scrollW * 0.5) / scrollW;
+//    _pageControl.currentPage = _currentIndex;
+//}
+//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
+//{
+//    _currentIndex = _scrollView.contentOffset.x/QdxWidth;
+//    if(_scrollView.contentOffset.x >=QdxWidth*3){
+//        _scrollView.contentOffset = CGPointMake(0, 0);
+//    }
+//    _pageControl.currentPage = _currentIndex;
+//
+//}
 
 - (void)sussRes
 {
@@ -331,23 +343,34 @@
                 [model setValuesForKeysWithDictionary:dict];
                 _model_tmp = model;
                 NSString *str = model.good_url;
-                [_scrollArr addObject:str];
+                [_scrollArr addObject:[NSString stringWithFormat:@"%@%@",hostUrl,str]];
                 [_modelArr addObject:model];
             }
         }
-        for (int i = 0; i < _scrollArr.count; i++) {
-            _imageView = [[UIImageView alloc] init];
-            CGFloat contentW = i * QdxWidth;
-            _imageView.frame = CGRectMake(contentW, 0, QdxWidth, QdxWidth*0.59);
-            _imageView.image = [UIImage imageNamed:@"1"];
-            _imageView.userInteractionEnabled = YES;
-            UIButton *btn = [ToolView createButtonWithFrame:CGRectMake(0, 0, QdxWidth, QdxWidth*0.59) title:@"" backGroundImage:@"" Target:self action:@selector(topBtnClicked:) superView:_imageView];
-            btn.tag = i;
-            _scrollView.delegate = self;
-            [_scrollView addSubview:_imageView];
-            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,[_scrollArr objectAtIndex:i]]];
-            [_imageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"banner"]];
-        }
+        //添加数据
+        imgScrollView.pics = _scrollArr;
+        //点击事件
+        [imgScrollView returnIndex:^(NSInteger index) {
+            QDXLineDetailViewController *detailLine = [[QDXLineDetailViewController alloc] init];
+            detailLine.homeModel = [_modelArr objectAtIndex:index];
+            detailLine.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:detailLine animated:YES];
+        }];
+        //刷新（必需的步骤）
+        [imgScrollView reloadView];
+        
+        //        for (int i = 0; i < _scrollArr.count; i++) {
+        //            _imageView = [[UIImageView alloc] init];
+        //            CGFloat contentW = i * QdxWidth;
+        //            _imageView.frame = CGRectMake(contentW, 0, QdxWidth, QdxWidth*0.59);
+        //            _imageView.image = [UIImage imageNamed:@"1"];
+        //            _imageView.userInteractionEnabled = YES;
+        //            UIButton *btn = [ToolView createButtonWithFrame:CGRectMake(0, 0, QdxWidth, QdxWidth*0.59) title:@"" backGroundImage:@"" Target:self action:@selector(topBtnClicked:) superView:_imageView];
+        //            btn.tag = i;
+        //            _scrollView.delegate = self;
+        //            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,[_scrollArr objectAtIndex:i]]];
+        //            [_imageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"banner"]];
+        //        }
     } FailBlock:^(NSMutableArray *array) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"加载失败，请检查网络！" message:nil preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {

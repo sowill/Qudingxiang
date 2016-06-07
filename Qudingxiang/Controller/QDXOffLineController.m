@@ -74,12 +74,12 @@
 /**
  *  创建数据库模型
  */
-@property (nonatomic ,strong) QDXOfflineDB *offlineDB;
-@property (nonatomic,strong) CBCentralManager *MyCentralManager;
-@property (nonatomic,strong) NSTimer *timer;
+@property (nonatomic, strong) QDXOfflineDB *offlineDB;
+@property (nonatomic, strong) CBCentralManager *MyCentralManager;
+@property (nonatomic, strong) NSTimer *timer;
 @property (nonatomic, strong) NSArray *dataArr;
 @property (nonatomic, strong) LrdOutputView *outputView;
-@property (nonatomic) CGFloat progress;
+@property (nonatomic, strong) NSMutableArray *temp_Point;
 @end
 
 @implementation QDXOffLineController
@@ -168,6 +168,8 @@
 -(void)selectMethod
 {
     self.MyCentralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+    //再次校验重复数据
+    [_offlineDB deleteTheSame];
     
     QDXGameModel *myline = [_offlineDB selectMylineWithMLid:mylineid];
 
@@ -176,26 +178,56 @@
     NSArray *linepointArray = [_offlineDB selectPointWithLid:myline.line_id];
     
     line_pointModel *line_point =[linepointArray objectAtIndex:historyArray.count];
-
-    QDXPointModel *point = [_offlineDB selectPointWithPid:line_point.point_id];
+    
+    if ([line_point.linetype_id intValue] == 2) {
+        //自由
+        NSMutableArray *tArray = [NSMutableArray array];
+        for (int i=0; i<linepointArray.count; i++) {
+            line_pointModel *line_points =[linepointArray objectAtIndex:i];
+            [tArray addObject:line_points.point_id];
+            for (int i=0; i<historyArray.count; i++) {
+                QDXHIstoryModel *historys =[historyArray objectAtIndex:i];
+                [tArray removeObject:historys.point_id];
+            }
+        }
+        self.temp_Point = [NSMutableArray array];
+        NSMutableArray *labelArray = [NSMutableArray array];
+        NSArray *pointArray = [_offlineDB selectAllPointWithPid:tArray];
+        for (int i=0; i<pointArray.count; i++) {
+            QDXPointModel *points =[pointArray objectAtIndex:i];
+            [self.temp_Point addObject:points.point_name];
+            rssi = points.rssi;
+            NSString *macLabel =points.label;
+            NSArray *array3 = [macLabel componentsSeparatedByString:@":"];
+            NSString *string3 = [array3 componentsJoinedByString:@""];
+            [labelArray addObject:string3];
+        }
+        mac_Label = labelArray;
+        NSLog(@"%@",mac_Label);
+        point_name.text = @"神秘点标";
+    }else{
+        //依次
+        QDXPointModel *point = [_offlineDB selectPointWithPid:line_point.point_id];
+        
+        rssi = point.rssi;
+        isFinish = line_point.pindex;
+        NSString *macLabel =point.label;
+        NSArray *array3 = [macLabel componentsSeparatedByString:@":"];
+        NSString *string3 = [array3 componentsJoinedByString:@""];
+        mac_Label = [string3 componentsSeparatedByString:@","];
+        NSLog(@"%@",mac_Label);
+        point_name.text = point.point_name;
+        pointmap_id =line_point.pointmap_id;
+    }
     
     myline = [[QDXGameModel alloc] initWithL_id:myline.line_id ML_id:myline.myline_id MS_id:[NSString stringWithFormat:@"%d",mstate] Sdate:myline.sdate Score:myline.score Isleader:myline.isLeader P_mid:line_point.pointmap_id];
     [_offlineDB modifyMyline:myline];
-        
-    rssi = point.rssi;
-    isFinish = line_point.pindex;
-    NSString *macLabel =point.label;
-    NSArray *array3 = [macLabel componentsSeparatedByString:@":"];
-    NSString *string3 = [array3 componentsJoinedByString:@""];
-    mac_Label = [string3 componentsSeparatedByString:@","];
-    NSLog(@"%@",mac_Label);
-        
-    point_name.text = point.point_name;
+    
     sdateStr = myline.sdate;
     [self intervalSinceNow];
     countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeFireMethod) userInfo:nil repeats:YES];
     mstate = [myline.mstatus_id intValue];
-    pointmap_id =line_point.pointmap_id;
+    
     
     [self selectQuestion];
     
@@ -275,7 +307,7 @@
             NSArray *line_pointArray = [line_pointModel mj_objectArrayWithKeyValuesArray:infoDict[@"Msg"]];
             for (line_pointModel *line_point in line_pointArray) {
                 QDXPointModel *points = [[QDXPointModel alloc] initWithP_id:line_point.point.point_id A_id:line_point.point.area_id LAT:line_point.point.LAT LON:line_point.point.LON Label:line_point.point.label P_name:line_point.point.point_name Rssi:line_point.point.rssi];
-                line_pointModel *l_question = [[line_pointModel alloc] initWithL_id:line_point.line_id P_id:line_point.point_id P_mapid:line_point.pointmap_id P_mapdes:line_point.pointmap_des P_index:line_point.pindex];
+                line_pointModel *l_question = [[line_pointModel alloc] initWithL_id:line_point.line_id P_id:line_point.point_id P_mapid:line_point.pointmap_id P_mapdes:line_point.pointmap_des P_index:line_point.pindex l_typeid:line_point.line.linetype_id];
                 [_offlineDB insertLineAndPoint:l_question];
                 [_offlineDB insertPoint:points];
             }
@@ -547,7 +579,9 @@
 
 - (void)details_click
 {
-    
+    for (NSString *point in self.temp_Point) {
+        NSLog(@"%@",point);
+    }
 }
 
 - (void)intervalSinceNow
@@ -645,8 +679,6 @@
                     }
                         
                     });
-                    
-                    
                 }
             }
             

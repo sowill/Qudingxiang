@@ -12,7 +12,7 @@
 //@protocol PassPlayerInfoDelegate
 //- (void)passInfo:(NSString *)info;
 //@end
-@interface QDXTeamsViewController : UIViewController
+@interface QDXTeamsViewController : BaseViewController
 @property (nonatomic, strong) NSString *myLineid;
 @property (nonatomic, strong) MineModel *model;
 //@property (nonatomic, retain) id<PassPlayerInfoDelegate>delegate;

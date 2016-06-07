@@ -50,6 +50,10 @@
  */
 -(NSArray *)selectPointWithLid:(NSString *)line_id;
 /**
+ *  通过历史点标查询需要去的点标
+ */
+-(NSArray *)selectAllPointWithPid:(NSArray *)point_idArray;
+/**
  *  通过point_id查询对应点标
  */
 -(QDXPointModel *)selectPointWithPid:(NSString *)point_id;

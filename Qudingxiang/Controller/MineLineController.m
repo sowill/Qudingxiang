@@ -95,14 +95,14 @@
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-         NSDictionary * dict = [NSDictionary dictionaryWithDictionary:responseObject];
+        NSDictionary * dict = [NSDictionary dictionaryWithDictionary:responseObject];
         if (!dict[@"Code"]) {
             NSLog(@"没有线路");
         }else{
             NSArray *dictData = dict[@"Msg"][@"data"];
             if([dictData isEqual:[NSNull null]]){
                 UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您当前没有路线" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
-                            [alert show];
+                [alert show];
             }else{
                 _dataArr = [NSMutableArray arrayWithCapacity:0];
                 for(NSDictionary *dict in dictData){
@@ -112,7 +112,7 @@
                 }
                 [_tableView reloadData];
             }
-    }
+        }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
     }];
@@ -161,5 +161,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 @end

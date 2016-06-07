@@ -193,7 +193,9 @@
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{ // 2.0s后执行block里面的代码
                 [self hideProgess];
                 //切换窗口控制器
-                [UIApplication sharedApplication].keyWindow.rootViewController = [[TabbarController alloc] init];
+                [self.sideMenuViewController setContentViewController:[[TabbarController alloc] init]
+                                                             animated:YES];
+                [self.sideMenuViewController hideMenuViewController];
             });
         }
         else{

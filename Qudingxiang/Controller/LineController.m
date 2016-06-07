@@ -186,7 +186,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 75;
+    return QdxHeight*0.114 +10;
 }
 
 //点击cell

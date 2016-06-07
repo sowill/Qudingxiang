@@ -106,8 +106,8 @@
     _panFromEdge = YES;
     _panMinimumOpenThreshold = 60.0;
     
-    _contentViewShadowEnabled = NO;
-    _contentViewShadowColor = [UIColor blackColor];
+    _contentViewShadowEnabled = YES;
+    _contentViewShadowColor = [UIColor colorWithRed:15/255.0 green:52/255.0 blue:76/255.0 alpha:0.7];
     _contentViewShadowOffset = CGSizeZero;
     _contentViewShadowOpacity = 0.4f;
     _contentViewShadowRadius = 8.0f;

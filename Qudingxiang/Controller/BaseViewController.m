@@ -45,8 +45,6 @@
     self.BGView                 = [[UIView alloc] init];
     self.BGView.frame           = [[UIScreen mainScreen] bounds];
     [self.view addSubview:self.BGView];
-//    UIWindow *appWindow = [[UIApplication sharedApplication] keyWindow];
-//    [appWindow addSubview:self.BGView];
     _hourGlass = [[FeHourGlass alloc] initWithView:self.BGView];
     [self.BGView addSubview:_hourGlass];
     [_hourGlass show];

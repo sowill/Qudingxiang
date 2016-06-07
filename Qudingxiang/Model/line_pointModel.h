@@ -31,6 +31,10 @@
  */
 @property (copy,nonatomic) NSString *pointmap_id;
 /**
+ *  在line model下 线路种类
+ */
+@property (nonatomic, strong) NSString *linetype_id;
+/**
  *  点标
  */
 @property (strong,nonatomic) QDXPointModel *point;
@@ -43,5 +47,6 @@
                        P_id:(NSString *)point_id
                        P_mapid:(NSString *)pointmap_id
                        P_mapdes:(NSString *)pointmap_des
-                       P_index:(NSString *)pindex;
+                       P_index:(NSString *)pindex
+                       l_typeid:(NSString *)linetype_id;
 @end

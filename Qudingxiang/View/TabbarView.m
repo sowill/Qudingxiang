@@ -30,14 +30,12 @@
     if (self) {
         // 添加一个加号按钮
         UIButton *plusButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        
         [plusButton setBackgroundImage:[UIImage imageNamed:@"index_go"] forState:UIControlStateNormal];
         [plusButton setBackgroundImage:[UIImage imageNamed:@"index_go"] forState:UIControlStateHighlighted];
-//        [plusButton setImage:[UIImage imageNamed:@"index_go"] forState:UIControlStateNormal];
-//        [plusButton setImage:[UIImage imageNamed:@"index_go"] forState:UIControlStateHighlighted];
         plusButton.bounds = CGRectMake(0, 0, plusButton.currentBackgroundImage.size.width, plusButton.currentBackgroundImage.size.height);
         [plusButton addTarget:self action:@selector(plusButtonClick) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:plusButton];
+        
         self.plusButton = plusButton;
     }
     return self;

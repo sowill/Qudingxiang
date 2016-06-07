@@ -9,7 +9,7 @@
 #import "line_pointModel.h"
 
 @implementation line_pointModel
--(instancetype)initWithL_id:(NSString *)line_id P_id:(NSString *)point_id P_mapid:(NSString *)pointmap_id P_mapdes:(NSString *)pointmap_des P_index:(NSString *)pindex
+-(instancetype)initWithL_id:(NSString *)line_id P_id:(NSString *)point_id P_mapid:(NSString *)pointmap_id P_mapdes:(NSString *)pointmap_des P_index:(NSString *)pindex l_typeid:(NSString *)linetype_id
 {
     if (self = [super init]) {
         _line_id = line_id;
@@ -17,6 +17,7 @@
         _pointmap_id = pointmap_id;
         _pointmap_des = pointmap_des;
         _pindex = pindex;
+        _linetype_id = linetype_id;
     }
     return self;
 }

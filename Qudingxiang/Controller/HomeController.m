@@ -559,7 +559,7 @@
     }else if(buttonIndex == 1){
         QDXLoginViewController* regi=[[QDXLoginViewController alloc]init];
         QDXNavigationController* navController = [[QDXNavigationController alloc] initWithRootViewController:regi];
-        self.hidesBottomBarWhenPushed = YES;
+        regi.hidesBottomBarWhenPushed = YES;
         [self presentViewController:navController animated:YES completion:^{
             
         }];

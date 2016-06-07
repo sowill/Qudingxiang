@@ -333,9 +333,9 @@
         NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
         [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
-        self.hidesBottomBarWhenPushed = YES;
         QDXLoginViewController* regi=[[QDXLoginViewController alloc]init];
         UINavigationController* navController = [[UINavigationController alloc] initWithRootViewController:regi];
+        regi.hidesBottomBarWhenPushed = YES;
         [self presentViewController:navController animated:YES completion:^{
             
         }];

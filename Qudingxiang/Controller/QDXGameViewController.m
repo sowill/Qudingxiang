@@ -203,7 +203,7 @@
                 [self.QDXScrollView addSubview:_webView];
                 //                [self.QDXScrollView addSubview:moreDetails];
                 
-            }else if ([self.gameInfo.mstatus_id intValue] == 4){
+            }else if ([self.gameInfo.mstatus_id intValue] == 2){
                 [self.navigationItem setTitle:[game.line.line_sub stringByAppendingString:@"-活动中"]];
                 if ([self.gameInfo.isLeader intValue] == 1) {
                     self.MyCentralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];

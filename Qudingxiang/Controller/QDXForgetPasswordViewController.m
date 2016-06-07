@@ -129,7 +129,7 @@
     CGFloat loginBtnCenterX = QdxWidth* 0.5;
     CGFloat loginBtnCenterY = getCodeBtnCenterY + 20 + 1 + 35/2 + 25;
     loginBtn.center = CGPointMake(loginBtnCenterX, loginBtnCenterY);
-    loginBtn.bounds = CGRectMake(0, 0, QdxWidth-20, 35);
+    loginBtn.bounds = CGRectMake(0, 0, QdxWidth-20, 40);
     [loginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [loginBtn setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
     //    [loginBtn setBackgroundColor:[UIColor colorWithRed:40/255.0 green:132/255.0 blue:250/255.0 alpha:1]];

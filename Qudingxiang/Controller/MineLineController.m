@@ -87,6 +87,7 @@
 }
 - (void)netData
 {
+    [self showProgessMsg:@"加载中"];
     NSString *url = [NSString stringWithFormat:@"%@%@",hostUrl,mineUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"TokenKey"] = save;
@@ -111,6 +112,7 @@
                     [_dataArr addObject:model];
                 }
                 [_tableView reloadData];
+                [self hideProgess];
             }
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

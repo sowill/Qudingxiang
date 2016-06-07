@@ -44,6 +44,7 @@
     [self creatButtonBack];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noti2) name:@"noti2" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noti3) name:@"noti3" object:nil];
+    
 }
 
 -(void)noti3
@@ -116,6 +117,7 @@
 
 - (void)btnData
 {
+    [self showProgessMsg:@"加载中"];
     NSString *url = [NSString stringWithFormat:@"%@%@",hostUrl,ticketUrl];
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
@@ -148,6 +150,7 @@
             }
         }
         [_tableView reloadData];
+        [self hideProgess];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
     }];

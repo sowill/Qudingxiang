@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 @class MineModel;
-@interface TeamLineController : UIViewController
+@interface TeamLineController : BaseViewController
 @property (nonatomic, strong) MineModel *model;
 @end

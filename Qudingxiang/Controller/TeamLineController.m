@@ -76,33 +76,7 @@
 }
 - (void)netData
 {
-//    NSString *url = [NSString stringWithFormat:@"%@%@",hostUrl,teamUrl];
-//    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-//    params[@"TokenKey"] = save;
-//    params[@"curr"] = @"1";
-//    [BaseService netDataBlock:^(NSMutableDictionary *dict) {
-//        if (!dict[@"Code"]) {
-//            NSLog(@"没有线路");
-//        }else{
-//            //            NSLog(@"信息%@",dict[@"Msg"]);
-//            NSDictionary *dictData = dict[@"Msg"][@"data"];
-//            if([dictData isEqual:[NSNull null]]){
-//                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您当前没有路线" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
-//                [alert show];
-//            }else{
-//                
-//                _dataArr = [NSMutableArray arrayWithCapacity:0];
-//                for(NSDictionary *dict in dictData){
-//                    MineModel *model = [[MineModel alloc] init];
-//                    [model setValuesForKeysWithDictionary:dict];
-//                    [_dataArr addObject:model];
-//                }
-//                [_tableView reloadData];
-//            }
-//        }
-//    } FailBlock:^(NSMutableArray *array) {
-//        
-//    } andWithUrl:url andParams:params];
+    [self showProgessMsg:@"加载中"];
     NSString *url = [NSString stringWithFormat:@"%@%@",hostUrl,teamUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"TokenKey"] = save;
@@ -131,6 +105,7 @@
                     [_dataArr addObject:model];
                 }
                 [_tableView reloadData];
+                [self hideProgess];
             }
         }
         

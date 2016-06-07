@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 @class HomeModel;
-@interface LineController : UIViewController
+@interface LineController : BaseViewController
 @property (nonatomic, strong) NSString *click;
 @property (nonatomic, strong) NSString *ticketID;
 @property (nonatomic, strong) HomeModel *model;

@@ -176,7 +176,7 @@
     CGFloat commitBtnCenterX = QdxWidth * 0.5;
     CGFloat commitBtnCenterY = pwdsureTextCenterY + 20 + 1 + 35/2 + 25;
     commitBtn.center = CGPointMake(commitBtnCenterX, commitBtnCenterY);
-    commitBtn.bounds = CGRectMake(0, 0, QdxWidth-20, 35);
+    commitBtn.bounds = CGRectMake(0, 0, QdxWidth-20, 40);
     [commitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [commitBtn setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
     CGFloat top = 25; // 顶端盖高度

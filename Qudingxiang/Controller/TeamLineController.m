@@ -11,6 +11,7 @@
 #import "MineModel.h"
 #import "MineCell.h"
 #import "TabbarController.h"
+#import "QDXNavigationController.h"
 @interface TeamLineController ()<UITableViewDataSource,UITableViewDelegate>
 {
     UITableView *_tableView;
@@ -157,10 +158,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MineCell *cell = [MineCell baseCellWithTableView:_tableView];
-//    UIImageView *IV = [[UIImageView alloc] initWithFrame:CGRectMake(15, 8, 40, 50)];
-//    IV.backgroundColor = [UIColor clearColor];
-//    IV.image = [UIImage imageNamed:[NSString stringWithFormat:@"j%li",(indexPath.row)%6]];
-    //[cell addSubview:IV];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone; 
     cell.model = _dataArr[indexPath.row];
     return cell;
 }
@@ -174,9 +172,11 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     QDXGameViewController *gameVC = [[QDXGameViewController alloc] init];
-    gameVC.hidesBottomBarWhenPushed = YES;
+    QDXNavigationController *nav  = [[QDXNavigationController alloc] initWithRootViewController:gameVC];
     gameVC.model = _dataArr[indexPath.row];
-    [self.navigationController pushViewController:gameVC animated:YES];
+    [self presentViewController:nav animated:YES completion:^{
+        
+    }];
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

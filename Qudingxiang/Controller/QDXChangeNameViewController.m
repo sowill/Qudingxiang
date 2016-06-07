@@ -14,6 +14,7 @@
 {
     UITextField *customerNameText;
     UIButton *showTel;
+
 }
 @end
 
@@ -47,6 +48,7 @@
 
 -(void)buttonBackSetting
 {
+    [customerNameText endEditing:YES];
     [self dismissViewControllerAnimated:YES completion:^{
         
     }];
@@ -73,7 +75,8 @@
     customerNameText.center = CGPointMake(customerNameTextCenterX, customerNameTextCenterY);
     customerNameText.bounds = CGRectMake(0, 0,QdxWidth-20, 40);
     customerNameText.borderStyle = UITextBorderStyleNone;
-    customerNameText.placeholder = @"请修改昵称";
+    customerNameText.text = _cusName;
+//    customerNameText.placeholder = @"请修改昵称";
     customerNameText.font = [UIFont fontWithName:@"Arial" size:16.0f];
     customerNameText.textColor = [UIColor colorWithWhite:0.400 alpha:1.000];
     customerNameText.clearButtonMode = UITextFieldViewModeNever;

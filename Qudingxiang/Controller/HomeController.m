@@ -105,7 +105,13 @@
     [self showProgessMsg:@"正在加载"];
     [self performSelectorInBackground:@selector(topViewData) withObject:nil];
     [self performSelectorInBackground:@selector(cellDataWith:isRemoveAll:) withObject:nil];
-    [self performSelectorInBackground:@selector(state) withObject:nil];
+    if (save) {
+        [self state];
+    }else{
+        _scanBtn.hidden = NO;
+        [self state1];
+        
+    }
     [self setupCurrentLine];
 }
 
@@ -196,10 +202,7 @@
     negativeSpacer.width = -10;
     self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:negativeSpacer, btn_left, nil];
     
-    
-    
     _scanBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-    
     [_scanBtn setImage:[UIImage imageNamed:@"index_sweep"] forState:UIControlStateNormal];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_scanBtn];
     UIBarButtonItem *btn_right = [[UIBarButtonItem alloc] initWithCustomView:_scanBtn];
@@ -381,22 +384,41 @@
 
 - (void)state
 {
-    [HomeService btnStateBlock:^(NSMutableDictionary *dict) {
+    NSString *urlString = [hostUrl stringByAppendingString:usingTicket];
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"TokenKey"] = save;
+    [mgr POST:urlString parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSDictionary *dict = [[NSDictionary alloc] initWithDictionary:responseObject];
         _code = [[NSString stringWithFormat:@"%@",dict[@"Code"]] intValue];
-        if (_code == 0) {
+        NSString *urlString = [hostUrl stringByAppendingString:lineUrl];
+        AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+        //说明服务器返回的事JSON数据
+        mgr.responseSerializer = [AFJSONResponseSerializer serializer];
+        //封装请求参数
+        NSMutableDictionary *params = [NSMutableDictionary dictionary];
+        params[@"TokenKey"] = save;
+        [mgr POST:urlString parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
             
-            _codeMsg = dict[@"Msg"];
-        }
-        [HomeService choiceLineStateBlock:^(NSMutableDictionary *dict) {
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            NSDictionary *dict = [[NSDictionary alloc] initWithDictionary:responseObject];
             _line = [[NSString stringWithFormat:@"%@",dict[@"Code"]] intValue];
-            if (_line == 0) {
-                _msg = dict[@"Msg"];
-            }
-            [self performSelectorOnMainThread:@selector(changeScanBtn) withObject:nil waitUntilDone:YES];
-        } andWithToken:save];
-    } andWithToken:save];
+            [self changeScanBtn];
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            
+        }];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
 }
 
+- (void)state1
+{
+    [_scanBtn addTarget:self action:@selector(scanClick) forControlEvents:UIControlEventTouchUpInside];
+}
 - (void)cellDataWith:(NSString *)cur isRemoveAll:(BOOL)isRemoveAll
 {
     [HomeService cellDataBlock:^(NSMutableDictionary *dict) {
@@ -490,26 +512,25 @@
 
 - (void)changeScanBtn
 {
-    if (!save) {
-        [_scanBtn setUserInteractionEnabled:YES];
-        [_scanBtn addTarget:self action:@selector(scanClick) forControlEvents:UIControlEventTouchUpInside];
-    }else
-    {
+    
+    if((_code == 0) && (_line == 0)){
+        _scanBtn.hidden = NO;
+        [_scanBtn addTarget:self action:@selector(scanClick1) forControlEvents:UIControlEventTouchUpInside];
         
-        if((_code == 0) && (_line == 0)){
-            [_scanBtn setUserInteractionEnabled:YES];
-            [_scanBtn addTarget:self action:@selector(scanClick1) forControlEvents:UIControlEventTouchUpInside];
-            
-        }else{
-            [_scanBtn setUserInteractionEnabled:NO];
-        }
+    }else{
+        _scanBtn.hidden = YES;
     }
+    
 }
 
 - (void)scanClick
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"登陆后才可使用此功能" delegate:self cancelButtonTitle:@"暂不登录" otherButtonTitles:@"立即登录", nil];
-    [alert show];
+    if (save) {
+        
+    }else{
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"登陆后才可使用此功能" delegate:self cancelButtonTitle:@"暂不登录" otherButtonTitles:@"立即登录", nil];
+        [alert show];
+    }
 }
 - (void)scanClick1
 {
@@ -536,17 +557,13 @@
     if (buttonIndex == 0) {
         
     }else if(buttonIndex == 1){
-        //        NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        //        documentDir= [documentDir stringByAppendingPathComponent:@"QDXAccount.data"];
-        //        [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
-        self.hidesBottomBarWhenPushed = YES;
         QDXLoginViewController* regi=[[QDXLoginViewController alloc]init];
         QDXNavigationController* navController = [[QDXNavigationController alloc] initWithRootViewController:regi];
+        self.hidesBottomBarWhenPushed = YES;
         [self presentViewController:navController animated:YES completion:^{
             
         }];
         
-        //[[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=com.qudingxiang.app.sporttest"]];
     }
 }
 
@@ -559,15 +576,7 @@
     [self.navigationController pushViewController:lineVC animated:YES];
     
 }
-- (void)rightBtnClicked
-{
-    
-}
 
-- (void)rBtnClicked
-{
-    
-}
 
 - (void)topBtnClicked:(UIButton *)btn
 {

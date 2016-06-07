@@ -47,7 +47,7 @@
 {
     [super viewWillAppear:animated];
     [self netData];
-
+    
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -65,7 +65,7 @@
     imageview.image = [UIImage imageNamed:@"my_bg.jpg"];
     imageview.userInteractionEnabled = YES;
     [self.view addSubview:imageview];
-
+    
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -75,12 +75,12 @@
     _tableView.backgroundView = nil;
     _tableView.separatorStyle = NO;;
     _tableView.bounces = NO;
-
+    
     [self.view addSubview:_tableView];
     
     
-
-
+    
+    
 }
 
 - (void)netData
@@ -96,11 +96,11 @@
             documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
             [fileManager removeItemAtPath:documentDir error:nil];
         }else{
-        [_tableView reloadData];
+            [_tableView reloadData];
         }
         
     } FailBlock:^(NSMutableArray *array) {
-       
+        
     } andWithToken:save];
     
 }
@@ -108,7 +108,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if (section == 0) {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth,QdxWidth/4)];
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth,QdxWidth/4)];
         view.userInteractionEnabled = YES;
         _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(20,64,47,47)];
         _imageView.clipsToBounds = YES;
@@ -118,8 +118,8 @@
         NSString *aPath3=[NSString stringWithFormat:@"%@/Documents/image/%@.png",NSHomeDirectory(),@"image"];
         _path = aPath3;
         UIImage *imgFromUrl3=[[UIImage alloc]initWithContentsOfFile:aPath3];
-
-        if(_imageView.image){
+        
+        if(_im){
             _imageView.image = imgFromUrl3;
         }else{
             [_imageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"my_head"]];
@@ -130,9 +130,9 @@
         _picBtn.frame = CGRectMake(20,64,47,47);
         _picBtn.imageView.clipsToBounds = YES;
         _picBtn.imageView.layer.cornerRadius = CGRectGetHeight(_picBtn.bounds)/2;
-                //NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,_peopleDict[@"Msg"][@"headurl"]]];
+        //NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,_peopleDict[@"Msg"][@"headurl"]]];
         //[_picBtn.imageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"my_head"]];
-//        [_picBtn setImage:imgFromUrl3 forState:UIControlStateNormal];
+        //        [_picBtn setImage:imgFromUrl3 forState:UIControlStateNormal];
         
         [_picBtn addTarget:self action:@selector(updatahead) forControlEvents:UIControlEventTouchUpInside];
         [view addSubview:_picBtn];
@@ -155,7 +155,7 @@
         UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(20, headBtnMaxY+80, QdxWidth,1)];
         lineView1.backgroundColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.4];
         [view addSubview:lineView1];
-    return view;
+        return view;
     }
     return nil;
 }
@@ -163,7 +163,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if(QdxWidth>320){
-    return 54;
+        return 54;
     }else
     {
         return 35;
@@ -189,7 +189,7 @@
         cell.backgroundColor = [UIColor clearColor];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
-
+    
     if(indexPath.row == 0){
         cell._name.text = _peopleDict[@"Msg"][@"customer_name"];
         cell._id.text= nil;
@@ -227,19 +227,17 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [_tableView deselectRowAtIndexPath:indexPath animated:NO];
-
+    
     if(indexPath.row == 0){
         QDXChangeNameViewController* regi=[[QDXChangeNameViewController alloc]init];
-//        QDXNavigationController* navController = [[QDXNavigationController alloc] initWithRootViewController:regi];
-//        [self.sideMenuViewController setContentViewController:navController
-//                                                         animated:YES];
-//        [self.sideMenuViewController hideMenuViewController];
+        regi.cusName = _peopleDict[@"Msg"][@"customer_name"];
+        [self.sideMenuViewController hideMenuViewController];
         
         UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:regi];
         [self presentViewController:nav animated:YES completion:^{
             
         }];
-
+        
     }else if (indexPath.row == 1){
         
     }else if (indexPath.row == 2){
@@ -260,14 +258,14 @@
         [self.sideMenuViewController setContentViewController:navController
                                                      animated:YES];
         [self.sideMenuViewController hideMenuViewController];
-
+        
     }else if (indexPath.row == 5){
         AboutUsViewController *aboutVC = [[AboutUsViewController alloc] init];
         UINavigationController* navController = [[QDXNavigationController alloc] initWithRootViewController:aboutVC];
         [self.sideMenuViewController setContentViewController:navController
                                                      animated:YES];
         [self.sideMenuViewController hideMenuViewController];
-
+        
     }else if (indexPath.row == 6){
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"400-820-3899" message:@"客服工作时间:09:00-18:00" preferredStyle:UIAlertControllerStyleAlert];
         [self presentViewController:alertController animated:YES completion:nil];
@@ -280,7 +278,7 @@
             [[UIApplication sharedApplication] openURL:[NSURL URLWithString:callStr]];
         }]];
     }
-
+    
 }
 
 - (void)updatahead
@@ -327,7 +325,7 @@
         [alertController addAction:okAction];
         [alertController addAction:cancelAction];
     }
-
+    
 }
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
@@ -347,12 +345,13 @@
      * UIImagePickerControllerMediaMetadata    // an NSDictionary containing metadata from a captured photo
      */
     _imageView.image = image;
+    _im = image;
     NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
     NSData *data;
     
     if (UIImagePNGRepresentation(image) == nil) {
         
-        data = UIImageJPEGRepresentation(image, 0.1);
+        data = UIImageJPEGRepresentation(image, 1);
         
     } else {
         
@@ -371,7 +370,6 @@
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
     _filePath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"image"];         //将图片存储到本地documents
-    
     [fileManager createDirectoryAtPath:_filePath withIntermediateDirectories:YES attributes:nil error:nil];
     
     [fileManager createFileAtPath:[_filePath stringByAppendingString:@"/image.png"] contents:data attributes:nil];
@@ -387,8 +385,9 @@
         //打印下上传进度
         NSLog(@"%lf",1.0 *uploadProgress.completedUnitCount / uploadProgress.totalUnitCount);
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
         NSString *result = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-        [_imageView setImage:[UIImage imageWithContentsOfFile:_path]];
+        //[_imageView setImage:[UIImage imageWithContentsOfFile:_path]];
         AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
         
         manager.responseSerializer = [AFJSONResponseSerializer serializer];
@@ -405,9 +404,8 @@
                 NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
                 documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
                 [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
-                
                 [NSKeyedArchiver archiveRootObject:token toFile:XWLAccountFile];
-                [_tableView reloadData];
+                //[_tableView reloadData];
                 
             }
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -423,7 +421,7 @@
     
 }
 
-    
+
 - (void)login
 {
     NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
@@ -456,13 +454,13 @@
 
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

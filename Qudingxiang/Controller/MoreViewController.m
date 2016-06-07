@@ -33,13 +33,15 @@
     UIImageView *image = [[UIImageView alloc] initWithFrame:CGRectMake(QdxWidth/2-28, QdxHeight/5, 57, 68)];
     image.image = [UIImage imageNamed:@"程序员哥哥"];
     [self.view addSubview:image];
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, QdxHeight/5+78, QdxWidth, 20)];
+    CGFloat imageMaxY = CGRectGetMaxY(image.frame);
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, imageMaxY + QdxHeight*0.018, QdxWidth, 20)];
     label.text = @"程序员哥哥正在搭建社区模块";
     label.font = [UIFont systemFontOfSize:12];
     label.textAlignment = NSTextAlignmentCenter;
     label.textColor = [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1];
     [self.view addSubview:label];
-    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(0, QdxHeight/5+108, QdxWidth, 20)];
+    CGFloat labelMaxY = CGRectGetMaxY(label.frame);
+    UILabel *label1 = [[UILabel alloc] initWithFrame:CGRectMake(0, labelMaxY + QdxHeight*0.018, QdxWidth, 20)];
     label1.text = @"敬请期待~~";
     label1.font = [UIFont systemFontOfSize:12];
     label1.textAlignment = NSTextAlignmentCenter;

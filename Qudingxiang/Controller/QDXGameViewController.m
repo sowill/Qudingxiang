@@ -69,7 +69,7 @@
     int secondsCountDown;
     NSTimer *countDownTimer;
     NSString *sdateStr;
-    UIButton *map_click;
+//    UIButton *map_click;
     UILabel *currentTime;
     UIView *playLineView_One;
     UIView *playLineView_Two;
@@ -87,7 +87,7 @@
     UIView *buttom_line;
     //游戏完成
     UIImageView *certificate;
-    
+    BOOL mapClick;
     MAPointAnnotation *annotation_history;
     MAPointAnnotation *annotation_target;
     MAGroundOverlay *groundOverlay;
@@ -107,6 +107,7 @@
 @property (nonatomic,strong) NSTimer *timer;
 //@property (nonatomic, strong) NSMutableArray *annotations_history;
 //@property (nonatomic, strong) NSMutableArray *annotations_target;
+@property (nonatomic, strong) UITapGestureRecognizer *doubleTap;
 @end
 
 @implementation QDXGameViewController
@@ -130,8 +131,27 @@
     if(!_mapView) {
         self.mapView = [[MAMapView alloc]initWithFrame:CGRectMake(0,QdxHeight - MAPVIEWHEIGHT ,QdxWidth,MAPVIEWHEIGHT)];
         self.mapView.mapType = MAMapTypeStandard;
+        self.doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mapClick)];
+        self.doubleTap.delegate = self;
+        self.doubleTap.numberOfTapsRequired = 1;
+        [self.mapView addGestureRecognizer:self.doubleTap];
     }
     return _mapView;
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
+{
+    return YES;
+}
+
+- (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldReceiveTouch:(UITouch *)touch
+{
+    if (gestureRecognizer == self.doubleTap && [touch.view isKindOfClass:[UIControl class]])
+    {
+        return NO;
+    }
+    
+    return YES;
 }
 
 -(void)setupgetMylineInfo
@@ -183,7 +203,7 @@
                 [self.QDXScrollView addSubview:_webView];
                 //                [self.QDXScrollView addSubview:moreDetails];
                 
-            }else if ([self.gameInfo.mstatus_id intValue] == 2){
+            }else if ([self.gameInfo.mstatus_id intValue] == 4){
                 [self.navigationItem setTitle:[game.line.line_sub stringByAppendingString:@"-活动中"]];
                 if ([self.gameInfo.isLeader intValue] == 1) {
                     self.MyCentralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
@@ -195,7 +215,7 @@
                 //                [moreDetails removeFromSuperview];
                 [self.QDXScrollView addSubview:self.mapView];
                 [self.QDXScrollView addSubview:playView];
-                [self.QDXScrollView addSubview:map_click];
+//                [self.QDXScrollView addSubview:map_click];
                 [self.QDXScrollView addSubview:task_button];
                 [self.QDXScrollView addSubview:history_button];
                 
@@ -218,7 +238,7 @@
                 [_webView removeFromSuperview];
                 //                [moreDetails removeFromSuperview];
                 [playView removeFromSuperview];
-                [map_click removeFromSuperview];
+//                [map_click removeFromSuperview];
                 [task_button removeFromSuperview];
                 [history_button removeFromSuperview];
                 
@@ -240,7 +260,7 @@
                 [_webView removeFromSuperview];
                 //                [moreDetails removeFromSuperview];
                 [playView removeFromSuperview];
-                [map_click removeFromSuperview];
+//                [map_click removeFromSuperview];
                 [task_button removeFromSuperview];
                 [history_button removeFromSuperview];
                 self.navigationItem.title = @"强制结束";
@@ -513,14 +533,14 @@
     buttom_line.backgroundColor = [UIColor colorWithWhite:0.875 alpha:1];
     [playView addSubview:buttom_line];
     
-    map_click = [[UIButton alloc] initWithFrame:CGRectMake(0,QdxHeight - MAPVIEWHEIGHT ,QdxWidth,MAPVIEWHEIGHT)];
-    [map_click addTarget:self action:@selector(mapClick:) forControlEvents:UIControlEventTouchUpInside];
-    map_click.backgroundColor = [UIColor clearColor];
+//    map_click = [[UIButton alloc] initWithFrame:CGRectMake(0,QdxHeight - MAPVIEWHEIGHT ,QdxWidth,MAPVIEWHEIGHT)];
+//    [map_click addTarget:self action:@selector(mapClick:) forControlEvents:UIControlEventTouchUpInside];
+//    map_click.backgroundColor = [UIColor clearColor];
     
-    task_button = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth - 30 -10 , QdxHeight  - 64 - 43 - 30 - 10 - 30, 30, 30)];
+    task_button = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth - 40 -10 , QdxHeight  - 64 - 50 - 40 - 25 - 30, 40, 40)];
     [task_button addTarget:self action:@selector(task_buttonClick) forControlEvents:UIControlEventTouchUpInside];
     [task_button setImage:[UIImage imageNamed:@"悬浮－任务"] forState:UIControlStateNormal];
-    history_button = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth - 30 -10 , QdxHeight - 64 - 43 - 30, 30, 30)];
+    history_button = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth - 40 -10 , QdxHeight - 64 - 50 - 40, 40, 40)];
     [history_button addTarget:self action:@selector(history_buttonClick) forControlEvents:UIControlEventTouchUpInside];
     [history_button setImage:[UIImage imageNamed:@"悬浮－足迹"] forState:UIControlStateNormal];
     
@@ -787,11 +807,13 @@
     //    [self setupCheckTask];
 }
 
--(void)mapClick:(UIButton *)map
+-(void)mapClick
 {
-    map_click.selected = !map_click.isSelected;
-    if (map_click.isSelected) {
-        [map_click removeFromSuperview];
+    mapClick = !mapClick;
+//    map_click.selected = !map_click.isSelected;
+    if (!mapClick) {
+        [playView addGestureRecognizer:self.doubleTap];
+//        [map_click removeFromSuperview];
         [playLineView_One removeFromSuperview];
         [score_sum removeFromSuperview];
         [score_sum_name removeFromSuperview];
@@ -806,10 +828,11 @@
         
         playView.frame = CGRectMake(0, 0, QdxWidth, QdxHeight * 0.1);
         self.mapView.frame = CGRectMake(0,QdxHeight * 0.1,QdxWidth,QdxHeight * 0.9);
-        map_click.frame = CGRectMake(0, 0, QdxWidth, QdxHeight * 0.1);
-        [self.view addSubview:map_click];
+//        map_click.frame = CGRectMake(0, 0, QdxWidth, QdxHeight * 0.1);
+//        [self.view addSubview:map_click];
     }else{
-        map_click.frame = CGRectMake(0,QdxHeight - MAPVIEWHEIGHT ,QdxWidth,MAPVIEWHEIGHT);
+//        map_click.frame = CGRectMake(0,QdxHeight - MAPVIEWHEIGHT ,QdxWidth,MAPVIEWHEIGHT);
+        [self.mapView addGestureRecognizer:self.doubleTap];
         self.mapView.frame = CGRectMake(0,QdxHeight - MAPVIEWHEIGHT ,QdxWidth,MAPVIEWHEIGHT);
         playView.frame = CGRectMake(0, 0, QdxWidth, SCOREVIEWHEIGHT);
         
@@ -829,10 +852,10 @@
         CGFloat currentTimeCenterY = useTimeCenterY + 15 + 25/2;
         currentTime.center = CGPointMake(currentTimeCenterX, currentTimeCenterY);
         currentTime.bounds = CGRectMake(0, 0, QdxWidth/2, 15);
-        float playline_Height = currentTimeCenterY + 15/2 + 30;
+        float playline_Height = SCOREVIEWHEIGHT * 0.6;
         float pointHeight = playline_Height +((SCOREVIEWHEIGHT - playline_Height) - (20 + 15 + 5))/2;
         buttom_line.frame = CGRectMake(0, SCOREVIEWHEIGHT, QdxWidth, 1);
-        playLineView_Two.frame = CGRectMake(QdxWidth/2, playline_Height+4, 1, SCOREVIEWHEIGHT - playline_Height-4);
+        playLineView_Two.frame = CGRectMake(QdxWidth/2, playline_Height+1, 1, SCOREVIEWHEIGHT - playline_Height-1);
         point.frame = CGRectMake(QdxWidth/4 - 100/2, pointHeight, 100, 20);
         point_name.frame = CGRectMake(QdxWidth/4 - 100/2,pointHeight + 20 + 5, 100, 15);
         score_sum.frame = CGRectMake((QdxWidth/4)* 3 - 100/2, pointHeight, 100, 20);

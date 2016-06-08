@@ -77,6 +77,7 @@
     UILabel *point_name;
     UILabel *score_sum;
     UILabel *score_sum_name;
+    UILabel *score_ms;
     UIButton *task_button;
     UIButton *history_button;
     UIButton *showMsg_button;
@@ -189,7 +190,7 @@
             point.text = self.gameInfo.point.point_name;
             NSLog(@"%@",self.gameInfo.point.point_name);
             score_sum.text = [ToolView scoreTransfer:self.gameInfo.score];
-            
+            score_ms.text = self.gameInfo.ms;
             NSLog(@"mstatus %@",self.gameInfo.mstatus_id);
             
             if ([self.gameInfo.mstatus_id intValue] == 1) {
@@ -204,6 +205,7 @@
                 //                [self.QDXScrollView addSubview:moreDetails];
                 
             }else if ([self.gameInfo.mstatus_id intValue] == 2){
+                
                 [self.navigationItem setTitle:[game.line.line_sub stringByAppendingString:@"-活动中"]];
                 if ([self.gameInfo.isLeader intValue] == 1) {
                     self.MyCentralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
@@ -303,7 +305,7 @@
     //    });
     int b = abs([RSSI.description intValue]);
     CGFloat ci = (b - abs([self.gameInfo.point.rssi intValue])) / (10 * 4.);
-    //            NSLog(@"距离:%.1fm",pow(10,ci));
+//                NSLog(@"距离:%.1fm",pow(10,ci));
     
     if (pow(10,ci) < 1 )
         //        int a = [RSSI.description intValue];
@@ -523,6 +525,12 @@
     score_sum.font = [UIFont fontWithName:@"Helvetica-Bold" size:24];
     score_sum.textAlignment = NSTextAlignmentCenter;
     [playView addSubview:score_sum];
+    score_ms = [[UILabel alloc] initWithFrame:CGRectMake((QdxWidth/4)* 3 - 100/2 + 100, pointHeight, 20, 20)];
+    score_ms.textColor = [UIColor colorWithWhite:0.067 alpha:1.000];
+    score_ms.font = [UIFont fontWithName:@"Helvetica-Bold" size:15];
+    score_ms.textAlignment = NSTextAlignmentCenter;
+    [playView addSubview:score_ms];
+    
     score_sum_name = [[UILabel alloc] initWithFrame:CGRectMake((QdxWidth/4)* 3 - 100/2, pointHeight + 20 + 5, 100, 15)];
     score_sum_name.textAlignment = NSTextAlignmentCenter;
     score_sum_name.text = @"消耗时长";
@@ -816,6 +824,7 @@
 //        [map_click removeFromSuperview];
         [playLineView_One removeFromSuperview];
         [score_sum removeFromSuperview];
+        [score_ms removeFromSuperview];
         [score_sum_name removeFromSuperview];
         float pointHeight = (QdxHeight * 0.1 - (20 + 15 + 5))/2;
         playLineView_Two.frame = CGRectMake(QdxWidth/2, 0, 1, QdxHeight * 0.1);
@@ -842,6 +851,7 @@
         [self.view addSubview:task_button];
         [playView addSubview:playLineView_One];
         [playView addSubview:score_sum_name];
+        [playView addSubview:score_ms];
         [playView addSubview:score_sum];
         CGFloat useTimeCenterX = QdxWidth * 0.5;
         CGFloat useTimeCenterY = (SCOREVIEWHEIGHT * 0.6) * 0.45;
@@ -859,6 +869,7 @@
         point.frame = CGRectMake(QdxWidth/4 - 100/2, pointHeight, 100, 20);
         point_name.frame = CGRectMake(QdxWidth/4 - 100/2,pointHeight + 20 + 5, 100, 15);
         score_sum.frame = CGRectMake((QdxWidth/4)* 3 - 100/2, pointHeight, 100, 20);
+        score_ms.frame = CGRectMake((QdxWidth/4)* 3 - 100/2 + 100, pointHeight, 20, 20);
         score_sum_name.frame = CGRectMake((QdxWidth/4)* 3 - 100/2,pointHeight + 20 + 5, 100, 15);
     }
 }
@@ -1233,6 +1244,9 @@
     
     int sNow = [[locationString substringWithRange:NSMakeRange(17,2)] intValue];
     int sOld = [[sdateStr substringWithRange:NSMakeRange(17,2)] intValue];
+    
+//    int SNow = [[locationString substringWithRange:NSMakeRange(20,2)] intValue];
+//    int SOld = [[sdateStr substringWithRange:NSMakeRange(20,2)] intValue];
     
     if((mNow - mOld) == 0 ){
         int a = sNow + MNow * 60 + HNow * 60 * 60 + dNow * 24 * 60 * 60;

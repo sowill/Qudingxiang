@@ -57,7 +57,11 @@
 /**
  *  当前对应点标
  */
-@property (copy,nonatomic) NSString * pointmap_id;
+@property (copy,nonatomic) NSString *pointmap_id;
+/**
+ *  毫秒
+ */
+@property (copy,nonatomic) NSString *ms;
 /**
  *  团队
  */

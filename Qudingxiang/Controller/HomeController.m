@@ -79,7 +79,6 @@
     _scrollArr = [NSMutableArray arrayWithCapacity:0];
     _modelArr  = [NSMutableArray arrayWithCapacity:0];
     self.navigationItem.title = @"趣定向";
-    self.view.backgroundColor = [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1];
     _curNumber = 1;
     [self createTableView];
     [self createUI];

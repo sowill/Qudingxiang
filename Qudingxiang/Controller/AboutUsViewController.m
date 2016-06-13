@@ -83,6 +83,7 @@
     _tableView.dataSource = self;
     _tableView.showsVerticalScrollIndicator = NO;
     _tableView.scrollEnabled = NO;
+    _tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     [_tableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
     _tableView.backgroundColor = [UIColor colorWithRed:247/255.0 green:247/255.0 blue:247/255.0 alpha:1];
     [self.view addSubview:_tableView];

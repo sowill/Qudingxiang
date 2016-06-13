@@ -44,7 +44,7 @@
     [self creatButtonBack];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noti2) name:@"noti2" object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noti3) name:@"noti3" object:nil];
-    
+
 }
 
 -(void)noti3
@@ -63,8 +63,9 @@
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight  - 64) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
+    _tableView.backgroundColor = [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1];
     _tableView.showsVerticalScrollIndicator = NO;
-    _tableView.separatorStyle =UITableViewCellSeparatorStyleNone;
+    //_tableView.separatorStyle =UITableViewCellSeparatorStyleNone;
     [self.view addSubview:_tableView];
 }
 
@@ -86,6 +87,29 @@
     self.navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
     
 }
+
+- (void)viewDidLayoutSubviews
+{
+    if ([_tableView respondsToSelector:@selector(setSeparatorInset:)]) {
+        [_tableView setSeparatorInset:UIEdgeInsetsMake(0,0,0,0)];
+    }
+    
+    if ([_tableView respondsToSelector:@selector(setLayoutMargins:)]) {
+        [_tableView setLayoutMargins:UIEdgeInsetsMake(0,0,0,0)];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+        [cell setSeparatorInset:UIEdgeInsetsZero];
+    }
+    
+    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+        [cell setLayoutMargins:UIEdgeInsetsZero];
+    }
+}
+
 - (void)buttonBackSetting
 {
     //    HomeController *homeVC = [[HomeController alloc] init];

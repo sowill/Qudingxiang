@@ -205,7 +205,6 @@
                 //                [self.QDXScrollView addSubview:moreDetails];
                 
             }else if ([self.gameInfo.mstatus_id intValue] == 2){
-                
                 [self.navigationItem setTitle:[game.line.line_sub stringByAppendingString:@"-活动中"]];
                 if ([self.gameInfo.isLeader intValue] == 1) {
                     self.MyCentralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
@@ -740,8 +739,8 @@
         LrdCellModel *two = [[LrdCellModel alloc] initWithTitle:@"帮助" imageName:@"下拉－帮助"];
         LrdCellModel *three = [[LrdCellModel alloc] initWithTitle:@"组队" imageName:@"下拉－组队"];
         LrdCellModel *four = [[LrdCellModel alloc] initWithTitle:@"退赛" imageName:@"下拉－退赛"];
-        LrdCellModel *five = [[LrdCellModel alloc] initWithTitle:@"离线下载" imageName:@"下拉－离线"];
-        self.dataArr = @[one, two, three, four, five];
+//        LrdCellModel *five = [[LrdCellModel alloc] initWithTitle:@"离线下载" imageName:@"下拉－离线"];
+        self.dataArr = @[one, two, three, four];
     }else{
         LrdCellModel *one = [[LrdCellModel alloc] initWithTitle:@"分享" imageName:@"下拉－分享"];
         LrdCellModel *two = [[LrdCellModel alloc] initWithTitle:@"帮助" imageName:@"下拉－帮助"];
@@ -1263,10 +1262,8 @@
 {
     secondsCountDown++;
     if ([self.gameInfo.line.linetype_id isEqualToString:@"3"]) {
-        //总时间-secondsCountDown
-        useTime.text =[NSString stringWithFormat:@"%@",[ToolView scoreTransfer:[NSString stringWithFormat:@"%d", -secondsCountDown]] ];
-        //总时间-secondsCountDown = 0
-        if (secondsCountDown == 0) {
+        useTime.text =[NSString stringWithFormat:@"%@",[ToolView scoreTransfer:[NSString stringWithFormat:@"%d",[self.gameInfo.line.countdown intValue] -secondsCountDown]] ];
+        if ([self.gameInfo.line.countdown intValue] -secondsCountDown <= 0) {
             AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
             mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
             NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -1283,6 +1280,7 @@
                 if (ret==1) {
                     [self setupgetMylineInfo];
                     lock = YES;
+                    [countDownTimer setFireDate:[NSDate distantFuture]];
                 }else{
                     
                 }

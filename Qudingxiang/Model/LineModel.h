@@ -38,6 +38,10 @@
  *  线路种类
  */
 @property (nonatomic, strong) NSString *linetype_id;
+/**
+ *  倒计时
+ */
+@property (nonatomic, strong) NSString *countdown;
 
 @property (nonatomic, strong) NSString *line_code;
 

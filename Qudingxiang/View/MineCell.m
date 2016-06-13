@@ -53,8 +53,7 @@
     [self.contentView addSubview:rightView];
 }
 
-- (void)
-setModel:(MineModel *)model
+- (void)setModel:(MineModel *)model
 {
     _model = model;
     _desLabel.text = [NSString stringWithFormat:@"%@",model.line[@"line_name"]];

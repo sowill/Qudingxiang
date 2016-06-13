@@ -34,7 +34,7 @@
 - (void)addSubViews
 {
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth,10)];
-    view.backgroundColor = [UIColor colorWithRed:239/255.0 green:239/255.0 blue:244/255.0 alpha:1];
+    view.backgroundColor = [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1];
     [self.contentView addSubview:view];
     _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(10, (QdxHeight*0.114 )/2, 18, 18)];
     [_imageView setImage:[UIImage imageNamed:@"勾选默认"]];

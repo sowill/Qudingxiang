@@ -18,6 +18,8 @@
 @property (strong, nonatomic) UIView *viewPreview;
 @property (strong, nonatomic) UIImageView *boxView;
 @property (nonatomic, strong) NSString *result;
+@property (strong, nonatomic) CALayer *scanLayer;
+@property (nonatomic, strong) NSTimer *timer;
 @end
 
 @implementation ImagePickerController
@@ -29,7 +31,11 @@
     return self;
 }
 
-
+- (void)viewDidDisappear:(BOOL)animated
+{
+    [super viewDidDisappear:animated];
+    [_timer setFireDate:[NSDate distantFuture]];
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -75,7 +81,7 @@
     UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     negativeSpacer.width = -10;
     self.navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
-
+    
 }
 
 -(void)buttonBackSetting
@@ -121,17 +127,17 @@
         CGFloat fixHeight = QdxWidth * 1920. / 1080.;
         CGFloat fixPadding = (fixHeight - QdxHeight)/2;
         captureMetadataOutput.rectOfInterest = CGRectMake((cropRect.origin.y + fixPadding)/fixHeight,
-                                            cropRect.origin.x/QdxWidth,
-                                            cropRect.size.height/fixHeight,
-                                            cropRect.size.width/QdxWidth);
+                                                          cropRect.origin.x/QdxWidth,
+                                                          cropRect.size.height/fixHeight,
+                                                          cropRect.size.width/QdxWidth);
     }else
     {
         CGFloat fixWidth = QdxHeight * 1080. / 1920.;
         CGFloat fixPadding = (fixWidth - QdxWidth)/2;
         captureMetadataOutput.rectOfInterest = CGRectMake(cropRect.origin.y/QdxHeight,
-                                            (cropRect.origin.x + fixPadding)/fixWidth,
-                                            cropRect.size.height/QdxHeight,
-                                            cropRect.size.width/fixWidth);
+                                                          (cropRect.origin.x + fixPadding)/fixWidth,
+                                                          cropRect.size.height/QdxHeight,
+                                                          cropRect.size.width/fixWidth);
     }
     //5.2.设置输出媒体数据类型为QRCode
     [captureMetadataOutput setMetadataObjectTypes:[NSArray arrayWithObject:AVMetadataObjectTypeQRCode]];
@@ -146,14 +152,14 @@
     
     //9.将图层添加到预览view的图层上
     [self.view.layer addSublayer:_videoPreviewLayer];
-
+    
     //10.1.扫描框
     _boxView.layer.borderColor = [UIColor blackColor].CGColor;
     _boxView.layer.borderWidth = 1.0f;
     
     if (QdxHeight<500) {
         
-        UIImage *image = [UIImage imageNamed:@"qrcode_scan_bg_Green"];
+        UIImage *image = [UIImage imageNamed:@"qrcode_scan_bg_Green_iphone"];
         _boxView = [[UIImageView alloc]initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight-64)];
         //        bgImageView.contentMode=UIViewContentModeTop;
         //        bgImageView.clipsToBounds=YES;
@@ -169,7 +175,7 @@
         _boxView.image=image;
         _boxView.userInteractionEnabled=YES;
     }
-
+    
     [self.view addSubview:_boxView];
     UILabel * label = [[UILabel alloc] initWithFrame:CGRectMake(0, QdxHeight/2, QdxWidth, 40)];
     label.text = @"将取景框对准二维码，即可自动扫描。";
@@ -180,11 +186,39 @@
     label.font=[UIFont systemFontOfSize:12];
     label.backgroundColor = [UIColor clearColor];
     [_boxView addSubview:label];
+    
+    _scanLayer = [[CALayer alloc] init];
+    _scanLayer.frame = CGRectMake(QdxWidth*0.13, QdxHeight*0.09, QdxWidth*0.74, 1);
+    _scanLayer.backgroundColor = [UIColor greenColor].CGColor;
+    
+    [_boxView.layer addSublayer:_scanLayer];
+    
+    _timer = [NSTimer scheduledTimerWithTimeInterval:0.2f target:self selector:@selector(moveScanLayer:) userInfo:nil repeats:YES];
+    
+    [_timer fire];
+    
     _isReading = YES;
     //10.开始扫描
     [_captureSession startRunning];
     return YES;
 }
+
+- (void)moveScanLayer:(NSTimer *)timer
+{
+    CGRect frame = _scanLayer.frame;
+    if  (_scanLayer.frame.origin.y>QdxHeight*0.46) {
+        frame.origin.y = QdxHeight*0.09;
+        _scanLayer.frame = frame;
+    }else{
+        
+        frame.origin.y += 5;
+        
+        [UIView animateWithDuration:0.08 animations:^{
+            _scanLayer.frame = frame;
+        }];
+    }
+}
+
 
 -(void)stopReading
 {
@@ -201,23 +235,23 @@
         NSLog(@"%@",_result);
         if([self.from intValue] == 0){
             self.ScanResult(metadataObject.stringValue,YES,@"0");
-    }else if([self.from intValue] == 1){
+        }else if([self.from intValue] == 1){
             [self netWorking];
         }
-    
-}
+        
+    }
     
     //[self performSelectorOnMainThread:@selector(stopReading) withObject:nil waitUntilDone:NO];
     [self stopReading];
     _isReading = NO;
     if(_result){
-    if([self.from intValue] == 0){
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.navigationController popViewControllerAnimated:YES];
-           //[self dismissViewControllerAnimated:YES completion:nil];
+        if([self.from intValue] == 0){
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                [self.navigationController popViewControllerAnimated:YES];
+                //[self dismissViewControllerAnimated:YES completion:nil];
             });
+        }
     }
-}
 }
 
 
@@ -280,7 +314,7 @@
         }
         
         
-
+        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
     }];
@@ -291,7 +325,7 @@
     if(buttonIndex == 0){
         dispatch_time_t time=dispatch_time(DISPATCH_TIME_NOW, 0.4 *NSEC_PER_SEC);
         dispatch_after(time, dispatch_get_main_queue(), ^{
-        [self startReading];
+            [self startReading];
         });
     }
 }
@@ -301,13 +335,13 @@
 }
 
 /*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+ #pragma mark - Navigation
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ // Get the new view controller using [segue destinationViewController].
+ // Pass the selected object to the new view controller.
+ }
+ */
 
 @end

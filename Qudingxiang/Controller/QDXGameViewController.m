@@ -77,7 +77,7 @@
     UILabel *point_name;
     UILabel *score_sum;
     UILabel *score_sum_name;
-    UILabel *score_ms;
+//    UILabel *score_ms;
     UIButton *task_button;
     UIButton *history_button;
     UIButton *showMsg_button;
@@ -178,7 +178,6 @@
             QDXGameModel *game = [QDXGameModel mj_objectWithKeyValues:infoDict[@"Msg"]];
             
             self.gameInfo = game;
-            
             NSString *macLabel =self.gameInfo.point.label;
             NSArray *array3 = [macLabel componentsSeparatedByString:@":"];
             NSString *string3 = [array3 componentsJoinedByString:@""];
@@ -190,7 +189,7 @@
             point.text = self.gameInfo.point.point_name;
             NSLog(@"%@",self.gameInfo.point.point_name);
             score_sum.text = [ToolView scoreTransfer:self.gameInfo.score];
-            score_ms.text = self.gameInfo.ms;
+//            score_ms.text = self.gameInfo.ms;
             NSLog(@"mstatus %@",self.gameInfo.mstatus_id);
             
             if ([self.gameInfo.mstatus_id intValue] == 1) {
@@ -223,6 +222,7 @@
             }else if ([self.gameInfo.mstatus_id intValue] == 3){
                 lock = YES;
                 if (![mylineid isEqualToString:self.model.myline_id]){
+                    self.model.myline_id = mylineid;
                     NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
                     documentDir= [documentDir stringByAppendingPathComponent:@"QDXMyLine.data"];
                     [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
@@ -248,10 +248,10 @@
                 [self.QDXScrollView addSubview:certificate];
                 
                 [self refreshScrollView];
-                
             }else {
                 lock = YES;
                 if (![mylineid isEqualToString:self.model.myline_id]){
+                    self.model.myline_id = mylineid;
                     NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
                     documentDir= [documentDir stringByAppendingPathComponent:@"QDXMyLine.data"];
                     [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
@@ -457,7 +457,7 @@
     readyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, READYVIEWHEIGHT)];
     readyView.backgroundColor = [UIColor colorWithRed:1.000 green:0.965 blue:0.867 alpha:1.000];
     UILabel *readyLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, (READYVIEWHEIGHT * 0.5)/2, 170, READYVIEWHEIGHT * 0.5)];
-    readyLabel.text = @"请去起点处准备开始";
+    readyLabel.text = @"请到起点处准备开始";
     readyLabel.textColor = [UIColor colorWithWhite:0.067 alpha:1.000];
     readyLabel.font = [UIFont systemFontOfSize:14];
     [readyView addSubview:readyLabel];
@@ -524,11 +524,11 @@
     score_sum.font = [UIFont fontWithName:@"Helvetica-Bold" size:24];
     score_sum.textAlignment = NSTextAlignmentCenter;
     [playView addSubview:score_sum];
-    score_ms = [[UILabel alloc] initWithFrame:CGRectMake((QdxWidth/4)* 3 - 100/2 + 100, pointHeight, 20, 20)];
-    score_ms.textColor = [UIColor colorWithWhite:0.067 alpha:1.000];
-    score_ms.font = [UIFont fontWithName:@"Helvetica-Bold" size:15];
-    score_ms.textAlignment = NSTextAlignmentCenter;
-    [playView addSubview:score_ms];
+//    score_ms = [[UILabel alloc] initWithFrame:CGRectMake((QdxWidth/4)* 3 - 100/2 + 100, pointHeight, 20, 20)];
+//    score_ms.textColor = [UIColor colorWithWhite:0.067 alpha:1.000];
+//    score_ms.font = [UIFont fontWithName:@"Helvetica-Bold" size:15];
+//    score_ms.textAlignment = NSTextAlignmentCenter;
+//    [playView addSubview:score_ms];
     
     score_sum_name = [[UILabel alloc] initWithFrame:CGRectMake((QdxWidth/4)* 3 - 100/2, pointHeight + 20 + 5, 100, 15)];
     score_sum_name.textAlignment = NSTextAlignmentCenter;
@@ -823,7 +823,7 @@
 //        [map_click removeFromSuperview];
         [playLineView_One removeFromSuperview];
         [score_sum removeFromSuperview];
-        [score_ms removeFromSuperview];
+//        [score_ms removeFromSuperview];
         [score_sum_name removeFromSuperview];
         float pointHeight = (QdxHeight * 0.1 - (20 + 15 + 5))/2;
         playLineView_Two.frame = CGRectMake(QdxWidth/2, 0, 1, QdxHeight * 0.1);
@@ -850,7 +850,7 @@
         [self.view addSubview:task_button];
         [playView addSubview:playLineView_One];
         [playView addSubview:score_sum_name];
-        [playView addSubview:score_ms];
+//        [playView addSubview:score_ms];
         [playView addSubview:score_sum];
         CGFloat useTimeCenterX = QdxWidth * 0.5;
         CGFloat useTimeCenterY = (SCOREVIEWHEIGHT * 0.6) * 0.45;
@@ -868,7 +868,7 @@
         point.frame = CGRectMake(QdxWidth/4 - 100/2, pointHeight, 100, 20);
         point_name.frame = CGRectMake(QdxWidth/4 - 100/2,pointHeight + 20 + 5, 100, 15);
         score_sum.frame = CGRectMake((QdxWidth/4)* 3 - 100/2, pointHeight, 100, 20);
-        score_ms.frame = CGRectMake((QdxWidth/4)* 3 - 100/2 + 100, pointHeight, 20, 20);
+//        score_ms.frame = CGRectMake((QdxWidth/4)* 3 - 100/2 + 100, pointHeight, 20, 20);
         score_sum_name.frame = CGRectMake((QdxWidth/4)* 3 - 100/2,pointHeight + 20 + 5, 100, 15);
     }
 }
@@ -938,6 +938,7 @@
 
 -(void)setupTaskView
 {
+    [self removeFromSuperViewController];
     lock = YES;
     CYAlertController *alert = [CYAlertController alertWithTitle:self.gameInfo.line.line_sub
                                                          message:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/Myline/getQuestionWeb/myline_id/%@/tmp/%@",mylineid,save]];
@@ -961,6 +962,8 @@
 
 -(void)setupCompleteView:(int )code
 {
+    [self removeFromSuperViewController];
+    
     self.BGView                 = [[UIView alloc] init];
     self.BGView.frame           = [[UIScreen mainScreen] bounds];
     self.BGView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
@@ -1000,7 +1003,7 @@
 {
     [showMsg_button removeFromSuperview];
     [successView removeFromSuperview];
-    
+    lock = NO;
     showOK_button = [[UIButton alloc] initWithFrame:CGRectMake(0, TASKHEIGHT - SHOWTASKHEIGHT,TASKWEIGHT, SHOWTASKHEIGHT)];
     [showOK_button addTarget:self action:@selector(showOK_buttonClick) forControlEvents:UIControlEventTouchUpInside];
     CGFloat top = 25; // 顶端盖高度
@@ -1386,7 +1389,7 @@
                 {
                     lock = YES;
                     AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{ // 3.0s后执行block里面的代码
+                    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{ // 3.0s后执行block里面的代码
                         if([self.gameInfo.mstatus_id intValue] == 1)
                         {
                             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"是否确定开始本次活动？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];

@@ -60,11 +60,15 @@
 
 @implementation HomeController
 
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
+//- (void)viewDidAppear:(BOOL)animated{
+//    [super viewDidAppear:animated];
+//    [self loadData];
+//    //    [self addTimer];
+//}
+
+-(void)viewWillAppear:(BOOL)animated
+{
     [self loadData];
-    //    [self addTimer];
-    
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -76,7 +80,6 @@
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _scrollArr = [NSMutableArray arrayWithCapacity:0];
     _modelArr  = [NSMutableArray arrayWithCapacity:0];
     self.navigationItem.title = @"趣定向";
     _curNumber = 1;
@@ -100,7 +103,7 @@
 
 - (void)loadData
 {
-    
+    _scrollArr = [NSMutableArray arrayWithCapacity:0];
     [self showProgessMsg:@"正在加载"];
     [self performSelectorInBackground:@selector(topViewData) withObject:nil];
     [self performSelectorInBackground:@selector(cellDataWith:isRemoveAll:) withObject:nil];

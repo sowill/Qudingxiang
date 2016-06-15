@@ -317,7 +317,6 @@
         NSString *string2 = [array1 componentsJoinedByString:@""];
         NSArray *array2 = [string2 componentsSeparatedByString:@">)"];
         NSString *string3 = [array2 componentsJoinedByString:@""];
-        NSLog(@"%@",string3);
         if (string3.length > 8) {
             if (lock == NO) {
                 macStr = [string3 substringFromIndex:8];
@@ -900,33 +899,24 @@
             point_questionModel *p_questionModel = [point_questionModel mj_objectWithKeyValues:infoDict[@"Msg"]];
             self.questionInfo = p_questionModel;
             NSLog(@"%@    %@",self.questionInfo.question.question_name,self.questionInfo.question.qkey);
+            
+            dispatch_queue_t myConcurrentQurue = dispatch_queue_create("com.zhiyou.ccc", DISPATCH_QUEUE_CONCURRENT);
             [self setupTaskView];
-            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-            errorCount++;
+            dispatch_async(myConcurrentQurue, ^{
+                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+                errorCount++;
+            });
         }else if (ret == 2){
-            if([self.gameInfo.mstatus_id intValue] == 2 && [self.gameInfo.pointmap.pindex intValue]<999){
+            dispatch_queue_t myConcurrentQurue = dispatch_queue_create("XIAXIAQUEUE", DISPATCH_QUEUE_CONCURRENT);
+            if([self.gameInfo.pointmap.pindex intValue]<999){
                 [self setupCompleteView:0];
             }
-            
-            dispatch_queue_t quete = dispatch_queue_create("XIAXIAQUEUE", DISPATCH_QUEUE_CONCURRENT);
-            dispatch_group_t group = dispatch_group_create();
-            
-            dispatch_group_enter(group);
-            dispatch_group_async(group, quete, ^{
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    [self setupgetMylineInfo];
-                    dispatch_group_leave(group);
-                });
+            dispatch_async(myConcurrentQurue, ^{
+                [self setupgetMylineInfo];
             });
-            
-            dispatch_group_enter(group);
-            dispatch_group_async(group, quete, ^{
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    [self getPointLonLat];
-                    dispatch_group_leave(group);
-                });
+            dispatch_async(myConcurrentQurue, ^{
+                [self getPointLonLat];
             });
-            
         }
         else{
             
@@ -1001,6 +991,7 @@
 
 -(void)showMsg_buttonClick
 {
+    [MBProgressHUD showMessage:@"请稍等"];
     [showMsg_button removeFromSuperview];
     [successView removeFromSuperview];
     lock = NO;
@@ -1033,6 +1024,7 @@
     self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0,SHOWTASKHEIGHT, TASKWEIGHT, TASKHEIGHT - 2 * SHOWTASKHEIGHT)];
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/Myline/getTaskWeb/myline_id/%@/tmp/%@",mylineid,save]]]];
     [self.deliverView addSubview:self.webView];
+    [MBProgressHUD hideHUD];
 }
 
 -(void)showOK_buttonClick
@@ -1137,28 +1129,17 @@
             [self setupCheckTask];
         }
         else if (ret == 2){
-            if([self.gameInfo.mstatus_id intValue] == 2 && [self.gameInfo.pointmap.pindex intValue]<999){
+            dispatch_queue_t myConcurrentQurue = dispatch_queue_create("XIAXIAQUEUE", DISPATCH_QUEUE_CONCURRENT);
+            if([self.gameInfo.pointmap.pindex intValue]<999){
                 [self setupCompleteView:0];
             }
-            
-            dispatch_queue_t quete = dispatch_queue_create("XIAXIAQUEUE", DISPATCH_QUEUE_CONCURRENT);
-            dispatch_group_t group = dispatch_group_create();
-            
-            dispatch_group_enter(group);
-            dispatch_group_async(group, quete, ^{
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    [self setupgetMylineInfo];
-                    dispatch_group_leave(group);
-                });
+            dispatch_async(myConcurrentQurue, ^{
+                [self setupgetMylineInfo];
+            });
+            dispatch_async(myConcurrentQurue, ^{
+                [self getPointLonLat];
             });
             
-            dispatch_group_enter(group);
-            dispatch_group_async(group, quete, ^{
-                dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-                    [self getPointLonLat];
-                    dispatch_group_leave(group);
-                });
-            });
         }else{
             
         }
@@ -1440,7 +1421,12 @@
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-    
-    self.mapView = nil;
+    self.mapView.delegate = nil; // 不用时，置nil
+    [self.mapView removeAnnotation:annotation_history];
+    [self.mapView removeAnnotation:annotation_target];
+    [_mapView removeOverlay:groundOverlay];
+    [countDownTimer setFireDate:[NSDate distantFuture]];
+    [MBProgressHUD hideHUD];
+    [self removeFromSuperViewController];
 }
 @end

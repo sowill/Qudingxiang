@@ -84,6 +84,7 @@
     self.navigationItem.title = @"趣定向";
     _curNumber = 1;
     [self createTableView];
+    [self loadDataCell];
     [self createUI];
     if ([_tableView respondsToSelector:@selector(setSeparatorInset:)])
     {
@@ -101,12 +102,16 @@
     //    }
 }
 
-- (void)loadData
+- (void)loadDataCell
 {
     _scrollArr = [NSMutableArray arrayWithCapacity:0];
     [self showProgessMsg:@"正在加载"];
     [self performSelectorInBackground:@selector(topViewData) withObject:nil];
     [self performSelectorInBackground:@selector(cellDataWith:isRemoveAll:) withObject:nil];
+
+}
+- (void)loadData
+{
     if (save) {
         [self state];
     }else{

@@ -34,13 +34,14 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self loadData];
+    
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     _curNumber = 1;
     self.view.backgroundColor = [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1];;
     self.navigationItem.title = @"活动";
+    [self loadData];
     [self createTableView];
     if ([_tableView respondsToSelector:@selector(setSeparatorInset:)])
     {

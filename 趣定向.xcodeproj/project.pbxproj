@@ -138,6 +138,7 @@
 		4586959E1C4DD741009BAA81 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4586959D1C4DD741009BAA81 /* CoreMedia.framework */; };
 		458695A01C4DD748009BAA81 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4586959F1C4DD748009BAA81 /* QuartzCore.framework */; };
 		458695A21C4DD74E009BAA81 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 458695A11C4DD74E009BAA81 /* AVFoundation.framework */; };
+		45AEE2B71D13E4F800116AD0 /* UIControl+UIControl_buttonCon.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AEE2B61D13E4F800116AD0 /* UIControl+UIControl_buttonCon.m */; };
 		45C6F55F1C929FD000C5AA31 /* HomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F55A1C929FD000C5AA31 /* HomeModel.m */; };
 		45C6F5601C929FD000C5AA31 /* ImageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F55C1C929FD000C5AA31 /* ImageModel.m */; };
 		45C6F5611C929FD000C5AA31 /* ScrollModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F55E1C929FD000C5AA31 /* ScrollModel.m */; };
@@ -538,6 +539,8 @@
 		459C6E311BD89D2300743FEC /* UIApplication+JTSImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+JTSImageViewController.m"; sourceTree = "<group>"; };
 		459C6E321BD89D2300743FEC /* UIImage+JTSImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+JTSImageEffects.h"; sourceTree = "<group>"; };
 		459C6E331BD89D2300743FEC /* UIImage+JTSImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+JTSImageEffects.m"; sourceTree = "<group>"; };
+		45AEE2B51D13E4F800116AD0 /* UIControl+UIControl_buttonCon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIControl+UIControl_buttonCon.h"; sourceTree = "<group>"; };
+		45AEE2B61D13E4F800116AD0 /* UIControl+UIControl_buttonCon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+UIControl_buttonCon.m"; sourceTree = "<group>"; };
 		45C6F5591C929FD000C5AA31 /* HomeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeModel.h; sourceTree = "<group>"; };
 		45C6F55A1C929FD000C5AA31 /* HomeModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeModel.m; sourceTree = "<group>"; };
 		45C6F55B1C929FD000C5AA31 /* ImageModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageModel.h; sourceTree = "<group>"; };
@@ -940,6 +943,8 @@
 				4545CF361C80435000B73849 /* zoomImage.m */,
 				45EE613B1CEAD4FC007302E3 /* UIImage+watermark.h */,
 				45EE613C1CEAD4FC007302E3 /* UIImage+watermark.m */,
+				45AEE2B51D13E4F800116AD0 /* UIControl+UIControl_buttonCon.h */,
+				45AEE2B61D13E4F800116AD0 /* UIControl+UIControl_buttonCon.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -1732,6 +1737,7 @@
 			files = (
 				45C6F56A1C92A0A500C5AA31 /* MineModel.m in Sources */,
 				45C6F5771C92A0D800C5AA31 /* QDXostatus.m in Sources */,
+				45AEE2B71D13E4F800116AD0 /* UIControl+UIControl_buttonCon.m in Sources */,
 				4571CDEB1CE05B00002ED784 /* CYAlertDismissSlideDown.m in Sources */,
 				A31287AB1CCF165D00CB887E /* BaseService.m in Sources */,
 				455C8A9C1CCF7827001F5FC5 /* MD5DataSigner.m in Sources */,

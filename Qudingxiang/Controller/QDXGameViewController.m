@@ -218,11 +218,10 @@
 //                [self.QDXScrollView addSubview:map_click];
                 [self.QDXScrollView addSubview:task_button];
                 [self.QDXScrollView addSubview:history_button];
-                
             }else if ([self.gameInfo.mstatus_id intValue] == 3){
                 lock = YES;
                 if (![mylineid isEqualToString:self.model.myline_id]){
-                    self.model.myline_id = mylineid;
+                    oldMyLineid = mylineid;
                     NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
                     documentDir= [documentDir stringByAppendingPathComponent:@"QDXMyLine.data"];
                     [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
@@ -251,7 +250,7 @@
             }else {
                 lock = YES;
                 if (![mylineid isEqualToString:self.model.myline_id]){
-                    self.model.myline_id = mylineid;
+                    oldMyLineid = mylineid;
                     NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
                     documentDir= [documentDir stringByAppendingPathComponent:@"QDXMyLine.data"];
                     [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
@@ -1247,6 +1246,9 @@
     secondsCountDown++;
     if ([self.gameInfo.line.linetype_id isEqualToString:@"3"]) {
         useTime.text =[NSString stringWithFormat:@"%@",[ToolView scoreTransfer:[NSString stringWithFormat:@"%d",[self.gameInfo.line.countdown intValue] -secondsCountDown]] ];
+        if([self.gameInfo.line.countdown intValue] -secondsCountDown <= 900){
+            useTime.textColor = [UIColor redColor];
+        }
         if ([self.gameInfo.line.countdown intValue] -secondsCountDown <= 0) {
             AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
             mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
@@ -1262,9 +1264,9 @@
                 NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
                 int ret = [infoDict[@"Code"] intValue];
                 if (ret==1) {
-                    [self setupgetMylineInfo];
                     lock = YES;
                     [countDownTimer setFireDate:[NSDate distantFuture]];
+                    [self setupgetMylineInfo];
                 }else{
                     
                 }
@@ -1298,9 +1300,15 @@
 
 - (void)didClickOnImageIndex:(NSInteger *)imageIndex
 {
+    NSString *shareUrl = [[NSString alloc] init];
+    if (self.model.myline_id.length == 0) {
+        shareUrl = [NSString stringWithFormat:@"http://www.qudingxiang.cn/home/myline/mylineweb/myline_id/%@/tmp/%@",oldMyLineid,save];
+    }else{
+        shareUrl = [NSString stringWithFormat:@"http://www.qudingxiang.cn/home/myline/mylineweb/myline_id/%@/tmp/%@",self.model.myline_id,save];
+    }
     if (imageIndex == 0) {
         TencentOAuth *auth = [[TencentOAuth alloc] initWithAppId:@"1104830915"andDelegate:self];
-        NSURL *imgurl = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/myline/mylineweb/myline_id/%@/tmp/%@",self.model.myline_id,save]];
+        NSURL *imgurl = [NSURL URLWithString:shareUrl];
         NSString *title = @"趣定向";
         NSString *description = @"我的成绩";
         NSString *imgPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Icon-76@2x.png"];
@@ -1311,7 +1319,7 @@
         QQApiSendResultCode sent = [QQApiInterface sendReq:req];
     } else if (imageIndex == 1){
         TencentOAuth *auth = [[TencentOAuth alloc] initWithAppId:@"1104830915"andDelegate:self];
-        NSURL *imgurl = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/myline/mylineweb/myline_id/%@/tmp/%@",self.model.myline_id,save]];
+        NSURL *imgurl = [NSURL URLWithString:shareUrl];
         NSString *utf8String =[imgurl absoluteString];
         NSString *title = @"趣定向";
         NSString *description = @"我的成绩";
@@ -1327,7 +1335,7 @@
         message.description = @"我的成绩";
         [message setThumbImage:[UIImage imageNamed:@"Icon-76@2x.png"]];
         WXWebpageObject *webpageObject = [WXWebpageObject object];
-        webpageObject.webpageUrl = [NSString stringWithFormat:@"http://www.qudingxiang.cn/home/myline/mylineweb/myline_id/%@/tmp/%@",self.model.myline_id,save];
+        webpageObject.webpageUrl = shareUrl;
         message.mediaObject = webpageObject;
         SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
         req.bText = NO;
@@ -1340,7 +1348,7 @@
         message.description = @"我的成绩";
         [message setThumbImage:[UIImage imageNamed:@"Icon-76@2x.png"]];
         WXWebpageObject *webpageObject = [WXWebpageObject object];
-        webpageObject.webpageUrl = [NSString stringWithFormat:@"http://www.qudingxiang.cn/home/myline/mylineweb/myline_id/%@/tmp/%@",self.model.myline_id,save];
+        webpageObject.webpageUrl = shareUrl;
         message.mediaObject = webpageObject;
         SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
         req.bText = NO;

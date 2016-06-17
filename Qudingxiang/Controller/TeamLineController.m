@@ -75,6 +75,7 @@
     [self.view addSubview:_tableView];
     
 }
+
 - (void)netData
 {
     [self showProgessMsg:@"加载中"];

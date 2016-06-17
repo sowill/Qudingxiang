@@ -108,8 +108,8 @@
     [self showProgessMsg:@"正在加载"];
     [self performSelectorInBackground:@selector(topViewData) withObject:nil];
     [self performSelectorInBackground:@selector(cellDataWith:isRemoveAll:) withObject:nil];
-
 }
+
 - (void)loadData
 {
     if (save) {

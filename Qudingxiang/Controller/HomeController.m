@@ -75,7 +75,6 @@
 {
     [super viewDidDisappear:animated];
     _scrollArr = [NSMutableArray arrayWithCapacity:0];
-    //    [self removeTimer];
     [imgScrollView stopTimer];
 }
 - (void)viewDidLoad {
@@ -149,7 +148,7 @@
 
 - (void)createTableView
 {
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight-24) style:UITableViewStyleGrouped];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight-70) style:UITableViewStyleGrouped];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.showsVerticalScrollIndicator = NO;
@@ -244,9 +243,9 @@
     _header.delegate = self;
     _header.scrollView = _tableView;
     
-    _footer = [MJRefreshFooterView footer];
-    _footer.delegate = self;
-    _footer.scrollView = _tableView;
+//    _footer = [MJRefreshFooterView footer];
+//    _footer.delegate = self;
+//    _footer.scrollView = _tableView;
 }
 
 - (void)dealloc
@@ -254,7 +253,7 @@
 {
     [_header free];
     
-    [_footer free];
+    //[_footer free];
 }
 
 - (void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView
@@ -265,13 +264,13 @@
         [self cellDataWith:[NSString stringWithFormat:@"%li", (long)_curNumber] isRemoveAll:YES];
         
     } else {
-        //加载更多
-        _curNumber ++;
-        if(_countNum/13+1 == _currNum){
-            [_footer endRefreshing];
-        }else{
-            [self cellDataWith:[NSString stringWithFormat:@"%li", (long)_curNumber] isRemoveAll:NO];
-        }
+//        //加载更多
+//        _curNumber ++;
+//        if(_countNum/13+1 == _currNum){
+//            [_footer endRefreshing];
+//        }else{
+//            [self cellDataWith:[NSString stringWithFormat:@"%li", (long)_curNumber] isRemoveAll:NO];
+//        }
     }
 }
 //- (void)addTimer

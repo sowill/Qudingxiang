@@ -244,7 +244,7 @@
     CGFloat loginBtnCenterX = QdxWidth* 0.5;
     CGFloat loginBtnCenterY = teamNumber4CenterY + 20 + 1 + 35/2 + 25;
     loginBtn.center = CGPointMake(loginBtnCenterX, loginBtnCenterY);
-    loginBtn.bounds = CGRectMake(0, 0, QdxWidth-20, 35);
+    loginBtn.bounds = CGRectMake(0, 0, QdxWidth-20, 40);
     [loginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [loginBtn setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
     CGFloat top = 25; // 顶端盖高度

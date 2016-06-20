@@ -153,8 +153,7 @@
 {
     // 添加底部按钮
     _bottom = [[UIView alloc] initWithFrame:CGRectMake(0, QdxHeight- 50-1-64, QdxWidth, 1)];
-    _bottom.backgroundColor = [UIColor grayColor];
-    _bottom.alpha = 0.7;
+    _bottom.backgroundColor = [UIColor colorWithWhite:0.898 alpha:0.500];
     [self.view addSubview:_bottom];
     
     sign_up = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth/2, QdxHeight- 50-64, QdxWidth/2, 50)];

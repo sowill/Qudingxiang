@@ -24,7 +24,7 @@
     // Do any additional setup after loading the view.
     
     [self setupFrame];
-    
+    [self setupCurrentLine];
     [self setupProtocol];
     
     [self createButtonBack];
@@ -76,7 +76,9 @@
 
 -(void)accept
 {
-    [self setupCurrentLine];
+    QDXGameViewController *game = [[QDXGameViewController alloc] init];
+    [self.navigationController pushViewController:game animated:YES];
+    [NSKeyedArchiver archiveRootObject:@"Yes" toFile:QDXMyLineFile];
 }
 
 //获取myline_id
@@ -95,14 +97,6 @@
         int ret = [infoDict[@"Code"] intValue];
         if (ret == 1) {
             [NSKeyedArchiver archiveRootObject:infoDict[@"Msg"][@"myline_id"] toFile:QDXCurrentMyLineFile];
-            
-            QDXGameViewController *game = [[QDXGameViewController alloc] init];
-//            QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:game];
-//            [self presentViewController:nav animated:YES completion:^{
-//                
-//            }];
-            [self.navigationController pushViewController:game animated:YES];
-            [NSKeyedArchiver archiveRootObject:@"Yes" toFile:QDXMyLineFile];
         }
         else{
             

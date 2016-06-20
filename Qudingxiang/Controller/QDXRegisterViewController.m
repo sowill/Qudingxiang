@@ -262,7 +262,7 @@
 {
     [self.view endEditing:YES];
     
-    NSString *username = telText.text;
+    NSString *username = self.firstVaule;
     NSString *password = pwdText.text;
     NSString *passwordsure = pwdsureText.text;
     NSString *customername = customerNameText.text;
@@ -294,7 +294,9 @@
             [MBProgressHUD showSuccess:@"注册成功"];
             //存储Token信息
             [NSKeyedArchiver archiveRootObject:isConnect.Msg[@"token"] toFile:XWLAccountFile];
-            [UIApplication sharedApplication].keyWindow.rootViewController = [[TabbarController alloc] init];
+            [self dismissViewControllerAnimated:YES completion:^{
+                
+            }];
         }
         else{
             NSString *showerror = [infoDict objectForKey:@"Msg"];

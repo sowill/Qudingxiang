@@ -40,7 +40,7 @@
     [self.ticketinfo_code addGestureRecognizer:tap];
 //    self.tstatus_id.text = TicketInfo.tstatus_name;
     self.linePrice.text = [@"￥" stringByAppendingString:TicketInfo.goods_price];
-    self.lineName.text = [@"活动:" stringByAppendingString:TicketInfo.goods_name];
+    self.lineName.text = [@"主题:" stringByAppendingString:TicketInfo.goods_name];
     if ([TicketInfo.tstatus_name isEqualToString:@"已使用"]){
         self.deleteButton.userInteractionEnabled = NO;
         [self.deleteButton setBackgroundImage:[UIImage imageNamed:@"按钮2"] forState:UIControlStateNormal];

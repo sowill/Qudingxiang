@@ -89,7 +89,7 @@
     vcodeText.font = [UIFont fontWithName:@"Arial" size:16.0f];
     vcodeText.textColor = [UIColor colorWithWhite:0.400 alpha:1.000];
     vcodeText.clearButtonMode = UITextFieldViewModeNever;
-    vcodeText.keyboardType = UIKeyboardTypeDefault;
+    vcodeText.keyboardType = UIKeyboardTypeNumberPad;
     vcodeText.backgroundColor = [UIColor whiteColor];
     vcodeText.tag = 2;
     vcodeText.delegate = self;
@@ -271,7 +271,7 @@
             //切换窗口根控制器
             QDXRegisterViewController* qdx=[[QDXRegisterViewController alloc]init];
             
-//            qdx.firstVaule=username;
+            qdx.firstVaule=username;
             [self.navigationController pushViewController:qdx animated:YES];
         }
         else{

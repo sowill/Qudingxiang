@@ -10,6 +10,6 @@
 
 @interface QDXRegisterViewController : UIViewController
 
-//@property(nonatomic,strong)NSString* firstVaule;
+@property(nonatomic,strong)NSString* firstVaule;
 
 @end

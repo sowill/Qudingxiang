@@ -208,6 +208,10 @@
                 if ([self.gameInfo.isLeader intValue] == 1) {
                     self.MyCentralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
                 }
+                if([self.gameInfo.line.linetype_id isEqualToString:@"3"])
+                {
+                    currentTime.text = @"倒计时";
+                }
                 //                self.navigationItem.leftBarButtonItem = nil;
                 //                self.navigationItem.hidesBackButton = YES;
                 [readyView removeFromSuperview];
@@ -228,7 +232,7 @@
                 }
                 self.navigationItem.title = @"活动结束";
                 
-                certificate = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight * 0.7)];
+                certificate = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxWidth * 1.425)];
                 NSURL *certificate_url = [NSURL URLWithString:[hostUrl stringByAppendingString:self.gameInfo.point.area.map]];
                 UIImage *certificate_image = [UIImage imageWithData: [NSData dataWithContentsOfURL:certificate_url]];
                 certificate.image = certificate_image;
@@ -381,7 +385,7 @@
 
 -(void)createTableView
 {
-    self.tableview = [[UITableView alloc] initWithFrame:CGRectMake(0,10 + QdxHeight * 0.7, QdxWidth, 73 * self.gameInfo.history.count + 40) style:UITableViewStylePlain];
+    self.tableview = [[UITableView alloc] initWithFrame:CGRectMake(0,10 + QdxWidth * 1.425, QdxWidth, 73 * self.gameInfo.history.count + 40) style:UITableViewStylePlain];
     self.tableview.delegate = self;
     self.tableview.dataSource = self;
     self.tableview.showsVerticalScrollIndicator = NO;
@@ -505,12 +509,12 @@
     [playView addSubview:playLineView_Two];
     
     float pointHeight = playline_Height +((SCOREVIEWHEIGHT - playline_Height) - (20 + 15 + 5))/2;
-    point = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth/4 - 100/2, pointHeight, 100, 20)];
+    point = [[UILabel alloc] initWithFrame:CGRectMake(0, pointHeight, QdxWidth/2, 20)];
     point.textColor = [UIColor colorWithWhite:0.067 alpha:1.000];
     point.font = [UIFont fontWithName:@"Helvetica-Bold" size:24];
     point.textAlignment = NSTextAlignmentCenter;
     [playView addSubview:point];
-    point_name = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth/4 - 100/2, pointHeight + 20 + 5, 100, 15)];
+    point_name = [[UILabel alloc] initWithFrame:CGRectMake(0, pointHeight + 20 + 5, QdxWidth/2, 15)];
     point_name.textAlignment = NSTextAlignmentCenter;
     point_name.text = @"目标点标";
     point_name.textColor = [UIColor colorWithWhite:0.400 alpha:1.000];
@@ -826,8 +830,8 @@
         float pointHeight = (QdxHeight * 0.1 - (20 + 15 + 5))/2;
         playLineView_Two.frame = CGRectMake(QdxWidth/2, 0, 1, QdxHeight * 0.1);
         buttom_line.frame = CGRectMake(0, QdxHeight * 0.1, QdxWidth, 1);
-        point.frame = CGRectMake(QdxWidth/4 - 100/2, pointHeight, 100, 20);
-        point_name.frame = CGRectMake(QdxWidth/4 - 100/2,pointHeight + 20 + 5, 100, 15);
+        point.frame = CGRectMake(0, pointHeight, QdxWidth/2, 20);
+        point_name.frame = CGRectMake(0,pointHeight + 20 + 5, QdxWidth/2, 15);
         useTime.frame = CGRectMake((QdxWidth/4)* 3 - QdxWidth/2/2,pointHeight, QdxWidth/2, 20);
         useTime.font = [UIFont fontWithName:@"Helvetica-Bold" size:24];
         currentTime.frame = CGRectMake((QdxWidth/4)* 3 - 100/2,pointHeight + 20 + 5, 100, 15);
@@ -863,8 +867,8 @@
         float pointHeight = playline_Height +((SCOREVIEWHEIGHT - playline_Height) - (20 + 15 + 5))/2;
         buttom_line.frame = CGRectMake(0, SCOREVIEWHEIGHT, QdxWidth, 1);
         playLineView_Two.frame = CGRectMake(QdxWidth/2, playline_Height+1, 1, SCOREVIEWHEIGHT - playline_Height-1);
-        point.frame = CGRectMake(QdxWidth/4 - 100/2, pointHeight, 100, 20);
-        point_name.frame = CGRectMake(QdxWidth/4 - 100/2,pointHeight + 20 + 5, 100, 15);
+        point.frame = CGRectMake(0, pointHeight, QdxWidth/2, 20);
+        point_name.frame = CGRectMake(0,pointHeight + 20 + 5, QdxWidth/2, 15);
         score_sum.frame = CGRectMake((QdxWidth/4)* 3 - 100/2, pointHeight, 100, 20);
 //        score_ms.frame = CGRectMake((QdxWidth/4)* 3 - 100/2 + 100, pointHeight, 20, 20);
         score_sum_name.frame = CGRectMake((QdxWidth/4)* 3 - 100/2,pointHeight + 20 + 5, 100, 15);
@@ -990,6 +994,7 @@
 
 -(void)showMsg_buttonClick
 {
+    
     [MBProgressHUD showMessage:@"请稍等"];
     [showMsg_button removeFromSuperview];
     [successView removeFromSuperview];
@@ -1248,31 +1253,11 @@
         useTime.text =[NSString stringWithFormat:@"%@",[ToolView scoreTransfer:[NSString stringWithFormat:@"%d",[self.gameInfo.line.countdown intValue] -secondsCountDown]] ];
         if([self.gameInfo.line.countdown intValue] -secondsCountDown <= 900){
             useTime.textColor = [UIColor redColor];
-        }
-        if ([self.gameInfo.line.countdown intValue] -secondsCountDown <= 0) {
-            AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-            mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
-            NSMutableDictionary *params = [NSMutableDictionary dictionary];
-            params[@"TokenKey"] = save;
-            params[@"myline_id"] = mylineid;
-            NSString *url = [hostUrl stringByAppendingString:@"Home/Myline/gameover"];
-            [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-                
-                
-            } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-                NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
-                int ret = [infoDict[@"Code"] intValue];
-                if (ret==1) {
-                    lock = YES;
-                    [countDownTimer setFireDate:[NSDate distantFuture]];
-                    [self setupgetMylineInfo];
-                }else{
-                    
-                }
-            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-                
-            }];
+            if ([self.gameInfo.line.countdown intValue] -secondsCountDown <= 0) {
+                lock = YES;
+                [countDownTimer setFireDate:[NSDate distantFuture]];
+                [self setupgetMylineInfo];
+            }
         }
     }else{
         useTime.text =[NSString stringWithFormat:@"%@",[ToolView scoreTransfer:[NSString stringWithFormat:@"%d",secondsCountDown]] ];

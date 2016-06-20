@@ -91,7 +91,7 @@
     vcodeText.font = [UIFont fontWithName:@"Arial" size:16.0f];
     vcodeText.textColor = [UIColor colorWithWhite:0.400 alpha:1.000];
     vcodeText.clearButtonMode = UITextFieldViewModeNever;
-    vcodeText.keyboardType = UIKeyboardTypeDefault;
+    vcodeText.keyboardType = UIKeyboardTypeNumberPad;
     vcodeText.backgroundColor = [UIColor whiteColor];
     vcodeText.tag = 2;
     vcodeText.delegate = self;

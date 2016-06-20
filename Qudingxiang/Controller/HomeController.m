@@ -55,6 +55,7 @@
     NSString *_codeMsg;
     UIButton *_scanBtn;
     ImageScrollView *imgScrollView;
+    NSMutableArray *arr;
 }
 @end
 
@@ -356,8 +357,12 @@
                 [_modelArr addObject:model];
             }
         }
+        arr = [[NSMutableArray alloc] initWithCapacity:0];
+        for(int i = 0;i<4;i++){
+            [arr addObject:_scrollArr[i]];
+        }
         //添加数据
-        imgScrollView.pics = _scrollArr;
+        imgScrollView.pics = arr;
         //点击事件
         [imgScrollView returnIndex:^(NSInteger index) {
             QDXLineDetailViewController *detailLine = [[QDXLineDetailViewController alloc] init];

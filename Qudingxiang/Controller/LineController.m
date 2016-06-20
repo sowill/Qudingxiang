@@ -49,7 +49,9 @@
 
 -(void)noti3
 {
-    [self dismissViewControllerAnimated:YES completion:^{}];
+    [self dismissViewControllerAnimated:YES completion:^{
+    
+    }];
 }
 
 - (void)noti2
@@ -66,7 +68,7 @@
     _tableView.dataSource = self;
     _tableView.backgroundColor = [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1];
     _tableView.showsVerticalScrollIndicator = NO;
-    //_tableView.separatorStyle =UITableViewCellSeparatorStyleNone;
+    _tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.view addSubview:_tableView];
 }
 

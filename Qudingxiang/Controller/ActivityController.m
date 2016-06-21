@@ -31,12 +31,6 @@
 
 @implementation ActivityController
 
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-}
-
 - (void)viewDidLoad {
     [super viewDidLoad];
     _curNumber = 1;
@@ -52,7 +46,6 @@
     {
         [_tableView setLayoutMargins:UIEdgeInsetsZero];
     }
-
 }
 
 - (void)loadData
@@ -82,7 +75,6 @@
     UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     negativeSpacer.width = -10;
     self.navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
-
 }
 
 - (void)setClick
@@ -171,7 +163,6 @@
         [_tableView reloadData];
         [_header endRefreshing];
         [_footer endRefreshing];
-        [self hideProgess];
     } FailBlock:^(NSMutableArray *array) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"加载失败,请检查网络！" message:nil preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -182,7 +173,7 @@
 
 - (void)sussRes
 {
-    [self showProgessOK:@"加载成功"];
+    [self hideProgess];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

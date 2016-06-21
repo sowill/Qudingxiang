@@ -24,8 +24,9 @@
     int page;
     int count;
     UIButton *_button;
-    UIImageView *sad;
-    UIButton *sadButton;
+    UIImageView *sad_1;
+    UILabel *sadButton_1;
+    UIView *loginView;
 }
 @property (nonatomic, strong) NSMutableArray *orders;
 @property (nonatomic, weak) MJRefreshFooterView *footer;
@@ -45,10 +46,10 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-    [super viewDidAppear:animated];
     curr = 1;
-    [sad removeFromSuperview];
-    [sadButton removeFromSuperview];
+    [loginView removeFromSuperview];
+    [sad_1 removeFromSuperview];
+    [sadButton_1 removeFromSuperview];
     [self loadData];
 }
 
@@ -57,15 +58,10 @@
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"我的订单";
     
-    self.tableview = [[UITableView alloc] initWithFrame:CGRectMake(0,0, QdxWidth, QdxHeight-64) style:UITableViewStyleGrouped];
-    self.tableview.delegate = self;
-    self.tableview.dataSource = self;
-    self.tableview.showsVerticalScrollIndicator = NO;
-    self.tableview.backgroundColor = [UIColor colorWithWhite:0.961 alpha:1.000];
-//    self.tableview.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    [self.tableview setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    [self.view addSubview:self.tableview];
+    self.view.backgroundColor = [UIColor colorWithWhite:0.961 alpha:1.000];
     
+    [self createTableView];
+
     _button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
     [_button setImage:[UIImage imageNamed:@"index_my"] forState:UIControlStateNormal];
     [_button addTarget:self action:@selector(setClick) forControlEvents:UIControlEventTouchUpInside];
@@ -74,7 +70,18 @@
     UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
     negativeSpacer.width = -10;
     self.navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
-    
+}
+
+- (void) createTableView
+{
+    self.tableview = [[UITableView alloc] initWithFrame:CGRectMake(0,0, QdxWidth, QdxHeight-64) style:UITableViewStyleGrouped];
+    self.tableview.delegate = self;
+    self.tableview.dataSource = self;
+    self.tableview.showsVerticalScrollIndicator = NO;
+    self.tableview.backgroundColor = [UIColor colorWithWhite:0.961 alpha:1.000];
+    //    self.tableview.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    [self.tableview setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    [self.view addSubview:self.tableview];
     [self setupRefreshView];
 }
 
@@ -108,6 +115,7 @@
 {
     [self performSelectorInBackground:@selector(getOrdersListAjax) withObject:nil];
 }
+
 /**
  *  集成刷新控件
  */
@@ -234,15 +242,19 @@
 
 - (void)createLoginView
 {
-    sad = [[UIImageView alloc] init];
+    loginView = [[UIView alloc] initWithFrame:self.tableview.frame];
+    loginView.backgroundColor = [UIColor colorWithWhite:0.961 alpha:1.000];
+    [self.tableview addSubview:loginView];
+    
+    UIImageView *sad = [[UIImageView alloc] init];
     CGFloat sadCenterX = QdxWidth * 0.5;
     CGFloat sadCenterY = QdxHeight * 0.22;
     sad.center = CGPointMake(sadCenterX, sadCenterY);
     sad.bounds = CGRectMake(0, 0, 40, 43);
     sad.image = [UIImage imageNamed:@"order_logo"];
-    [self.tableview addSubview:sad];
+    [loginView addSubview:sad];
     
-    sadButton = [[UIButton alloc] init];
+    UIButton *sadButton = [[UIButton alloc] init];
     sadButton.center = CGPointMake(sadCenterX, sadCenterY + 30 + 25);
     sadButton.bounds = CGRectMake(0, 0, 135, 30);
     [sadButton setTitle:@"登录查看订单" forState:UIControlStateNormal];
@@ -252,7 +264,7 @@
     sadButton.layer.borderWidth = 0.5;
     sadButton.layer.cornerRadius = 4;
     sadButton.titleLabel.font = [UIFont systemFontOfSize:14];
-    [self.tableview addSubview:sadButton];
+    [loginView addSubview:sadButton];
 }
 
 -(void)sign_in
@@ -266,7 +278,7 @@
 
 - (void)createSadView
 {
-    UIImageView *sad_1 = [[UIImageView alloc] init];
+    sad_1 = [[UIImageView alloc] init];
     CGFloat sad_1CenterX = QdxWidth * 0.5;
     CGFloat sad_1CenterY = QdxHeight * 0.22;
     sad_1.center = CGPointMake(sad_1CenterX, sad_1CenterY);
@@ -274,7 +286,7 @@
     sad_1.image = [UIImage imageNamed:@"order_nothing"];
     [self.tableview addSubview:sad_1];
     
-    UILabel *sadButton_1 = [[UILabel alloc] init];
+    sadButton_1 = [[UILabel alloc] init];
     sadButton_1.center = CGPointMake(sad_1CenterX, sad_1CenterY + 43/2 + 20);
     sadButton_1.bounds = CGRectMake(0, 0, 120, 100);
     sadButton_1.text = @"您当前没有订单";

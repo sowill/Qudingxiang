@@ -355,14 +355,10 @@
         QDXIsConnect *isConnect = [QDXIsConnect mj_objectWithKeyValues:dict];
         int ret = [isConnect.Code intValue];
         if (ret==1) {
-//            [MBProgressHUD showSuccess:@"登录成功"];
             
-            NSLog(@"%@",isConnect.Msg[@"token"]);
-            
-            //存储Token信息
             [NSKeyedArchiver archiveRootObject:isConnect.Msg[@"token"] toFile:XWLAccountFile];
+            
             [self goHome];
-            //切换窗口根控制器
     }
         else{
             QDXBindViewController *BindViewController =[[QDXBindViewController alloc] init];

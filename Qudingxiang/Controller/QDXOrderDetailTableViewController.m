@@ -154,6 +154,7 @@
     [complete setTitleColor:[UIColor colorWithWhite:0.400 alpha:1.000] forState:UIControlStateNormal];
     [self.view addSubview:complete];
 }
+
 - (void)createSadView
 {
     UIImageView *sad = [[UIImageView alloc] init];
@@ -259,6 +260,7 @@
                 [self bindSelf:ticketInfo.ticketinfo_name];
                 [self.ticket removeObjectAtIndex:indexPath.row];
                 [self.tableview deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationMiddle];
+                
                 [self.tableview reloadData];
             }];
             [alertController addAction:cancelAction];

@@ -55,10 +55,9 @@
 
 -(void)buttonBackSetting
 {
-    [self.sideMenuViewController setContentViewController:[[TabbarController alloc] init]
-                                                 animated:YES];
-    [self.sideMenuViewController hideMenuViewController];
-    
+    [self dismissViewControllerAnimated:YES completion:^{
+        
+    }];
 }
 
 - (void)createTableView

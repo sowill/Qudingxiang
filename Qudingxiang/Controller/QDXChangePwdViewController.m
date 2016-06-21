@@ -9,6 +9,7 @@
 #import "QDXChangePwdViewController.h"
 #import "TabbarController.h"
 #import "QDXIsConnect.h"
+#import "CheckDataTool.h"
 
 @interface QDXChangePwdViewController ()<UITextFieldDelegate>
 {
@@ -165,8 +166,8 @@
     if (![password isEqualToString:passwordsure]) {
         [MBProgressHUD showError:@"密码不一致"];
         return;
-    }else if(pwdText.text.length < 6){
-        [MBProgressHUD showError:@"密码不能小于6位"];
+    }else if(![CheckDataTool checkForPasswordWithShortest:6 longest:16 password:pwdText.text]){
+        [MBProgressHUD showError:@"密码在6到16位之间"];
         return;
     }
     

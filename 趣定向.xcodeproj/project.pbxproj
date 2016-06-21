@@ -23,6 +23,7 @@
 		4545CF371C80435000B73849 /* zoomImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4545CF361C80435000B73849 /* zoomImage.m */; };
 		4556CD6E1CED672600577A61 /* QDXMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 4556CD6D1CED672600577A61 /* QDXMap.m */; };
 		4556CD711CEDC5CF00577A61 /* SignViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4556CD701CEDC5CF00577A61 /* SignViewController.m */; };
+		4557C6161D18E3ED0092CC56 /* CheckDataTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 4557C6151D18E3ED0092CC56 /* CheckDataTool.m */; };
 		4557D1531CD9A33300CA76BD /* QDXHistoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4557D1521CD9A33300CA76BD /* QDXHistoryViewController.m */; };
 		4557D1561CD9D51900CA76BD /* QDXTaskViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4557D1551CD9D51900CA76BD /* QDXTaskViewController.m */; };
 		455A95B51C97E3EB0039FA88 /* MJExtensionConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 455A95A21C97E3EB0039FA88 /* MJExtensionConst.m */; };
@@ -287,6 +288,8 @@
 		4556CD6D1CED672600577A61 /* QDXMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXMap.m; sourceTree = "<group>"; };
 		4556CD6F1CEDC5CF00577A61 /* SignViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SignViewController.h; sourceTree = "<group>"; };
 		4556CD701CEDC5CF00577A61 /* SignViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SignViewController.m; sourceTree = "<group>"; };
+		4557C6141D18E3ED0092CC56 /* CheckDataTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CheckDataTool.h; sourceTree = "<group>"; };
+		4557C6151D18E3ED0092CC56 /* CheckDataTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CheckDataTool.m; sourceTree = "<group>"; };
 		4557D1511CD9A33300CA76BD /* QDXHistoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXHistoryViewController.h; sourceTree = "<group>"; };
 		4557D1521CD9A33300CA76BD /* QDXHistoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXHistoryViewController.m; sourceTree = "<group>"; };
 		4557D1541CD9D51900CA76BD /* QDXTaskViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXTaskViewController.h; sourceTree = "<group>"; };
@@ -938,6 +941,8 @@
 		455C66991BAFA705007BA56B /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				4557C6141D18E3ED0092CC56 /* CheckDataTool.h */,
+				4557C6151D18E3ED0092CC56 /* CheckDataTool.m */,
 				A31287A41CCF0DD700CB887E /* QDXOfflineDB.h */,
 				A31287A51CCF0DD700CB887E /* QDXOfflineDB.m */,
 				455C669A1BAFA705007BA56B /* ToolView.h */,
@@ -1671,7 +1676,7 @@
 				TargetAttributes = {
 					45DF76281BA6AAC20024A6B4 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = SDW8DF5BW4;
+						DevelopmentTeam = X5T2295222;
 					};
 					45DF76411BA6AAC20024A6B4 = {
 						CreatedOnToolsVersion = 6.4;
@@ -1768,6 +1773,7 @@
 				45C6F5861C92A10300C5AA31 /* AlipayModel.m in Sources */,
 				A35DAC761CCF5B9B00D01CF0 /* MineViewController.m in Sources */,
 				A3442D211C9B946A0092363A /* AboutUsViewController.m in Sources */,
+				4557C6161D18E3ED0092CC56 /* CheckDataTool.m in Sources */,
 				453395241CF6F50B00B5A825 /* FeHourGlass.m in Sources */,
 				A31287A31CCF0DA200CB887E /* line_pointModel.m in Sources */,
 				45C6F5661C92A07900C5AA31 /* QDXAccount.m in Sources */,
@@ -2077,7 +2083,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sporttest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sport;
 				PRODUCT_NAME = "趣定向";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -2120,7 +2126,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sporttest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sport;
 				PRODUCT_NAME = "趣定向";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;

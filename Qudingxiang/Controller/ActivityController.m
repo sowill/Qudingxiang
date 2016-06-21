@@ -36,6 +36,7 @@
     [super viewDidAppear:animated];
     
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     _curNumber = 1;
@@ -109,6 +110,7 @@
         
     }
 }
+
 - (void)refreshView
 {
     _header = [MJRefreshHeaderView header];
@@ -177,10 +179,12 @@
         [self presentViewController:alert animated:YES completion:nil];
     } andWithToken:save andWithCurr:cur];
 }
+
 - (void)sussRes
 {
     [self showProgessOK:@"加载成功"];
 }
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return _dataArr.count;
@@ -209,14 +213,13 @@
     lineVC.homeModel = homeModel;
     lineVC.hidesBottomBarWhenPushed =YES;
     [self.navigationController pushViewController:lineVC animated:YES];
-
-
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     return 0;
 }
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return QdxWidth*0.59+32+10;

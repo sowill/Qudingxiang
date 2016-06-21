@@ -58,10 +58,6 @@
     [self dismissViewControllerAnimated:YES completion:^{
         
     }];
-//    [self.sideMenuViewController setContentViewController:[[TabbarController alloc] init]
-//                                                 animated:YES];
-//    [self.sideMenuViewController hideMenuViewController];
-    
 }
 
 - (void)createTableView

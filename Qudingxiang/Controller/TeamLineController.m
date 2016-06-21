@@ -107,10 +107,10 @@
                     [_dataArr addObject:model];
                 }
                 [_tableView reloadData];
-                [self hideProgess];
+                
             }
         }
-        
+        [self hideProgess];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
     }];

@@ -177,7 +177,6 @@
         int ret = [infoDict[@"Code"] intValue];
         if (ret==1) {
             QDXGameModel *game = [QDXGameModel mj_objectWithKeyValues:infoDict[@"Msg"]];
-            
             self.gameInfo = game;
             NSString *macLabel =self.gameInfo.point.label;
             NSArray *array3 = [macLabel componentsSeparatedByString:@":"];
@@ -750,7 +749,6 @@
         LrdCellModel *three = [[LrdCellModel alloc] initWithTitle:@"打印成绩" imageName:@"下拉－打印"];
         self.dataArr = @[one, two, three];
     }
-    
     
     CGFloat x = btn.center.x + 10;
     CGFloat y = btn.frame.origin.y + btn.bounds.size.height + 50;

@@ -56,7 +56,6 @@
 
 - (void)loadData
 {
-    [self showProgessMsg:@"正在加载"];
     [self performSelectorInBackground:@selector(loadDataWith:isRemoveAll:) withObject:nil];
 }
 
@@ -151,6 +150,7 @@
 
 - (void)loadDataWith:(NSString *)cur isRemoveAll:(BOOL)isRemoveAll
 {
+    [self showProgessMsg:@"正在加载"];
     [ActivityService cellDataBlock:^(NSMutableDictionary *dict) {
         NSDictionary *dataDict = dict[@"Msg"][@"data"];
         _currNum = [dict[@"Msg"][@"curr"] integerValue];
@@ -163,13 +163,13 @@
             [model setValuesForKeysWithDictionary:dict];
             _goodsId = model.goods_id;
             _status_id = model.good_st;
-            //            NSLog(@"st=%@",_status_id);
             [_dataArr addObject:model];
         }
         [self performSelectorOnMainThread:@selector(sussRes) withObject:nil waitUntilDone:YES];
         [_tableView reloadData];
         [_header endRefreshing];
         [_footer endRefreshing];
+        [self hideProgess];
     } FailBlock:^(NSMutableArray *array) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"加载失败,请检查网络！" message:nil preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {

@@ -30,6 +30,7 @@
 #import "TTSExample.h"
 #import "QDXIsConnect.h"
 #import "QDXOffLineController.h"
+#import "HelpViewController.h"
 
 #define READYVIEWHEIGHT                    QdxHeight * 0.05
 #define WEBVIEWHEIGHT                      QdxHeight * 0.95
@@ -777,7 +778,8 @@
                 [self presentViewController:alert animated:YES completion:nil];
             }
         }else if (indexPath.row == 1){
-            
+            HelpViewController *helpVC = [[HelpViewController alloc] init];
+            [self.navigationController pushViewController:helpVC animated:YES];
         }else if (indexPath.row == 2){
             if ([self.gameInfo.mstatus_id intValue] == 2) {
                 [MBProgressHUD showError:@"游戏中不能组队"];
@@ -794,7 +796,8 @@
         if (indexPath.row == 0) {
             [self shareClick];
         }else if (indexPath.row == 1){
-            
+            HelpViewController *helpVC = [[HelpViewController alloc] init];
+            [self.navigationController pushViewController:helpVC animated:YES];
         }else{
             [self setupCreateView];
         }

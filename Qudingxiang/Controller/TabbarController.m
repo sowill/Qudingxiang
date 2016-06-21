@@ -78,8 +78,6 @@
 - (void)state
 {
     [self performSelectorInBackground:@selector(change) withObject:nil];
-    
-
 }
 
 - (void)change

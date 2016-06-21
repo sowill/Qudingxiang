@@ -61,12 +61,6 @@
 
 @implementation HomeController
 
-//- (void)viewDidAppear:(BOOL)animated{
-//    [super viewDidAppear:animated];
-//    [self loadData];
-//    //    [self addTimer];
-//}
-
 -(void)viewWillAppear:(BOOL)animated
 {
     [self loadData];
@@ -105,7 +99,6 @@
 - (void)loadDataCell
 {
     _scrollArr = [NSMutableArray arrayWithCapacity:0];
-    [self showProgessMsg:@"正在加载"];
     [self performSelectorInBackground:@selector(topViewData) withObject:nil];
     [self performSelectorInBackground:@selector(cellDataWith:isRemoveAll:) withObject:nil];
 }
@@ -345,6 +338,7 @@
 
 - (void)topViewData
 {
+    
     [HomeService topViewDataBlock:^(NSMutableDictionary *dict) {
         NSDictionary *dataDict = dict[@"Msg"][@"data"];
         for(NSDictionary *dict in dataDict){
@@ -433,8 +427,8 @@
 }
 - (void)cellDataWith:(NSString *)cur isRemoveAll:(BOOL)isRemoveAll
 {
+    [self showProgessMsg:@"正在加载"];
     [HomeService cellDataBlock:^(NSMutableDictionary *dict) {
-        
         NSDictionary *dataDict = dict[@"Msg"][@"data"];
         _currNum = [dict[@"Msg"][@"curr"] integerValue];
         _countNum = [dict[@"Msg"][@"count"] integerValue];
@@ -451,10 +445,12 @@
         [_tableView reloadData];
         [_header endRefreshing];
         [_footer endRefreshing];
+        [self hideProgess];
     } FailBlock:^(NSMutableArray *array) {
         [_header endRefreshing];
         [_footer endRefreshing];
         [self performSelectorOnMainThread:@selector(failRes) withObject:nil waitUntilDone:YES];
+        
     } andWithToken:save andWithCurr:cur];
 }
 

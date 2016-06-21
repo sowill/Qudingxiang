@@ -10,7 +10,7 @@
 #import "QDXIsConnect.h"
 #import "QDXLoginViewController.h"
 #import "QDXChangePwdViewController.h"
-#import "MainController.h"
+#import "CheckDataTool.h"
 
 @interface QDXForgetPasswordViewController ()<UITextFieldDelegate>
 {
@@ -200,6 +200,11 @@
 {
     NSString *username = telText.text;
     NSString *getcode = vcodeText.text;
+    
+    if(![CheckDataTool checkForMobilePhoneNo:username]){
+        [MBProgressHUD showError:@"请输入正确的手机号"];
+        return;
+    }
 
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];

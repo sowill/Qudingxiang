@@ -9,6 +9,7 @@
 #import "QDXCreateCodeViewController.h"
 #import "QDXRegisterViewController.h"
 #import "QDXIsConnect.h"
+#import "CheckDataTool.h"
 #import "QDXProtocolViewController.h"
 
 @interface QDXCreateCodeViewController ()<UITextFieldDelegate>
@@ -251,6 +252,11 @@
 {
     NSString *username = telText.text;
     NSString *getcode = vcodeText.text;
+    
+    if(![CheckDataTool checkForMobilePhoneNo:username]){
+        [MBProgressHUD showError:@"请输入正确的手机号"];
+        return;
+    }
     
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];

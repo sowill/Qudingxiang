@@ -191,8 +191,12 @@
         documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
         [fileManager removeItemAtPath:documentDir error:nil];
         
-        [self.sideMenuViewController setContentViewController:[[TabbarController alloc] init] animated:YES];
-        [self.sideMenuViewController hideMenuViewController];
+//        [self.sideMenuViewController setContentViewController:[[TabbarController alloc] init] animated:YES];
+//        [self.sideMenuViewController hideMenuViewController];
+        
+        [self dismissViewControllerAnimated:YES completion:^{
+            
+        }];
         
     }else if (buttonIndex == 1 && alertView.tag == 2){
         //彻底删除文件

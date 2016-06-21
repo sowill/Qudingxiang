@@ -253,12 +253,14 @@
                                                      animated:YES];
         [self.sideMenuViewController hideMenuViewController];
     }else if (indexPath.row == 4){
+        
         SettingViewController *setVC = [[SettingViewController alloc] init];
-        QDXNavigationController* navController = [[QDXNavigationController alloc] initWithRootViewController:setVC];
-        [self.sideMenuViewController setContentViewController:navController
-                                                     animated:YES];
         [self.sideMenuViewController hideMenuViewController];
         
+        UINavigationController *nav = [[UINavigationController alloc] initWithRootViewController:setVC];
+        [self presentViewController:nav animated:YES completion:^{
+            
+        }];
     }else if (indexPath.row == 5){
         AboutUsViewController *aboutVC = [[AboutUsViewController alloc] init];
         UINavigationController* navController = [[QDXNavigationController alloc] initWithRootViewController:aboutVC];

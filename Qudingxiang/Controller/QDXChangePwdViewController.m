@@ -27,7 +27,7 @@
     // Do any additional setup after loading the view.
     
     [self setupChangePwd];
-    
+    [self createButtonBack];
     self.navigationItem.title = @"修改密码";
 }
 
@@ -192,10 +192,13 @@
             
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{ // 2.0s后执行block里面的代码
                 [self hideProgess];
-                //切换窗口控制器
-                [self.sideMenuViewController setContentViewController:[[TabbarController alloc] init]
-                                                             animated:YES];
-                [self.sideMenuViewController hideMenuViewController];
+//                //切换窗口控制器
+//                [self.sideMenuViewController setContentViewController:[[TabbarController alloc] init]
+//                                                             animated:YES];
+//                [self.sideMenuViewController hideMenuViewController];
+                [self dismissViewControllerAnimated:YES completion:^{
+                    
+                }];
             });
         }
         else{
@@ -207,6 +210,27 @@
     }];
 }
 
+// 返回按钮
+-(void)createButtonBack
+{
+    UIButton *buttonBack = [UIButton buttonWithType:UIButtonTypeSystem];
+    buttonBack.frame = CGRectMake(0, 0, 18, 14);
+    [buttonBack addTarget:self action:@selector(buttonBackSetting) forControlEvents:UIControlEventTouchUpInside];
+    [buttonBack setTitle:nil forState:UIControlStateNormal];
+    [buttonBack setBackgroundImage:[UIImage imageNamed:@"sign_return"] forState:UIControlStateNormal];
+    buttonBack.backgroundColor = [UIColor clearColor];
+    
+    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:buttonBack];
+    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    negativeSpacer.width = -10;
+    self.navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
+}
+
+-(void)buttonBackSetting
+{
+    [self.navigationController popViewControllerAnimated:YES];
+//    [self dismissViewControllerAnimated:YES completion:^{}];
+}
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

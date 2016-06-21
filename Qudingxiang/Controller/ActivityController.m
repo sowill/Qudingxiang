@@ -63,6 +63,7 @@
 - (void)createTableView
 {
     _dataArr = [NSMutableArray arrayWithCapacity:0];
+    //self.automaticallyAdjustsScrollViewInsets = false;
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight-60)];
     _tableView.delegate = self;
     _tableView.dataSource = self;

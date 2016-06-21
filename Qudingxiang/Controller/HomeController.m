@@ -149,11 +149,12 @@
 
 - (void)createTableView
 {
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight-70) style:UITableViewStyleGrouped];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight-72) style:UITableViewStyleGrouped];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.showsVerticalScrollIndicator = NO;
     _tableView.backgroundColor = [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1];
+    self.automaticallyAdjustsScrollViewInsets = false;
     [self.view addSubview:_tableView];
     [self refreshView];
     
@@ -518,7 +519,8 @@
 
 - (void)btnClick:(UIButton *)btn
 {
-    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"内容丰富中" delegate:self cancelButtonTitle:@"好的" otherButtonTitles:nil, nil];
+    [alert show];
 }
 
 - (void)changeScanBtn

@@ -390,6 +390,7 @@
 
 - (void)state
 {
+    [self showProgessMsg:@"正在加载"];
     NSString *urlString = [hostUrl stringByAppendingString:usingTicket];
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     mgr.responseSerializer = [AFJSONResponseSerializer serializer];
@@ -416,6 +417,7 @@
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             
         }];
+        [self hideProgess];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
     }];

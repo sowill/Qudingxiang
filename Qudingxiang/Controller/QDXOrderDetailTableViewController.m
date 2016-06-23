@@ -23,7 +23,9 @@
     UIButton *cost;
     UIButton *complete;
     UILabel *sum_cost;
-    int _code;
+    UIView *bottom;
+//    int _code;
+    int _line;
 }
 @property (nonatomic, strong) NSMutableArray *ticket;
 @property (nonatomic, strong) NSMutableArray *orderInfo;
@@ -40,27 +42,31 @@
     self.view.backgroundColor = [UIColor colorWithWhite:0.949 alpha:1.000];
     self.title = @"订单详情";
     [self createTableView];
-    
-    [self state];
 }
 
 - (void)state
 {
-    
-    [HomeService btnStateBlock:^(NSMutableDictionary *dict) {
-        _code = [[NSString stringWithFormat:@"%@",dict[@"Code"]] intValue];
+    [HomeService choiceLineStateBlock:^(NSMutableDictionary *dict) {
+        _line = [[NSString stringWithFormat:@"%@",dict[@"Code"]] intValue];
     } andWithToken:save];
 }
 
 - (void) viewWillAppear:(BOOL)animated
 {
+    [pay removeFromSuperview];
+    [cost removeFromSuperview];
+    [bottom removeFromSuperview];
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    [self state];
     [self getOrdersListAjax];
-    
 }
 
 -(void)createButtom
 {
-    UIView *bottom = [[UIView alloc] initWithFrame:CGRectMake(0, QdxHeight- 50-1-64, QdxWidth, 1)];
+    bottom = [[UIView alloc] initWithFrame:CGRectMake(0, QdxHeight- 50-1-64, QdxWidth, 1)];
     bottom.backgroundColor = [UIColor colorWithWhite:0.875 alpha:1.000];
     [self.view addSubview:bottom];
     // 添加底部按钮
@@ -93,7 +99,7 @@
 
 -(void)createTableView
 {
-    self.tableview = [[UITableView alloc] initWithFrame:CGRectMake(0,10, QdxWidth, QdxHeight-64-50+10 -10) style:UITableViewStylePlain];
+    self.tableview = [[UITableView alloc] initWithFrame:CGRectMake(0,10, QdxWidth, QdxHeight-64-60) style:UITableViewStylePlain];
     self.tableview.delegate = self;
     self.tableview.dataSource = self;
     self.tableview.showsVerticalScrollIndicator = NO;
@@ -253,18 +259,22 @@
         QDXTicketInfoModel *ticketInfo = self.ticket[indexPath.row];
         QDXOrdermodel *OrderInfo = self.orderInfo[0];
         if (OrderInfo.Orders_st == 2 && ![ticketInfo.tstatus_name isEqualToString:@"已使用"]) {
-            
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"使用" message:@"是否使用当前活动券" preferredStyle:UIAlertControllerStyleAlert];
+            NSString *message = @"是否使用当前活动券";
+            if(_line == 1){
+                message = @"您已在活动中";
+            }
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"使用" message:message preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
             UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
                 [self bindSelf:ticketInfo.ticketinfo_name];
                 [self.ticket removeObjectAtIndex:indexPath.row];
                 [self.tableview deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationMiddle];
-                
                 [self.tableview reloadData];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"tabbarRefresh" object:nil];
+                [self state];
             }];
             [alertController addAction:cancelAction];
-            if(_code == 0){
+            if(_line != 1){
                 [alertController addAction:okAction];
             }
             [self presentViewController:alertController animated:YES completion:nil];
@@ -300,6 +310,13 @@
         }
     };
     return cell;
+}
+
+-(void)dealloc
+
+{
+    //移除观察者，Observer不能为nil
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 -(void)getOrders

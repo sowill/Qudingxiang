@@ -144,6 +144,7 @@
         
         UIButton *signBtn = [[UIButton alloc] init];
         signBtn.frame = CGRectMake(20,headBtnMaxY+35,QdxWidth*4/5,42);
+        [signBtn setTitle:@"个性签名" forState:UIControlStateNormal];
         [signBtn setTitle:_peopleDict[@"Msg"][@"signature"] forState:UIControlStateNormal];
         [signBtn setTintColor:[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.8]];
         signBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;

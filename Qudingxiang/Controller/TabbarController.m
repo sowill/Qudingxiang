@@ -39,9 +39,14 @@
     [self setupTabbar];
     // 初始化所有的子控制器
     [self setupAllChildViewControllers];
-
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tabbarRefresh) name:@"tabbarRefresh" object:nil];
 }
 
+-(void)tabbarRefresh
+{
+    [self change];
+}
 
 - (void)viewWillAppear:(BOOL)animated
 {
@@ -82,6 +87,7 @@
 
 - (void)change
 {
+    self.customTabBar.userInteractionEnabled = NO;
     [HomeService btnStateBlock:^(NSMutableDictionary *dict) {
         _code = [[NSString stringWithFormat:@"%@",dict[@"Code"]] intValue];
         int ret = [dict[@"Code"] intValue];
@@ -95,6 +101,7 @@
         
         [HomeService choiceLineStateBlock:^(NSMutableDictionary *dict) {
             _line = [[NSString stringWithFormat:@"%@",dict[@"Code"]] intValue];
+             self.customTabBar.userInteractionEnabled = YES;
         } andWithToken:save];
     } andWithToken:save];
 }

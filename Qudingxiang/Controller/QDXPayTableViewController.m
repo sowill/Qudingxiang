@@ -65,10 +65,13 @@
 }
 -(void)pay
 {
+    pay.userInteractionEnabled = NO;
     if (aliOrWX == 1) {
         [self AlipayClicked];
+        pay.userInteractionEnabled = YES;
     }else if(aliOrWX == 0){
         [self WXClicked];
+        pay.userInteractionEnabled = YES;
     }else{
         [MBProgressHUD showError:@"请选择支付方式!"];
     }
@@ -274,6 +277,7 @@
 
 -(void)WXClicked
 {
+    [MBProgressHUD showMessage:@"正在处理"];
                 NSString *stamp  = _WXpay.timestamp;
                 //调起微信支付
                 PayReq* req             = [[PayReq alloc] init];
@@ -284,6 +288,7 @@
                 req.package             = @"Sign=WXPay";
                 req.sign                = _WXpay.sign;
                 [WXApi sendReq:req];
+    [MBProgressHUD hideHUD];
 }
 
 #pragma mark
@@ -370,7 +375,7 @@
             }]];
             [self presentViewController:aalert animated:YES completion:nil];
             
-            NSLog(@"result = %@",resultDic);
+
         }];
     }
 

@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 @class QDXOrdermodel;
 @class QDXTicketInfoModel;
-@interface QDXPayTableViewController : UIViewController
+@interface QDXPayTableViewController : BaseViewController
 @property(nonatomic,retain) QDXOrdermodel *Order;
 @property(nonatomic,retain) QDXTicketInfoModel *ticketInfo;
 @end

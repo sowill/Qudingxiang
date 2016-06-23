@@ -163,7 +163,7 @@
             UIViewController *root = self.window.rootViewController;
             [root presentViewController:aalert animated:YES completion:nil];
             
-//            NSLog(@"result = %@",resultDic);
+
         }];
     }
 
@@ -177,7 +177,10 @@
 }
 
 -(void) onReq:(BaseReq*)req
-{}
+{
+
+}
+
 //授权后回调
 -(void) onResp:(BaseResp*)resp
 {
@@ -187,7 +190,6 @@
     else if([resp isKindOfClass:[SendAuthResp class]])
     {
         SendAuthResp *aresp = (SendAuthResp *)resp;
-//        NSLog(@"1231=%@",aresp.state);
         if (aresp.errCode == 0) {
             NSString *code = aresp.code;
             NSDictionary *dic = @{@"code":code};
@@ -212,8 +214,12 @@
         }
         UIAlertController *aalert = [UIAlertController alertControllerWithTitle:strTitle message:strMsg preferredStyle:UIAlertControllerStyleAlert];
         [aalert addAction:[UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action) {
-
+            if ([strMsg isEqualToString:@"支付结果：成功！"]) {
+                [self gotoHomeController];
+            }
         }]];
+        UIViewController *root = self.window.rootViewController;
+        [root presentViewController:aalert animated:YES completion:nil];
     }
 }
 

@@ -49,7 +49,10 @@
  *  question_id
  */
 @property (copy,nonatomic) NSString *question_id;
-
+/**
+ *  问题种类
+ */
+@property (copy,nonatomic) NSString *ischoice;
 
 -(instancetype)initWithQName:(NSString *)q_name
                           Qa:(NSString *)q_a

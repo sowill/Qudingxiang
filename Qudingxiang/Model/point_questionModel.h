@@ -34,6 +34,10 @@
  */
 @property (copy,nonatomic) NSString *point_id;
 /**
+ *  点标积分
+ */
+@property (copy,nonatomic) NSString *pointmap_score;
+/**
  *  问题
  */
 @property (strong,nonatomic) QDXQuestionModel *question;

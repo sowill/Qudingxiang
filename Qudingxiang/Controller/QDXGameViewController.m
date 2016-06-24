@@ -982,33 +982,54 @@
     self.BGView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
     [self.view addSubview:self.BGView];
     
-    
-    self.deliverView                 = [[UIView alloc] init];
-    self.deliverView.frame           = CGRectMake(QdxWidth/2 - TASKWEIGHT/2,(QdxHeight-64 - TASKHEIGHT)/2,TASKWEIGHT,TASKHEIGHT);
-    self.deliverView.backgroundColor = [UIColor whiteColor];
-    self.deliverView.layer.borderWidth = 1;
-    self.deliverView.layer.cornerRadius = 12;
-    self.deliverView.layer.borderColor = [[UIColor clearColor]CGColor];
-    [self.view addSubview:self.deliverView];
-    
-    if (code == 0) {
-        successView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, TASKWEIGHT, TASKHEIGHT - SHOWTASKHEIGHT)];
-        successView.image = [UIImage imageNamed:@"任务卡－闯关成功"];
-        [self.deliverView addSubview:successView];
-        
-        showMsg_button = [[UIButton alloc] initWithFrame:CGRectMake(0, TASKHEIGHT - SHOWTASKHEIGHT,TASKWEIGHT, SHOWTASKHEIGHT)];
-        [showMsg_button addTarget:self action:@selector(showMsg_buttonClick) forControlEvents:UIControlEventTouchUpInside];
-        CGFloat top = 25; // 顶端盖高度
-        CGFloat bottom = 25; // 底端盖高度
-        CGFloat left = 5; // 左端盖宽度
-        CGFloat right = 5; // 右端盖宽度
-        UIEdgeInsets insets = UIEdgeInsetsMake(top, left, bottom, right);
-        // 指定为拉伸模式，伸缩后重新赋值
-        [showMsg_button setBackgroundImage:[[UIImage imageNamed:@"任务卡－查看提示"] resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch] forState:UIControlStateNormal];
-        [showMsg_button setTitle:@"查看提示" forState:UIControlStateNormal];
-        [self.deliverView addSubview:showMsg_button];
+    if([self.gameInfo.line.linetype_id intValue] == 3){
+        self.deliverView                 = [[UIView alloc] init];
+        self.deliverView.frame           = CGRectMake(QdxWidth/2 - TASKWEIGHT/2,(QdxHeight-64 - TASKHEIGHT)/2,TASKWEIGHT,TASKHEIGHT);
+        UIImageView *completeImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, TASKWEIGHT, TASKHEIGHT)];
+        NSArray *myImages = [NSArray arrayWithObjects:
+                    [UIImage imageNamed:@"任务卡－闯关成功"],
+                    [UIImage imageNamed:@"任务卡－查看提示"],
+                    [UIImage imageNamed:@"哭脸－遗憾"],
+                    [UIImage imageNamed:@"悬浮－任务"],
+                    [UIImage imageNamed:@"悬浮－足迹"],nil];
+        completeImage.animationDuration = 1.0; //浏览整个图片一次所用的时间
+        completeImage.animationRepeatCount = 20; // 0 = loops forever 动画重复次数
+        completeImage.animationImages = myImages; //animationImages属性返回一个存放动画图片的数组
+        [completeImage setAnimationImages:myImages];
+        [completeImage startAnimating];
+        [self.deliverView addSubview:completeImage];
+        [self.view addSubview:self.deliverView];
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(20.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [self removeFromSuperViewController];
+        });
     }else{
-        [self showMsg_buttonClick];
+        self.deliverView                 = [[UIView alloc] init];
+        self.deliverView.frame           = CGRectMake(QdxWidth/2 - TASKWEIGHT/2,(QdxHeight-64 - TASKHEIGHT)/2,TASKWEIGHT,TASKHEIGHT);
+        self.deliverView.backgroundColor = [UIColor whiteColor];
+        self.deliverView.layer.borderWidth = 1;
+        self.deliverView.layer.cornerRadius = 12;
+        self.deliverView.layer.borderColor = [[UIColor clearColor]CGColor];
+        [self.view addSubview:self.deliverView];
+        
+        if (code == 0) {
+            successView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, TASKWEIGHT, TASKHEIGHT - SHOWTASKHEIGHT)];
+            successView.image = [UIImage imageNamed:@"任务卡－闯关成功"];
+            [self.deliverView addSubview:successView];
+            
+            showMsg_button = [[UIButton alloc] initWithFrame:CGRectMake(0, TASKHEIGHT - SHOWTASKHEIGHT,TASKWEIGHT, SHOWTASKHEIGHT)];
+            [showMsg_button addTarget:self action:@selector(showMsg_buttonClick) forControlEvents:UIControlEventTouchUpInside];
+            CGFloat top = 25; // 顶端盖高度
+            CGFloat bottom = 25; // 底端盖高度
+            CGFloat left = 5; // 左端盖宽度
+            CGFloat right = 5; // 右端盖宽度
+            UIEdgeInsets insets = UIEdgeInsetsMake(top, left, bottom, right);
+            // 指定为拉伸模式，伸缩后重新赋值
+            [showMsg_button setBackgroundImage:[[UIImage imageNamed:@"任务卡－查看提示"] resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch] forState:UIControlStateNormal];
+            [showMsg_button setTitle:@"查看提示" forState:UIControlStateNormal];
+            [self.deliverView addSubview:showMsg_button];
+        }else{
+            [self showMsg_buttonClick];
+        }
     }
 }
 

@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		043A59E71D18F22600E5E1BB /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 043A59E61D18F22600E5E1BB /* HelpViewController.m */; };
+		04664F051D1CCE82008D50C7 /* btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04664F001D1CCE82008D50C7 /* btn@2x.png */; };
+		04664F061D1CCE82008D50C7 /* UITextView+YLTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04664F021D1CCE82008D50C7 /* UITextView+YLTextView.m */; };
+		04664F071D1CCE82008D50C7 /* YLPopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04664F041D1CCE82008D50C7 /* YLPopViewController.m */; };
 		453395071CF6D8C800B5A825 /* FeHandwriting.m in Sources */ = {isa = PBXBuildFile; fileRef = 453394FF1CF6D8C800B5A825 /* FeHandwriting.m */; };
 		453395081CF6D8C800B5A825 /* FXBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 453395041CF6D8C800B5A825 /* FXBlurView.m */; };
 		453395091CF6D8C800B5A825 /* UIColor+flat.m in Sources */ = {isa = PBXBuildFile; fileRef = 453395061CF6D8C800B5A825 /* UIColor+flat.m */; };
@@ -256,6 +259,11 @@
 /* Begin PBXFileReference section */
 		043A59E51D18F22600E5E1BB /* HelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpViewController.h; sourceTree = "<group>"; };
 		043A59E61D18F22600E5E1BB /* HelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpViewController.m; sourceTree = "<group>"; };
+		04664F001D1CCE82008D50C7 /* btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn@2x.png"; sourceTree = "<group>"; };
+		04664F011D1CCE82008D50C7 /* UITextView+YLTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+YLTextView.h"; sourceTree = "<group>"; };
+		04664F021D1CCE82008D50C7 /* UITextView+YLTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+YLTextView.m"; sourceTree = "<group>"; };
+		04664F031D1CCE82008D50C7 /* YLPopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLPopViewController.h; sourceTree = "<group>"; };
+		04664F041D1CCE82008D50C7 /* YLPopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLPopViewController.m; sourceTree = "<group>"; };
 		4519DA5D1C3D0C8600E34BE4 /* LXActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LXActivity.h; sourceTree = "<group>"; };
 		4519DA5E1C3D0C8600E34BE4 /* LXActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXActivity.m; sourceTree = "<group>"; };
 		452523941BAABD6E0058A8BE /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
@@ -810,6 +818,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		04664EFF1D1CCE82008D50C7 /* YLPopView */ = {
+			isa = PBXGroup;
+			children = (
+				04664F001D1CCE82008D50C7 /* btn@2x.png */,
+				04664F011D1CCE82008D50C7 /* UITextView+YLTextView.h */,
+				04664F021D1CCE82008D50C7 /* UITextView+YLTextView.m */,
+				04664F031D1CCE82008D50C7 /* YLPopViewController.h */,
+				04664F041D1CCE82008D50C7 /* YLPopViewController.m */,
+			);
+			path = YLPopView;
+			sourceTree = "<group>";
+		};
 		4519DA5C1C3D0C8600E34BE4 /* LXActivity */ = {
 			isa = PBXGroup;
 			children = (
@@ -1530,6 +1550,7 @@
 		45DF765A1BA6AB150024A6B4 /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				04664EFF1D1CCE82008D50C7 /* YLPopView */,
 				4536EB981D013B25005D3CB5 /* ImgPageScrollView */,
 				453394FC1CF6D8C800B5A825 /* FeSpinner */,
 				45EE61461CEB2FE0007302E3 /* MAMapKit.framework */,
@@ -1676,7 +1697,7 @@
 				TargetAttributes = {
 					45DF76281BA6AAC20024A6B4 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = X5T2295222;
+						DevelopmentTeam = SDW8DF5BW4;
 					};
 					45DF76411BA6AAC20024A6B4 = {
 						CreatedOnToolsVersion = 6.4;
@@ -1725,6 +1746,7 @@
 				4582B7E01C990F400002F5B1 /* Info.plist in Resources */,
 				45DD34DA1C33D5F500E24250 /* read_me.txt in Resources */,
 				45C6F5A31C92A20400C5AA31 /* QDXOrderTableViewCell.xib in Resources */,
+				04664F051D1CCE82008D50C7 /* btn@2x.png in Resources */,
 				45C6F59B1C92A1D500C5AA31 /* myViewCellTableViewCell.xib in Resources */,
 				45DF763A1BA6AAC20024A6B4 /* Images.xcassets in Resources */,
 				4571CDFA1CE05B00002ED784 /* CYAlertViewController.bundle in Resources */,
@@ -1853,6 +1875,7 @@
 				4571CDED1CE05B00002ED784 /* CYAlertDismissSlideRight.m in Sources */,
 				455A95BA1C97E3EB0039FA88 /* NSObject+MJClass.m in Sources */,
 				4569E57C1C4CB64B00FF4E8B /* MKAnnotationView+WebCache.m in Sources */,
+				04664F061D1CCE82008D50C7 /* UITextView+YLTextView.m in Sources */,
 				455C8A981CCF7827001F5FC5 /* Order.m in Sources */,
 				455C8A991CCF7827001F5FC5 /* base64.m in Sources */,
 				455A95B71C97E3EB0039FA88 /* MJProperty.m in Sources */,
@@ -1932,6 +1955,7 @@
 				A35DAC351CCF184000D01CF0 /* AFURLRequestSerialization.m in Sources */,
 				4571CDE91CE05B00002ED784 /* CYAlertDismissContractVertical.m in Sources */,
 				A3442D2D1C9BAA330092363A /* OrderService.m in Sources */,
+				04664F071D1CCE82008D50C7 /* YLPopViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2083,7 +2107,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sport;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sporttext;
 				PRODUCT_NAME = "趣定向";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -2126,7 +2150,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sport;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sporttext;
 				PRODUCT_NAME = "趣定向";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;

@@ -31,6 +31,7 @@
 #import "QDXIsConnect.h"
 #import "QDXOffLineController.h"
 #import "HelpViewController.h"
+#import "YLPopViewController.h"
 
 #define READYVIEWHEIGHT                    QdxHeight * 0.05
 #define WEBVIEWHEIGHT                      QdxHeight * 0.95
@@ -40,7 +41,7 @@
 #define TASKHEIGHT                         QdxHeight * 0.73
 #define SHOWTASKHEIGHT                     TASKHEIGHT * 0.1
 
-@interface QDXGameViewController () <LrdOutputViewDelegate>
+@interface QDXGameViewController () <LrdOutputViewDelegate,UIWebViewDelegate>
 {
     //搜索到的mac值
     NSString *macStr;
@@ -93,6 +94,8 @@
     MAPointAnnotation *annotation_history;
     MAPointAnnotation *annotation_target;
     MAGroundOverlay *groundOverlay;
+    
+    UIWebView *_web;
 }
 @property (nonatomic,retain) UIWebView *webView;
 @property (nonatomic, strong) QDXGameModel *gameInfo;
@@ -934,24 +937,40 @@
 {
     [self removeFromSuperViewController];
     lock = YES;
-    CYAlertController *alert = [CYAlertController alertWithTitle:self.gameInfo.line.line_sub
-                                                         message:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/Myline/getQuestionWeb/myline_id/%@/tmp/%@",mylineid,save]];
-    alert.alertViewCornerRadius = 10;
-    CYAlertAction *cancelAction_A = [CYAlertAction actionWithTitle:[@"A. " stringByAppendingString:self.questionInfo.question.qa] style:CYAlertActionStyleCancel handler:^{
-        answer = @"A";
-        [self setupCTWithAnswer];}];
-    CYAlertAction *cancelAction_B = [CYAlertAction actionWithTitle:[@"B. " stringByAppendingString:self.questionInfo.question.qb] style:CYAlertActionStyleCancel handler:^{
-        answer = @"B";
-        [self setupCTWithAnswer];}];
-    CYAlertAction *cancelAction_C = [CYAlertAction actionWithTitle:[@"C. " stringByAppendingString:self.questionInfo.question.qc] style:CYAlertActionStyleCancel handler:^{
-        answer = @"C";
-        [self setupCTWithAnswer];}];
-    CYAlertAction *cancelAction_D = [CYAlertAction actionWithTitle:[@"D. " stringByAppendingString:self.questionInfo.question.qd] style:CYAlertActionStyleCancel handler:^{
-        answer = @"D";
-        [self setupCTWithAnswer]; }];
-    [alert addActions:@[cancelAction_A, cancelAction_B, cancelAction_C ,cancelAction_D]];
-    alert.presentStyle = CYAlertPresentStyleBounce;
-    [self presentViewController:alert animated:YES completion:nil];
+    
+    if ([self.questionInfo.question.ischoice intValue] == 1) {
+        YLPopViewController *popView = [[YLPopViewController alloc] init];
+        popView.contentViewSize = CGSizeMake(300, QdxHeight*.7);
+        popView.Title = self.gameInfo.line.line_sub;
+        popView.placeHolder = [NSString stringWithFormat:@"答案为%li个字",answer.length];
+        popView.wordCount = answer.length;//不设置则没有
+        [popView addContentView];//最后调用
+        __typeof(popView)weakPopView = popView;
+        popView.confirmBlock = ^(NSString *text) {
+            answer = text;
+            [self setupCTWithAnswer];
+            [weakPopView hidden];
+        };
+    }else if([self.questionInfo.question.ischoice intValue] == 0){
+        CYAlertController *alert = [CYAlertController alertWithTitle:self.gameInfo.line.line_sub
+                                                             message:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/Myline/getQuestionWeb/myline_id/%@/tmp/%@",mylineid,save]];
+        alert.alertViewCornerRadius = 10;
+        CYAlertAction *cancelAction_A = [CYAlertAction actionWithTitle:[@"A. " stringByAppendingString:self.questionInfo.question.qa] style:CYAlertActionStyleCancel handler:^{
+            answer = @"A";
+            [self setupCTWithAnswer];}];
+        CYAlertAction *cancelAction_B = [CYAlertAction actionWithTitle:[@"B. " stringByAppendingString:self.questionInfo.question.qb] style:CYAlertActionStyleCancel handler:^{
+            answer = @"B";
+            [self setupCTWithAnswer];}];
+        CYAlertAction *cancelAction_C = [CYAlertAction actionWithTitle:[@"C. " stringByAppendingString:self.questionInfo.question.qc] style:CYAlertActionStyleCancel handler:^{
+            answer = @"C";
+            [self setupCTWithAnswer];}];
+        CYAlertAction *cancelAction_D = [CYAlertAction actionWithTitle:[@"D. " stringByAppendingString:self.questionInfo.question.qd] style:CYAlertActionStyleCancel handler:^{
+            answer = @"D";
+            [self setupCTWithAnswer]; }];
+        [alert addActions:@[cancelAction_A, cancelAction_B, cancelAction_C ,cancelAction_D]];
+        alert.presentStyle = CYAlertPresentStyleBounce;
+        [self presentViewController:alert animated:YES completion:nil];
+    }
 }
 
 -(void)setupCompleteView:(int )code

@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		043A59E71D18F22600E5E1BB /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 043A59E61D18F22600E5E1BB /* HelpViewController.m */; };
-		04664F051D1CCE82008D50C7 /* btn@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 04664F001D1CCE82008D50C7 /* btn@2x.png */; };
 		04664F061D1CCE82008D50C7 /* UITextView+YLTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04664F021D1CCE82008D50C7 /* UITextView+YLTextView.m */; };
 		04664F071D1CCE82008D50C7 /* YLPopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04664F041D1CCE82008D50C7 /* YLPopViewController.m */; };
 		453395071CF6D8C800B5A825 /* FeHandwriting.m in Sources */ = {isa = PBXBuildFile; fileRef = 453394FF1CF6D8C800B5A825 /* FeHandwriting.m */; };
@@ -23,6 +22,8 @@
 		453395241CF6F50B00B5A825 /* FeHourGlass.m in Sources */ = {isa = PBXBuildFile; fileRef = 4533951E1CF6F50B00B5A825 /* FeHourGlass.m */; };
 		453679F01CD30D0200828EF9 /* LrdOutputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 453679EF1CD30D0200828EF9 /* LrdOutputView.m */; };
 		4536EB9B1D013B25005D3CB5 /* ImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4536EB9A1D013B25005D3CB5 /* ImageScrollView.m */; };
+		453E44D91D252A3100BED603 /* btn1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 453E44D71D252A3100BED603 /* btn1@2x.png */; };
+		453E44DA1D252A3100BED603 /* btn2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 453E44D81D252A3100BED603 /* btn2@2x.png */; };
 		4545CF371C80435000B73849 /* zoomImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4545CF361C80435000B73849 /* zoomImage.m */; };
 		4556CD6E1CED672600577A61 /* QDXMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 4556CD6D1CED672600577A61 /* QDXMap.m */; };
 		4556CD711CEDC5CF00577A61 /* SignViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4556CD701CEDC5CF00577A61 /* SignViewController.m */; };
@@ -259,7 +260,6 @@
 /* Begin PBXFileReference section */
 		043A59E51D18F22600E5E1BB /* HelpViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HelpViewController.h; sourceTree = "<group>"; };
 		043A59E61D18F22600E5E1BB /* HelpViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HelpViewController.m; sourceTree = "<group>"; };
-		04664F001D1CCE82008D50C7 /* btn@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn@2x.png"; sourceTree = "<group>"; };
 		04664F011D1CCE82008D50C7 /* UITextView+YLTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextView+YLTextView.h"; sourceTree = "<group>"; };
 		04664F021D1CCE82008D50C7 /* UITextView+YLTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+YLTextView.m"; sourceTree = "<group>"; };
 		04664F031D1CCE82008D50C7 /* YLPopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLPopViewController.h; sourceTree = "<group>"; };
@@ -285,6 +285,8 @@
 		453679EF1CD30D0200828EF9 /* LrdOutputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LrdOutputView.m; sourceTree = "<group>"; };
 		4536EB991D013B25005D3CB5 /* ImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageScrollView.h; sourceTree = "<group>"; };
 		4536EB9A1D013B25005D3CB5 /* ImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageScrollView.m; sourceTree = "<group>"; };
+		453E44D71D252A3100BED603 /* btn1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn1@2x.png"; sourceTree = "<group>"; };
+		453E44D81D252A3100BED603 /* btn2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn2@2x.png"; sourceTree = "<group>"; };
 		4545CF351C80435000B73849 /* zoomImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zoomImage.h; sourceTree = "<group>"; };
 		4545CF361C80435000B73849 /* zoomImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = zoomImage.m; sourceTree = "<group>"; };
 		455672251BA936ED0016D26F /* MBProgressHUD+MJ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+MJ.h"; sourceTree = "<group>"; };
@@ -821,7 +823,8 @@
 		04664EFF1D1CCE82008D50C7 /* YLPopView */ = {
 			isa = PBXGroup;
 			children = (
-				04664F001D1CCE82008D50C7 /* btn@2x.png */,
+				453E44D71D252A3100BED603 /* btn1@2x.png */,
+				453E44D81D252A3100BED603 /* btn2@2x.png */,
 				04664F011D1CCE82008D50C7 /* UITextView+YLTextView.h */,
 				04664F021D1CCE82008D50C7 /* UITextView+YLTextView.m */,
 				04664F031D1CCE82008D50C7 /* YLPopViewController.h */,
@@ -1697,7 +1700,7 @@
 				TargetAttributes = {
 					45DF76281BA6AAC20024A6B4 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = SDW8DF5BW4;
+						DevelopmentTeam = X5T2295222;
 					};
 					45DF76411BA6AAC20024A6B4 = {
 						CreatedOnToolsVersion = 6.4;
@@ -1741,13 +1744,14 @@
 				45DF76381BA6AAC20024A6B4 /* Main.storyboard in Resources */,
 				453395101CF6E06100B5A825 /* WifiMan_Sign_1@2x.png in Resources */,
 				453395111CF6E06100B5A825 /* WifiMan_Sign_2@2x.png in Resources */,
+				453E44DA1D252A3100BED603 /* btn2@2x.png in Resources */,
 				453395151CF6E06100B5A825 /* wifimanhub@2x.png in Resources */,
 				455C8A921CCF7827001F5FC5 /* AlipaySDK.bundle in Resources */,
 				4582B7E01C990F400002F5B1 /* Info.plist in Resources */,
 				45DD34DA1C33D5F500E24250 /* read_me.txt in Resources */,
 				45C6F5A31C92A20400C5AA31 /* QDXOrderTableViewCell.xib in Resources */,
-				04664F051D1CCE82008D50C7 /* btn@2x.png in Resources */,
 				45C6F59B1C92A1D500C5AA31 /* myViewCellTableViewCell.xib in Resources */,
+				453E44D91D252A3100BED603 /* btn1@2x.png in Resources */,
 				45DF763A1BA6AAC20024A6B4 /* Images.xcassets in Resources */,
 				4571CDFA1CE05B00002ED784 /* CYAlertViewController.bundle in Resources */,
 			);
@@ -2107,7 +2111,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sporttext;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sport;
 				PRODUCT_NAME = "趣定向";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -2150,7 +2154,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sporttext;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sport;
 				PRODUCT_NAME = "趣定向";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;

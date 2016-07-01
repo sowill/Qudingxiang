@@ -186,7 +186,6 @@
             NSString *string3 = [array3 componentsJoinedByString:@""];
             mac_Label = [string3 componentsSeparatedByString:@","];
             NSLog(@"%@",mac_Label);
-            
             sdateStr = self.gameInfo.sdate;
             [self intervalSinceNow];
             point.text = self.gameInfo.point.point_name;
@@ -331,7 +330,8 @@
                     if ([macStr isEqualToString:str] && ![macStr isEqualToString:rmoveMacStr])
                     {
                         lock = YES;
-                        NSLog(@"macStr: %@ 距离:%.1fm",macStr,pow(10,ci));
+                        rmoveMacStr = macStr;
+                        errorCount = 0;
                         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
                         if([self.gameInfo.mstatus_id intValue] == 1)
                         {
@@ -339,8 +339,6 @@
                             alert.tag =2;
                             [alert show];
                         }else{
-                            rmoveMacStr = macStr;
-                            errorCount = 0;
                             [self setupCheckTask];
                         }
                         
@@ -628,16 +626,19 @@
                 NSString *map_url = [hostUrl stringByAppendingString:result.MapPoint.line_map];
                 NSURL *url = [NSURL URLWithString:map_url];
                 UIImage *imagea = [UIImage imageWithData: [NSData dataWithContentsOfURL:url]];
-                groundOverlay = [MAGroundOverlay groundOverlayWithBounds:coordinateBounds icon:[ToolView imageByApplyingAlpha:0.6 image:imagea]];
-                [_mapView addOverlay:groundOverlay];
-                [_mapView setVisibleMapRect:groundOverlay.boundingMapRect animated:YES];
                 
-                //                CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(31.38, 121.53);
-                //                //缩放比例
-                //                MACoordinateSpan span = MACoordinateSpanMake(0.1, 0.8);
-                //                MACoordinateRegion region = MACoordinateRegionMake(coordinate, span);
-                //                //设置地图的显示区域
-                //                [_mapView setRegion:region];
+                if (map_url.length == 0) {
+                    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake([self.resultInfo.MapPoint.top_lat floatValue], [self.resultInfo.MapPoint.top_lon floatValue]);
+                    //缩放比例
+                    MACoordinateSpan span = MACoordinateSpanMake(0.1, 0.3);
+                    MACoordinateRegion region = MACoordinateRegionMake(coordinate, span);
+                    //设置地图的显示区域
+                    [_mapView setRegion:region];
+                }else{
+                    groundOverlay = [MAGroundOverlay groundOverlayWithBounds:coordinateBounds icon:[ToolView imageByApplyingAlpha:0.6 image:imagea]];
+                    [_mapView addOverlay:groundOverlay];
+                    [_mapView setVisibleMapRect:groundOverlay.boundingMapRect animated:YES];
+                }
             }
             CLLocationCoordinate2D coor;
             //            if([self.gameInfo.line.linetype_id isEqualToString:@"2"]){//自由规划
@@ -887,8 +888,9 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"TokenKey"] = save;
     params[@"myline_id"] = mylineid;
-    params[@"answer"] = macStr;
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Myline/checkTask"];
+    params[@"mac"] = macStr;
+    params[@"answer"] = answer;
+    NSString *url = [hostUrl stringByAppendingString:@"Home/Myline/checkTaskv2"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
@@ -938,35 +940,39 @@
     [self removeFromSuperViewController];
     lock = YES;
     
-    if ([self.questionInfo.question.ischoice intValue] == 1) {
+    if ([self.questionInfo.question.ischoice intValue] != 1) {
         YLPopViewController *popView = [[YLPopViewController alloc] init];
         popView.contentViewSize = CGSizeMake(300, QdxHeight*.7);
         popView.Title = self.gameInfo.line.line_sub;
-        popView.placeHolder = [NSString stringWithFormat:@"答案为%li个字",answer.length];
-        popView.wordCount = answer.length;//不设置则没有
+        popView.placeHolder = @"请输入答案";
+        popView.wordCount = 15;//不设置则没有
         [popView addContentView];//最后调用
         __typeof(popView)weakPopView = popView;
         popView.confirmBlock = ^(NSString *text) {
             answer = text;
-            [self setupCTWithAnswer];
+            [self setupCheckTask];
             [weakPopView hidden];
         };
-    }else if([self.questionInfo.question.ischoice intValue] == 0){
+        popView.cancelBlock = ^(){
+            lock = NO;
+            rmoveMacStr = @"0";
+        };
+    }else{
         CYAlertController *alert = [CYAlertController alertWithTitle:self.gameInfo.line.line_sub
                                                              message:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/Myline/getQuestionWeb/myline_id/%@/tmp/%@",mylineid,save]];
         alert.alertViewCornerRadius = 10;
         CYAlertAction *cancelAction_A = [CYAlertAction actionWithTitle:[@"A. " stringByAppendingString:self.questionInfo.question.qa] style:CYAlertActionStyleCancel handler:^{
             answer = @"A";
-            [self setupCTWithAnswer];}];
+            [self setupCheckTask];}];
         CYAlertAction *cancelAction_B = [CYAlertAction actionWithTitle:[@"B. " stringByAppendingString:self.questionInfo.question.qb] style:CYAlertActionStyleCancel handler:^{
             answer = @"B";
-            [self setupCTWithAnswer];}];
+            [self setupCheckTask];}];
         CYAlertAction *cancelAction_C = [CYAlertAction actionWithTitle:[@"C. " stringByAppendingString:self.questionInfo.question.qc] style:CYAlertActionStyleCancel handler:^{
             answer = @"C";
-            [self setupCTWithAnswer];}];
+            [self setupCheckTask];}];
         CYAlertAction *cancelAction_D = [CYAlertAction actionWithTitle:[@"D. " stringByAppendingString:self.questionInfo.question.qd] style:CYAlertActionStyleCancel handler:^{
             answer = @"D";
-            [self setupCTWithAnswer]; }];
+            [self setupCheckTask]; }];
         [alert addActions:@[cancelAction_A, cancelAction_B, cancelAction_C ,cancelAction_D]];
         alert.presentStyle = CYAlertPresentStyleBounce;
         [self presentViewController:alert animated:YES completion:nil];
@@ -982,54 +988,35 @@
     self.BGView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
     [self.view addSubview:self.BGView];
     
-    if([self.gameInfo.line.linetype_id intValue] == 3){
-        self.deliverView                 = [[UIView alloc] init];
-        self.deliverView.frame           = CGRectMake(QdxWidth/2 - TASKWEIGHT/2,(QdxHeight-64 - TASKHEIGHT)/2,TASKWEIGHT,TASKHEIGHT);
-        UIImageView *completeImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, TASKWEIGHT, TASKHEIGHT)];
-        NSArray *myImages = [NSArray arrayWithObjects:
-                    [UIImage imageNamed:@"任务卡－闯关成功"],
-                    [UIImage imageNamed:@"任务卡－查看提示"],
-                    [UIImage imageNamed:@"哭脸－遗憾"],
-                    [UIImage imageNamed:@"悬浮－任务"],
-                    [UIImage imageNamed:@"悬浮－足迹"],nil];
-        completeImage.animationDuration = 1.0; //浏览整个图片一次所用的时间
-        completeImage.animationRepeatCount = 20; // 0 = loops forever 动画重复次数
-        completeImage.animationImages = myImages; //animationImages属性返回一个存放动画图片的数组
-        [completeImage setAnimationImages:myImages];
-        [completeImage startAnimating];
-        [self.deliverView addSubview:completeImage];
-        [self.view addSubview:self.deliverView];
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(20.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [self removeFromSuperViewController];
-        });
-    }else{
-        self.deliverView                 = [[UIView alloc] init];
-        self.deliverView.frame           = CGRectMake(QdxWidth/2 - TASKWEIGHT/2,(QdxHeight-64 - TASKHEIGHT)/2,TASKWEIGHT,TASKHEIGHT);
-        self.deliverView.backgroundColor = [UIColor whiteColor];
-        self.deliverView.layer.borderWidth = 1;
-        self.deliverView.layer.cornerRadius = 12;
-        self.deliverView.layer.borderColor = [[UIColor clearColor]CGColor];
-        [self.view addSubview:self.deliverView];
+    self.deliverView                 = [[UIView alloc] init];
+    self.deliverView.frame           = CGRectMake(QdxWidth/2 - TASKWEIGHT/2,(QdxHeight-64 - TASKHEIGHT)/2,TASKWEIGHT,TASKHEIGHT);
+    self.deliverView.backgroundColor = [UIColor whiteColor];
+    self.deliverView.layer.borderWidth = 1;
+    self.deliverView.layer.cornerRadius = 12;
+    self.deliverView.layer.borderColor = [[UIColor clearColor]CGColor];
+    [self.view addSubview:self.deliverView];
         
-        if (code == 0) {
-            successView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, TASKWEIGHT, TASKHEIGHT - SHOWTASKHEIGHT)];
-            successView.image = [UIImage imageNamed:@"任务卡－闯关成功"];
-            [self.deliverView addSubview:successView];
+    if (code == 0) {
+        successView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, TASKWEIGHT, TASKHEIGHT - SHOWTASKHEIGHT)];
+        
+        [successView setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,self.gameInfo.img_url]] placeholderImage:[UIImage imageNamed:@"banner_cell"] options:SDWebImageRefreshCached];
+        
+//        [successView setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,self.gameInfo.img_url]] placeholderImage:[UIImage imageNamed:@"banner_cell"]];
+        [self.deliverView addSubview:successView];
             
-            showMsg_button = [[UIButton alloc] initWithFrame:CGRectMake(0, TASKHEIGHT - SHOWTASKHEIGHT,TASKWEIGHT, SHOWTASKHEIGHT)];
-            [showMsg_button addTarget:self action:@selector(showMsg_buttonClick) forControlEvents:UIControlEventTouchUpInside];
-            CGFloat top = 25; // 顶端盖高度
-            CGFloat bottom = 25; // 底端盖高度
-            CGFloat left = 5; // 左端盖宽度
-            CGFloat right = 5; // 右端盖宽度
-            UIEdgeInsets insets = UIEdgeInsetsMake(top, left, bottom, right);
+        showMsg_button = [[UIButton alloc] initWithFrame:CGRectMake(0, TASKHEIGHT - SHOWTASKHEIGHT,TASKWEIGHT, SHOWTASKHEIGHT)];
+        [showMsg_button addTarget:self action:@selector(showMsg_buttonClick) forControlEvents:UIControlEventTouchUpInside];
+        CGFloat top = 25; // 顶端盖高度
+        CGFloat bottom = 25; // 底端盖高度
+        CGFloat left = 5; // 左端盖宽度
+        CGFloat right = 5; // 右端盖宽度
+        UIEdgeInsets insets = UIEdgeInsetsMake(top, left, bottom, right);
             // 指定为拉伸模式，伸缩后重新赋值
-            [showMsg_button setBackgroundImage:[[UIImage imageNamed:@"任务卡－查看提示"] resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch] forState:UIControlStateNormal];
-            [showMsg_button setTitle:@"查看提示" forState:UIControlStateNormal];
-            [self.deliverView addSubview:showMsg_button];
-        }else{
-            [self showMsg_buttonClick];
-        }
+        [showMsg_button setBackgroundImage:[[UIImage imageNamed:@"任务卡－查看提示"] resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch] forState:UIControlStateNormal];
+        [showMsg_button setTitle:@"查看提示" forState:UIControlStateNormal];
+        [self.deliverView addSubview:showMsg_button];
+    }else{
+        [self showMsg_buttonClick];
     }
 }
 
@@ -1154,44 +1141,6 @@
     [self removeFromSuperViewController];
 }
 
--(void)setupCTWithAnswer
-{
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"TokenKey"] = save;
-    params[@"myline_id"] = mylineid;
-    params[@"answer"] = answer;
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Myline/checkTask"];
-    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
-        int ret = [infoDict[@"Code"] intValue];
-        if (ret==1) {
-            [self setupCheckTask];
-        }
-        else if (ret == 2){
-            dispatch_queue_t myConcurrentQurue = dispatch_queue_create("XIAXIAQUEUE", DISPATCH_QUEUE_CONCURRENT);
-            if([self.gameInfo.pointmap.pindex intValue]<999){
-                [self setupCompleteView:0];
-            }
-            dispatch_async(myConcurrentQurue, ^{
-                [self setupgetMylineInfo];
-            });
-            dispatch_async(myConcurrentQurue, ^{
-                [self getPointLonLat];
-            });
-            
-        }else{
-            
-        }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-    }];
-}
 
 -(void)giveUp
 {
@@ -1227,8 +1176,6 @@
             
         }];
     }else if (buttonIndex ==1 && alertView.tag == 2){
-        rmoveMacStr = macStr;
-        errorCount = 0;
         TTSExample * example = [[TTSExample alloc] init];
         [example read:@" 活动开始!"];
         [self setupCheckTask];
@@ -1239,6 +1186,7 @@
     }else if (buttonIndex ==0 && alertView.tag == 2){
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{ // 2.0s后执行block里面的代码
             lock = NO;
+            rmoveMacStr = @"0";
         });
     }else if (buttonIndex ==0 && alertView.tag == 3){
         
@@ -1395,7 +1343,6 @@
     ImagePickerController *gameVC = [[ImagePickerController alloc] initWithBlock:^(NSString *result, BOOL flag,NSString *from) {
         gameVC.from = from;
         macStr = result;
-        NSLog(@"%@",macStr);
         NSLog(@"lock %@",lock?@"YES":@"NO");
         if (lock == NO) {
             
@@ -1403,6 +1350,8 @@
                 if ([macStr isEqualToString:str] && ![macStr isEqualToString:rmoveMacStr])
                 {
                     lock = YES;
+                    rmoveMacStr = macStr;
+                    errorCount = 0;
                     AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{ // 3.0s后执行block里面的代码
                         if([self.gameInfo.mstatus_id intValue] == 1)
@@ -1413,13 +1362,9 @@
                         }else{
                             dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
                             dispatch_sync(queue, ^{
-                                rmoveMacStr = macStr;
-                                errorCount = 0;
                                 [self setupCheckTask];
                             });
-                            
                         }
-                        
                     });
                 }
             }

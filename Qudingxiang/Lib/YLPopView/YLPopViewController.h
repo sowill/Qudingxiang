@@ -43,6 +43,8 @@ typedef void (^block)(NSString *contentText);
  */
 @property (nonatomic,copy) block confirmBlock;
 
+@property (nonatomic, strong)void (^cancelBlock)();
+
 /**
  *  创建主视图后调用此方法初始化contentView
  */

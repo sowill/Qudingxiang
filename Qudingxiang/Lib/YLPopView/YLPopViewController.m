@@ -92,9 +92,9 @@
     self.yesButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [self.noButton setTitle:@"取消" forState:UIControlStateNormal];
     [self.yesButton setTitle:@"确定" forState:UIControlStateNormal];
-
-    [self.yesButton setBackgroundImage:[UIImage imageNamed:@"btn"] forState:UIControlStateNormal];
-    [self.noButton setBackgroundImage:[UIImage imageNamed:@"btn"] forState:UIControlStateNormal];
+    [self.yesButton setTintColor:[UIColor whiteColor]];
+    [self.yesButton setBackgroundImage:[UIImage imageNamed:@"btn2"] forState:UIControlStateNormal];
+    [self.noButton setBackgroundImage:[UIImage imageNamed:@"btn1"] forState:UIControlStateNormal];
     [self.noButton addTarget:self action:@selector(hidden:) forControlEvents:UIControlEventTouchUpInside];
     [self.yesButton addTarget:self action:@selector(touchYes:) forControlEvents:UIControlEventTouchUpInside];
     [self.contentView addSubview:self.noButton];
@@ -305,7 +305,9 @@
 #pragma mark - 点击事件
 //取消
 -(void)hidden:(UIButton *)button {
-
+    if (self.cancelBlock) {
+        self.cancelBlock();
+    }
     //消失动画
     [self hidden];
 

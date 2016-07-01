@@ -86,6 +86,10 @@
  *  历史
  */
 @property (strong,nonatomic) NSMutableArray *history;
+/**
+ *  成功图片
+ */
+@property (strong,nonatomic) NSString *img_url;
 
 -(instancetype)initWithL_id:(NSString *)line_id
                        ML_id:(NSString *)myline_id

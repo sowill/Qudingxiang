@@ -39,7 +39,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.view.backgroundColor = [[UIColor grayColor] colorWithAlphaComponent:0.6];
+    self.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
 
 
 }
@@ -100,13 +100,9 @@
     [self.contentView addSubview:self.noButton];
     [self.contentView addSubview:self.yesButton];
 
-
-
     /*
      *  顶部label
      */
-
-
     self.titleLabel = [[UILabel alloc] init];
     self.titleLabel.center = self.contentView.center;
     self.titleLabel.font = [UIFont systemFontOfSize:15.];
@@ -128,6 +124,7 @@
     self.textView = [[UITextView alloc] init];
     self.textView.backgroundColor = [UIColor colorWithRed:240/255. green:240/255. blue:240/255. alpha:1.];
     self.textView.delegate = self;
+    self.textView.font = [UIFont systemFontOfSize:16.];
     if (self.wordCount) {
         /**
          *  使用分类限制字数。此分类可以单独拿出去使用
@@ -143,7 +140,7 @@
      */
     self.placeHolderLabel = [[UILabel alloc] init];
     self.placeHolderLabel.hidden = NO;
-    self.placeHolderLabel.font = [UIFont systemFontOfSize:13.];
+    self.placeHolderLabel.font = [UIFont systemFontOfSize:16.];
     self.placeHolderLabel.textColor = [UIColor lightGrayColor];
     [self.textView addSubview:self.placeHolderLabel];
 
@@ -196,14 +193,14 @@
     } completion:^(BOOL finished) {
         self.titleLabel.frame = CGRectMake(10, 10, self.contentViewSize.width - 20, 25);
 
-        _web.frame = CGRectMake(10, 10 + 25, self.contentViewSize.width - 20, self.contentViewSize.height*.8 -BTN_HEIGHT -BTN_MARGIN_BOTOOM*2- 55);
+        _web.frame = CGRectMake(10, 10 + 25, self.contentViewSize.width - 20, self.contentViewSize.height*.9 -BTN_HEIGHT -BTN_MARGIN_BOTOOM*2- 55);
 
         self.noButton.frame = CGRectMake(BTN_MARGIN_LR, CGRectGetHeight(self.contentView.frame) - BTN_HEIGHT - BTN_MARGIN_BOTOOM, CGRectGetWidth(self.contentView.frame) / 2 - BTN_MARGIN_LR - BTN_MARGIN_MIDDLE / 2, BTN_HEIGHT);
 
         self.yesButton.frame = CGRectMake(CGRectGetWidth(self.contentView.frame) / 2 + BTN_MARGIN_MIDDLE / 2, CGRectGetHeight(self.contentView.frame) - BTN_HEIGHT - BTN_MARGIN_BOTOOM, CGRectGetWidth(self.contentView.frame) / 2 - BTN_MARGIN_LR - BTN_MARGIN_MIDDLE / 2, BTN_HEIGHT);
 
 
-        self.textView.frame = CGRectMake(10, self.contentViewSize.height*.8-BTN_HEIGHT -BTN_MARGIN_BOTOOM*2, self.contentViewSize.width - 20, self.contentViewSize.height*.2);
+        self.textView.frame = CGRectMake(10, self.contentViewSize.height*.9-BTN_HEIGHT -BTN_MARGIN_BOTOOM*2, self.contentViewSize.width - 20, self.contentViewSize.height*.1);
 
         self.placeHolderLabel.frame = CGRectMake(5, 5, CGRectGetWidth(self.textView.frame), 20);
 
@@ -236,7 +233,7 @@
     float margin = boudsHeight - CGRectGetMaxY(self.contentView.frame) - kbHeight;
 
     //将视图上移计算好的偏移
-    NSLog(@"margin - %f",margin);
+//    NSLog(@"margin - %f",margin);
 
     if(margin < 0) {
 

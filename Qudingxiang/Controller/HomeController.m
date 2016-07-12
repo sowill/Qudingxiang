@@ -94,6 +94,13 @@
     //    }else{
     //        NSLog(@"不是第一次启动");
     //    }
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stateRefresh) name:@"stateRefresh" object:nil];
+}
+
+- (void)stateRefresh
+{
+    [self state];
+    [self loadData];
 }
 
 - (void)loadDataCell
@@ -390,7 +397,7 @@
 
 - (void)state
 {
-    [self showProgessMsg:@"正在加载"];
+    //[self showProgessMsg:@"正在加载"];
     NSString *urlString = [hostUrl stringByAppendingString:usingTicket];
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     mgr.responseSerializer = [AFJSONResponseSerializer serializer];
@@ -417,7 +424,7 @@
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             
         }];
-        [self hideProgess];
+        //[self hideProgess];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
     }];
@@ -537,7 +544,7 @@
 - (void)scanClick
 {
     if (save) {
-        
+        [self scanClick1];
     }else{
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"登陆后才可使用此功能" delegate:self cancelButtonTitle:@"暂不登录" otherButtonTitles:@"立即登录", nil];
         [alert show];

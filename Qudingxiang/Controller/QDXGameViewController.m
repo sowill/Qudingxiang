@@ -122,13 +122,19 @@
     
     [self creatButtonBack];
     
+    if (self.model.myline_id) {
+        oldMyLineid = self.model.myline_id;
+    }else{
+        oldMyLineid = mylineid;
+    }
+    
     self.QDXScrollView =[[UIScrollView alloc] initWithFrame:self.view.frame];
     self.QDXScrollView.showsVerticalScrollIndicator = FALSE;
     self.QDXScrollView.backgroundColor = [UIColor colorWithWhite:0.949 alpha:1.000];
     [self.view addSubview:self.QDXScrollView];
     lock = NO;
     [self setupFrame];
-    [self setupgetMylineInfo];
+    [self setupgetMylineInfo:0];
 }
 
 - (MAMapView *)mapView{
@@ -159,17 +165,13 @@
     return YES;
 }
 
--(void)setupgetMylineInfo
+-(void)setupgetMylineInfo:(int) code
 {
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"TokenKey"] = save;
-    if (self.model.myline_id) {
-        params[@"myline_id"] = self.model.myline_id;
-    }else{
-        params[@"myline_id"] = mylineid;
-    }
+    params[@"myline_id"] = oldMyLineid;
     NSString *url = [hostUrl stringByAppendingString:@"Home/Myline/getMyline"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
@@ -193,6 +195,12 @@
             score_sum.text = [ToolView scoreTransfer:self.gameInfo.score];
 //            score_ms.text = self.gameInfo.ms;
             NSLog(@"mstatus %@",self.gameInfo.mstatus_id);
+            
+            if (code == 1) {
+                if([self.gameInfo.pointmap.pindex intValue]<999){
+                    [self setupCompleteView:0];
+                }
+            }
             
             if ([self.gameInfo.mstatus_id intValue] == 1) {
                 self.navigationItem.title = @"准备活动";
@@ -227,7 +235,6 @@
             }else if ([self.gameInfo.mstatus_id intValue] == 3){
                 lock = YES;
                 if (![mylineid isEqualToString:self.model.myline_id]){
-                    oldMyLineid = mylineid;
                     NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
                     documentDir= [documentDir stringByAppendingPathComponent:@"QDXMyLine.data"];
                     [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
@@ -256,7 +263,6 @@
             }else {
                 lock = YES;
                 if (![mylineid isEqualToString:self.model.myline_id]){
-                    oldMyLineid = mylineid;
                     NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
                     documentDir= [documentDir stringByAppendingPathComponent:@"QDXMyLine.data"];
                     [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
@@ -312,6 +318,7 @@
 //                NSLog(@"距离:%.1fm",pow(10,ci));
     
     if (pow(10,ci) < 1 )
+        NSLog(@"距离:%.1fm",pow(10,ci));
         //        int a = [RSSI.description intValue];
         //        if( abs(a) < abs([rssi intValue]))
     {
@@ -467,7 +474,7 @@
     
     self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, READYVIEWHEIGHT, QdxWidth, WEBVIEWHEIGHT)];
     self.webView.backgroundColor = [UIColor whiteColor];
-    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/myline/mylineweb/myline_id/%@/tmp/%@",mylineid,save]]]];
+    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/myline/mylineweb/myline_id/%@/tmp/%@",oldMyLineid,save]]]];
     
     //    moreDetails = [[UIButton alloc] initWithFrame:CGRectMake(0, READYVIEWHEIGHT + WEBVIEWHEIGHT, QdxWidth, 20)];
     //    [moreDetails addTarget:self action:@selector(hide_show:) forControlEvents:UIControlEventTouchUpInside];
@@ -586,6 +593,12 @@
     self.mapView.delegate = self; // 此处记得不用的时候需要置nil，否则影响内存的释放
     [countDownTimer setFireDate:[NSDate distantPast]];
     
+    if (self.model.myline_id) {
+        oldMyLineid = self.model.myline_id;
+    }else{
+        oldMyLineid = mylineid;
+    }
+    
     [self getPointLonLat];
 }
 
@@ -602,11 +615,7 @@
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    if (self.model.myline_id) {
-        params[@"myline_id"] = self.model.myline_id;
-    }else{
-        params[@"myline_id"] = mylineid;
-    }
+    params[@"myline_id"] = oldMyLineid;
     params[@"TokenKey"] = save;
     NSString *url = [hostUrl stringByAppendingString:@"Home/Pointmap/getpointLonLat"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
@@ -626,19 +635,16 @@
                 NSString *map_url = [hostUrl stringByAppendingString:result.MapPoint.line_map];
                 NSURL *url = [NSURL URLWithString:map_url];
                 UIImage *imagea = [UIImage imageWithData: [NSData dataWithContentsOfURL:url]];
-                
-                if (map_url.length == 0) {
-                    CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake([self.resultInfo.MapPoint.top_lat floatValue], [self.resultInfo.MapPoint.top_lon floatValue]);
-                    //缩放比例
-                    MACoordinateSpan span = MACoordinateSpanMake(0.1, 0.3);
-                    MACoordinateRegion region = MACoordinateRegionMake(coordinate, span);
-                    //设置地图的显示区域
-                    [_mapView setRegion:region];
-                }else{
-                    groundOverlay = [MAGroundOverlay groundOverlayWithBounds:coordinateBounds icon:[ToolView imageByApplyingAlpha:0.6 image:imagea]];
-                    [_mapView addOverlay:groundOverlay];
-                    [_mapView setVisibleMapRect:groundOverlay.boundingMapRect animated:YES];
-                }
+                groundOverlay = [MAGroundOverlay groundOverlayWithBounds:coordinateBounds icon:[ToolView imageByApplyingAlpha:1.0 image:imagea]];
+                [_mapView addOverlay:groundOverlay];
+                [_mapView setVisibleMapRect:groundOverlay.boundingMapRect animated:YES];
+            }else{
+                CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake([self.resultInfo.MapPoint.top_lat floatValue], [self.resultInfo.MapPoint.top_lon floatValue]);
+                //缩放比例
+                MACoordinateSpan span = MACoordinateSpanMake(0.1, 0.3);
+                MACoordinateRegion region = MACoordinateRegionMake(coordinate, span);
+                //设置地图的显示区域
+                [_mapView setRegion:region];
             }
             CLLocationCoordinate2D coor;
             //            if([self.gameInfo.line.linetype_id isEqualToString:@"2"]){//自由规划
@@ -717,9 +723,10 @@
             annotationView.image = image;
         }
         
-        NSRange range = [[annotation title] rangeOfString:@"点标"]; //现获取要截取的字符串位置
-        NSString * result = [[annotation title] substringToIndex:range.location]; //截取字符串
-        annotationView.point_ID.text = result;
+//        NSRange range = [[annotation title] rangeOfString:@"点标"]; //现获取要截取的字符串位置
+        NSString * result = [[annotation title] stringByReplacingOccurrencesOfString:@"点标" withString:@""]; //截取字符串
+        result = [result stringByReplacingOccurrencesOfString:@"点" withString:@""];
+        annotationView.point_ID.text = [result stringByReplacingOccurrencesOfString:@"号" withString:@""];
         
         //设置中心点偏移，使得标注底部中间点成为经纬度对应点
         annotationView.centerOffset = CGPointMake(0, -18);
@@ -801,7 +808,11 @@
             HelpViewController *helpVC = [[HelpViewController alloc] init];
             [self.navigationController pushViewController:helpVC animated:YES];
         }else{
-            [self setupCreateView];
+            if ([self.gameInfo.mstatus_id intValue] == 3){
+                [self setupCreateView];
+            }else{
+                [MBProgressHUD showError:@"您未完成活动"];
+            }
         }
     }
 }
@@ -883,11 +894,12 @@
 //设置任务
 -(void)setupCheckTask
 {
+    [MBProgressHUD showMessage:@"加载中"];
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"TokenKey"] = save;
-    params[@"myline_id"] = mylineid;
+    params[@"myline_id"] = oldMyLineid;
     params[@"mac"] = macStr;
     params[@"answer"] = answer;
     NSString *url = [hostUrl stringByAppendingString:@"Home/Myline/checkTaskv2"];
@@ -916,22 +928,15 @@
                 errorCount++;
             });
         }else if (ret == 2){
-            dispatch_queue_t myConcurrentQurue = dispatch_queue_create("XIAXIAQUEUE", DISPATCH_QUEUE_CONCURRENT);
-            if([self.gameInfo.pointmap.pindex intValue]<999){
-                [self setupCompleteView:0];
-            }
-            dispatch_async(myConcurrentQurue, ^{
-                [self setupgetMylineInfo];
-            });
-            dispatch_async(myConcurrentQurue, ^{
-                [self getPointLonLat];
-            });
+            [self setupgetMylineInfo:1];
+            [self getPointLonLat];
         }
         else{
             
         }
+        [MBProgressHUD hideHUD];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+        [MBProgressHUD hideHUD];
     }];
 }
 
@@ -940,12 +945,12 @@
     [self removeFromSuperViewController];
     lock = YES;
     
-    if ([self.questionInfo.question.ischoice intValue] != 1) {
+    if ([self.questionInfo.question.ischoice intValue] == 2) {
         YLPopViewController *popView = [[YLPopViewController alloc] init];
         popView.contentViewSize = CGSizeMake(300, QdxHeight*.7);
         popView.Title = self.gameInfo.line.line_sub;
         popView.placeHolder = @"请输入答案";
-        popView.wordCount = 15;//不设置则没有
+        popView.wordCount = 6 + self.questionInfo.question.qkey.length;//不设置则没有
         [popView addContentView];//最后调用
         __typeof(popView)weakPopView = popView;
         popView.confirmBlock = ^(NSString *text) {
@@ -957,9 +962,9 @@
             lock = NO;
             rmoveMacStr = @"0";
         };
-    }else{
+    }else if ([self.questionInfo.question.ischoice intValue] == 1){
         CYAlertController *alert = [CYAlertController alertWithTitle:self.gameInfo.line.line_sub
-                                                             message:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/Myline/getQuestionWeb/myline_id/%@/tmp/%@",mylineid,save]];
+                                                             message:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/Myline/getQuestionWeb/myline_id/%@/tmp/%@",oldMyLineid,save]];
         alert.alertViewCornerRadius = 10;
         CYAlertAction *cancelAction_A = [CYAlertAction actionWithTitle:[@"A. " stringByAppendingString:self.questionInfo.question.qa] style:CYAlertActionStyleCancel handler:^{
             answer = @"A";
@@ -1000,7 +1005,7 @@
         successView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, TASKWEIGHT, TASKHEIGHT - SHOWTASKHEIGHT)];
         
         [successView setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,self.gameInfo.img_url]] placeholderImage:[UIImage imageNamed:@"banner_cell"] options:SDWebImageRefreshCached];
-        
+
 //        [successView setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,self.gameInfo.img_url]] placeholderImage:[UIImage imageNamed:@"banner_cell"]];
         [self.deliverView addSubview:successView];
             
@@ -1022,7 +1027,6 @@
 
 -(void)showMsg_buttonClick
 {
-    
     [MBProgressHUD showMessage:@"请稍等"];
     [showMsg_button removeFromSuperview];
     [successView removeFromSuperview];
@@ -1054,7 +1058,7 @@
     [self.deliverView addSubview:cancel_button];
     
     self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0,SHOWTASKHEIGHT, TASKWEIGHT, TASKHEIGHT - 2 * SHOWTASKHEIGHT)];
-    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/Myline/getTaskWeb/myline_id/%@/tmp/%@",mylineid,save]]]];
+    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/Myline/getTaskWeb/myline_id/%@/tmp/%@",oldMyLineid,save]]]];
     [self.deliverView addSubview:self.webView];
     [MBProgressHUD hideHUD];
 }
@@ -1157,7 +1161,7 @@
         mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
         params[@"TokenKey"] = save;
-        params[@"myline_id"] = mylineid;
+        params[@"myline_id"] = oldMyLineid;
         NSString *url = [hostUrl stringByAppendingString:@"Home/Myline/gameover"];
         [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
             
@@ -1167,7 +1171,7 @@
             NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
             int ret = [infoDict[@"Code"] intValue];
             if (ret==1) {
-                [self setupgetMylineInfo];
+                [self setupgetMylineInfo:0];
                 lock = YES;
             }else{
                 
@@ -1245,7 +1249,7 @@
             if ([self.gameInfo.line.countdown intValue] -secondsCountDown <= 0) {
                 lock = YES;
                 [countDownTimer setFireDate:[NSDate distantFuture]];
-                [self setupgetMylineInfo];
+                [self setupgetMylineInfo:0];
             }
         }
     }else{
@@ -1275,11 +1279,11 @@
 - (void)didClickOnImageIndex:(NSInteger *)imageIndex
 {
     NSString *shareUrl = [[NSString alloc] init];
-    if (self.model.myline_id.length == 0) {
+//    if (self.model.myline_id.length == 0) {
         shareUrl = [NSString stringWithFormat:@"http://www.qudingxiang.cn/home/myline/mylineweb/myline_id/%@/tmp/%@",oldMyLineid,save];
-    }else{
-        shareUrl = [NSString stringWithFormat:@"http://www.qudingxiang.cn/home/myline/mylineweb/myline_id/%@/tmp/%@",self.model.myline_id,save];
-    }
+//    }else{
+//        shareUrl = [NSString stringWithFormat:@"http://www.qudingxiang.cn/home/myline/mylineweb/myline_id/%@/tmp/%@",self.model.myline_id,save];
+//    }
     if (imageIndex == 0) {
         TencentOAuth *auth = [[TencentOAuth alloc] initWithAppId:@"1104830915"andDelegate:self];
         NSURL *imgurl = [NSURL URLWithString:shareUrl];

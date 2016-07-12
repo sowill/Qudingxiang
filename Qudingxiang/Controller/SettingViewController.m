@@ -196,7 +196,7 @@
         [self dismissViewControllerAnimated:YES completion:^{
             
         }];
-        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"stateRefresh" object:nil];
     }else if (buttonIndex == 1 && alertView.tag == 2){
         //彻底删除文件
         [self clearCacheWith:[self getPath]];

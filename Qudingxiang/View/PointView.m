@@ -39,7 +39,7 @@
 - (void)drawInContext:(CGContextRef)context
 {
     CGContextSetLineWidth(context, 2.0);
-    CGContextSetFillColorWithColor(context, [UIColor colorWithRed:0.3 green:0.3 blue:0.3 alpha:0.8].CGColor);
+    CGContextSetFillColorWithColor(context, [UIColor colorWithWhite:1.000 alpha:0.8].CGColor);
     
     [self getDrawPath:context];
     CGContextFillPath(context);
@@ -90,7 +90,7 @@
     
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPortraitMargin, kPortraitMargin, kTitleWidth, kTitleHeight)];
     self.titleLabel.font = [UIFont boldSystemFontOfSize:14];
-    self.titleLabel.textColor = [UIColor whiteColor];
+    self.titleLabel.textColor = [UIColor colorWithWhite:0.067 alpha:1.000];
     self.titleLabel.text = @"titletitletitletitle";
     [self addSubview:self.titleLabel];
     
@@ -98,7 +98,7 @@
 //    self.subtitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPortraitMargin * 2 + kPortraitWidth, kPortraitMargin * 2 + kTitleHeight, kTitleWidth, kTitleHeight)];
     self.subtitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPortraitMargin , kPortraitMargin * 2 + kTitleHeight, kTitleWidth, kTitleHeight)];
     self.subtitleLabel.font = [UIFont systemFontOfSize:12];
-    self.subtitleLabel.textColor = [UIColor lightGrayColor];
+    self.subtitleLabel.textColor = [UIColor colorWithWhite:0.961 alpha:1.000];
     self.subtitleLabel.text = @"subtitleLabelsubtitleLabelsubtitleLabel";
     [self addSubview:self.subtitleLabel];
 }

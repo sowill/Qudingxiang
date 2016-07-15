@@ -137,6 +137,7 @@
     [self setupgetMylineInfo:0];
 }
 
+//懒加载地图
 - (MAMapView *)mapView{
     
     if(!_mapView) {
@@ -150,6 +151,7 @@
     return _mapView;
 }
 
+//单击放大地图
 - (BOOL)gestureRecognizer:(UIGestureRecognizer *)gestureRecognizer shouldRecognizeSimultaneouslyWithGestureRecognizer:(UIGestureRecognizer *)otherGestureRecognizer
 {
     return YES;
@@ -165,6 +167,7 @@
     return YES;
 }
 
+//请求当前线路1）准备 2）活动中 3）活动完成 4）强制结束
 -(void)setupgetMylineInfo:(int) code
 {
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
@@ -195,7 +198,7 @@
             score_sum.text = [ToolView scoreTransfer:self.gameInfo.score];
 //            score_ms.text = self.gameInfo.ms;
             NSLog(@"mstatus %@",self.gameInfo.mstatus_id);
-            
+            NSLog(@"Pindex %@",self.gameInfo.pointmap.pindex);
             if (code == 1) {
                 if([self.gameInfo.pointmap.pindex intValue]<999){
                     [self setupCompleteView:0];
@@ -359,6 +362,7 @@
     [self.MyCentralManager scanForPeripheralsWithServices:nil  options:nil];
 }
 
+//地图覆盖物
 - (MAOverlayView *)mapView:(MAMapView *)mapView viewForOverlay:(id <MAOverlay>)overlay
 {
     if ([overlay isKindOfClass:[MAGroundOverlay class]])
@@ -371,6 +375,7 @@
     return nil;
 }
 
+//状态4 的frame
 - (void)createSadView
 {
     UIImageView *sad = [[UIImageView alloc] init];
@@ -391,6 +396,7 @@
     [self.QDXScrollView addSubview:sadButton];
 }
 
+//状态3 的frame
 -(void)createTableView
 {
     self.tableview = [[UITableView alloc] initWithFrame:CGRectMake(0,10 + QdxWidth * 1.425, QdxWidth, 73 * self.gameInfo.history.count + 40) style:UITableViewStylePlain];
@@ -402,6 +408,7 @@
     [self.QDXScrollView addSubview:self.tableview];
 }
 
+//状态3 页面大小调整
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
     CGFloat sectionHeaderHeight = 40;
@@ -425,14 +432,17 @@
     [self.QDXScrollView setContentSize:(CGSizeMake(QdxWidth, scrollViewHeight))];
 }
 
+//状态3
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.gameInfo.history.count;
 }
 
+//状态3
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 73;
 }
+//状态3
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
@@ -441,11 +451,13 @@
     return cell;
 }
 
+//状态3
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 40;
 }
 
+//状态3
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, 40)];
@@ -461,7 +473,7 @@
     return headerView;
 }
 
-//设置Frame
+//设置状态1，2 的 Frame
 -(void)setupFrame
 {
     readyView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, READYVIEWHEIGHT)];
@@ -589,6 +601,7 @@
 //    }
 //}
 
+//将上级页面的mylineid传入
 -(void)viewWillAppear:(BOOL)animated {
     self.mapView.delegate = self; // 此处记得不用的时候需要置nil，否则影响内存的释放
     [countDownTimer setFireDate:[NSDate distantPast]];
@@ -602,6 +615,7 @@
     [self getPointLonLat];
 }
 
+//将计时器 地图内存释放
 -(void)viewWillDisappear:(BOOL)animated {
     self.mapView.delegate = nil; // 不用时，置nil
     [self.mapView removeAnnotation:annotation_history];
@@ -610,6 +624,7 @@
     [countDownTimer setFireDate:[NSDate distantFuture]];
 }
 
+//请求点标位置 地图位置
 -(void)getPointLonLat
 {
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
@@ -743,7 +758,6 @@
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
-
 
 -(void)moreClick:(UIButton *)btn
 {
@@ -910,6 +924,7 @@
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
         NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
         int ret = [infoDict[@"Code"] intValue];
+        NSLog(@"%@",infoDict[@"Msg"]);
         if (ret==1) {
             if (errorCount != 0) {
                 [MBProgressHUD showMessage:@"回答错误!"];
@@ -940,6 +955,7 @@
     }];
 }
 
+//任务的frame
 -(void)setupTaskView
 {
     [self removeFromSuperViewController];
@@ -984,6 +1000,7 @@
     }
 }
 
+//完成动画的frame
 -(void)setupCompleteView:(int )code
 {
     [self removeFromSuperViewController];
@@ -1080,6 +1097,7 @@
     [self.deliverView removeFromSuperview];
 }
 
+//二维码的frame
 - (void)setupCreateView
 {
     self.BGView                 = [[UIView alloc] init];
@@ -1145,7 +1163,7 @@
     [self removeFromSuperViewController];
 }
 
-
+//放弃比赛
 -(void)giveUp
 {
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"真的要结束活动吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
@@ -1197,12 +1215,14 @@
     }
 }
 
+//组队按钮
 -(void)ready
 {
     QDXTeamsViewController *viewController = [[QDXTeamsViewController alloc] init];
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
+//计时
 - (void)intervalSinceNow
 {
     NSDate *  senddate=[NSDate date];
@@ -1395,6 +1415,7 @@
     negativeSpacer.width = -10;
     self.navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
 }
+
 - (void)buttonBackSetting
 {
     [[NSNotificationCenter defaultCenter] postNotificationName:@"noti3" object:nil];

@@ -205,82 +205,68 @@
                 }
             }
             
-            if ([self.gameInfo.mstatus_id intValue] == 1) {
-                self.navigationItem.title = @"准备活动";
-                if ([self.gameInfo.isLeader intValue] == 1) {
-                    self.MyCentralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
-                }
-                
-                [self.mapView removeFromSuperview];
-                [self.QDXScrollView addSubview:readyView];
-                [self.QDXScrollView addSubview:_webView];
-                //                [self.QDXScrollView addSubview:moreDetails];
-                
-            }else if ([self.gameInfo.mstatus_id intValue] == 2){
-                [self.navigationItem setTitle:[game.line.line_sub stringByAppendingString:@"-活动中"]];
-                if ([self.gameInfo.isLeader intValue] == 1) {
-                    self.MyCentralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
-                }
-                if([self.gameInfo.line.linetype_id isEqualToString:@"3"])
-                {
-                    currentTime.text = @"倒计时";
-                }
-                //                self.navigationItem.leftBarButtonItem = nil;
-                //                self.navigationItem.hidesBackButton = YES;
-                [readyView removeFromSuperview];
-                [_webView removeFromSuperview];
-                //                [moreDetails removeFromSuperview];
-                [self.QDXScrollView addSubview:self.mapView];
-                [self.QDXScrollView addSubview:playView];
-//                [self.QDXScrollView addSubview:map_click];
-                [self.QDXScrollView addSubview:task_button];
-                [self.QDXScrollView addSubview:history_button];
-            }else if ([self.gameInfo.mstatus_id intValue] == 3){
-                lock = YES;
-                if (![mylineid isEqualToString:self.model.myline_id]){
-                    NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-                    documentDir= [documentDir stringByAppendingPathComponent:@"QDXMyLine.data"];
-                    [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
-                }
-                self.navigationItem.title = @"活动结束";
-                
-                certificate = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxWidth * 1.425)];
-                NSURL *certificate_url = [NSURL URLWithString:[hostUrl stringByAppendingString:self.gameInfo.point.area.map]];
-                UIImage *certificate_image = [UIImage imageWithData: [NSData dataWithContentsOfURL:certificate_url]];
-                certificate.image = certificate_image;
-                
-                [self.mapView removeFromSuperview];
-                [readyView removeFromSuperview];
-                [_webView removeFromSuperview];
-                //                [moreDetails removeFromSuperview];
-                [playView removeFromSuperview];
-//                [map_click removeFromSuperview];
-                [task_button removeFromSuperview];
-                [history_button removeFromSuperview];
-                
-                [self createTableView];
-                
-                [self.QDXScrollView addSubview:certificate];
-                
-                [self refreshScrollView];
-            }else {
-                lock = YES;
-                if (![mylineid isEqualToString:self.model.myline_id]){
-                    NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-                    documentDir= [documentDir stringByAppendingPathComponent:@"QDXMyLine.data"];
-                    [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
-                }
-                [self.mapView removeFromSuperview];
-                [readyView removeFromSuperview];
-                [_webView removeFromSuperview];
-                //                [moreDetails removeFromSuperview];
-                [playView removeFromSuperview];
-//                [map_click removeFromSuperview];
-                [task_button removeFromSuperview];
-                [history_button removeFromSuperview];
-                self.navigationItem.title = @"强制结束";
-                
-                [self createSadView];
+            switch ([self.gameInfo.mstatus_id intValue]) {
+                case 1:
+                    self.navigationItem.title = @"准备活动";
+                    if ([self.gameInfo.isLeader intValue] == 1) {
+                        self.MyCentralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+                    }
+                    [self.mapView removeFromSuperview];
+                    [self.QDXScrollView addSubview:readyView];
+                    [self.QDXScrollView addSubview:_webView];
+                    break;
+                    
+                case 2:
+                    [self.navigationItem setTitle:[game.line.line_sub stringByAppendingString:@"-活动中"]];
+                    if ([self.gameInfo.isLeader intValue] == 1) {
+                        self.MyCentralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+                    }
+                    if([self.gameInfo.line.linetype_id isEqualToString:@"3"])
+                    {
+                        currentTime.text = @"倒计时";
+                    }
+                    [readyView removeFromSuperview];
+                    [_webView removeFromSuperview];
+                    [self.QDXScrollView addSubview:self.mapView];
+                    [self.QDXScrollView addSubview:playView];
+                    [self.QDXScrollView addSubview:task_button];
+                    [self.QDXScrollView addSubview:history_button];
+                    break;
+                    
+                case 3:
+                    lock = YES;
+                    if (![mylineid isEqualToString:self.model.myline_id]){
+                        NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+                        documentDir= [documentDir stringByAppendingPathComponent:@"QDXMyLine.data"];
+                        [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
+                    }
+                    self.navigationItem.title = @"活动结束";
+                    [self.mapView removeFromSuperview];
+                    [readyView removeFromSuperview];
+                    [_webView removeFromSuperview];
+                    [playView removeFromSuperview];
+                    [task_button removeFromSuperview];
+                    [history_button removeFromSuperview];
+                    [self createTableView];
+                    [self.QDXScrollView addSubview:certificate];
+                    [self refreshScrollView];
+                    break;
+                default:
+                    lock = YES;
+                    if (![mylineid isEqualToString:self.model.myline_id]){
+                        NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+                        documentDir= [documentDir stringByAppendingPathComponent:@"QDXMyLine.data"];
+                        [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
+                    }
+                    [self.mapView removeFromSuperview];
+                    [readyView removeFromSuperview];
+                    [_webView removeFromSuperview];
+                    [playView removeFromSuperview];
+                    [task_button removeFromSuperview];
+                    [history_button removeFromSuperview];
+                    self.navigationItem.title = @"强制结束";
+                    [self createSadView];
+                    break;
             }
         }
         else{
@@ -399,6 +385,11 @@
 //状态3 的frame
 -(void)createTableView
 {
+    certificate = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxWidth * 1.425)];
+    NSURL *certificate_url = [NSURL URLWithString:[hostUrl stringByAppendingString:self.gameInfo.point.area.map]];
+    UIImage *certificate_image = [UIImage imageWithData: [NSData dataWithContentsOfURL:certificate_url]];
+    certificate.image = certificate_image;
+    
     self.tableview = [[UITableView alloc] initWithFrame:CGRectMake(0,10 + QdxWidth * 1.425, QdxWidth, 73 * self.gameInfo.history.count + 40) style:UITableViewStylePlain];
     self.tableview.delegate = self;
     self.tableview.dataSource = self;
@@ -583,23 +574,6 @@
     self.navigationItem.rightBarButtonItems = @[negativeSpacer, buttonItem];
     
 }
-
-//-(void)hide_show:(UIButton *)show
-//{
-//    moreDetails.selected = !moreDetails.isSelected;
-//    if (moreDetails.isSelected) {
-////        mapView.frame = CGRectMake(0,QdxHeight,QdxWidth, 0);
-//        moreDetails.frame = CGRectMake(0,QdxHeight- 20 - 64,QdxWidth,20);
-//        self.webView.frame = CGRectMake(0, READYVIEWHEIGHT, QdxWidth,QdxHeight - 20 -64 - READYVIEWHEIGHT);
-//        moreDetails.backgroundColor = [UIColor whiteColor];
-//        arrow.image = [UIImage imageNamed:@"向上箭头"];
-//    }else{
-////        mapView.frame = CGRectMake(0,READYVIEWHEIGHT + WEBVIEWHEIGHT + 10,QdxWidth, QdxHeight - READYVIEWHEIGHT - WEBVIEWHEIGHT -10 - 64);
-//        moreDetails.frame = CGRectMake(0, READYVIEWHEIGHT + WEBVIEWHEIGHT, QdxWidth, 20);
-//        self.webView.frame = CGRectMake(0, READYVIEWHEIGHT, QdxWidth, WEBVIEWHEIGHT);
-//        arrow.image = [UIImage imageNamed:@"向下箭头"];
-//    }
-//}
 
 //将上级页面的mylineid传入
 -(void)viewWillAppear:(BOOL)animated {

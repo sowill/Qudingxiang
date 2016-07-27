@@ -90,6 +90,34 @@
 
 }
 
++ (void)btnTabStateBlock:(void (^)(NSMutableDictionary *dict))block FailBlock:(void(^)(NSMutableArray *array))failBlock andWithToken:(NSString *)tokenKey
+{
+    NSString *urlString = [hostUrl stringByAppendingString:usingTicket];
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    //说明服务器返回的事JSON数据
+    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
+    //封装请求参数
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"TokenKey"] = tokenKey;
+    __block NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+    [mgr POST:urlString parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        dict = responseObject;
+        if (block) {
+            block(dict);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        NSMutableArray *failArr = [[NSMutableArray alloc]init];
+        [failArr addObject:error];
+        if (failBlock) {
+            failBlock(failArr);
+        }
+    }];
+    
+}
+
 + (void)choiceLineStateBlock:(void (^)(NSMutableDictionary *dict))block andWithToken:(NSString *)tokenKey
 {
     NSString *urlString = [hostUrl stringByAppendingString:lineUrl];
@@ -115,7 +143,7 @@
 
 }
 
-+ (void)cellDataBlock:(void (^)(NSMutableDictionary *dict))block FailBlock:(void(^)(NSMutableArray *array))failBlock andWithToken:(NSString *)tokenKey andWithCurr:(NSString *)curr{
++ (void)cellDataBlock:(void (^)(NSMutableDictionary *dict))block FailBlock:(void(^)(NSMutableArray *array))failBlock andWithToken:(NSString *)tokenKey andWithCurr:(NSString *)curr andWithType:(NSString *)type{
     NSString *urlString = [hostUrl stringByAppendingString:goodsUrl];
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     //说明服务器返回的事JSON数据
@@ -125,6 +153,7 @@
     //params[@"TokenKey"] = tokenKey;
     params[@"areatype_id"] = @"1";
     params[@"curr"] = @"1";
+    params[@"type"] =type;
     __block NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
     [mgr POST:urlString parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         

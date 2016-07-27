@@ -12,6 +12,7 @@
 #import <AudioToolbox/AudioToolbox.h>
 #import "MineLineController.h"
 #import "MineModel.h"
+
 @class MineModel;
 @interface QDXGameViewController : BaseViewController<CBCentralManagerDelegate,CBPeripheralDelegate,UIAlertViewDelegate,UINavigationControllerDelegate,MAMapViewDelegate,UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate>
 @property (nonatomic, strong) MineModel *model;

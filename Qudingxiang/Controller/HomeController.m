@@ -23,6 +23,8 @@
 #import "QDXLoginViewController.h"
 #import "QDXNavigationController.h"
 #import "ImageScrollView.h"
+#import "LineController.h"
+#import "ActivityController.h"
 #define NotificaitonChange @"code"
 
 @interface HomeController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,UINavigationControllerDelegate,MJRefreshBaseViewDelegate,UIAlertViewDelegate>
@@ -56,6 +58,9 @@
     UIButton *_scanBtn;
     ImageScrollView *imgScrollView;
     NSMutableArray *arr;
+    UIImageView *_promptView;
+    UIButton *_leftBtn;
+    UIButton *_rightBtn;
 }
 @end
 
@@ -107,7 +112,8 @@
 {
     _scrollArr = [NSMutableArray arrayWithCapacity:0];
     [self performSelectorInBackground:@selector(topViewData) withObject:nil];
-    [self performSelectorInBackground:@selector(cellDataWith:isRemoveAll:) withObject:nil];
+    //[self performSelectorInBackground:@selector(cellDataWith:isRemoveAll:) withObject:nil];
+    [self cellDataWith:@"1" isRemoveAll:YES andWithType:@"0"];
 }
 
 - (void)loadData
@@ -219,6 +225,56 @@
                                         target:nil action:nil];
     negativeSpacer1.width = -10;
     self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:negativeSpacer1, btn_right, nil];
+    if([promptStr intValue] == 1){
+        
+        
+    }else{
+        if (QdxHeight == 736) {
+            _promptView = [[UIImageView alloc] initWithFrame:CGRectMake(QdxWidth/2-125, QdxHeight - 240,250, 110)];
+            _leftBtn = [[UIButton alloc] init];
+            _leftBtn.frame = CGRectMake(0, 50, 115, 45);
+            _rightBtn = [[UIButton alloc] init];
+            _rightBtn.frame = CGRectMake(130, 50, 115, 45);
+        }else if (QdxHeight == 667){
+            _promptView = [[UIImageView alloc] initWithFrame:CGRectMake(QdxWidth/2-113.5, QdxHeight - 228,227, 100)];
+            _leftBtn = [[UIButton alloc] init];
+            _leftBtn.frame = CGRectMake(0, 45, 110, 40);
+            _rightBtn = [[UIButton alloc] init];
+            _rightBtn.frame = CGRectMake(115, 45, 110, 40);
+        }else{
+            _promptView = [[UIImageView alloc] initWithFrame:CGRectMake(QdxWidth/2-90, QdxHeight - 205,180, 76)];
+            _leftBtn = [[UIButton alloc] init];
+            _leftBtn.frame = CGRectMake(0, 36, 85, 30);
+            _rightBtn = [[UIButton alloc] init];
+            _rightBtn.frame = CGRectMake(93, 36, 85, 30);
+            
+        }
+        _promptView.image = [UIImage imageNamed:@"气泡"];
+        _promptView.userInteractionEnabled = YES;
+        _promptView.backgroundColor = [UIColor clearColor];
+        [self.view bringSubviewToFront:_promptView];
+        [self.view addSubview:_promptView];
+        [_leftBtn addTarget:self action:@selector(leftClick) forControlEvents:UIControlEventTouchUpInside];
+        [_promptView addSubview:_leftBtn];
+        [_rightBtn addTarget:self action:@selector(rightClick) forControlEvents:UIControlEventTouchUpInside];
+        [_promptView addSubview:_rightBtn];
+        
+    }
+    
+}
+
+- (void)leftClick
+{
+    
+    [_promptView removeFromSuperview];
+}
+
+- (void)rightClick
+{
+    //yongjiushanchu
+    NSString *str = @"1";
+    [NSKeyedArchiver archiveRootObject:str toFile:QDXPromptFile];
+    [_promptView removeFromSuperview];
 }
 
 
@@ -235,7 +291,7 @@
         btn.imageView.contentMode = UIViewContentModeCenter;
         btn.titleLabel.textColor = [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1];
         btn.titleLabel.font = [UIFont systemFontOfSize:14];
-        btn.tag = 100+i;
+        btn.tag = 1+i;
     }
 }
 
@@ -263,7 +319,7 @@
     if (refreshView == _header) {
         _curNumber = 1;
         //刷新
-        [self cellDataWith:[NSString stringWithFormat:@"%li", (long)_curNumber] isRemoveAll:YES];
+        [self cellDataWith:[NSString stringWithFormat:@"%li", (long)_curNumber] isRemoveAll:YES andWithType:@"0"];
         
     } else {
 //        //加载更多
@@ -434,7 +490,7 @@
 {
     [_scanBtn addTarget:self action:@selector(scanClick) forControlEvents:UIControlEventTouchUpInside];
 }
-- (void)cellDataWith:(NSString *)cur isRemoveAll:(BOOL)isRemoveAll
+- (void)cellDataWith:(NSString *)cur isRemoveAll:(BOOL)isRemoveAll andWithType:(NSString *)type
 {
     [self showProgessMsg:@"正在加载"];
     [HomeService cellDataBlock:^(NSMutableDictionary *dict) {
@@ -450,7 +506,7 @@
             [model setValuesForKeysWithDictionary:dict];
             [_dataArr addObject:model];
         }
-        [self performSelectorOnMainThread:@selector(sussRes) withObject:nil waitUntilDone:YES];
+        //[self performSelectorOnMainThread:@selector(sussRes) withObject:nil waitUntilDone:YES];
         [_tableView reloadData];
         [_header endRefreshing];
         [_footer endRefreshing];
@@ -458,9 +514,9 @@
     } FailBlock:^(NSMutableArray *array) {
         [_header endRefreshing];
         [_footer endRefreshing];
-        [self performSelectorOnMainThread:@selector(failRes) withObject:nil waitUntilDone:YES];
+        //[self performSelectorOnMainThread:@selector(failRes) withObject:nil waitUntilDone:YES];
         
-    } andWithToken:save andWithCurr:cur];
+    } andWithToken:save andWithCurr:cur andWithType:type];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -524,8 +580,8 @@
 
 - (void)btnClick:(UIButton *)btn
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"内容丰富中" delegate:self cancelButtonTitle:@"好的" otherButtonTitles:nil, nil];
-    [alert show];
+    NSString *type = [NSString stringWithFormat:@"%li",btn.tag];
+    [self cellDataWith:@"1" isRemoveAll:NO andWithType:type];
 }
 
 - (void)changeScanBtn
@@ -552,13 +608,68 @@
 }
 - (void)scanClick1
 {
-    ImagePickerController *imageVC = [[ImagePickerController alloc] init];
-    imageVC.from = @"1";
+    ImagePickerController *imageVC = [[ImagePickerController alloc] initWithBlock:^(NSString *result, BOOL flag, NSString *from) {
+        imageVC.from = from;
+        _result = result;
+        NSLog(@"%@",_result);
+        [self netWorking];
+    }];
     imageVC.hidesBottomBarWhenPushed =YES;
     [self.navigationController pushViewController:imageVC animated:YES];
-    
 }
 
+- (void)netWorking
+{
+    
+    //创建请求管理对象
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    //说明服务器返回的事JSON数据
+    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
+    
+    //封装请求参数
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"TokenKey"] = save;
+    params[@"ticketinfo_name"] = _result;
+    [mgr POST:[NSString stringWithFormat:@"%@%@",hostUrl,actUrl] parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSDictionary * dict = [[NSDictionary alloc] initWithDictionary:responseObject];
+        NSDictionary *dictMsg = dict[@"Msg"];
+        NSLog(@"%@",dictMsg);
+        StartModel *model = [[StartModel alloc] init];
+        [model setCode:dict[@"Code"] ];
+        [model setMsg:dict[@"Msg"]];
+        int temp = [model.Code intValue];
+        if (!temp) {
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:[NSString stringWithFormat:@"%@",model.Msg] delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+            alert.tag = 1;
+            [alert show];
+            
+            
+            
+        }else{
+            [model setTicket_id:dictMsg[@"ticket_id"]];
+            if([model.ticket_id longLongValue] <100000000000){
+                [NSKeyedArchiver archiveRootObject:model.ticket_id toFile:QDXTicketFile];
+                LineController *lineVC = [[LineController alloc] init];
+                QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:lineVC];
+                self.delegate = lineVC;
+                [self.delegate PassTicket:model.ticket_id andClick:@"2"];
+                [self presentViewController:nav animated:YES completion:^{
+                    
+                }];
+            }else{
+            }
+            
+        }
+        
+        
+        
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
+}
 
 - (void)setClick
 {

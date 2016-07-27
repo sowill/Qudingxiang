@@ -8,7 +8,7 @@
 
 #import "QDXNavigationController.h"
 
-@interface QDXNavigationController ()<UIGestureRecognizerDelegate>
+@interface QDXNavigationController ()
 
 @end
 
@@ -17,16 +17,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
-    id target = self.interactivePopGestureRecognizer.delegate;
-    UIPanGestureRecognizer * pan = [[UIPanGestureRecognizer alloc]initWithTarget:target action:@selector(handleNavigationTransition:)];
-    pan.delegate = self;
-    [self.view addGestureRecognizer:pan];
-    [self.interactivePopGestureRecognizer setEnabled:NO];
-}
-
-- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer {
-    return self.childViewControllers.count == 1 ? NO : YES;
 }
 
 +(void)initialize

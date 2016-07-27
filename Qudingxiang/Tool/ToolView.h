@@ -22,5 +22,6 @@
 + (UIImage *)imageByApplyingAlpha:(CGFloat)alpha  image:(UIImage*)image;
 //秒数转时间
 + (NSString *)scoreTransfer:(NSString *)score;
-
+//图片拉伸
++(UIImage*) OriginImage:(UIImage *)image scaleToSize:(CGSize)size;
 @end

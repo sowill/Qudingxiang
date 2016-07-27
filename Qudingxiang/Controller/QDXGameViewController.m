@@ -27,11 +27,12 @@
 #import "CYAlertController.h"
 #import "PointAnnotationView.h"
 #import "QDXMap.h"
-#import "TTSExample.h"
+//#import "TTSExample.h"
 #import "QDXIsConnect.h"
 #import "QDXOffLineController.h"
 #import "HelpViewController.h"
 #import "YLPopViewController.h"
+#import "UIView+EAFeatureGuideView.h"
 
 #define READYVIEWHEIGHT                    QdxHeight * 0.05
 #define WEBVIEWHEIGHT                      QdxHeight * 0.95
@@ -134,8 +135,30 @@
     [self.view addSubview:self.QDXScrollView];
     lock = NO;
     [self setupFrame];
+    [self showGuideView];
     [self setupgetMylineInfo:0];
 }
+
+- (void)showGuideView
+{
+    CGRect rect = CGRectMake(QdxWidth - 38, 20, 36, 36);
+    EAFeatureItem *title = [[EAFeatureItem alloc] initWithFocusRect:rect focusCornerRadius:23 focusInsets:UIEdgeInsetsZero];
+    title.introduce = @"点击这里查看更多";
+//    title.actionTitle = @"我知道了";
+    title.introduceFont = [UIFont systemFontOfSize:16];
+    [self.navigationController.view showWithFeatureItems:@[title] saveKeyName:@"button" inVersion:nil];
+}
+
+//#pragma mark - MAMapViewDelegate
+//
+//- (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation updatingLocation:(BOOL)updatingLocation
+//{
+//    if (updatingLocation)
+//    {
+//        NSLog(@"userlocation :%@", userLocation.location);
+////        [_mapView setCenterCoordinate:userLocation.location.coordinate animated:YES];
+//    }
+//}
 
 //懒加载地图
 - (MAMapView *)mapView{
@@ -200,6 +223,9 @@
             NSLog(@"mstatus %@",self.gameInfo.mstatus_id);
             NSLog(@"Pindex %@",self.gameInfo.pointmap.pindex);
             if (code == 1) {
+//                if([self.gameInfo.pointmap.pindex intValue] == 0){
+//                    [self setupCompleteView:1];
+//                }else
                 if([self.gameInfo.pointmap.pindex intValue]<999){
                     [self setupCompleteView:0];
                 }
@@ -247,6 +273,7 @@
                     [playView removeFromSuperview];
                     [task_button removeFromSuperview];
                     [history_button removeFromSuperview];
+                    [self removeFromSuperViewController];
                     [self createTableView];
                     [self.QDXScrollView addSubview:certificate];
                     [self refreshScrollView];
@@ -258,6 +285,7 @@
                         documentDir= [documentDir stringByAppendingPathComponent:@"QDXMyLine.data"];
                         [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
                     }
+                    [self removeFromSuperViewController];
                     [self.mapView removeFromSuperview];
                     [readyView removeFromSuperview];
                     [_webView removeFromSuperview];
@@ -304,7 +332,7 @@
     //    });
     int b = abs([RSSI.description intValue]);
     CGFloat ci = (b - abs([self.gameInfo.point.rssi intValue])) / (10 * 4.);
-//                NSLog(@"距离:%.1fm",pow(10,ci));
+    NSLog(@"RSSI %@",RSSI);
     
     if (pow(10,ci) < 1 )
         NSLog(@"距离:%.1fm",pow(10,ci));
@@ -433,8 +461,8 @@
 {
     return 73;
 }
-//状态3
 
+//状态3
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     QDXHistoryTableViewCell *cell = [QDXHistoryTableViewCell cellWithTableView:tableView];
@@ -479,13 +507,6 @@
     self.webView.backgroundColor = [UIColor whiteColor];
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/myline/mylineweb/myline_id/%@/tmp/%@",oldMyLineid,save]]]];
     
-    //    moreDetails = [[UIButton alloc] initWithFrame:CGRectMake(0, READYVIEWHEIGHT + WEBVIEWHEIGHT, QdxWidth, 20)];
-    //    [moreDetails addTarget:self action:@selector(hide_show:) forControlEvents:UIControlEventTouchUpInside];
-    //    moreDetails.backgroundColor = [UIColor clearColor];
-    //    arrow = [[UIImageView alloc] initWithFrame:CGRectMake(QdxWidth/2 - 5, 20/2 - 3, 10, 6)];
-    //    arrow.image = [UIImage imageNamed:@"向下箭头"];
-    //    [moreDetails addSubview:arrow];
-    
     playView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, SCOREVIEWHEIGHT)];
     playView.backgroundColor = [UIColor whiteColor];
     
@@ -502,7 +523,7 @@
     [playView addSubview:useTime];
     currentTime = [[UILabel alloc] init];
     CGFloat currentTimeCenterX = useTimeCenterX;
-    CGFloat currentTimeCenterY = useTimeCenterY + 15 + 25/2;
+    CGFloat currentTimeCenterY = useTimeCenterY + 15 + 25/2 + 5;
     currentTime.center = CGPointMake(currentTimeCenterX, currentTimeCenterY);
     currentTime.bounds = CGRectMake(0, 0, QdxWidth/2, 15);
     currentTime.textAlignment = NSTextAlignmentCenter;
@@ -525,7 +546,7 @@
     point.font = [UIFont fontWithName:@"Helvetica-Bold" size:24];
     point.textAlignment = NSTextAlignmentCenter;
     [playView addSubview:point];
-    point_name = [[UILabel alloc] initWithFrame:CGRectMake(0, pointHeight + 20 + 5, QdxWidth/2, 15)];
+    point_name = [[UILabel alloc] initWithFrame:CGRectMake(0, pointHeight + 20 + 5+ 5, QdxWidth/2, 15)];
     point_name.textAlignment = NSTextAlignmentCenter;
     point_name.text = @"目标点标";
     point_name.textColor = [UIColor colorWithWhite:0.400 alpha:1.000];
@@ -537,13 +558,8 @@
     score_sum.font = [UIFont fontWithName:@"Helvetica-Bold" size:24];
     score_sum.textAlignment = NSTextAlignmentCenter;
     [playView addSubview:score_sum];
-//    score_ms = [[UILabel alloc] initWithFrame:CGRectMake((QdxWidth/4)* 3 - 100/2 + 100, pointHeight, 20, 20)];
-//    score_ms.textColor = [UIColor colorWithWhite:0.067 alpha:1.000];
-//    score_ms.font = [UIFont fontWithName:@"Helvetica-Bold" size:15];
-//    score_ms.textAlignment = NSTextAlignmentCenter;
-//    [playView addSubview:score_ms];
     
-    score_sum_name = [[UILabel alloc] initWithFrame:CGRectMake((QdxWidth/4)* 3 - 100/2, pointHeight + 20 + 5, 100, 15)];
+    score_sum_name = [[UILabel alloc] initWithFrame:CGRectMake((QdxWidth/4)* 3 - 100/2, pointHeight + 20 + 5+ 5, 100, 15)];
     score_sum_name.textAlignment = NSTextAlignmentCenter;
     score_sum_name.text = @"消耗时长";
     score_sum_name.textColor = [UIColor colorWithWhite:0.400 alpha:1.000];
@@ -552,17 +568,27 @@
     buttom_line = [[UIView alloc] initWithFrame:CGRectMake(0, SCOREVIEWHEIGHT, QdxWidth, 1)];
     buttom_line.backgroundColor = [UIColor colorWithWhite:0.875 alpha:1];
     [playView addSubview:buttom_line];
+
+    if (QdxWidth >375) {
+        task_button = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth - 100 -20 , QdxHeight - 64 - 100 - 20, 100, 100)];
+        [task_button setImage:[ToolView OriginImage:[UIImage imageNamed:@"悬浮－任务"] scaleToSize:CGSizeMake(100, 100)] forState:UIControlStateNormal];
+        [task_button setImage:[ToolView OriginImage:[UIImage imageNamed:@"任务"] scaleToSize:CGSizeMake(100, 100)] forState:UIControlStateHighlighted];
+        
+        history_button = [[UIButton alloc] initWithFrame:CGRectMake(20 , QdxHeight - 64 - 100 - 20, 100, 100)];
+        [history_button setImage:[ToolView OriginImage:[UIImage imageNamed:@"悬浮－足迹"] scaleToSize:CGSizeMake(100, 100)] forState:UIControlStateNormal];
+        [history_button setImage:[ToolView OriginImage:[UIImage imageNamed:@"足迹"] scaleToSize:CGSizeMake(100, 100)] forState:UIControlStateHighlighted];
+    }else{
+        task_button = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth - 80 -20 , QdxHeight - 64 - 80 - 20, 80, 80)];
+        [task_button setImage:[UIImage imageNamed:@"悬浮－任务"] forState:UIControlStateNormal];
+        [task_button setImage:[UIImage imageNamed:@"任务"] forState:UIControlStateHighlighted];
+        
+        history_button = [[UIButton alloc] initWithFrame:CGRectMake(20 , QdxHeight - 64 - 80 - 20, 80, 80)];
+        [history_button setImage:[UIImage imageNamed:@"悬浮－足迹"] forState:UIControlStateNormal];
+        [history_button setImage:[UIImage imageNamed:@"足迹"] forState:UIControlStateHighlighted];
+    }
     
-//    map_click = [[UIButton alloc] initWithFrame:CGRectMake(0,QdxHeight - MAPVIEWHEIGHT ,QdxWidth,MAPVIEWHEIGHT)];
-//    [map_click addTarget:self action:@selector(mapClick:) forControlEvents:UIControlEventTouchUpInside];
-//    map_click.backgroundColor = [UIColor clearColor];
-    
-    task_button = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth - 40 -10 , QdxHeight  - 64 - 50 - 40 - 25 - 30, 40, 40)];
     [task_button addTarget:self action:@selector(task_buttonClick) forControlEvents:UIControlEventTouchUpInside];
-    [task_button setImage:[UIImage imageNamed:@"悬浮－任务"] forState:UIControlStateNormal];
-    history_button = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth - 40 -10 , QdxHeight - 64 - 50 - 40, 40, 40)];
     [history_button addTarget:self action:@selector(history_buttonClick) forControlEvents:UIControlEventTouchUpInside];
-    [history_button setImage:[UIImage imageNamed:@"悬浮－足迹"] forState:UIControlStateNormal];
     
     UIButton *more = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 4)];
     [more addTarget:self action:@selector(moreClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -587,6 +613,9 @@
     }
     
     [self getPointLonLat];
+    
+    self.mapView.showsUserLocation = YES;
+    self.mapView.userTrackingMode = MAUserTrackingModeFollow;
 }
 
 //将计时器 地图内存释放
@@ -596,6 +625,7 @@
     [self.mapView removeAnnotation:annotation_target];
     [_mapView removeOverlay:groundOverlay];
     [countDownTimer setFireDate:[NSDate distantFuture]];
+    [self.mapView setCompassImage:nil];
 }
 
 //请求点标位置 地图位置
@@ -628,13 +658,22 @@
                 [_mapView addOverlay:groundOverlay];
                 [_mapView setVisibleMapRect:groundOverlay.boundingMapRect animated:YES];
             }else{
-                CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake([self.resultInfo.MapPoint.top_lat floatValue], [self.resultInfo.MapPoint.top_lon floatValue]);
+                float lat = ([self.resultInfo.MapPoint.top_lat floatValue] + [self.resultInfo.MapPoint.bottom_lat floatValue])/2;
+                float lon = ([self.resultInfo.MapPoint.top_lon floatValue] + [self.resultInfo.MapPoint.bottom_lon floatValue])/2;
+                CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(lat, lon);
                 //缩放比例
-                MACoordinateSpan span = MACoordinateSpanMake(0.1, 0.3);
+                MACoordinateSpan span = MACoordinateSpanMake(0.01, 0.01);
                 MACoordinateRegion region = MACoordinateRegionMake(coordinate, span);
                 //设置地图的显示区域
                 [_mapView setRegion:region];
             }
+        
+//            //缩放比例
+//            MACoordinateSpan span = MACoordinateSpanMake(0.01, 0.01);
+//            MACoordinateRegion region = MACoordinateRegionMake(self.mapView.userLocation.location.coordinate, span);
+//            //设置地图的显示区域
+//            [_mapView setRegion:region];
+            
             CLLocationCoordinate2D coor;
             //            if([self.gameInfo.line.linetype_id isEqualToString:@"2"]){//自由规划
             
@@ -656,34 +695,34 @@
                 annotation_history.subtitle = line_point.pointmap_des;
                 [self.mapView addAnnotation:annotation_history];
             }
-            //            }else{//依次穿越
-            ////                self.annotations_history = [NSMutableArray array];
-            ////                self.annotations_target = [NSMutableArray array];
-            //                for (line_pointModel *line_point in self.resultInfo.History) {
-            //                    // 添加一个PointAnnotation
-            //                    annotation_history = [[MAPointAnnotation alloc]init];
-            //                    coor.latitude = [line_point.point.LAT floatValue];
-            //                    coor.longitude = [line_point.point.LON floatValue];
-            //                    annotation_history.coordinate = coor;
-            //                    annotation_history.title = line_point.point.point_name;
-            //                    annotation_history.subtitle = line_point.pointmap_des;
-            ////                    [self.annotations_history addObject:annotation_history];
-            //                    [self.mapView addAnnotation:annotation_history];
-            //                }
-            //                for (line_pointModel *line_point in self.resultInfo.Unknown) {
-            //                    annotation_target = [[MAPointAnnotation alloc]init];
-            //                    coor.latitude = [line_point.point.LAT floatValue];
-            //                    coor.longitude = [line_point.point.LON floatValue];
-            //                    annotation_target.coordinate = coor;
-            //                    annotation_target.title = line_point.point.point_name;
-            //                    annotation_target.subtitle = line_point.pointmap_des;
-            ////                    [self.annotations_target addObject:annotation_target];
-            //                    [self.mapView addAnnotation:annotation_target];
-            //                }
-            ////                NSLog(@"%ld",(long)self.annotations_history.count);
-            ////                [self.mapView addAnnotations:self.annotations_target];
-            ////                [self.mapView addAnnotations:self.annotations_history];
-            //            }
+//                        }else{//依次穿越
+//            //                self.annotations_history = [NSMutableArray array];
+//            //                self.annotations_target = [NSMutableArray array];
+//                            for (line_pointModel *line_point in self.resultInfo.History) {
+//                                // 添加一个PointAnnotation
+//                                annotation_history = [[MAPointAnnotation alloc]init];
+//                                coor.latitude = [line_point.point.LAT floatValue];
+//                                coor.longitude = [line_point.point.LON floatValue];
+//                                annotation_history.coordinate = coor;
+//                                annotation_history.title = line_point.point.point_name;
+//                                annotation_history.subtitle = line_point.pointmap_des;
+//            //                    [self.annotations_history addObject:annotation_history];
+//                                [self.mapView addAnnotation:annotation_history];
+//                            }
+//                            for (line_pointModel *line_point in self.resultInfo.Unknown) {
+//                                annotation_target = [[MAPointAnnotation alloc]init];
+//                                coor.latitude = [line_point.point.LAT floatValue];
+//                                coor.longitude = [line_point.point.LON floatValue];
+//                                annotation_target.coordinate = coor;
+//                                annotation_target.title = line_point.point.point_name;
+//                                annotation_target.subtitle = line_point.pointmap_des;
+//            //                    [self.annotations_target addObject:annotation_target];
+//                                [self.mapView addAnnotation:annotation_target];
+//                            }
+//            //                NSLog(@"%ld",(long)self.annotations_history.count);
+//            //                [self.mapView addAnnotations:self.annotations_target];
+//            //                [self.mapView addAnnotations:self.annotations_history];
+//                        }
         }
         else{
             
@@ -704,6 +743,7 @@
         {
             annotationView = [[PointAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:reuseIndetifier];
         }
+        
         if ([annotation isEqual:annotation_history]){
             UIImage *image = [UIImage imageNamed:@"historyPoint"];
             annotationView.image = image;
@@ -712,7 +752,6 @@
             annotationView.image = image;
         }
         
-//        NSRange range = [[annotation title] rangeOfString:@"点标"]; //现获取要截取的字符串位置
         NSString * result = [[annotation title] stringByReplacingOccurrencesOfString:@"点标" withString:@""]; //截取字符串
         result = [result stringByReplacingOccurrencesOfString:@"点" withString:@""];
         annotationView.point_ID.text = [result stringByReplacingOccurrencesOfString:@"号" withString:@""];
@@ -823,59 +862,58 @@
 -(void)mapClick
 {
     mapClick = !mapClick;
-//    map_click.selected = !map_click.isSelected;
     if (!mapClick) {
         [playView addGestureRecognizer:self.doubleTap];
-//        [map_click removeFromSuperview];
         [playLineView_One removeFromSuperview];
         [score_sum removeFromSuperview];
-//        [score_ms removeFromSuperview];
         [score_sum_name removeFromSuperview];
-        float pointHeight = (QdxHeight * 0.1 - (20 + 15 + 5))/2;
-        playLineView_Two.frame = CGRectMake(QdxWidth/2, 0, 1, QdxHeight * 0.1);
-        buttom_line.frame = CGRectMake(0, QdxHeight * 0.1, QdxWidth, 1);
-        point.frame = CGRectMake(0, pointHeight, QdxWidth/2, 20);
-        point_name.frame = CGRectMake(0,pointHeight + 20 + 5, QdxWidth/2, 15);
-        useTime.frame = CGRectMake((QdxWidth/4)* 3 - QdxWidth/2/2,pointHeight, QdxWidth/2, 20);
-        useTime.font = [UIFont fontWithName:@"Helvetica-Bold" size:24];
-        currentTime.frame = CGRectMake((QdxWidth/4)* 3 - 100/2,pointHeight + 20 + 5, 100, 15);
         
-        playView.frame = CGRectMake(0, 0, QdxWidth, QdxHeight * 0.1);
-        self.mapView.frame = CGRectMake(0,QdxHeight * 0.1,QdxWidth,QdxHeight * 0.9);
-//        map_click.frame = CGRectMake(0, 0, QdxWidth, QdxHeight * 0.1);
-//        [self.view addSubview:map_click];
+        [UIView animateWithDuration:1 animations:^{
+            playView.frame = CGRectMake(0, 0, QdxWidth, QdxHeight * 0.1);
+            self.mapView.frame = CGRectMake(0,QdxHeight * 0.1,QdxWidth,QdxHeight * 0.9);
+            float pointHeight = (QdxHeight * 0.1 - (20 + 15 + 5))/2;
+            playLineView_Two.frame = CGRectMake(QdxWidth/2, 0, 1, QdxHeight * 0.1);
+            buttom_line.frame = CGRectMake(0, QdxHeight * 0.1, QdxWidth, 1);
+            point.frame = CGRectMake(0, pointHeight, QdxWidth/2, 20);
+            point_name.frame = CGRectMake(0,pointHeight + 20 + 5+ 5, QdxWidth/2, 15);
+            useTime.frame = CGRectMake((QdxWidth/4)* 3 - QdxWidth/2/2,pointHeight, QdxWidth/2, 20);
+            useTime.font = [UIFont fontWithName:@"Helvetica-Bold" size:24];
+            currentTime.frame = CGRectMake((QdxWidth/4)* 3 - 100/2,pointHeight + 20 + 5+ 5, 100, 15);
+        } completion:^(BOOL finished) {
+            
+        }];
     }else{
-//        map_click.frame = CGRectMake(0,QdxHeight - MAPVIEWHEIGHT ,QdxWidth,MAPVIEWHEIGHT);
         [self.mapView addGestureRecognizer:self.doubleTap];
-        self.mapView.frame = CGRectMake(0,QdxHeight - MAPVIEWHEIGHT ,QdxWidth,MAPVIEWHEIGHT);
-        playView.frame = CGRectMake(0, 0, QdxWidth, SCOREVIEWHEIGHT);
         
         [history_button removeFromSuperview];
         [task_button removeFromSuperview];
-        [self.view addSubview:history_button];
-        [self.view addSubview:task_button];
-        [playView addSubview:playLineView_One];
-        [playView addSubview:score_sum_name];
-//        [playView addSubview:score_ms];
-        [playView addSubview:score_sum];
-        CGFloat useTimeCenterX = QdxWidth * 0.5;
-        CGFloat useTimeCenterY = (SCOREVIEWHEIGHT * 0.6) * 0.45;
-        useTime.center = CGPointMake(useTimeCenterX, useTimeCenterY);
-        useTime.bounds = CGRectMake(0, 0, QdxWidth, 25);
-        useTime.font = [UIFont fontWithName:@"Helvetica-Bold" size:30];
-        CGFloat currentTimeCenterX = useTimeCenterX;
-        CGFloat currentTimeCenterY = useTimeCenterY + 15 + 25/2;
-        currentTime.center = CGPointMake(currentTimeCenterX, currentTimeCenterY);
-        currentTime.bounds = CGRectMake(0, 0, QdxWidth/2, 15);
-        float playline_Height = SCOREVIEWHEIGHT * 0.6;
-        float pointHeight = playline_Height +((SCOREVIEWHEIGHT - playline_Height) - (20 + 15 + 5))/2;
-        buttom_line.frame = CGRectMake(0, SCOREVIEWHEIGHT, QdxWidth, 1);
-        playLineView_Two.frame = CGRectMake(QdxWidth/2, playline_Height+1, 1, SCOREVIEWHEIGHT - playline_Height-1);
-        point.frame = CGRectMake(0, pointHeight, QdxWidth/2, 20);
-        point_name.frame = CGRectMake(0,pointHeight + 20 + 5, QdxWidth/2, 15);
-        score_sum.frame = CGRectMake((QdxWidth/4)* 3 - 100/2, pointHeight, 100, 20);
-//        score_ms.frame = CGRectMake((QdxWidth/4)* 3 - 100/2 + 100, pointHeight, 20, 20);
-        score_sum_name.frame = CGRectMake((QdxWidth/4)* 3 - 100/2,pointHeight + 20 + 5, 100, 15);
+        [UIView animateWithDuration:1 animations:^{
+            self.mapView.frame = CGRectMake(0,QdxHeight - MAPVIEWHEIGHT ,QdxWidth,MAPVIEWHEIGHT);
+            playView.frame = CGRectMake(0, 0, QdxWidth, SCOREVIEWHEIGHT);
+            CGFloat useTimeCenterX = QdxWidth * 0.5;
+            CGFloat useTimeCenterY = (SCOREVIEWHEIGHT * 0.6) * 0.45;
+            useTime.center = CGPointMake(useTimeCenterX, useTimeCenterY);
+            useTime.bounds = CGRectMake(0, 0, QdxWidth, 25);
+            useTime.font = [UIFont fontWithName:@"Helvetica-Bold" size:30];
+            CGFloat currentTimeCenterX = useTimeCenterX;
+            CGFloat currentTimeCenterY = useTimeCenterY + 15 + 25/2+ 5;
+            currentTime.center = CGPointMake(currentTimeCenterX, currentTimeCenterY);
+            currentTime.bounds = CGRectMake(0, 0, QdxWidth/2, 15);
+            float playline_Height = SCOREVIEWHEIGHT * 0.6;
+            float pointHeight = playline_Height +((SCOREVIEWHEIGHT - playline_Height) - (20 + 15 + 5))/2;
+            buttom_line.frame = CGRectMake(0, SCOREVIEWHEIGHT, QdxWidth, 1);
+            playLineView_Two.frame = CGRectMake(QdxWidth/2, playline_Height+1, 1, SCOREVIEWHEIGHT - playline_Height-1);
+            point.frame = CGRectMake(0, pointHeight, QdxWidth/2, 20);
+            point_name.frame = CGRectMake(0,pointHeight + 20 + 5+ 5, QdxWidth/2, 15);
+            score_sum.frame = CGRectMake((QdxWidth/4)* 3 - 100/2, pointHeight, 100, 20);
+            score_sum_name.frame = CGRectMake((QdxWidth/4)* 3 - 100/2,pointHeight + 20 + 5+ 5, 100, 15);
+        } completion:^(BOOL finished) {
+            [playView addSubview:playLineView_One];
+            [playView addSubview:score_sum_name];
+            [playView addSubview:score_sum];
+            [self.view addSubview:history_button];
+            [self.view addSubview:task_button];
+        }];
     }
 }
 
@@ -993,23 +1031,16 @@
     [self.view addSubview:self.deliverView];
         
     if (code == 0) {
-        successView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, TASKWEIGHT, TASKHEIGHT - SHOWTASKHEIGHT)];
+        successView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, TASKWEIGHT, TASKHEIGHT)];
         
-        [successView setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,self.gameInfo.img_url]] placeholderImage:[UIImage imageNamed:@"banner_cell"] options:SDWebImageRefreshCached];
+        [successView setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,self.gameInfo.img_url]] placeholderImage:[UIImage imageNamed:@"加载中"] options:SDWebImageRefreshCached];
 
 //        [successView setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,self.gameInfo.img_url]] placeholderImage:[UIImage imageNamed:@"banner_cell"]];
         [self.deliverView addSubview:successView];
             
-        showMsg_button = [[UIButton alloc] initWithFrame:CGRectMake(0, TASKHEIGHT - SHOWTASKHEIGHT,TASKWEIGHT, SHOWTASKHEIGHT)];
+        showMsg_button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0,TASKWEIGHT, TASKHEIGHT)];
         [showMsg_button addTarget:self action:@selector(showMsg_buttonClick) forControlEvents:UIControlEventTouchUpInside];
-        CGFloat top = 25; // 顶端盖高度
-        CGFloat bottom = 25; // 底端盖高度
-        CGFloat left = 5; // 左端盖宽度
-        CGFloat right = 5; // 右端盖宽度
-        UIEdgeInsets insets = UIEdgeInsetsMake(top, left, bottom, right);
-            // 指定为拉伸模式，伸缩后重新赋值
-        [showMsg_button setBackgroundImage:[[UIImage imageNamed:@"任务卡－查看提示"] resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch] forState:UIControlStateNormal];
-        [showMsg_button setTitle:@"查看提示" forState:UIControlStateNormal];
+        showMsg_button.backgroundColor = [UIColor clearColor];
         [self.deliverView addSubview:showMsg_button];
     }else{
         [self showMsg_buttonClick];
@@ -1018,7 +1049,6 @@
 
 -(void)showMsg_buttonClick
 {
-    [MBProgressHUD showMessage:@"请稍等"];
     [showMsg_button removeFromSuperview];
     [successView removeFromSuperview];
     lock = NO;
@@ -1043,15 +1073,14 @@
     showTitle_button.titleLabel.font = [UIFont systemFontOfSize:20];
     [self.deliverView addSubview:showTitle_button];
     
-    cancel_button = [[UIButton alloc] initWithFrame:CGRectMake(TASKWEIGHT - 30, 15,15, 15)];
-    [cancel_button addTarget:self action:@selector(cancel_buttonClick) forControlEvents:UIControlEventTouchUpInside];
-    [cancel_button setBackgroundImage:[UIImage imageNamed:@"任务卡－取消"]  forState:UIControlStateNormal];
-    [self.deliverView addSubview:cancel_button];
+//    cancel_button = [[UIButton alloc] initWithFrame:CGRectMake(TASKWEIGHT - 30, 15,15, 15)];
+//    [cancel_button addTarget:self action:@selector(cancel_buttonClick) forControlEvents:UIControlEventTouchUpInside];
+//    [cancel_button setBackgroundImage:[UIImage imageNamed:@"任务卡－取消"]  forState:UIControlStateNormal];
+//    [self.deliverView addSubview:cancel_button];
     
     self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0,SHOWTASKHEIGHT, TASKWEIGHT, TASKHEIGHT - 2 * SHOWTASKHEIGHT)];
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/Myline/getTaskWeb/myline_id/%@/tmp/%@",oldMyLineid,save]]]];
     [self.deliverView addSubview:self.webView];
-    [MBProgressHUD hideHUD];
 }
 
 -(void)showOK_buttonClick
@@ -1059,10 +1088,10 @@
     [self removeFromSuperViewController];
 }
 
--(void)cancel_buttonClick
-{
-    [self removeFromSuperViewController];
-}
+//-(void)cancel_buttonClick
+//{
+//    [self removeFromSuperViewController];
+//}
 
 -(void)removeFromSuperViewController
 {
@@ -1172,8 +1201,8 @@
             
         }];
     }else if (buttonIndex ==1 && alertView.tag == 2){
-        TTSExample * example = [[TTSExample alloc] init];
-        [example read:@" 活动开始!"];
+//        TTSExample * example = [[TTSExample alloc] init];
+//        [example read:@" 活动开始!"];
         [self setupCheckTask];
     }else if (buttonIndex ==1 && alertView.tag == 3){
         

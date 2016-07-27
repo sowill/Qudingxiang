@@ -32,7 +32,7 @@
         UIButton *plusButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [plusButton setBackgroundImage:[UIImage imageNamed:@"index_go"] forState:UIControlStateNormal];
         [plusButton setBackgroundImage:[UIImage imageNamed:@"index_go"] forState:UIControlStateHighlighted];
-        plusButton.bounds = CGRectMake(0, 0, plusButton.currentBackgroundImage.size.width, plusButton.currentBackgroundImage.size.height);
+        plusButton.bounds = CGRectMake(0, 0, plusButton.currentBackgroundImage.size.width+10, plusButton.currentBackgroundImage.size.height+10);
         [plusButton addTarget:self action:@selector(plusButtonClick) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:plusButton];
         

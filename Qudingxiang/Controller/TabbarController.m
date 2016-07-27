@@ -51,7 +51,6 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    
     // 删除系统自动生成的UITabBarButton
     for (UIView *child in self.tabBar.subviews) {
         if ([child isKindOfClass:[UIControl class]]) {
@@ -65,6 +64,7 @@
 {
     [super viewDidAppear:animated];
     [self state];
+    self.customTabBar.userInteractionEnabled = YES;
 }
 - (void)setupTabbar
 {
@@ -87,7 +87,8 @@
 
 - (void)change
 {
-//    self.customTabBar.userInteractionEnabled = NO;
+
+    self.customTabBar.userInteractionEnabled = NO;
     [HomeService btnStateBlock:^(NSMutableDictionary *dict) {
         _code = [[NSString stringWithFormat:@"%@",dict[@"Code"]] intValue];
         int ret = [dict[@"Code"] intValue];
@@ -101,9 +102,16 @@
         
         [HomeService choiceLineStateBlock:^(NSMutableDictionary *dict) {
             _line = [[NSString stringWithFormat:@"%@",dict[@"Code"]] intValue];
-//             self.customTabBar.userInteractionEnabled = YES;
+            [self performSelectorOnMainThread:@selector(success) withObject:nil waitUntilDone:nil];
         } andWithToken:save];
     } andWithToken:save];
+    
+
+}
+
+- (void)success
+{
+    self.customTabBar.userInteractionEnabled = YES;
 }
 
 - (void)tabBarDidClickedPlusButton:(TabbarView *)tabBar

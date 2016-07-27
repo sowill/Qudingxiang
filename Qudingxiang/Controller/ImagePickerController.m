@@ -236,7 +236,7 @@
         if([self.from intValue] == 0){
             self.ScanResult(metadataObject.stringValue,YES,@"0");
         }else if([self.from intValue] == 1){
-            [self netWorking];
+            self.ScanResult(metadataObject.stringValue,YES,@"1");
         }
         
     }

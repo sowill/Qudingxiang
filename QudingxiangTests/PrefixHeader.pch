@@ -26,6 +26,9 @@
 #define QdxWidth [UIScreen mainScreen].bounds.size.width
 #define QdxHeight [UIScreen mainScreen].bounds.size.height
 
+//是否提示
+#define     QDXPromptFile [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"prompt.data"]
+
 //记住token
 #define     XWLAccountFile [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"XWLAccount.data"]
 
@@ -37,6 +40,8 @@
 #define    QDXCurrentMyLineFile [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"QDXCurrentMyLine.data"]
 
 #define QDXVersion  [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"QDXVersion.data"]
+
+#define promptStr   [NSKeyedUnarchiver unarchiveObjectWithFile:QDXPromptFile]
 
 #define Version  [NSKeyedUnarchiver unarchiveObjectWithFile:QDXVersion]
 

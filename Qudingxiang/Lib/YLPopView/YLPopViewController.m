@@ -79,9 +79,18 @@
     [self.view addSubview:self.contentView];
 
 
-    _web = [[UIWebView alloc] init];
-    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/Myline/getQuestionWeb/myline_id/%@/tmp/%@",mylineid,save]];
-    [_web loadRequest:[NSURLRequest requestWithURL:url]];
+//    _web = [[UIWebView alloc] init];
+//    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/Myline/getQuestionWeb/myline_id/%@/tmp/%@",mylineid,save]];
+//    [_web loadRequest:[NSURLRequest requestWithURL:url]];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *docDir = [paths objectAtIndex:0];
+    NSString *string = [docDir stringByAppendingString:@"/question.html"];
+    NSURL *htmlURL = [NSURL URLWithString:string];
+    NSURLRequest *request = [NSURLRequest requestWithURL:htmlURL];
+    [_web loadRequest:request];
+    
+    
     [self.contentView addSubview:_web];
 /*
  *  底部按钮

@@ -16,6 +16,8 @@
 		451828AE1D40C87A00D5FC85 /* icon_ea_indicator@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 451828A71D40C87A00D5FC85 /* icon_ea_indicator@2x.png */; };
 		451828AF1D40C87A00D5FC85 /* icon_ea_indicator@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 451828A81D40C87A00D5FC85 /* icon_ea_indicator@3x.png */; };
 		451828B01D40C87A00D5FC85 /* UIView+EAFeatureGuideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 451828AA1D40C87A00D5FC85 /* UIView+EAFeatureGuideView.m */; };
+		4525944D1D50D31A002BF84B /* LocalDBService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4525944C1D50D31A002BF84B /* LocalDBService.m */; };
+		452594501D51A0D1002BF84B /* LocalSqlliteService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4525944F1D51A0D1002BF84B /* LocalSqlliteService.m */; };
 		453395071CF6D8C800B5A825 /* FeHandwriting.m in Sources */ = {isa = PBXBuildFile; fileRef = 453394FF1CF6D8C800B5A825 /* FeHandwriting.m */; };
 		453395081CF6D8C800B5A825 /* FXBlurView.m in Sources */ = {isa = PBXBuildFile; fileRef = 453395041CF6D8C800B5A825 /* FXBlurView.m */; };
 		453395091CF6D8C800B5A825 /* UIColor+flat.m in Sources */ = {isa = PBXBuildFile; fileRef = 453395061CF6D8C800B5A825 /* UIColor+flat.m */; };
@@ -280,6 +282,10 @@
 		4519DA5D1C3D0C8600E34BE4 /* LXActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LXActivity.h; sourceTree = "<group>"; };
 		4519DA5E1C3D0C8600E34BE4 /* LXActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXActivity.m; sourceTree = "<group>"; };
 		452523941BAABD6E0058A8BE /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		4525944B1D50D31A002BF84B /* LocalDBService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalDBService.h; sourceTree = "<group>"; };
+		4525944C1D50D31A002BF84B /* LocalDBService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalDBService.m; sourceTree = "<group>"; };
+		4525944E1D51A0D1002BF84B /* LocalSqlliteService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalSqlliteService.h; sourceTree = "<group>"; };
+		4525944F1D51A0D1002BF84B /* LocalSqlliteService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalSqlliteService.m; sourceTree = "<group>"; };
 		453394FE1CF6D8C800B5A825 /* FeHandwriting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FeHandwriting.h; sourceTree = "<group>"; };
 		453394FF1CF6D8C800B5A825 /* FeHandwriting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FeHandwriting.m; sourceTree = "<group>"; };
 		453395031CF6D8C800B5A825 /* FXBlurView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FXBlurView.h; sourceTree = "<group>"; };
@@ -1483,6 +1489,10 @@
 				A31822171C92B87C00A1882B /* LoginService.m */,
 				A3413EC01C97F565009332B3 /* HomeService.h */,
 				A3413EC11C97F565009332B3 /* HomeService.m */,
+				4525944B1D50D31A002BF84B /* LocalDBService.h */,
+				4525944C1D50D31A002BF84B /* LocalDBService.m */,
+				4525944E1D51A0D1002BF84B /* LocalSqlliteService.h */,
+				4525944F1D51A0D1002BF84B /* LocalSqlliteService.m */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -1735,7 +1745,7 @@
 				TargetAttributes = {
 					45DF76281BA6AAC20024A6B4 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = SDW8DF5BW4;
+						DevelopmentTeam = X5T2295222;
 					};
 					45DF76411BA6AAC20024A6B4 = {
 						CreatedOnToolsVersion = 6.4;
@@ -1818,6 +1828,7 @@
 				455A95B51C97E3EB0039FA88 /* MJExtensionConst.m in Sources */,
 				45C6F5671C92A07900C5AA31 /* QDXIsConnect.m in Sources */,
 				45C6F5791C92A0D800C5AA31 /* QDXTicketInfoModel.m in Sources */,
+				4525944D1D50D31A002BF84B /* LocalDBService.m in Sources */,
 				455C8A941CCF7827001F5FC5 /* APAuthV2Info.m in Sources */,
 				A3442D2B1C9BAA330092363A /* ActivityService.m in Sources */,
 				45EE613A1CEAC641007302E3 /* PointAnnotationView.m in Sources */,
@@ -1994,6 +2005,7 @@
 				45C6F5B41C92A2D500C5AA31 /* QDXLoginViewController.m in Sources */,
 				45C6F5BB1C92A30600C5AA31 /* DetailCell.m in Sources */,
 				4569E59E1C4CB64B00FF4E8B /* AppDelegate.m in Sources */,
+				452594501D51A0D1002BF84B /* LocalSqlliteService.m in Sources */,
 				4569E5A01C4CB64B00FF4E8B /* main.m in Sources */,
 				4571CDF51CE05B00002ED784 /* CYAlertPresentSlideRight.m in Sources */,
 				A35DAC351CCF184000D01CF0 /* AFURLRequestSerialization.m in Sources */,
@@ -2151,7 +2163,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sporttest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sport;
 				PRODUCT_NAME = "趣定向";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -2194,7 +2206,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sporttest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sport;
 				PRODUCT_NAME = "趣定向";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;

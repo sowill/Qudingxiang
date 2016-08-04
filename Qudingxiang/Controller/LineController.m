@@ -115,17 +115,31 @@
 
 - (void)buttonBackSetting
 {
+    //    HomeController *homeVC = [[HomeController alloc] init];
+    //    UIViewController *target = nil;
+    //    for(UIViewController *controller in self.navigationController.viewControllers){
+    //        if([controller isKindOfClass:[homeVC class]]){
+    //            target = controller;
+    //        }
+    //    }
+    //    if(target){
+    //        [self.navigationController popToViewController:target animated:YES];
+    //    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"noti1" object:nil];
     [self dismissViewControllerAnimated:YES completion:^{
         
     }];
+    
 }
 
 -(void)dealloc
 
 {
+    
     //移除观察者，Observer不能为nil
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    
 }
 
 - (void)btnData

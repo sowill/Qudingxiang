@@ -29,6 +29,7 @@
         _score = score;
         _isLeader = isLeader;
         _pointmap_id = pointmap_id;
+        
     }
     return self;
 }

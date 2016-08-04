@@ -45,7 +45,7 @@
     {
         [_tableView setLayoutMargins:UIEdgeInsetsZero];
     }
-    
+    [self loaddata];
 }
 
 -(void)createButtonBack

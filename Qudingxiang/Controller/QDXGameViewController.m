@@ -33,6 +33,7 @@
 #import "HelpViewController.h"
 #import "YLPopViewController.h"
 #import "UIView+EAFeatureGuideView.h"
+#import "LocalDBService.h"
 
 #define READYVIEWHEIGHT                    QdxHeight * 0.05
 #define WEBVIEWHEIGHT                      QdxHeight * 0.95
@@ -137,7 +138,13 @@
     [self setupFrame];
     [self showGuideView];
     [self setupgetMylineInfo:0];
+    
+    
+    NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+    NSLog(@"%@",path);
 }
+
+
 
 - (void)showGuideView
 {
@@ -162,7 +169,6 @@
 
 //懒加载地图
 - (MAMapView *)mapView{
-    
     if(!_mapView) {
         self.mapView = [[MAMapView alloc]initWithFrame:CGRectMake(0,QdxHeight - MAPVIEWHEIGHT ,QdxWidth,MAPVIEWHEIGHT)];
         self.mapView.mapType = MAMapTypeStandard;
@@ -190,15 +196,117 @@
     return YES;
 }
 
+-(void)setMylineInfo:(NSDictionary *) infoDict code:(int)code
+{
+    QDXGameModel *game = [QDXGameModel mj_objectWithKeyValues:infoDict];
+    self.gameInfo = game;
+    NSString *macLabel =self.gameInfo.point.label;
+    NSArray *array3 = [macLabel componentsSeparatedByString:@":"];
+    NSString *string3 = [array3 componentsJoinedByString:@""];
+    mac_Label = [string3 componentsSeparatedByString:@","];
+    NSLog(@"%@",mac_Label);
+    sdateStr = self.gameInfo.sdate;
+    [self intervalSinceNow];
+    point.text = self.gameInfo.point.point_name;
+    score_sum.text = [ToolView scoreTransfer:self.gameInfo.score];
+    //            score_ms.text = self.gameInfo.ms;
+    
+    if (code == 1) {
+        //                if([self.gameInfo.pointmap.pindex intValue] == 0){
+        //                    [self setupCompleteView:1];
+        //                }else
+        if([self.gameInfo.pointmap.pindex intValue]<999){
+            [self setupCompleteView:0];
+        }
+    }
+    
+    switch ([self.gameInfo.mstatus_id intValue]) {
+        case 1:
+            self.navigationItem.title = @"准备活动";
+            if ([self.gameInfo.isLeader intValue] == 1) {
+                self.MyCentralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+            }
+            [self.mapView removeFromSuperview];
+            [self.QDXScrollView addSubview:readyView];
+            [self.QDXScrollView addSubview:_webView];
+            break;
+            
+        case 2:
+            [self.navigationItem setTitle:[game.line.line_sub stringByAppendingString:@"-活动中"]];
+            if ([self.gameInfo.isLeader intValue] == 1) {
+                self.MyCentralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+            }
+            if([self.gameInfo.line.linetype_id isEqualToString:@"3"])
+            {
+                currentTime.text = @"倒计时";
+            }
+            [readyView removeFromSuperview];
+            [_webView removeFromSuperview];
+            [self.QDXScrollView addSubview:self.mapView];
+            [self.QDXScrollView addSubview:playView];
+            [self.QDXScrollView addSubview:task_button];
+            [self.QDXScrollView addSubview:history_button];
+            break;
+            
+        case 3:
+            lock = YES;
+            if (![mylineid isEqualToString:self.model.myline_id]){
+                NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+                documentDir= [documentDir stringByAppendingPathComponent:@"QDXMyLine.data"];
+                [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
+            }
+            self.navigationItem.title = @"活动结束";
+            [self.mapView removeFromSuperview];
+            [readyView removeFromSuperview];
+            [_webView removeFromSuperview];
+            [playView removeFromSuperview];
+            [task_button removeFromSuperview];
+            [history_button removeFromSuperview];
+            [self removeFromSuperViewController];
+            [self createTableView];
+            [self.QDXScrollView addSubview:certificate];
+            [self refreshScrollView];
+            break;
+        default:
+            lock = YES;
+            if (![mylineid isEqualToString:self.model.myline_id]){
+                NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+                documentDir= [documentDir stringByAppendingPathComponent:@"QDXMyLine.data"];
+                [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
+            }
+            [self removeFromSuperViewController];
+            [self.mapView removeFromSuperview];
+            [readyView removeFromSuperview];
+            [_webView removeFromSuperview];
+            [playView removeFromSuperview];
+            [task_button removeFromSuperview];
+            [history_button removeFromSuperview];
+            self.navigationItem.title = @"强制结束";
+            [self createSadView];
+            break;
+    }
+  
+}
 //请求当前线路1）准备 2）活动中 3）活动完成 4）强制结束
 -(void)setupgetMylineInfo:(int) code
 {
+
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"TokenKey"] = save;
     params[@"myline_id"] = oldMyLineid;
     NSString *url = [hostUrl stringByAppendingString:@"Home/Myline/getMyline"];
+    
+    
+    //使用离线数据
+    NSDictionary *res=[LocalDBService ReadMyline:oldMyLineid];
+    if (res !=nil) {
+        [self setMylineInfo:res code:code];
+        return ;
+    }
+    //////////////////
+    
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
@@ -207,95 +315,16 @@
         NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
         int ret = [infoDict[@"Code"] intValue];
         if (ret==1) {
-            QDXGameModel *game = [QDXGameModel mj_objectWithKeyValues:infoDict[@"Msg"]];
-            self.gameInfo = game;
-            NSString *macLabel =self.gameInfo.point.label;
-            NSArray *array3 = [macLabel componentsSeparatedByString:@":"];
-            NSString *string3 = [array3 componentsJoinedByString:@""];
-            mac_Label = [string3 componentsSeparatedByString:@","];
-            NSLog(@"%@",mac_Label);
-            sdateStr = self.gameInfo.sdate;
-            [self intervalSinceNow];
-            point.text = self.gameInfo.point.point_name;
-            NSLog(@"%@",self.gameInfo.point.point_name);
-            score_sum.text = [ToolView scoreTransfer:self.gameInfo.score];
-//            score_ms.text = self.gameInfo.ms;
-            NSLog(@"mstatus %@",self.gameInfo.mstatus_id);
-            NSLog(@"Pindex %@",self.gameInfo.pointmap.pindex);
-            if (code == 1) {
-//                if([self.gameInfo.pointmap.pindex intValue] == 0){
-//                    [self setupCompleteView:1];
-//                }else
-                if([self.gameInfo.pointmap.pindex intValue]<999){
-                    [self setupCompleteView:0];
-                }
-            }
+    
+            [self setMylineInfo:infoDict[@"Msg"] code:code];
             
-            switch ([self.gameInfo.mstatus_id intValue]) {
-                case 1:
-                    self.navigationItem.title = @"准备活动";
-                    if ([self.gameInfo.isLeader intValue] == 1) {
-                        self.MyCentralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
-                    }
-                    [self.mapView removeFromSuperview];
-                    [self.QDXScrollView addSubview:readyView];
-                    [self.QDXScrollView addSubview:_webView];
-                    break;
-                    
-                case 2:
-                    [self.navigationItem setTitle:[game.line.line_sub stringByAppendingString:@"-活动中"]];
-                    if ([self.gameInfo.isLeader intValue] == 1) {
-                        self.MyCentralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
-                    }
-                    if([self.gameInfo.line.linetype_id isEqualToString:@"3"])
-                    {
-                        currentTime.text = @"倒计时";
-                    }
-                    [readyView removeFromSuperview];
-                    [_webView removeFromSuperview];
-                    [self.QDXScrollView addSubview:self.mapView];
-                    [self.QDXScrollView addSubview:playView];
-                    [self.QDXScrollView addSubview:task_button];
-                    [self.QDXScrollView addSubview:history_button];
-                    break;
-                    
-                case 3:
-                    lock = YES;
-                    if (![mylineid isEqualToString:self.model.myline_id]){
-                        NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-                        documentDir= [documentDir stringByAppendingPathComponent:@"QDXMyLine.data"];
-                        [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
-                    }
-                    self.navigationItem.title = @"活动结束";
-                    [self.mapView removeFromSuperview];
-                    [readyView removeFromSuperview];
-                    [_webView removeFromSuperview];
-                    [playView removeFromSuperview];
-                    [task_button removeFromSuperview];
-                    [history_button removeFromSuperview];
-                    [self removeFromSuperViewController];
-                    [self createTableView];
-                    [self.QDXScrollView addSubview:certificate];
-                    [self refreshScrollView];
-                    break;
-                default:
-                    lock = YES;
-                    if (![mylineid isEqualToString:self.model.myline_id]){
-                        NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-                        documentDir= [documentDir stringByAppendingPathComponent:@"QDXMyLine.data"];
-                        [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
-                    }
-                    [self removeFromSuperViewController];
-                    [self.mapView removeFromSuperview];
-                    [readyView removeFromSuperview];
-                    [_webView removeFromSuperview];
-                    [playView removeFromSuperview];
-                    [task_button removeFromSuperview];
-                    [history_button removeFromSuperview];
-                    self.navigationItem.title = @"强制结束";
-                    [self createSadView];
-                    break;
-            }
+            [LocalDBService LoadDb:^(NSDictionary *dict) {
+                
+            } FailBlock:^(NSMutableArray *array) {
+                
+            } andWithLine:self.gameInfo.line_id andWithMyline:oldMyLineid];
+             //保存离线数据
+            [LocalDBService WriteMyline:infoDict[@"Msg"]];
         }
         else{
             
@@ -332,7 +361,6 @@
     //    });
     int b = abs([RSSI.description intValue]);
     CGFloat ci = (b - abs([self.gameInfo.point.rssi intValue])) / (10 * 4.);
-    NSLog(@"RSSI %@",RSSI);
     
     if (pow(10,ci) < 1 )
         NSLog(@"距离:%.1fm",pow(10,ci));
@@ -675,7 +703,6 @@
 //            [_mapView setRegion:region];
             
             CLLocationCoordinate2D coor;
-            //            if([self.gameInfo.line.linetype_id isEqualToString:@"2"]){//自由规划
             
             for (line_pointModel *line_point in self.resultInfo.Unknown) {
                 annotation_target = [[MAPointAnnotation alloc]init];
@@ -695,34 +722,6 @@
                 annotation_history.subtitle = line_point.pointmap_des;
                 [self.mapView addAnnotation:annotation_history];
             }
-//                        }else{//依次穿越
-//            //                self.annotations_history = [NSMutableArray array];
-//            //                self.annotations_target = [NSMutableArray array];
-//                            for (line_pointModel *line_point in self.resultInfo.History) {
-//                                // 添加一个PointAnnotation
-//                                annotation_history = [[MAPointAnnotation alloc]init];
-//                                coor.latitude = [line_point.point.LAT floatValue];
-//                                coor.longitude = [line_point.point.LON floatValue];
-//                                annotation_history.coordinate = coor;
-//                                annotation_history.title = line_point.point.point_name;
-//                                annotation_history.subtitle = line_point.pointmap_des;
-//            //                    [self.annotations_history addObject:annotation_history];
-//                                [self.mapView addAnnotation:annotation_history];
-//                            }
-//                            for (line_pointModel *line_point in self.resultInfo.Unknown) {
-//                                annotation_target = [[MAPointAnnotation alloc]init];
-//                                coor.latitude = [line_point.point.LAT floatValue];
-//                                coor.longitude = [line_point.point.LON floatValue];
-//                                annotation_target.coordinate = coor;
-//                                annotation_target.title = line_point.point.point_name;
-//                                annotation_target.subtitle = line_point.pointmap_des;
-//            //                    [self.annotations_target addObject:annotation_target];
-//                                [self.mapView addAnnotation:annotation_target];
-//                            }
-//            //                NSLog(@"%ld",(long)self.annotations_history.count);
-//            //                [self.mapView addAnnotations:self.annotations_target];
-//            //                [self.mapView addAnnotations:self.annotations_history];
-//                        }
         }
         else{
             
@@ -926,8 +925,44 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"TokenKey"] = save;
     params[@"myline_id"] = oldMyLineid;
-    params[@"mac"] = macStr;
-    params[@"answer"] = answer;
+    
+     if(![answer isEqualToString:@""] && answer != nil){
+        params[@"answer"] = answer;
+     }
+    if(![macStr isEqualToString:@""] && macStr != nil){
+        params[@"mac"] = macStr;
+    }
+    
+    answer = @"";
+    macStr = @"";//避免重复提交
+    
+    //离线验证
+    if ([self.gameInfo.pointmap.pindex intValue ] > 0 && [self.gameInfo.pointmap.pindex intValue] < 998) {
+        [MBProgressHUD hideHUD];
+        NSDictionary *dic = [LocalDBService CheckTask:params];
+        int ret = [dic[@"Code"] intValue];
+        if (ret==1) {
+            if (errorCount != 0) {
+                [MBProgressHUD showMessage:@"回答错误!"];
+                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{ // 3.0s后执行block里面的代码
+                    [MBProgressHUD hideHUD];
+                });
+            }
+            point_questionModel *p_questionModel = [point_questionModel mj_objectWithKeyValues:dic[@"Msg"]];
+            self.questionInfo = p_questionModel;
+            NSLog(@"%@   ",self.questionInfo.question.qkey);
+            [self  setupTaskView];
+
+            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+            errorCount++;
+        }else if (ret == 2){
+            [self setupgetMylineInfo:1];
+            [self getPointLonLat];
+        }
+        return ;
+    }
+    
+    
     NSString *url = [hostUrl stringByAppendingString:@"Home/Myline/checkTaskv2"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
@@ -936,7 +971,7 @@
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
         NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
         int ret = [infoDict[@"Code"] intValue];
-        NSLog(@"%@",infoDict[@"Msg"]);
+//        NSLog(@"%@",infoDict[@"Msg"]);
         if (ret==1) {
             if (errorCount != 0) {
                 [MBProgressHUD showMessage:@"回答错误!"];
@@ -948,12 +983,10 @@
             self.questionInfo = p_questionModel;
             NSLog(@"%@    %@",self.questionInfo.question.question_name,self.questionInfo.question.qkey);
             
-            dispatch_queue_t myConcurrentQurue = dispatch_queue_create("com.zhiyou.ccc", DISPATCH_QUEUE_CONCURRENT);
             [self setupTaskView];
-            dispatch_async(myConcurrentQurue, ^{
-                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-                errorCount++;
-            });
+
+            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+            errorCount++;
         }else if (ret == 2){
             [self setupgetMylineInfo:1];
             [self getPointLonLat];
@@ -991,22 +1024,36 @@
             rmoveMacStr = @"0";
         };
     }else if ([self.questionInfo.question.ischoice intValue] == 1){
-        CYAlertController *alert = [CYAlertController alertWithTitle:self.gameInfo.line.line_sub
-                                                             message:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/Myline/getQuestionWeb/myline_id/%@/tmp/%@",oldMyLineid,save]];
+        
+        
+        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+        NSString *docDir = [paths objectAtIndex:0];
+        NSString *stringurl = [docDir stringByAppendingString:@"/question.html"];
+        
+//        CYAlertController *alert = [CYAlertController alertWithTitle:self.gameInfo.line.line_sub message:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/Myline/getQuestionWeb/myline_id/%@/tmp/%@",oldMyLineid,save]];
+        
+        CYAlertController *alert = [CYAlertController alertWithTitle:self.gameInfo.line.line_sub message:stringurl];
+        
         alert.alertViewCornerRadius = 10;
+        
         CYAlertAction *cancelAction_A = [CYAlertAction actionWithTitle:[@"A. " stringByAppendingString:self.questionInfo.question.qa] style:CYAlertActionStyleCancel handler:^{
             answer = @"A";
-            [self setupCheckTask];}];
+            [self setupCheckTask];
+        }];
         CYAlertAction *cancelAction_B = [CYAlertAction actionWithTitle:[@"B. " stringByAppendingString:self.questionInfo.question.qb] style:CYAlertActionStyleCancel handler:^{
             answer = @"B";
-            [self setupCheckTask];}];
+            [self setupCheckTask];
+        }];
         CYAlertAction *cancelAction_C = [CYAlertAction actionWithTitle:[@"C. " stringByAppendingString:self.questionInfo.question.qc] style:CYAlertActionStyleCancel handler:^{
             answer = @"C";
-            [self setupCheckTask];}];
+            [self setupCheckTask];
+        }];
         CYAlertAction *cancelAction_D = [CYAlertAction actionWithTitle:[@"D. " stringByAppendingString:self.questionInfo.question.qd] style:CYAlertActionStyleCancel handler:^{
             answer = @"D";
-            [self setupCheckTask]; }];
+            [self setupCheckTask];
+        }];
         [alert addActions:@[cancelAction_A, cancelAction_B, cancelAction_C ,cancelAction_D]];
+
         alert.presentStyle = CYAlertPresentStyleBounce;
         [self presentViewController:alert animated:YES completion:nil];
     }
@@ -1302,11 +1349,7 @@
 - (void)didClickOnImageIndex:(NSInteger *)imageIndex
 {
     NSString *shareUrl = [[NSString alloc] init];
-//    if (self.model.myline_id.length == 0) {
-        shareUrl = [NSString stringWithFormat:@"http://www.qudingxiang.cn/home/myline/mylineweb/myline_id/%@/tmp/%@",oldMyLineid,save];
-//    }else{
-//        shareUrl = [NSString stringWithFormat:@"http://www.qudingxiang.cn/home/myline/mylineweb/myline_id/%@/tmp/%@",self.model.myline_id,save];
-//    }
+    shareUrl = [NSString stringWithFormat:@"http://www.qudingxiang.cn/home/myline/mylineweb/myline_id/%@/tmp/%@",oldMyLineid,save];
     if (imageIndex == 0) {
         TencentOAuth *auth = [[TencentOAuth alloc] initWithAppId:@"1104830915"andDelegate:self];
         NSURL *imgurl = [NSURL URLWithString:shareUrl];

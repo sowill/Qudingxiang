@@ -19,7 +19,6 @@
 #import "QDXProtocolViewController.h"
 #import "HomeService.h"
 #import "LineController.h"
-#import "AppDelegate.h"
 @interface TabbarController ()<TabbarViewDelegate>
 {
     NSInteger _line;
@@ -41,7 +40,7 @@
     // 初始化所有的子控制器
     [self setupAllChildViewControllers];
     
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tabbarRefresh) name:@"tabbarRefresh" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tabbarRefresh) name:@"tabbarRefresh" object:nil];
 }
 
 -(void)tabbarRefresh
@@ -64,7 +63,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    //[self state];
+    [self state];
     self.customTabBar.userInteractionEnabled = YES;
 }
 - (void)setupTabbar
@@ -88,6 +87,7 @@
 
 - (void)change
 {
+
     self.customTabBar.userInteractionEnabled = NO;
     [HomeService btnStateBlock:^(NSMutableDictionary *dict) {
         _code = [[NSString stringWithFormat:@"%@",dict[@"Code"]] intValue];
@@ -116,9 +116,6 @@
 
 - (void)tabBarDidClickedPlusButton:(TabbarView *)tabBar
 {
-    AppDelegate *_delegate = [[UIApplication sharedApplication] delegate];
-    _code = [_delegate.code integerValue];
-    _line = [_delegate.line integerValue];
     if(save == nil){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请立即登录使用此功能" delegate:self cancelButtonTitle:@"暂不登录" otherButtonTitles:@"立即登录", nil];
         [alert show];

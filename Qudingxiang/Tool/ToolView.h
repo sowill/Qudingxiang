@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import  <CommonCrypto/CommonDigest.h>
+
 @interface ToolView : NSObject
 //创建图片视图
 + (UIImageView *)createImageWithFrame:(CGRect)frame;
@@ -24,6 +24,4 @@
 + (NSString *)scoreTransfer:(NSString *)score;
 //图片拉伸
 +(UIImage*) OriginImage:(UIImage *)image scaleToSize:(CGSize)size;
-//MD5
-+ (NSString *)md5:(NSString *)str;
 @end

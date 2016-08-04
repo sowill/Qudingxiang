@@ -18,7 +18,6 @@
     #import <MAMapKit/MAMapKit.h>
     #import <objc/runtime.h>
     #import "UIControl+UIControl_buttonCon.h"
-    #import "AppDelegate.h"
 #endif
 
 #define kWeChat_KEY       @"wxd7bdc3ac4f2505fe"
@@ -27,7 +26,6 @@
 #define QdxWidth [UIScreen mainScreen].bounds.size.width
 #define QdxHeight [UIScreen mainScreen].bounds.size.height
 
-#define cellDict  [[NSMutableDictionary alloc] init]
 //是否提示
 #define     QDXPromptFile [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"prompt.data"]
 
@@ -37,19 +35,11 @@
 #define    QDXTicketFile [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"QDXTicket.data"]
 
 //存储当前myLineid
-#define    QDXMyLineFile [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"QDXMyLine.data"]
+#define    QDXMyLineFile [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"QDXMyLine.data"]
 
-#define    QDXCurrentMyLineFile [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"QDXCurrentMyLine.data"]
+#define    QDXCurrentMyLineFile [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"QDXCurrentMyLine.data"]
 
 #define QDXVersion  [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"QDXVersion.data"]
-
-#define QDXGoods  [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"QDXGoods.data"]
-
-#define QDXMyline  [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"QDXline.data"]
-
-#define VGoods   [NSKeyedUnarchiver unarchiveObjectWithFile:QDXGoods]
-
-#define VLine   [NSKeyedUnarchiver unarchiveObjectWithFile:QDXMyline]
 
 #define promptStr   [NSKeyedUnarchiver unarchiveObjectWithFile:QDXPromptFile]
 
@@ -61,8 +51,9 @@
 
 #define mylineid [NSKeyedUnarchiver unarchiveObjectWithFile:QDXCurrentMyLineFile]
 
+#define accountFile [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject]
+
 #define hostUrl @"http://www.qudingxiang.cn/"
-//#define save @"2016050911505897449"
 
 //图片上传接口：
 //Upmfile/upfile  参数imgfile  返回：上传图片的存放路径
@@ -86,6 +77,10 @@
 //门票获取线路  参数：TokenKey、ticket_id
 #define ticketUrl @"Home/Ticketline/getListByTicket"
 
+
+
+//门票获取线路  参数：TokenKey、ticket_id
+#define loadDb @"Home/util/loadDb"
 //获取场地线路列表  参数：TokenKey、area_id
 #define areaUrl @"Home/Line/getListAjax"
 

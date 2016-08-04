@@ -200,6 +200,8 @@
     }else if (buttonIndex == 1 && alertView.tag == 2){
         //彻底删除文件
         [self clearCacheWith:[self getPath]];
+        
+//        [self clearCacheWith:[self gettempPath]];
         _valueDataLabel.text = [NSString stringWithFormat:@"%.2fMB",[self folderSizeWithPath:[self getPath]]];
         
     }
@@ -210,6 +212,11 @@
     NSString * path = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
     return path;
 }
+
+//-(NSString *)gettempPath{
+//    NSString * path = NSTemporaryDirectory();
+//    return path;
+//}
 
 -(CGFloat)folderSizeWithPath:(NSString *)path{
     //初始化文件管理类

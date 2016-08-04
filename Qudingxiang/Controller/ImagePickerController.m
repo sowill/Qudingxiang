@@ -48,9 +48,9 @@
     if (Custom) {
         [self startReading];//启动摄像头
     }
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noti1) name:@"noti1" object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noti2) name:@"noti2" object:nil];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noti3) name:@"noti3" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noti1) name:@"noti1" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noti2) name:@"noti2" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noti3) name:@"noti3" object:nil];
 }
 
 -(void)noti3
@@ -248,7 +248,7 @@
         if([self.from intValue] == 0){
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.navigationController popViewControllerAnimated:YES];
-                //[self dismissViewControllerAnimated:YES completion:nil];
+//                [self dismissViewControllerAnimated:YES completion:nil];
             });
         }
     }
@@ -274,6 +274,7 @@
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSDictionary * dict = [[NSDictionary alloc] initWithDictionary:responseObject];
         NSDictionary *dictMsg = dict[@"Msg"];
+        NSLog(@"%@",dictMsg);
         StartModel *model = [[StartModel alloc] init];
         [model setCode:dict[@"Code"] ];
         [model setMsg:dict[@"Msg"]];

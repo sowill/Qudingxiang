@@ -193,13 +193,18 @@
     NSData * UIImageJPEGRepresentation (UIImage *image, CGFloat compressionQuality);
     NSData *imageData = UIImageJPEGRepresentation(currentImage, 0.5);
     // 获取沙盒目录
-    NSString *fullPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:imageName];
+    NSString * path = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
+    
+    NSString *fullPath = [path stringByAppendingPathComponent:imageName];
     // 将图片写入文件
     [imageData writeToFile:fullPath atomically:NO];
 }
 #pragma mark 获取图片
 - (UIImage *) getImageWithName:(NSString *)imageName{
-    NSString *fullPath = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:imageName];
+    NSString * path = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject];
+    
+    
+    NSString *fullPath = [path stringByAppendingPathComponent:imageName];
     UIImage *savedImage = [[UIImage alloc] initWithContentsOfFile:fullPath];
     return savedImage;
 }

@@ -25,6 +25,7 @@
 #import "ImageScrollView.h"
 #import "LineController.h"
 #import "ActivityController.h"
+#import "AppDelegate.h"
 #define NotificaitonChange @"code"
 
 @interface HomeController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,UINavigationControllerDelegate,MJRefreshBaseViewDelegate,UIAlertViewDelegate>
@@ -83,6 +84,7 @@
     self.navigationItem.title = @"趣定向";
     _curNumber = 1;
     [self createTableView];
+
     [self loadDataCell];
     [self createUI];
     if ([_tableView respondsToSelector:@selector(setSeparatorInset:)])
@@ -111,6 +113,7 @@
 - (void)loadDataCell
 {
     _scrollArr = [NSMutableArray arrayWithCapacity:0];
+    [self performSelectorInBackground:@selector(version) withObject:nil];
     [self performSelectorInBackground:@selector(topViewData) withObject:nil];
     //[self performSelectorInBackground:@selector(cellDataWith:isRemoveAll:) withObject:nil];
     [self cellDataWith:@"1" isRemoveAll:YES andWithType:@"0"];
@@ -118,6 +121,7 @@
 
 - (void)loadData
 {
+    //[HomeService dbversion];
     if (save) {
         [self state];
     }else{
@@ -125,30 +129,46 @@
         [self state1];
         
     }
-    [self setupCurrentLine];
+    //[self setupCurrentLine];
+    
+    
+}
+
+- (void)version
+{
+    
+//    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+//    mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
+//    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+//    NSString *url = [hostUrl stringByAppendingString:@"Home/util/Dbversion"];
+//    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
+//        
+//    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+//        NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
+//        [NSKeyedArchiver archiveRootObject:@"3" toFile:QDXGoods];
+//        NSLog(@"home%@",VGoods);
+//        [NSKeyedArchiver archiveRootObject:infoDict[@"myline"] toFile:QDXMyline];
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//        
+//    }];
 }
 
 //获取myline_id
 -(void)setupCurrentLine
 {
+    
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Myline/getCurrentLine"];
+    NSString *url = [hostUrl stringByAppendingString:@"Home/util/Dbversion"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
         NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
-        int ret = [infoDict[@"Code"] intValue];
-        if (ret == 1) {
-            [NSKeyedArchiver archiveRootObject:infoDict[@"Msg"][@"myline_id"] toFile:QDXCurrentMyLineFile];
-        }
-        else{
-            
-        }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
     }];
 }
@@ -402,7 +422,7 @@
 - (void)topViewData
 {
     
-    [HomeService topViewDataBlock:^(NSMutableDictionary *dict) {
+    [HomeService topViewDataBlock:^(NSDictionary *dict) {
         NSDictionary *dataDict = dict[@"Msg"][@"data"];
         for(NSDictionary *dict in dataDict){
             int i = [dict[@"goods_index"] intValue];
@@ -476,6 +496,17 @@
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
             NSDictionary *dict = [[NSDictionary alloc] initWithDictionary:responseObject];
             _line = [[NSString stringWithFormat:@"%@",dict[@"Code"]] intValue];
+            AppDelegate *_delegate = [[UIApplication sharedApplication] delegate];
+            _delegate.code = [NSString stringWithFormat:@"%li",_code];
+            _delegate.line = [NSString stringWithFormat:@"%li",_line];
+            int ret = _line;
+            if (ret == 1) {
+                [NSKeyedArchiver archiveRootObject:dict[@"Msg"][@"myline_id"] toFile:QDXCurrentMyLineFile];
+            }
+            else{
+                
+            }
+
             [self changeScanBtn];
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             
@@ -493,30 +524,30 @@
 - (void)cellDataWith:(NSString *)cur isRemoveAll:(BOOL)isRemoveAll andWithType:(NSString *)type
 {
     [self showProgessMsg:@"正在加载"];
-    [HomeService cellDataBlock:^(NSMutableDictionary *dict) {
-        NSDictionary *dataDict = dict[@"Msg"][@"data"];
-        _currNum = [dict[@"Msg"][@"curr"] integerValue];
-        _countNum = [dict[@"Msg"][@"count"] integerValue];
-        if (isRemoveAll) {
-            [_dataArr removeAllObjects];
-        }
-        _dataArr = [[NSMutableArray alloc] init];
-        for(NSDictionary *dict in dataDict){
-            HomeModel *model = [[HomeModel alloc] init];
-            [model setValuesForKeysWithDictionary:dict];
-            [_dataArr addObject:model];
-        }
-        //[self performSelectorOnMainThread:@selector(sussRes) withObject:nil waitUntilDone:YES];
-        [_tableView reloadData];
-        [_header endRefreshing];
-        [_footer endRefreshing];
-        [self hideProgess];
-    } FailBlock:^(NSMutableArray *array) {
-        [_header endRefreshing];
-        [_footer endRefreshing];
-        //[self performSelectorOnMainThread:@selector(failRes) withObject:nil waitUntilDone:YES];
-        
-    } andWithToken:save andWithCurr:cur andWithType:type];
+    [HomeService dbversionBlock:^{
+        [HomeService cellDataBlock:^(NSDictionary *dict) {
+            NSDictionary *dataDict = dict[@"Msg"][@"data"];
+            _currNum = [dict[@"Msg"][@"curr"] integerValue];
+            _countNum = [dict[@"Msg"][@"count"] integerValue];
+            if (isRemoveAll) {
+                [_dataArr removeAllObjects];
+            }
+            _dataArr = [[NSMutableArray alloc] init];
+            for(NSDictionary *dict in dataDict){
+                HomeModel *model = [[HomeModel alloc] init];
+                [model setValuesForKeysWithDictionary:dict];
+                [_dataArr addObject:model];
+            }
+            [_tableView reloadData];
+            [_header endRefreshing];
+            [_footer endRefreshing];
+            [self hideProgess];
+        } FailBlock:^(NSMutableArray *array) {
+            [_header endRefreshing];
+            [_footer endRefreshing];
+        } andWithToken:save andWithCurr:cur andWithType:type];
+    }];
+    
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -592,6 +623,7 @@
         [_scanBtn addTarget:self action:@selector(scanClick1) forControlEvents:UIControlEventTouchUpInside];
         
     }else{
+        
         _scanBtn.hidden = YES;
     }
     
@@ -636,7 +668,6 @@
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSDictionary * dict = [[NSDictionary alloc] initWithDictionary:responseObject];
         NSDictionary *dictMsg = dict[@"Msg"];
-        NSLog(@"%@",dictMsg);
         StartModel *model = [[StartModel alloc] init];
         [model setCode:dict[@"Code"] ];
         [model setMsg:dict[@"Msg"]];

@@ -87,7 +87,6 @@
 {
     [MineService cellDataBlock:^(NSMutableDictionary *dict) {
         NSDictionary* _dic = [[NSDictionary alloc] initWithDictionary:dict];
-        NSLog(@"%@",_dic);
         _peopleDict=[NSDictionary dictionaryWithDictionary:_dic];
         if([_peopleDict[@"Code"] integerValue] == 0){
             NSFileManager * fileManager = [[NSFileManager alloc]init];

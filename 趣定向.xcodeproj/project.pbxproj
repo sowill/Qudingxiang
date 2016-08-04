@@ -1735,7 +1735,7 @@
 				TargetAttributes = {
 					45DF76281BA6AAC20024A6B4 = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = X5T2295222;
+						DevelopmentTeam = SDW8DF5BW4;
 					};
 					45DF76411BA6AAC20024A6B4 = {
 						CreatedOnToolsVersion = 6.4;
@@ -2151,7 +2151,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sport;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sporttest;
 				PRODUCT_NAME = "趣定向";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -2194,7 +2194,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sport;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sporttest;
 				PRODUCT_NAME = "趣定向";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;

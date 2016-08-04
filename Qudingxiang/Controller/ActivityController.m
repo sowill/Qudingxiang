@@ -56,7 +56,6 @@
 - (void)createTableView
 {
     _dataArr = [NSMutableArray arrayWithCapacity:0];
-    //self.automaticallyAdjustsScrollViewInsets = false;
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight-60)];
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -145,7 +144,7 @@
 - (void)loadDataWith:(NSString *)cur isRemoveAll:(BOOL)isRemoveAll
 {
     [self showProgessMsg:@"正在加载"];
-    [ActivityService cellDataBlock:^(NSMutableDictionary *dict) {
+    [ActivityService cellDataBlock:^(NSDictionary *dict) {
         NSDictionary *dataDict = dict[@"Msg"][@"data"];
         _currNum = [dict[@"Msg"][@"curr"] integerValue];
         _countNum = [dict[@"Msg"][@"count"] integerValue];
@@ -179,7 +178,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"%ld",(long)_dataArr.count);
     return _dataArr.count;
 }
 

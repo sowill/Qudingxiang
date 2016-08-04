@@ -14,5 +14,5 @@
 - (void)showProgessOK:(NSString *)msg;
 - (void)showProgessError:(NSString *)msg;
 - (void)showNotData:(NSString *)msg;
-
+- (NSString *)md5:(NSString *)str;
 @end

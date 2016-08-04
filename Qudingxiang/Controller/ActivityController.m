@@ -145,7 +145,7 @@
 - (void)loadDataWith:(NSString *)cur isRemoveAll:(BOOL)isRemoveAll
 {
     [self showProgessMsg:@"正在加载"];
-    [ActivityService cellDataBlock:^(NSMutableDictionary *dict) {
+    [ActivityService cellDataBlock:^(NSDictionary *dict) {
         NSDictionary *dataDict = dict[@"Msg"][@"data"];
         _currNum = [dict[@"Msg"][@"curr"] integerValue];
         _countNum = [dict[@"Msg"][@"count"] integerValue];

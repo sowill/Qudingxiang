@@ -1,23 +1,24 @@
 #ifdef __OBJC__
-    #import "MJExtension.h"
-    #import "AFNetworking.h"
-    #import "MBProgressHUD+MJ.h"
-    #import "UIImageView+WebCache.h"
-    #import "MJRefresh.h"
-    #import "ToolView.h"
-    #import "LXActivity.h"
-    #import <TencentOpenAPI/QQApiInterface.h> 
-    #import <TencentOpenAPI/TencentOAuth.h>
-    #import "WXApi.h"
-    #import "WXApiObject.h"
-    #import "WechatAuthSDK.h"
-    #import <AlipaySDK/AlipaySDK.h>
-    #import "BaseViewController.h"
-    #import "RESideMenu.h"
-    #import "BaseService.h"
-    #import <MAMapKit/MAMapKit.h>
-    #import <objc/runtime.h>
-    #import "UIControl+UIControl_buttonCon.h"
+#import "MJExtension.h"
+#import "AFNetworking.h"
+#import "MBProgressHUD+MJ.h"
+#import "UIImageView+WebCache.h"
+#import "MJRefresh.h"
+#import "ToolView.h"
+#import "LXActivity.h"
+#import <TencentOpenAPI/QQApiInterface.h>
+#import <TencentOpenAPI/TencentOAuth.h>
+#import "WXApi.h"
+#import "WXApiObject.h"
+#import "WechatAuthSDK.h"
+#import <AlipaySDK/AlipaySDK.h>
+#import "BaseViewController.h"
+#import "RESideMenu.h"
+#import "BaseService.h"
+#import <MAMapKit/MAMapKit.h>
+#import <objc/runtime.h>
+#import "UIControl+UIControl_buttonCon.h"
+#import "AppDelegate.h"
 #endif
 
 #define kWeChat_KEY       @"wxd7bdc3ac4f2505fe"
@@ -26,6 +27,7 @@
 #define QdxWidth [UIScreen mainScreen].bounds.size.width
 #define QdxHeight [UIScreen mainScreen].bounds.size.height
 
+#define cellDict  [[NSMutableDictionary alloc] init]
 //是否提示
 #define     QDXPromptFile [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"prompt.data"]
 
@@ -40,6 +42,14 @@
 #define    QDXCurrentMyLineFile [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"QDXCurrentMyLine.data"]
 
 #define QDXVersion  [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"QDXVersion.data"]
+
+#define QDXGoods  [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"QDXGoods.data"]
+
+#define QDXMyline  [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"QDXline.data"]
+
+#define VGoods   [NSKeyedUnarchiver unarchiveObjectWithFile:QDXGoods]
+
+#define VLine   [NSKeyedUnarchiver unarchiveObjectWithFile:QDXMyline]
 
 #define promptStr   [NSKeyedUnarchiver unarchiveObjectWithFile:QDXPromptFile]
 

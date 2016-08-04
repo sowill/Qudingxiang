@@ -10,6 +10,7 @@
 @interface AppDelegate : UIResponder <UIApplicationDelegate,WXApiDelegate,RESideMenuDelegate>
 @property (strong, nonatomic) UIWindow *window;
 //@property (strong, nonatomic) MainController *mianVC;
-
+@property NSString *code;
+@property NSString *line;
 @end
 

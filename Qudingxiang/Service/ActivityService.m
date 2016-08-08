@@ -51,19 +51,5 @@
 
     }];
     }
-//    [mgr POST:urlString parameters:params success:^(AFHTTPRequestOperation *operation, id responseObject) {
-//        dict = responseObject;
-//        if (block) {
-//            block(dict);
-//        }
-//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-//        NSMutableArray *failArr = [[NSMutableArray alloc]init];
-//        [failArr addObject:error];
-//        if (failBlock) {
-//            failBlock(failArr);
-//        }
-//    }];
-    
-
 }
 @end

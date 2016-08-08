@@ -135,7 +135,6 @@
 -(void)dealloc
 
 {
-    
     //移除观察者，Observer不能为nil
     
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -150,7 +149,7 @@
     mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"TokenKey"] = save;
-    params[@"ticket_id"] = _ticketID;
+    params[@"ticket_id"] = saveTicket_id;
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {

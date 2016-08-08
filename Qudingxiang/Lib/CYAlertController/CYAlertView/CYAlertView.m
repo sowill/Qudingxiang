@@ -13,10 +13,14 @@
 const static CGFloat padding = 15.0;
 
 /** 弹窗总宽度 */
-const static CGFloat alertWidth = 300;
+//const static CGFloat alertWidth = 300;
+
+#define alertWidth         QdxWidth * 0.875
 
 /** 内容宽度 */
-const static CGFloat containerWidth = alertWidth - 2*padding;
+//const static CGFloat containerWidth = alertWidth - 2*padding;
+
+#define containerWidth     alertWidth - 2*padding
 
 /** 按钮高度 */
 const static CGFloat buttonHeight = 50.0;

@@ -33,6 +33,14 @@
 		453E44D91D252A3100BED603 /* btn1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 453E44D71D252A3100BED603 /* btn1@2x.png */; };
 		453E44DA1D252A3100BED603 /* btn2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 453E44D81D252A3100BED603 /* btn2@2x.png */; };
 		4545CF371C80435000B73849 /* zoomImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4545CF361C80435000B73849 /* zoomImage.m */; };
+		455611791D543E75006DF063 /* CustomAnimateTransitionPop.m in Sources */ = {isa = PBXBuildFile; fileRef = 455611681D543E75006DF063 /* CustomAnimateTransitionPop.m */; };
+		4556117A1D543E75006DF063 /* CustomAnimateTransitionPush.m in Sources */ = {isa = PBXBuildFile; fileRef = 4556116A1D543E75006DF063 /* CustomAnimateTransitionPush.m */; };
+		4556117B1D543E75006DF063 /* HUTransitionAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4556116D1D543E75006DF063 /* HUTransitionAnimator.m */; };
+		4556117C1D543E75006DF063 /* HUTransitionGhostAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4556116F1D543E75006DF063 /* HUTransitionGhostAnimator.m */; };
+		4556117D1D543E75006DF063 /* HUTransitionHorizontalLinesAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 455611711D543E75006DF063 /* HUTransitionHorizontalLinesAnimator.m */; };
+		4556117E1D543E75006DF063 /* HUTransitionVerticalLinesAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 455611731D543E75006DF063 /* HUTransitionVerticalLinesAnimator.m */; };
+		4556117F1D543E75006DF063 /* UIViewController+Animator.m in Sources */ = {isa = PBXBuildFile; fileRef = 455611761D543E75006DF063 /* UIViewController+Animator.m */; };
+		455611801D543E75006DF063 /* ZBFallenBricksAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 455611781D543E75006DF063 /* ZBFallenBricksAnimator.m */; };
 		4556CD6E1CED672600577A61 /* QDXMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 4556CD6D1CED672600577A61 /* QDXMap.m */; };
 		4556CD711CEDC5CF00577A61 /* SignViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4556CD701CEDC5CF00577A61 /* SignViewController.m */; };
 		4557C6161D18E3ED0092CC56 /* CheckDataTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 4557C6151D18E3ED0092CC56 /* CheckDataTool.m */; };
@@ -308,6 +316,22 @@
 		453E44D81D252A3100BED603 /* btn2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn2@2x.png"; sourceTree = "<group>"; };
 		4545CF351C80435000B73849 /* zoomImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zoomImage.h; sourceTree = "<group>"; };
 		4545CF361C80435000B73849 /* zoomImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = zoomImage.m; sourceTree = "<group>"; };
+		455611671D543E75006DF063 /* CustomAnimateTransitionPop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAnimateTransitionPop.h; sourceTree = "<group>"; };
+		455611681D543E75006DF063 /* CustomAnimateTransitionPop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAnimateTransitionPop.m; sourceTree = "<group>"; };
+		455611691D543E75006DF063 /* CustomAnimateTransitionPush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAnimateTransitionPush.h; sourceTree = "<group>"; };
+		4556116A1D543E75006DF063 /* CustomAnimateTransitionPush.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAnimateTransitionPush.m; sourceTree = "<group>"; };
+		4556116C1D543E75006DF063 /* HUTransitionAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HUTransitionAnimator.h; sourceTree = "<group>"; };
+		4556116D1D543E75006DF063 /* HUTransitionAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HUTransitionAnimator.m; sourceTree = "<group>"; };
+		4556116E1D543E75006DF063 /* HUTransitionGhostAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HUTransitionGhostAnimator.h; sourceTree = "<group>"; };
+		4556116F1D543E75006DF063 /* HUTransitionGhostAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HUTransitionGhostAnimator.m; sourceTree = "<group>"; };
+		455611701D543E75006DF063 /* HUTransitionHorizontalLinesAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HUTransitionHorizontalLinesAnimator.h; sourceTree = "<group>"; };
+		455611711D543E75006DF063 /* HUTransitionHorizontalLinesAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HUTransitionHorizontalLinesAnimator.m; sourceTree = "<group>"; };
+		455611721D543E75006DF063 /* HUTransitionVerticalLinesAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HUTransitionVerticalLinesAnimator.h; sourceTree = "<group>"; };
+		455611731D543E75006DF063 /* HUTransitionVerticalLinesAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HUTransitionVerticalLinesAnimator.m; sourceTree = "<group>"; };
+		455611751D543E75006DF063 /* UIViewController+Animator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+Animator.h"; sourceTree = "<group>"; };
+		455611761D543E75006DF063 /* UIViewController+Animator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+Animator.m"; sourceTree = "<group>"; };
+		455611771D543E75006DF063 /* ZBFallenBricksAnimator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZBFallenBricksAnimator.h; sourceTree = "<group>"; };
+		455611781D543E75006DF063 /* ZBFallenBricksAnimator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZBFallenBricksAnimator.m; sourceTree = "<group>"; };
 		455672251BA936ED0016D26F /* MBProgressHUD+MJ.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "MBProgressHUD+MJ.h"; sourceTree = "<group>"; };
 		455672261BA936ED0016D26F /* MBProgressHUD+MJ.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "MBProgressHUD+MJ.m"; sourceTree = "<group>"; };
 		455672271BA936ED0016D26F /* MBProgressHUD.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = MBProgressHUD.bundle; sourceTree = "<group>"; };
@@ -962,6 +986,45 @@
 			path = ImgPageScrollView;
 			sourceTree = "<group>";
 		};
+		455611661D543E75006DF063 /* Need */ = {
+			isa = PBXGroup;
+			children = (
+				455611671D543E75006DF063 /* CustomAnimateTransitionPop.h */,
+				455611681D543E75006DF063 /* CustomAnimateTransitionPop.m */,
+				455611691D543E75006DF063 /* CustomAnimateTransitionPush.h */,
+				4556116A1D543E75006DF063 /* CustomAnimateTransitionPush.m */,
+				4556116B1D543E75006DF063 /* HUAnimator */,
+				455611741D543E75006DF063 /* ZBCustomTransitions */,
+			);
+			path = Need;
+			sourceTree = "<group>";
+		};
+		4556116B1D543E75006DF063 /* HUAnimator */ = {
+			isa = PBXGroup;
+			children = (
+				4556116C1D543E75006DF063 /* HUTransitionAnimator.h */,
+				4556116D1D543E75006DF063 /* HUTransitionAnimator.m */,
+				4556116E1D543E75006DF063 /* HUTransitionGhostAnimator.h */,
+				4556116F1D543E75006DF063 /* HUTransitionGhostAnimator.m */,
+				455611701D543E75006DF063 /* HUTransitionHorizontalLinesAnimator.h */,
+				455611711D543E75006DF063 /* HUTransitionHorizontalLinesAnimator.m */,
+				455611721D543E75006DF063 /* HUTransitionVerticalLinesAnimator.h */,
+				455611731D543E75006DF063 /* HUTransitionVerticalLinesAnimator.m */,
+			);
+			path = HUAnimator;
+			sourceTree = "<group>";
+		};
+		455611741D543E75006DF063 /* ZBCustomTransitions */ = {
+			isa = PBXGroup;
+			children = (
+				455611751D543E75006DF063 /* UIViewController+Animator.h */,
+				455611761D543E75006DF063 /* UIViewController+Animator.m */,
+				455611771D543E75006DF063 /* ZBFallenBricksAnimator.h */,
+				455611781D543E75006DF063 /* ZBFallenBricksAnimator.m */,
+			);
+			path = ZBCustomTransitions;
+			sourceTree = "<group>";
+		};
 		455672241BA936ED0016D26F /* MBProgressHUD */ = {
 			isa = PBXGroup;
 			children = (
@@ -1597,6 +1660,7 @@
 		45DF765A1BA6AB150024A6B4 /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				455611661D543E75006DF063 /* Need */,
 				451828A11D40C87A00D5FC85 /* EAFeatureGuideView */,
 				04664EFF1D1CCE82008D50C7 /* YLPopView */,
 				4536EB981D013B25005D3CB5 /* ImgPageScrollView */,
@@ -1859,10 +1923,13 @@
 				45C6F5611C929FD000C5AA31 /* ScrollModel.m in Sources */,
 				45C6F58B1C92A10300C5AA31 /* WeixinModel.m in Sources */,
 				A35DAC341CCF184000D01CF0 /* AFSecurityPolicy.m in Sources */,
+				4556117B1D543E75006DF063 /* HUTransitionAnimator.m in Sources */,
+				4556117E1D543E75006DF063 /* HUTransitionVerticalLinesAnimator.m in Sources */,
 				455C8A9D1CCF7827001F5FC5 /* NSDataEx.m in Sources */,
 				A31287AC1CCF165D00CB887E /* UpdateService.m in Sources */,
 				455C8AA01CCF7827001F5FC5 /* RSADataVerifier.m in Sources */,
 				455C8A9E1CCF7827001F5FC5 /* openssl_wrapper.m in Sources */,
+				4556117A1D543E75006DF063 /* CustomAnimateTransitionPush.m in Sources */,
 				4569E5581C4CB64B00FF4E8B /* ToolView.m in Sources */,
 				45C6F5A81C92A25600C5AA31 /* ActCell.m in Sources */,
 				A340BDCF1C9697EE009F40FD /* TeamLineController.m in Sources */,
@@ -1879,6 +1946,7 @@
 				A35DAC371CCF184000D01CF0 /* AFURLSessionManager.m in Sources */,
 				455A95B81C97E3EB0039FA88 /* MJPropertyKey.m in Sources */,
 				45C6F5F91C92A3DF00C5AA31 /* QDXTeamsViewController.m in Sources */,
+				4556117D1D543E75006DF063 /* HUTransitionHorizontalLinesAnimator.m in Sources */,
 				455A95BB1C97E3EB0039FA88 /* NSObject+MJCoding.m in Sources */,
 				453395091CF6D8C800B5A825 /* UIColor+flat.m in Sources */,
 				4569E56C1C4CB64B00FF4E8B /* JTSImageViewController.m in Sources */,
@@ -1895,6 +1963,7 @@
 				4569E56E1C4CB64B00FF4E8B /* UIApplication+JTSImageViewController.m in Sources */,
 				4569E56F1C4CB64B00FF4E8B /* UIImage+JTSImageEffects.m in Sources */,
 				4569E5701C4CB64B00FF4E8B /* bitstream.c in Sources */,
+				455611801D543E75006DF063 /* ZBFallenBricksAnimator.m in Sources */,
 				4571CDF31CE05B00002ED784 /* CYAlertPresentSlideDown.m in Sources */,
 				4569E5711C4CB64B00FF4E8B /* mask.c in Sources */,
 				4556CD711CEDC5CF00577A61 /* SignViewController.m in Sources */,
@@ -1984,8 +2053,10 @@
 				A31822181C92B87C00A1882B /* LoginService.m in Sources */,
 				4571CDF71CE05B00002ED784 /* CYAlertPresentSystem.m in Sources */,
 				45C6F5A41C92A20400C5AA31 /* QDXTicketTableViewCell.m in Sources */,
+				4556117F1D543E75006DF063 /* UIViewController+Animator.m in Sources */,
 				4569E5931C4CB64B00FF4E8B /* MBProgressHUD+MJ.m in Sources */,
 				4569E5941C4CB64B00FF4E8B /* MBProgressHUD.m in Sources */,
+				455611791D543E75006DF063 /* CustomAnimateTransitionPop.m in Sources */,
 				4582B7D61C98EEC00002F5B1 /* QDXQuestionModel.m in Sources */,
 				45C6F60B1C92A43A00C5AA31 /* QDXForgetPasswordViewController.m in Sources */,
 				A35DAC401CCF184B00D01CF0 /* RECommonFunctions.m in Sources */,
@@ -1997,6 +2068,7 @@
 				455A95C11C97EC990039FA88 /* QDXTeamsModel.m in Sources */,
 				45C6F5FC1C92A40B00C5AA31 /* ActivityController.m in Sources */,
 				A35DAC381CCF184000D01CF0 /* NullSafe.m in Sources */,
+				4556117C1D543E75006DF063 /* HUTransitionGhostAnimator.m in Sources */,
 				455C8A9B1CCF7827001F5FC5 /* DataVerifier.m in Sources */,
 				455A95B91C97E3EB0039FA88 /* MJPropertyType.m in Sources */,
 				A35DAC411CCF184B00D01CF0 /* RESideMenu.m in Sources */,

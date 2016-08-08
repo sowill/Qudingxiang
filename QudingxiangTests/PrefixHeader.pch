@@ -43,9 +43,9 @@
 
 #define QDXVersion  [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"QDXVersion.data"]
 
-#define QDXGoods  [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"QDXGoods.data"]
+#define QDXGoods  [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"QDXGoods.data"]
 
-#define QDXMyline  [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"QDXline.data"]
+#define QDXMyline  [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"QDXline.data"]
 
 #define VGoods   [NSKeyedUnarchiver unarchiveObjectWithFile:QDXGoods]
 
@@ -87,7 +87,8 @@
 //门票获取线路  参数：TokenKey、ticket_id
 #define ticketUrl @"Home/Ticketline/getListByTicket"
 
-
+//门票获取线路  参数：TokenKey、ticket_id
+#define uploadHistory @"Home/util/changpoint"
 
 //门票获取线路  参数：TokenKey、ticket_id
 #define loadDb @"Home/util/loadDb"

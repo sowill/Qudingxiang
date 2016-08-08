@@ -59,13 +59,15 @@
         }
     }
     
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
     //[self state];
-    self.customTabBar.userInteractionEnabled = YES;
+    
+    NSLog(@"tab%li",_code);
 }
 - (void)setupTabbar
 {
@@ -117,17 +119,23 @@
 - (void)tabBarDidClickedPlusButton:(TabbarView *)tabBar
 {
     AppDelegate *_delegate = [[UIApplication sharedApplication] delegate];
-    _code = [_delegate.code integerValue];
-    _line = [_delegate.line integerValue];
+    _code = [_delegate.code intValue];
+    _ticket = _delegate.line;
+    if(_delegate.loading){
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"加载中请稍后" delegate:self cancelButtonTitle:@"好的" otherButtonTitles:nil, nil];
+        [alert show];
+        return;
+        
+    }
     if(save == nil){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请立即登录使用此功能" delegate:self cancelButtonTitle:@"暂不登录" otherButtonTitles:@"立即登录", nil];
         [alert show];
 
     }else{
-        if(_code == 0 && _line == 0){
+        if(_code == 0){
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请购买活动券" delegate:self cancelButtonTitle:@"好的" otherButtonTitles:nil, nil];
             [alert show];
-        }else if(_code == 1 && _line == 0){
+        }else if(_code == 2){
             LineController *lineVC = [[LineController alloc] init];
             lineVC.click = @"1";
             lineVC.ticketID = _ticket;
@@ -136,7 +144,7 @@
                 
             }];
 
-        }else{
+        }else if(_code == 1){
             NSString *isHave = [NSKeyedUnarchiver unarchiveObjectWithFile:QDXMyLineFile];
             if (isHave) {
                 QDXGameViewController *game = [[QDXGameViewController alloc] init];
@@ -151,8 +159,6 @@
                     
                 }];
             }
-            
-            
         }
 
     }

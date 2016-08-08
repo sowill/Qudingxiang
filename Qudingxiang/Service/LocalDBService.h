@@ -15,4 +15,5 @@
 + (NSDictionary *)CheckTask:(NSDictionary *)param;
 + (NSDictionary *)ReadMyline:(NSString *)Myline_id;
 + (void)WriteMyline:(NSDictionary *)dict;
++ (void)UploadHistory:(NSString *)Myline_id;
 @end

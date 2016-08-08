@@ -13,7 +13,13 @@
 #import "MineLineController.h"
 #import "MineModel.h"
 
+#import "CustomAnimateTransitionPush.h"
+
 @class MineModel;
 @interface QDXGameViewController : BaseViewController<CBCentralManagerDelegate,CBPeripheralDelegate,UIAlertViewDelegate,UINavigationControllerDelegate,MAMapViewDelegate,UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate>
+@property(strong, nonatomic) UIButton *history_button;
+
+@property(strong, nonatomic) UIButton *task_button;
+
 @property (nonatomic, strong) MineModel *model;
 @end

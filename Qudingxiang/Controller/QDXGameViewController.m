@@ -66,7 +66,8 @@
     UIView *readyView;
     //    UIButton *moreDetails;
     //    UIImageView *arrow;
-    
+    NSString *questionUrl;
+    int online;
     //游戏中
     UIView *playView;
     UILabel *useTime;
@@ -82,8 +83,8 @@
     UILabel *score_sum;
     UILabel *score_sum_name;
 //    UILabel *score_ms;
-    UIButton *task_button;
-    UIButton *history_button;
+//    UIButton *task_button;
+//    UIButton *history_button;
     UIButton *showMsg_button;
     UIImageView *successView;
     UIButton *showOK_button;
@@ -139,12 +140,8 @@
     [self showGuideView];
     [self setupgetMylineInfo:0];
     
-    
-    NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
-    NSLog(@"%@",path);
+    [self updatadd];
 }
-
-
 
 - (void)showGuideView
 {
@@ -204,7 +201,7 @@
     NSArray *array3 = [macLabel componentsSeparatedByString:@":"];
     NSString *string3 = [array3 componentsJoinedByString:@""];
     mac_Label = [string3 componentsSeparatedByString:@","];
-    NSLog(@"%@",mac_Label);
+    NSLog(@"%@   %@",mac_Label,self.gameInfo.point.point_name);
     sdateStr = self.gameInfo.sdate;
     [self intervalSinceNow];
     point.text = self.gameInfo.point.point_name;
@@ -244,8 +241,8 @@
             [_webView removeFromSuperview];
             [self.QDXScrollView addSubview:self.mapView];
             [self.QDXScrollView addSubview:playView];
-            [self.QDXScrollView addSubview:task_button];
-            [self.QDXScrollView addSubview:history_button];
+            [self.QDXScrollView addSubview:self.task_button];
+            [self.QDXScrollView addSubview:self.history_button];
             break;
             
         case 3:
@@ -260,8 +257,8 @@
             [readyView removeFromSuperview];
             [_webView removeFromSuperview];
             [playView removeFromSuperview];
-            [task_button removeFromSuperview];
-            [history_button removeFromSuperview];
+            [self.task_button removeFromSuperview];
+            [self.history_button removeFromSuperview];
             [self removeFromSuperViewController];
             [self createTableView];
             [self.QDXScrollView addSubview:certificate];
@@ -279,8 +276,8 @@
             [readyView removeFromSuperview];
             [_webView removeFromSuperview];
             [playView removeFromSuperview];
-            [task_button removeFromSuperview];
-            [history_button removeFromSuperview];
+            [self.task_button removeFromSuperview];
+            [self.history_button removeFromSuperview];
             self.navigationItem.title = @"强制结束";
             [self createSadView];
             break;
@@ -298,13 +295,16 @@
     params[@"myline_id"] = oldMyLineid;
     NSString *url = [hostUrl stringByAppendingString:@"Home/Myline/getMyline"];
     
-    
-    //使用离线数据
-    NSDictionary *res=[LocalDBService ReadMyline:oldMyLineid];
-    if (res !=nil) {
-        [self setMylineInfo:res code:code];
-        return ;
-    }
+        //使用离线数据
+        NSDictionary *res=[LocalDBService ReadMyline:oldMyLineid];
+        online = [res[@"online"] intValue];
+        if (res !=nil) {
+            if ([res[@"mstatus_id"] intValue] == 2 &&  online== 2 ) {
+                [self setMylineInfo:res code:code];
+                return ;
+            }
+            
+        }
     //////////////////
     
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
@@ -363,9 +363,6 @@
     CGFloat ci = (b - abs([self.gameInfo.point.rssi intValue])) / (10 * 4.);
     
     if (pow(10,ci) < 1 )
-        NSLog(@"距离:%.1fm",pow(10,ci));
-        //        int a = [RSSI.description intValue];
-        //        if( abs(a) < abs([rssi intValue]))
     {
         NSMutableArray *macArr = [[NSMutableArray alloc] init];
         [macArr addObjectsFromArray:advertisementData[@"kCBAdvDataServiceUUIDs"]];
@@ -598,25 +595,25 @@
     [playView addSubview:buttom_line];
 
     if (QdxWidth >375) {
-        task_button = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth - 100 -20 , QdxHeight - 64 - 100 - 20, 100, 100)];
-        [task_button setImage:[ToolView OriginImage:[UIImage imageNamed:@"悬浮－任务"] scaleToSize:CGSizeMake(100, 100)] forState:UIControlStateNormal];
-        [task_button setImage:[ToolView OriginImage:[UIImage imageNamed:@"任务"] scaleToSize:CGSizeMake(100, 100)] forState:UIControlStateHighlighted];
+        self.task_button = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth - 100 -20 , QdxHeight - 64 - 100 - 20, 100, 100)];
+        [self.task_button setImage:[ToolView OriginImage:[UIImage imageNamed:@"悬浮－任务"] scaleToSize:CGSizeMake(100, 100)] forState:UIControlStateNormal];
+        [self.task_button setImage:[ToolView OriginImage:[UIImage imageNamed:@"任务"] scaleToSize:CGSizeMake(100, 100)] forState:UIControlStateHighlighted];
         
-        history_button = [[UIButton alloc] initWithFrame:CGRectMake(20 , QdxHeight - 64 - 100 - 20, 100, 100)];
-        [history_button setImage:[ToolView OriginImage:[UIImage imageNamed:@"悬浮－足迹"] scaleToSize:CGSizeMake(100, 100)] forState:UIControlStateNormal];
-        [history_button setImage:[ToolView OriginImage:[UIImage imageNamed:@"足迹"] scaleToSize:CGSizeMake(100, 100)] forState:UIControlStateHighlighted];
+        self.history_button = [[UIButton alloc] initWithFrame:CGRectMake(20 , QdxHeight - 64 - 100 - 20, 100, 100)];
+        [self.history_button setImage:[ToolView OriginImage:[UIImage imageNamed:@"悬浮－足迹"] scaleToSize:CGSizeMake(100, 100)] forState:UIControlStateNormal];
+        [self.history_button setImage:[ToolView OriginImage:[UIImage imageNamed:@"足迹"] scaleToSize:CGSizeMake(100, 100)] forState:UIControlStateHighlighted];
     }else{
-        task_button = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth - 80 -20 , QdxHeight - 64 - 80 - 20, 80, 80)];
-        [task_button setImage:[UIImage imageNamed:@"悬浮－任务"] forState:UIControlStateNormal];
-        [task_button setImage:[UIImage imageNamed:@"任务"] forState:UIControlStateHighlighted];
+        self.task_button = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth - 80 -20 , QdxHeight - 64 - 80 - 20, 80, 80)];
+        [self.task_button setImage:[UIImage imageNamed:@"悬浮－任务"] forState:UIControlStateNormal];
+        [self.task_button setImage:[UIImage imageNamed:@"任务"] forState:UIControlStateHighlighted];
         
-        history_button = [[UIButton alloc] initWithFrame:CGRectMake(20 , QdxHeight - 64 - 80 - 20, 80, 80)];
-        [history_button setImage:[UIImage imageNamed:@"悬浮－足迹"] forState:UIControlStateNormal];
-        [history_button setImage:[UIImage imageNamed:@"足迹"] forState:UIControlStateHighlighted];
+        self.history_button = [[UIButton alloc] initWithFrame:CGRectMake(20 , QdxHeight - 64 - 80 - 20, 80, 80)];
+        [self.history_button setImage:[UIImage imageNamed:@"悬浮－足迹"] forState:UIControlStateNormal];
+        [self.history_button setImage:[UIImage imageNamed:@"足迹"] forState:UIControlStateHighlighted];
     }
     
-    [task_button addTarget:self action:@selector(task_buttonClick) forControlEvents:UIControlEventTouchUpInside];
-    [history_button addTarget:self action:@selector(history_buttonClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.task_button addTarget:self action:@selector(task_buttonClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.history_button addTarget:self action:@selector(history_buttonClick) forControlEvents:UIControlEventTouchUpInside];
     
     UIButton *more = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 4)];
     [more addTarget:self action:@selector(moreClick:) forControlEvents:UIControlEventTouchUpInside];
@@ -627,6 +624,29 @@
     negativeSpacer.width = -10;
     self.navigationItem.rightBarButtonItems = @[negativeSpacer, buttonItem];
     
+}
+
+#pragma mark - 圆形push 和pop的转场动画
+- (id<UIViewControllerAnimatedTransitioning>)
+navigationController:(UINavigationController *)navigationController
+animationControllerForOperation:(UINavigationControllerOperation)operation
+fromViewController:(UIViewController *)fromVC
+toViewController:(UIViewController *)toVC {
+    
+    QDXHistoryViewController *history = [[QDXHistoryViewController alloc] init];
+    
+    if([toVC isKindOfClass:[history class]]){
+        if (operation == UINavigationControllerOperationPush) {
+            CustomAnimateTransitionPush *animateTransitionPush =
+            [CustomAnimateTransitionPush new];
+            
+            return animateTransitionPush;
+            
+        } else {
+            return nil;
+        }
+    }
+    return nil;
 }
 
 //将上级页面的mylineid传入
@@ -641,7 +661,7 @@
     }
     
     [self getPointLonLat];
-    
+    self.navigationController.delegate = self;
     self.mapView.showsUserLocation = YES;
     self.mapView.userTrackingMode = MAUserTrackingModeFollow;
 }
@@ -654,6 +674,8 @@
     [_mapView removeOverlay:groundOverlay];
     [countDownTimer setFireDate:[NSDate distantFuture]];
     [self.mapView setCompassImage:nil];
+    
+    [LocalDBService UploadHistory:oldMyLineid];
 }
 
 //请求点标位置 地图位置
@@ -703,7 +725,6 @@
 //            [_mapView setRegion:region];
             
             CLLocationCoordinate2D coor;
-            
             for (line_pointModel *line_point in self.resultInfo.Unknown) {
                 annotation_target = [[MAPointAnnotation alloc]init];
                 coor.latitude = [line_point.point.LAT floatValue];
@@ -722,6 +743,7 @@
                 annotation_history.subtitle = line_point.pointmap_des;
                 [self.mapView addAnnotation:annotation_history];
             }
+            
         }
         else{
             
@@ -879,13 +901,12 @@
             useTime.font = [UIFont fontWithName:@"Helvetica-Bold" size:24];
             currentTime.frame = CGRectMake((QdxWidth/4)* 3 - 100/2,pointHeight + 20 + 5+ 5, 100, 15);
         } completion:^(BOOL finished) {
-            
         }];
     }else{
         [self.mapView addGestureRecognizer:self.doubleTap];
         
-        [history_button removeFromSuperview];
-        [task_button removeFromSuperview];
+        [self.history_button removeFromSuperview];
+        [self.task_button removeFromSuperview];
         [UIView animateWithDuration:1 animations:^{
             self.mapView.frame = CGRectMake(0,QdxHeight - MAPVIEWHEIGHT ,QdxWidth,MAPVIEWHEIGHT);
             playView.frame = CGRectMake(0, 0, QdxWidth, SCOREVIEWHEIGHT);
@@ -910,8 +931,8 @@
             [playView addSubview:playLineView_One];
             [playView addSubview:score_sum_name];
             [playView addSubview:score_sum];
-            [self.view addSubview:history_button];
-            [self.view addSubview:task_button];
+            [self.view addSubview:self.history_button];
+            [self.view addSubview:self.task_button];
         }];
     }
 }
@@ -937,7 +958,7 @@
     macStr = @"";//避免重复提交
     
     //离线验证
-    if ([self.gameInfo.pointmap.pindex intValue ] > 0 && [self.gameInfo.pointmap.pindex intValue] < 998) {
+    if ([self.gameInfo.mstatus_id intValue] == 2 && online == 2 ) {
         [MBProgressHUD hideHUD];
         NSDictionary *dic = [LocalDBService CheckTask:params];
         int ret = [dic[@"Code"] intValue];
@@ -950,13 +971,14 @@
             }
             point_questionModel *p_questionModel = [point_questionModel mj_objectWithKeyValues:dic[@"Msg"]];
             self.questionInfo = p_questionModel;
-            NSLog(@"%@   ",self.questionInfo.question.qkey);
+            NSLog(@"%@    ",self.questionInfo.question.qkey);
             [self  setupTaskView];
 
             AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
             errorCount++;
         }else if (ret == 2){
             [self setupgetMylineInfo:1];
+            [self updatadd];
             [self getPointLonLat];
         }
         return ;
@@ -989,6 +1011,7 @@
             errorCount++;
         }else if (ret == 2){
             [self setupgetMylineInfo:1];
+           
             [self getPointLonLat];
         }
         else{
@@ -998,6 +1021,11 @@
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [MBProgressHUD hideHUD];
     }];
+}
+
+-(void)updatadd
+{
+    [LocalDBService UploadHistory:oldMyLineid];
 }
 
 //任务的frame
@@ -1025,10 +1053,10 @@
         };
     }else if ([self.questionInfo.question.ischoice intValue] == 1){
         
-        
-        NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-        NSString *docDir = [paths objectAtIndex:0];
-        NSString *stringurl = [docDir stringByAppendingString:@"/question.html"];
+        NSString *stringurl = [NSString stringWithFormat:@"http://www.qudingxiang.cn/home/Myline/getQuestionWeb/myline_id/%@/tmp/%@",oldMyLineid,save]; //默认是在线
+        if (online ==2) { //离线题
+            stringurl = [accountFile stringByAppendingString:@"/question.html"];
+        }
         
 //        CYAlertController *alert = [CYAlertController alertWithTitle:self.gameInfo.line.line_sub message:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/Myline/getQuestionWeb/myline_id/%@/tmp/%@",oldMyLineid,save]];
         
@@ -1064,19 +1092,31 @@
 {
     [self removeFromSuperViewController];
     
-    self.BGView                 = [[UIView alloc] init];
-    self.BGView.frame           = [[UIScreen mainScreen] bounds];
-    self.BGView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
+    self.BGView = [[UIView alloc] init];
+    self.BGView.frame = [[UIScreen mainScreen] bounds];
     [self.view addSubview:self.BGView];
     
-    self.deliverView                 = [[UIView alloc] init];
-    self.deliverView.frame           = CGRectMake(QdxWidth/2 - TASKWEIGHT/2,(QdxHeight-64 - TASKHEIGHT)/2,TASKWEIGHT,TASKHEIGHT);
-    self.deliverView.backgroundColor = [UIColor whiteColor];
-    self.deliverView.layer.borderWidth = 1;
-    self.deliverView.layer.cornerRadius = 12;
-    self.deliverView.layer.borderColor = [[UIColor clearColor]CGColor];
+    self.deliverView = [[UIView alloc] init];
+    self.deliverView.frame = CGRectMake(QdxWidth* 0.08,0,TASKWEIGHT/2,TASKHEIGHT/2);
     [self.view addSubview:self.deliverView];
-        
+
+    [UIView animateWithDuration:0.5
+                          delay:0
+         usingSpringWithDamping:0.8
+          initialSpringVelocity:0.3
+                        options:UIViewAnimationOptionCurveLinear
+                     animations:^{
+                         self.BGView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
+                         self.deliverView.frame = CGRectMake(QdxWidth/2 - TASKWEIGHT/2,(QdxHeight-64 - TASKHEIGHT)/2,TASKWEIGHT,TASKHEIGHT);
+                         self.deliverView.backgroundColor = [UIColor whiteColor];
+                         self.deliverView.layer.borderWidth = 1;
+                         self.deliverView.layer.cornerRadius = 12;
+                         self.deliverView.layer.borderColor = [[UIColor clearColor]CGColor];
+                     }
+                     completion:^(BOOL finished) {
+                        
+                     }];
+    
     if (code == 0) {
         successView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, TASKWEIGHT, TASKHEIGHT)];
         
@@ -1099,6 +1139,7 @@
     [showMsg_button removeFromSuperview];
     [successView removeFromSuperview];
     lock = NO;
+    
     showOK_button = [[UIButton alloc] initWithFrame:CGRectMake(0, TASKHEIGHT - SHOWTASKHEIGHT,TASKWEIGHT, SHOWTASKHEIGHT)];
     [showOK_button addTarget:self action:@selector(showOK_buttonClick) forControlEvents:UIControlEventTouchUpInside];
     CGFloat top = 25; // 顶端盖高度
@@ -1239,6 +1280,9 @@
             NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
             int ret = [infoDict[@"Code"] intValue];
             if (ret==1) {
+                NSDictionary *res=[LocalDBService ReadMyline:oldMyLineid];
+                [res setValue:@"4" forKey:@"mstatus_id"];
+                [LocalDBService WriteMyline:res];
                 [self setupgetMylineInfo:0];
                 lock = YES;
             }else{
@@ -1319,6 +1363,9 @@
             if ([self.gameInfo.line.countdown intValue] -secondsCountDown <= 0) {
                 lock = YES;
                 [countDownTimer setFireDate:[NSDate distantFuture]];
+                NSDictionary *res=[LocalDBService ReadMyline:oldMyLineid];
+                [res setValue:@"4" forKey:@"mstatus_id"];
+                [LocalDBService WriteMyline:res];
                 [self setupgetMylineInfo:0];
             }
         }

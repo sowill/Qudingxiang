@@ -11,8 +11,9 @@
 #import "QDXHIstoryModel.h"
 #import "QDXGameModel.h"
 #import "QDXPointModel.h"
+#import "CustomAnimateTransitionPop.h"
 
-@interface QDXHistoryViewController () <UITableViewDataSource,UITableViewDelegate>
+@interface QDXHistoryViewController () <UITableViewDataSource,UITableViewDelegate,UINavigationControllerDelegate>
 @property (nonatomic, strong) UITableView *tableview;
 @property (nonatomic, weak) MJRefreshHeaderView *header;
 @end
@@ -28,7 +29,7 @@
 
 -(void)createTableView
 {
-    self.tableview = [[UITableView alloc] initWithFrame:CGRectMake(0,10, QdxWidth, QdxHeight-64-10) style:UITableViewStylePlain];
+    self.tableview = [[UITableView alloc] initWithFrame:CGRectMake(0,10 + 64, QdxWidth, QdxHeight-64-10) style:UITableViewStylePlain];
     self.tableview.delegate = self;
     self.tableview.dataSource = self;
     self.tableview.showsVerticalScrollIndicator = NO;
@@ -72,6 +73,31 @@
     lineView.backgroundColor = [UIColor colorWithWhite:0.875 alpha:1.000];
     [headerView addSubview:lineView];
     return headerView;
+}
+
+#pragma mark - 视图将要显示
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    self.navigationController.delegate=self;
+}
+
+//用来自定义转场动画
+- (id <UIViewControllerAnimatedTransitioning>)navigationController:(UINavigationController *)navigationController
+                                   animationControllerForOperation:(UINavigationControllerOperation)operation
+                                                fromViewController:(UIViewController *)fromVC
+                                                  toViewController:(UIViewController *)toVC{
+    if (operation == UINavigationControllerOperationPop) {
+        CustomAnimateTransitionPop *pingInvert = [CustomAnimateTransitionPop new];
+        return pingInvert;
+    }else{
+        return nil;
+    }
+}
+
+- (void)dealloc{
+//    NSLog(@"%s",__func__);
 }
 
 @end

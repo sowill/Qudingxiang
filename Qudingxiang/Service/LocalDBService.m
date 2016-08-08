@@ -157,6 +157,19 @@
     return resualt;
 }
 
+//-(void)sort:(NSMutableArray *)arr
+//{
+//    for (int i = 0; i<arr.count; i++) {
+//        for (int j = 0; j<arr.count -i - 1; j++) {
+//            if ([arr[j+1] integerValue] < [arr[j] integerValue]) {
+//                int temp = [arr[j] integerValue];
+//                arr[j] = arr[j+1];
+//                arr[j+1] = [NSNumber numberWithInt:temp];
+//            }
+//        }
+//    }
+//}
+
 +(bool) PassChange:(NSDictionary *)DicMyline PointMap:(NSDictionary *)infoDic
 {
 
@@ -165,7 +178,12 @@
     [DicMyline setValue:infoDic[@"pointmap_img"] forKey:@"img_url"];
     [DicMyline setValue:infoDic  forKey:@"pointmap"];
     
-    [DicMyline setValue:@"2" forKey:@"mstatus"];
+    if([infoDic[@"pindex"] intValue]>=998 ){
+        
+        [DicMyline setValue:@"3" forKey:@"mstatus_id"];
+    }else{
+        [DicMyline setValue:@"2" forKey:@"mstatus_id"];
+    }
     
     NSMutableDictionary *pointDic = [[NSMutableDictionary alloc] init];
     [pointDic setValue:infoDic[@"point_name"] forKey:@"point_name"];
@@ -177,16 +195,13 @@
     if (linetype_id == 1) {
         NSMutableDictionary *pointD = DicMyline[@"point"];
         NSDictionary *dicMylineinfo= [self ReadMylineInfo:DicMyline[@"myline_id"]];
-        for(NSDictionary *infoDic in dicMylineinfo) {
-            
-            if([infoDic[@"pindex"] intValue] >[pointD[@"pindex"] intValue]){
-               
-                pointD[@"label"] = [NSString stringWithFormat:@"%@,%@",infoDic[@"point_id"],infoDic[@"label"]];
-                pointD[@"point_name"] = infoDic[@"point_name"];
-                continue;
-            }
-            
         
+        for(NSDictionary *infoDic_2 in dicMylineinfo) {
+            if([infoDic_2[@"pindex"] intValue] >[DicMyline[@"pointmap"][@"pindex"] intValue]){
+                pointD[@"label"] = [NSString stringWithFormat:@"%@,%@",infoDic_2[@"point_id"],infoDic_2[@"label"]];
+                pointD[@"point_name"] = infoDic_2[@"point_name"];
+                break;
+            }
         }
     }
     
@@ -214,7 +229,7 @@
     NSDictionary *historyDic = DicMyline[@"history"];
     [self WriteHistory:DicMyline[@"myline_id"] Dic:historyDic];
     
-   
+  //  NSLog(@"=========== %@",historyDic);
     return YES;
     
 }
@@ -307,7 +322,7 @@
     int offset = arc4random()%dict.count;
     
     int row = 0;
-  
+
     for(NSDictionary *questionDic in dict){
        
         if(row == offset){
@@ -334,6 +349,76 @@
   
     [fileManager createFileAtPath:htmlPath contents:htmlData attributes:nil];
     
+    
+}
++ (void)UploadHistory:(NSString *)Myline_id
+{
+  
+    
+    
+    NSDictionary *MylineDic= [self ReadMyline:Myline_id];
+    NSDictionary *res= MylineDic[@"history"];
+    for(NSDictionary *hisInfo in res){
+        
+         NSString *mylineinfo_id = hisInfo[@"mylineinfo_id"];
+          // NSLog(@"hisInfo  %@",hisInfo);
+        if (mylineinfo_id !=nil && [mylineinfo_id intValue] == 0) {
+            
+         
+           NSString *time = hisInfo[@"edate"];
+           NSString *myline_id = hisInfo[@"myline_id"]  ;
+           NSString *pointmap_id =  hisInfo[@"pointmap_id"];
+              NSLog(@"time  %@",time);
+           NSString *urlString = [hostUrl stringByAppendingString:uploadHistory];
+           AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+           //说明服务器返回的事JSON数据
+           mgr.responseSerializer = [AFJSONResponseSerializer serializer];
+         //封装请求参数
+           NSMutableDictionary *params = [NSMutableDictionary dictionary];
+           params[@"time"] = time;
+           params[@"myline_id"] = myline_id;
+           params[@"pointmap_id"] = pointmap_id;
+    
+           __block NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
+           [mgr POST:urlString parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+           } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                dict = responseObject;
+               int code = [dict[@"Code"] intValue];
+               NSMutableDictionary *Msg = dict[@"Msg"];
+               if(code == 1){
+               //修改历史记录
+                    //NSString *myline_id =Msg[@"myline_id"];
+                    NSString *pointmap_id =Msg[@"pointmap_id"];
+                    NSString *score =Msg[@"score"];
+                    NSString *mylineinfo_id =Msg[@"mylineinfo_id"];
+                   
+                   
+                   
+                   
+                   
+                    for(NSDictionary *theInfo in res){
+                        
+                        if([theInfo[@"pointmap_id"] isEqualToString:pointmap_id]){
+                            [theInfo setValue:score forKey:@"score"];
+                            [theInfo setValue:mylineinfo_id forKey:@"mylineinfo_id"];
+                            [self WriteMyline:MylineDic];
+
+                        }
+                        
+                    }
+                   
+        
+               }
+        
+           } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+        
+        }];
+        
+        }
+    }
     
 }
 

@@ -621,6 +621,8 @@
 {
     secondsCountDown++;
     useTime.text =[NSString stringWithFormat:@"%@",[ToolView scoreTransfer:[NSString stringWithFormat:@"%d",secondsCountDown]] ];
+    
+   
 }
 
 -(void)dowloadDetails

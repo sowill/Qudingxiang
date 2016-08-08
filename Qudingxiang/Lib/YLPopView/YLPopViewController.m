@@ -83,10 +83,8 @@
 //    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/Myline/getQuestionWeb/myline_id/%@/tmp/%@",mylineid,save]];
 //    [_web loadRequest:[NSURLRequest requestWithURL:url]];
     
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *docDir = [paths objectAtIndex:0];
-    NSString *string = [docDir stringByAppendingString:@"/question.html"];
-    NSURL *htmlURL = [NSURL URLWithString:string];
+    NSString *stringurl = [accountFile stringByAppendingString:@"/question.html"];
+    NSURL *htmlURL = [NSURL URLWithString:stringurl];
     NSURLRequest *request = [NSURLRequest requestWithURL:htmlURL];
     [_web loadRequest:request];
     

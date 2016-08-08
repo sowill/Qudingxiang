@@ -26,6 +26,8 @@
 #import "LineController.h"
 #import "ActivityController.h"
 #import "AppDelegate.h"
+
+#import "UITableViewCell+leoAdd.h"
 #define NotificaitonChange @"code"
 
 @interface HomeController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,UINavigationControllerDelegate,MJRefreshBaseViewDelegate,UIAlertViewDelegate>
@@ -62,7 +64,6 @@
     UIImageView *_promptView;
     UIButton *_leftBtn;
     UIButton *_rightBtn;
-    AppDelegate *appdelegate;
 }
 @end
 
@@ -71,7 +72,6 @@
 -(void)viewWillAppear:(BOOL)animated
 {
     [self loadData];
-     appdelegate = [[UIApplication sharedApplication] delegate];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -79,6 +79,12 @@
     [super viewDidDisappear:animated];
     _scrollArr = [NSMutableArray arrayWithCapacity:0];
     [imgScrollView stopTimer];
+}
+
+// tableView 的协议方法，在这个方法中调用即可
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    // animationStyle: 动画类型
+    [cell tableView:tableView forRowAtIndexPath:indexPath animationStyle:UITableViewCellDisplayAnimationTop];
 }
 
 - (void)viewDidLoad {
@@ -467,17 +473,16 @@
         //            [_imageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"banner"]];
         //        }
     } FailBlock:^(NSMutableArray *array) {
-//        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"加载失败，请检查网络！" message:nil preferredStyle:UIAlertControllerStyleAlert];
-//        [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-//        }] ];
-//        [self presentViewController:alert animated:YES completion:nil];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"加载失败，请检查网络！" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        }] ];
+        [self presentViewController:alert animated:YES completion:nil];
     } andWithToken:save];
 }
 
 - (void)state
 {
-    appdelegate.loading = YES;
-    [self showProgessMsg:@"加载中"];
+    [self showProgessMsg:@"正在加载"];
     NSString *urlString = [hostUrl stringByAppendingString:usingTicket];
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     mgr.responseSerializer = [AFJSONResponseSerializer serializer];
@@ -487,27 +492,41 @@
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSDictionary *dict = [[NSDictionary alloc] initWithDictionary:responseObject];
-       // NSLog(@"homedict%@",dict[@"Msg"]);
-        _code = [dict[@"Code"] intValue];
-        appdelegate.code = [NSString stringWithFormat:@"%d",(int)_code];
-        if(_code == 2){
-          
-            appdelegate.line = dict[@"Msg"][@"ticket"][@"ticket_id"];
-        }else if (_code == 1) {
-            [NSKeyedArchiver archiveRootObject:dict[@"Msg"][@"myline_id"] toFile:QDXCurrentMyLineFile];
-        }
-        
+        _code = [[NSString stringWithFormat:@"%@",dict[@"Code"]] intValue];
+        NSString *urlString = [hostUrl stringByAppendingString:lineUrl];
+        AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+        //说明服务器返回的事JSON数据
+        mgr.responseSerializer = [AFJSONResponseSerializer serializer];
+        //封装请求参数
+        NSMutableDictionary *params = [NSMutableDictionary dictionary];
+        params[@"TokenKey"] = save;
+        [mgr POST:urlString parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
+            
+        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+            NSDictionary *dict = [[NSDictionary alloc] initWithDictionary:responseObject];
+            _line = [[NSString stringWithFormat:@"%@",dict[@"Code"]] intValue];
+            AppDelegate *_delegate = [[UIApplication sharedApplication] delegate];
+            _delegate.code = [NSString stringWithFormat:@"%li",_code];
+            _delegate.line = [NSString stringWithFormat:@"%li",_line];
+            int ret = _line;
+            if (ret == 1) {
+                [NSKeyedArchiver archiveRootObject:dict[@"Msg"][@"myline_id"] toFile:QDXCurrentMyLineFile];
+            }
+            else{
+                
+            }
 
-        appdelegate.loading = NO;
-
-        [self changeScanBtn];
+            [self changeScanBtn];
+            [self hideProgess];
+        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            
+        }];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"加载失败，请检查网络！" message:nil preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         }] ];
         [self presentViewController:alert animated:YES completion:nil];
     }];
-    [self hideProgess];
 }
 
 - (void)state1
@@ -611,7 +630,7 @@
 - (void)changeScanBtn
 {
     
-    if(_code == 0){
+    if((_code == 0) && (_line == 0)){
         _scanBtn.hidden = NO;
         [_scanBtn addTarget:self action:@selector(scanClick1) forControlEvents:UIControlEventTouchUpInside];
         

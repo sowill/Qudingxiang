@@ -12,5 +12,6 @@
 //@property (strong, nonatomic) MainController *mianVC;
 @property NSString *code;
 @property NSString *line;
+@property bool loading;
 @end
 

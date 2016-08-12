@@ -44,11 +44,6 @@
     //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tabbarRefresh) name:@"tabbarRefresh" object:nil];
 }
 
--(void)tabbarRefresh
-{
-    [self change];
-}
-
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
@@ -65,9 +60,7 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    //[self state];
-    
-    NSLog(@"tab%li",_code);
+
 }
 - (void)setupTabbar
 {
@@ -83,44 +76,12 @@
     self.selectedIndex = to;
 }
 
-- (void)state
-{
-    [self performSelectorInBackground:@selector(change) withObject:nil];
-}
-
-- (void)change
-{
-    self.customTabBar.userInteractionEnabled = NO;
-    [HomeService btnStateBlock:^(NSMutableDictionary *dict) {
-        _code = [[NSString stringWithFormat:@"%@",dict[@"Code"]] intValue];
-        int ret = [dict[@"Code"] intValue];
-        if (ret == 1) {
-            if (![dict[@"Msg"][@"ticket_id"] isEqual:[NSNull null]]) {
-                _ticket = [NSString stringWithFormat:@"%@",dict[@"Msg"][@"ticket_id"]];
-            }
-        }else{
-            
-        }
-        
-        [HomeService choiceLineStateBlock:^(NSMutableDictionary *dict) {
-            _line = [[NSString stringWithFormat:@"%@",dict[@"Code"]] intValue];
-            [self performSelectorOnMainThread:@selector(success) withObject:nil waitUntilDone:nil];
-        } andWithToken:save];
-    } andWithToken:save];
-    
-
-}
-
-- (void)success
-{
-    self.customTabBar.userInteractionEnabled = YES;
-}
 
 - (void)tabBarDidClickedPlusButton:(TabbarView *)tabBar
 {
     AppDelegate *_delegate = [[UIApplication sharedApplication] delegate];
     _code = [_delegate.code intValue];
-    _ticket = _delegate.line;
+    _ticket = _delegate.ticket;
     if(_delegate.loading){
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"加载中请稍后" delegate:self cancelButtonTitle:@"好的" otherButtonTitles:nil, nil];
         [alert show];

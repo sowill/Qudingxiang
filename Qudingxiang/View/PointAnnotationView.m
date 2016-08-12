@@ -9,7 +9,7 @@
 #import "PointAnnotationView.h"
 
 
-#define kCalloutWidth       200.0
+#define kCalloutWidth       150.0
 #define kCalloutHeight      70.0
 
 @interface PointAnnotationView ()
@@ -35,8 +35,9 @@
             self.point_View.center = CGPointMake(CGRectGetWidth(self.bounds) / 2.f + self.calloutOffset.x,
                                                   -CGRectGetHeight(self.point_View.bounds) / 2.f + self.calloutOffset.y);
         }
-        
-        self.point_View.image = [UIImage imageNamed:@"1"];
+//        UIImageView *tempImageView = [[UIImageView alloc] init];
+//        [tempImageView setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,self.point_url]] placeholderImage:[UIImage imageNamed:@"加载中"] options:SDWebImageRefreshCached];
+//        self.point_View.image = tempImageView.image;
         self.point_View.title = self.annotation.title;
         self.point_View.subtitle = self.annotation.subtitle;
         [self addSubview:self.point_View];

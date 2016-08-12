@@ -16,7 +16,7 @@
 #import <UIKit/UIKit.h>
 typedef void (^block)(NSString *contentText);
 @interface YLPopViewController: UIViewController
-
+@property (nonatomic,strong) NSString *webStr;
 /**
  *  内容视图
  */

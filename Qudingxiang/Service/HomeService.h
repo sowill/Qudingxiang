@@ -9,16 +9,11 @@
 #import <Foundation/Foundation.h>
 
 @interface HomeService : NSObject
-+ (void)topViewDataBlock:(void (^)(NSDictionary *dict))block FailBlock:(void(^)(NSMutableArray *array))failBlock andWithToken:(NSString *)tokenKey;
++ (HomeService *)sharedInstance;
+- (void)topViewDatasucceed:(void (^)(id data))succeed failure:(void (^)(NSError *error))failure;
+- (void)statesucceed:(void (^)(id data))succeed failure:(void (^)(NSError *error))failure WithToken:(NSString *)tokenKey;
+- (void)dbversionsucceed:(void (^)(id data))succeed failure:(void (^)(NSError *error))failure;
+- (void)loadCellsucceed:(void (^)(id data))succeed failure:(void (^)(NSError *error))failure WithCurr:(NSString *)curr WithType:(NSString *)type ;
 
-+ (void)btnStateBlock:(void (^)(NSMutableDictionary *dict))block andWithToken:(NSString *)tokenKey;
-
-+ (void)choiceLineStateBlock:(void (^)(NSMutableDictionary *dict))block andWithToken:(NSString *)tokenKey;
-
-+ (void)cellDataBlock:(void (^)(NSDictionary *dict))block FailBlock:(void(^)(NSMutableArray *array))failBlock andWithToken:(NSString *)tokenKey andWithCurr:(NSString *)curr andWithType:(NSString *)type;
-
-+ (void)btnTabStateBlock:(void (^)(NSMutableDictionary *dict))block FailBlock:(void(^)(NSMutableArray *array))failBlock andWithToken:(NSString *)tokenKey;
-
-+ (void)dbversionBlock:(void (^)(void))block;
- 
+- (void)POST:(NSString *)URLString succeed:(void (^)(id data))succeed failure:(void (^)(NSError *error))failure;
 @end

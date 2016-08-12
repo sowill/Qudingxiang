@@ -91,6 +91,11 @@
  */
 @property (strong,nonatomic) NSString *img_url;
 
+/**
+ *  是否离线
+ */
+@property (strong,nonatomic) NSString *online;
+
 -(instancetype)initWithL_id:(NSString *)line_id
                        ML_id:(NSString *)myline_id
                        MS_id:(NSString *)mstatus_id

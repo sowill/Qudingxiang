@@ -101,7 +101,7 @@
 }
 - (void)signData
 {
-    [MineService cellDataBlock:^(NSMutableDictionary *dict) {
+    [MineService cellDataBlock:^(NSDictionary *dict) {
         NSDictionary* _dic = [[NSDictionary alloc] initWithDictionary:dict];
         _signDict=[[NSDictionary alloc] initWithDictionary:_dic];
         _signText.text = _signDict[@"Msg"][@"signature"];

@@ -13,4 +13,5 @@
 
 @property (nonatomic, readonly) PointView *point_View;
 @property (nonatomic, strong) UILabel *point_ID;
+//@property (nonatomic, strong) NSString *point_url;
 @end

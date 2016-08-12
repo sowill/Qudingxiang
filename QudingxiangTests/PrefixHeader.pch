@@ -16,6 +16,7 @@
 #import "RESideMenu.h"
 #import "BaseService.h"
 #import <MAMapKit/MAMapKit.h>
+#import <AMapFoundationKit/AMapFoundationKit.h>
 #import <objc/runtime.h>
 #import "UIControl+UIControl_buttonCon.h"
 #import "AppDelegate.h"

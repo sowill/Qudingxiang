@@ -22,6 +22,7 @@
 @property (nonatomic,strong) UILabel *placeHolderLabel;//占位字符
 @property (nonatomic,strong) UILabel *wordCountLabel;//字数
 @property (nonatomic,strong) UIWebView *web;//网页
+
 @end
 
 @implementation YLPopViewController
@@ -79,14 +80,10 @@
     [self.view addSubview:self.contentView];
 
 
-//    _web = [[UIWebView alloc] init];
-//    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/Myline/getQuestionWeb/myline_id/%@/tmp/%@",mylineid,save]];
-//    [_web loadRequest:[NSURLRequest requestWithURL:url]];
+    _web = [[UIWebView alloc] init];
+
     
-    NSString *stringurl = [accountFile stringByAppendingString:@"/question.html"];
-    NSURL *htmlURL = [NSURL URLWithString:stringurl];
-    NSURLRequest *request = [NSURLRequest requestWithURL:htmlURL];
-    [_web loadRequest:request];
+    [_web loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:self.webStr]]];
     
     
     [self.contentView addSubview:_web];

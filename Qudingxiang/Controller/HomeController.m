@@ -10,7 +10,6 @@
 #import "QDXGameViewController.h"
 #import "CellLineController.h"
 #import "LineController.h"
-#import "QDXGameViewController.h"
 #import "HomeModel.h"
 #import "ImageModel.h"
 #import "BaseCell.h"
@@ -18,14 +17,14 @@
 #import "QDXLineDetailViewController.h"
 #import "HomeService.h"
 #import "ImagePickerController.h"
-#import "QDXOffLineController.h"
+//#import "QDXOffLineController.h"
 #import "MineViewController.h"
 #import "QDXLoginViewController.h"
 #import "QDXNavigationController.h"
 #import "ImageScrollView.h"
-#import "LineController.h"
 #import "ActivityController.h"
 #import "AppDelegate.h"
+#import "BaseService.h"
 #define NotificaitonChange @"code"
 
 @interface HomeController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,UINavigationControllerDelegate,MJRefreshBaseViewDelegate,UIAlertViewDelegate>
@@ -63,6 +62,7 @@
     UIButton *_leftBtn;
     UIButton *_rightBtn;
     AppDelegate *appdelegate;
+    HomeService *homehttp;
 }
 @end
 
@@ -72,6 +72,7 @@
 {
     [self loadData];
      appdelegate = [[UIApplication sharedApplication] delegate];
+    
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -83,11 +84,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    homehttp = [HomeService sharedInstance];
     _modelArr  = [NSMutableArray arrayWithCapacity:0];
+    arr = [[NSMutableArray alloc] initWithCapacity:0];
     self.navigationItem.title = @"趣定向";
     _curNumber = 1;
+    //[self loadcelldataWith:@"1"];
     [self createTableView];
-
     [self loadDataCell];
     [self createUI];
     if ([_tableView respondsToSelector:@selector(setSeparatorInset:)])
@@ -105,6 +108,13 @@
     //        NSLog(@"不是第一次启动");
     //    }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stateRefresh) name:@"stateRefresh" object:nil];
+//    BaseService *httpRequest = [BaseService sharedInstance];
+//    NSString *url = [hostUrl stringByAppendingString:@"Home/util/Dbversion"];
+//    [httpRequest POST:url dict:nil succeed:^(id data) {
+//        NSLog(@"%@",data[@"goods"]);
+//    } failure:^(NSError *error) {
+//        
+//    }];
 }
 
 - (void)stateRefresh
@@ -116,64 +126,39 @@
 - (void)loadDataCell
 {
     _scrollArr = [NSMutableArray arrayWithCapacity:0];
-    [self performSelectorInBackground:@selector(version) withObject:nil];
-    [self performSelectorInBackground:@selector(topViewData) withObject:nil];
-    //[self performSelectorInBackground:@selector(cellDataWith:isRemoveAll:) withObject:nil];
-    [self cellDataWith:@"1" isRemoveAll:YES andWithType:@"0"];
+    NSOperationQueue *queue = [[NSOperationQueue alloc]init];
+     queue.maxConcurrentOperationCount = 5;
+    NSBlockOperation *operationA = [NSBlockOperation blockOperationWithBlock:^{
+        [self performSelectorInBackground:@selector(cell1) withObject:nil];
+    }];
+    NSBlockOperation *operationB = [NSBlockOperation blockOperationWithBlock:^{
+        [self performSelectorInBackground:@selector(topViewData) withObject:nil];
+    }];
+    NSBlockOperation *operationC = [NSBlockOperation blockOperationWithBlock:^{
+        [self dbversion];
+        
+    }];
+    [operationA addDependency:operationC];
+    [operationB addDependency:operationC];
+    [queue addOperation:operationA];
+    [queue addOperation:operationB];
+    [queue addOperation:operationC];
 }
 
+- (void)cell1
+{
+   [self cellDataWith:@"1" isRemoveAll:YES andWithType:@"0"];
+}
 - (void)loadData
 {
-    //[HomeService dbversion];
+    
     if (save) {
-        [self state];
+        [self performSelectorInBackground:@selector(state) withObject:nil];
     }else{
         _scanBtn.hidden = NO;
         [self state1];
         
     }
-    //[self setupCurrentLine];
-    
-    
-}
-
-- (void)version
-{
-    
-//    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-//    mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
-//    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-//    NSString *url = [hostUrl stringByAppendingString:@"Home/util/Dbversion"];
-//    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-//        
-//    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-//        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-//        NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
-//        [NSKeyedArchiver archiveRootObject:@"3" toFile:QDXGoods];
-//        NSLog(@"home%@",VGoods);
-//        [NSKeyedArchiver archiveRootObject:infoDict[@"myline"] toFile:QDXMyline];
-//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-//        
-//    }];
-}
-
-//获取myline_id
--(void)setupCurrentLine
-{
-    
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    NSString *url = [hostUrl stringByAppendingString:@"Home/util/Dbversion"];
-    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
-            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-    }];
 }
 
 - (void)createTableView
@@ -414,7 +399,7 @@
 
 - (void)sussRes
 {
-    [self showProgessOK:@"加载成功"];
+    [self hideProgess];
 }
 
 - (void)failRes
@@ -424,9 +409,9 @@
 
 - (void)topViewData
 {
-    
-    [HomeService topViewDataBlock:^(NSDictionary *dict) {
-        NSDictionary *dataDict = dict[@"Msg"][@"data"];
+    [homehttp topViewDatasucceed:^(id data) {
+
+        NSDictionary *dataDict = data[@"Msg"][@"data"];
         for(NSDictionary *dict in dataDict){
             int i = [dict[@"goods_index"] intValue];
             if (i == 1) {
@@ -438,7 +423,7 @@
                 [_modelArr addObject:model];
             }
         }
-        arr = [[NSMutableArray alloc] initWithCapacity:0];
+        
         for(int i = 0;i<4;i++){
             [arr addObject:_scrollArr[i]];
         }
@@ -453,72 +438,61 @@
         }];
         //刷新（必需的步骤）
         [imgScrollView reloadView];
+        [self performSelectorOnMainThread:@selector(sussRes) withObject:nil waitUntilDone:YES];
+    } failure:^(NSError *error) {
         
-        //        for (int i = 0; i < _scrollArr.count; i++) {
-        //            _imageView = [[UIImageView alloc] init];
-        //            CGFloat contentW = i * QdxWidth;
-        //            _imageView.frame = CGRectMake(contentW, 0, QdxWidth, QdxWidth*0.59);
-        //            _imageView.image = [UIImage imageNamed:@"1"];
-        //            _imageView.userInteractionEnabled = YES;
-        //            UIButton *btn = [ToolView createButtonWithFrame:CGRectMake(0, 0, QdxWidth, QdxWidth*0.59) title:@"" backGroundImage:@"" Target:self action:@selector(topBtnClicked:) superView:_imageView];
-        //            btn.tag = i;
-        //            _scrollView.delegate = self;
-        //            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,[_scrollArr objectAtIndex:i]]];
-        //            [_imageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"banner"]];
-        //        }
-    } FailBlock:^(NSMutableArray *array) {
-//        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"加载失败，请检查网络！" message:nil preferredStyle:UIAlertControllerStyleAlert];
-//        [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-//        }] ];
-//        [self presentViewController:alert animated:YES completion:nil];
-    } andWithToken:save];
+    }];
 }
 
 - (void)state
 {
     appdelegate.loading = YES;
-    [self showProgessMsg:@"加载中"];
-    NSString *urlString = [hostUrl stringByAppendingString:usingTicket];
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"TokenKey"] = save;
-    [mgr POST:urlString parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dict = [[NSDictionary alloc] initWithDictionary:responseObject];
-       // NSLog(@"homedict%@",dict[@"Msg"]);
+    [homehttp statesucceed:^(id data) {
+         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments | NSJSONReadingMutableLeaves error:nil];
         _code = [dict[@"Code"] intValue];
         appdelegate.code = [NSString stringWithFormat:@"%d",(int)_code];
         if(_code == 2){
-          
-            appdelegate.line = dict[@"Msg"][@"ticket"][@"ticket_id"];
+            appdelegate.ticket = dict[@"Msg"][@"ticket"][@"ticket_id"];
         }else if (_code == 1) {
             [NSKeyedArchiver archiveRootObject:dict[@"Msg"][@"myline_id"] toFile:QDXCurrentMyLineFile];
         }
-        
-
         appdelegate.loading = NO;
-
         [self changeScanBtn];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        [self performSelectorOnMainThread:@selector(sussRes) withObject:nil waitUntilDone:YES];
+        //[self hideProgess];
+    
+    } failure:^(NSError *error) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"加载失败，请检查网络！" message:nil preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        }] ];
-        [self presentViewController:alert animated:YES completion:nil];
-    }];
-    [self hideProgess];
+        }]
+         ];
+        [self presentViewController:alert animated:YES completion:^{
+            
+        }];
+    } WithToken:save];
+    
 }
 
 - (void)state1
 {
     [_scanBtn addTarget:self action:@selector(scanClick) forControlEvents:UIControlEventTouchUpInside];
 }
+
+- (void)dbversion
+{
+    [self showProgessMsg:@"加载中"];
+    [homehttp dbversionsucceed:^(id data) {
+        [self performSelectorOnMainThread:@selector(sussRes) withObject:nil waitUntilDone:YES];
+        [self hideProgess];
+    } failure:^(NSError *error) {
+        
+    }];
+}
 - (void)cellDataWith:(NSString *)cur isRemoveAll:(BOOL)isRemoveAll andWithType:(NSString *)type
 {
-    [self showProgessMsg:@"正在加载"];
-    [HomeService dbversionBlock:^{
-        [HomeService cellDataBlock:^(NSDictionary *dict) {
+        [homehttp loadCellsucceed:^(id data) {
+             NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments | NSJSONReadingMutableLeaves error:nil];
+            
             NSDictionary *dataDict = dict[@"Msg"][@"data"];
             _currNum = [dict[@"Msg"][@"curr"] integerValue];
             _countNum = [dict[@"Msg"][@"count"] integerValue];
@@ -534,12 +508,13 @@
             [_tableView reloadData];
             [_header endRefreshing];
             [_footer endRefreshing];
-            [self hideProgess];
-        } FailBlock:^(NSMutableArray *array) {
+            //[self hideProgess];
+            [self performSelectorOnMainThread:@selector(sussRes) withObject:nil waitUntilDone:YES];
+    
+        } failure:^(NSError *error) {
             [_header endRefreshing];
             [_footer endRefreshing];
-        } andWithToken:save andWithCurr:cur andWithType:type];
-    }];
+        } WithCurr:cur WithType:type];
     
 }
 
@@ -605,7 +580,7 @@
 - (void)btnClick:(UIButton *)btn
 {
     NSString *type = [NSString stringWithFormat:@"%li",btn.tag];
-    [self cellDataWith:@"1" isRemoveAll:NO andWithType:type];
+    [self cellDataWith:@"1" isRemoveAll:YES andWithType:type];
 }
 
 - (void)changeScanBtn

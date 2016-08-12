@@ -46,13 +46,15 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-    [self netData];
+    if (save) {
+        [self netData];
+    }
+    
     
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    _peopleDict=[[NSDictionary alloc]init];
     [self createTableView];
     
     
@@ -85,16 +87,15 @@
 
 - (void)netData
 {
-    [MineService cellDataBlock:^(NSMutableDictionary *dict) {
+    [MineService cellDataBlock:^(NSDictionary *dict) {
         NSDictionary* _dic = [[NSDictionary alloc] initWithDictionary:dict];
-        NSLog(@"%@",_dic);
         _peopleDict=[NSDictionary dictionaryWithDictionary:_dic];
+        NSLog(@"%@",_peopleDict[@"Msg"]);
         if([_peopleDict[@"Code"] integerValue] == 0){
-            NSFileManager * fileManager = [[NSFileManager alloc]init];
-            NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-            
-            documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
-            [fileManager removeItemAtPath:documentDir error:nil];
+//            NSFileManager * fileManager = [[NSFileManager alloc]init];
+//            NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+//            documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
+//            [fileManager removeItemAtPath:documentDir error:nil];
         }else{
             [_tableView reloadData];
         }
@@ -390,7 +391,6 @@
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSString *result = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-        //[_imageView setImage:[UIImage imageWithContentsOfFile:_path]];
         AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
         
         manager.responseSerializer = [AFJSONResponseSerializer serializer];

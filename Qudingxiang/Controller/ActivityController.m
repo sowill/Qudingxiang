@@ -36,7 +36,6 @@
     _curNumber = 1;
     self.view.backgroundColor = [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1];;
     self.navigationItem.title = @"活动";
-    //[self loadData];
     [self createTableView];
     if ([_tableView respondsToSelector:@selector(setSeparatorInset:)])
     {
@@ -56,7 +55,6 @@
 - (void)createTableView
 {
     _dataArr = [NSMutableArray arrayWithCapacity:0];
-    //self.automaticallyAdjustsScrollViewInsets = false;
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight-60)];
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -159,11 +157,10 @@
             _status_id = model.good_st;
             [_dataArr addObject:model];
         }
-        //[self performSelectorOnMainThread:@selector(sussRes) withObject:nil waitUntilDone:YES];
         [_tableView reloadData];
         [_header endRefreshing];
         [_footer endRefreshing];
-        [self sussRes];
+        [self performSelectorOnMainThread:@selector(sussRes) withObject:nil waitUntilDone:YES];
     } FailBlock:^(NSMutableArray *array) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"加载失败,请检查网络！" message:nil preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -179,7 +176,6 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    NSLog(@"%ld",(long)_dataArr.count);
     return _dataArr.count;
 }
 

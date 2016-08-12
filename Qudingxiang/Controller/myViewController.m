@@ -94,7 +94,7 @@
 
 
 -(void)zoomInAction{
-    [MineService cellDataBlock:^(NSMutableDictionary *dict) {
+    [MineService cellDataBlock:^(NSDictionary *dict) {
         NSDictionary* _dic = [[NSDictionary alloc] initWithDictionary:dict];
         peopleDict=[NSDictionary dictionaryWithDictionary:_dic];
         [self performSelectorOnMainThread:@selector(sussRes) withObject:nil waitUntilDone:YES];

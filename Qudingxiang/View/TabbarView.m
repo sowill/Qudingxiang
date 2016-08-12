@@ -33,6 +33,10 @@
         [plusButton setBackgroundImage:[UIImage imageNamed:@"index_go"] forState:UIControlStateNormal];
         [plusButton setBackgroundImage:[UIImage imageNamed:@"index_go"] forState:UIControlStateHighlighted];
         plusButton.bounds = CGRectMake(0, 0, plusButton.currentBackgroundImage.size.width+10, plusButton.currentBackgroundImage.size.height+10);
+//        plusButton.layer.cornerRadius = 40.0;
+//        plusButton.layer.borderWidth = 1.0;
+//        plusButton.layer.borderColor =[UIColor clearColor].CGColor;
+//        plusButton.clipsToBounds = TRUE;
         [plusButton addTarget:self action:@selector(plusButtonClick) forControlEvents:UIControlEventTouchUpInside];
         [self addSubview:plusButton];
         

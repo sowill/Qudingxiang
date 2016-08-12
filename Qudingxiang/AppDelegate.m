@@ -7,13 +7,15 @@
 //
 
 #import "AppDelegate.h"
-#import "QDXLoginViewController.h"
+//#import "QDXLoginViewController.h"
 #import "QDXIsConnect.h"
 #import "QDXNavigationController.h"
 #import "MineViewController.h"
 #import "GuideViewController.h"
 #import "HomeController.h"
 #import "TabbarController.h"
+#import "HomeService.h"
+
 @interface AppDelegate ()<UIScrollViewDelegate>
 {
     UIBackgroundTaskIdentifier backgroundTask;
@@ -35,8 +37,7 @@
     
     [WXApi registerApp:kWeChat_KEY withDescription:@"weChat"];
     
-    [MAMapServices sharedServices].apiKey = @"deebe04a4a659c7c40eeeaad2e4b97cf";
-    
+    [AMapServices sharedServices].apiKey = @"deebe04a4a659c7c40eeeaad2e4b97cf";
     //判断当前版本是否是新版本
     NSDictionary *infoDict = [NSBundle mainBundle].infoDictionary;
     
@@ -103,14 +104,14 @@
     
 }
 
-- (void)gotoLogin
-{
-    QDXLoginViewController *loginVC = [[QDXLoginViewController alloc] init];
-    QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:loginVC];
-    self.window.rootViewController = nav;
+//- (void)gotoLogin
+//{
 //    QDXLoginViewController *loginVC = [[QDXLoginViewController alloc] init];
-//    self.window.rootViewController = loginVC;
-}
+//    QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:loginVC];
+//    self.window.rootViewController = nav;
+////    QDXLoginViewController *loginVC = [[QDXLoginViewController alloc] init];
+////    self.window.rootViewController = loginVC;
+//}
 
 - (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
 {

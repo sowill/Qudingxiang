@@ -77,7 +77,7 @@
     CABasicAnimation *maskLayerAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
     maskLayerAnimation.fromValue = (__bridge id)(maskStartBP.CGPath);
     maskLayerAnimation.toValue = (__bridge id)((maskFinalBP.CGPath));
-    maskLayerAnimation.duration = [self transitionDuration:transitionContext];
+    maskLayerAnimation.duration = 0.7;
     maskLayerAnimation.timingFunction = [CAMediaTimingFunction  functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
     maskLayerAnimation.delegate = self;
     

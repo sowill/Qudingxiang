@@ -79,9 +79,6 @@
         [lineViewTwo removeFromSuperview];
     }
     
-//    if ([_HistoryInfo.point.point_name isEqualToString:@"起点"]||[_HistoryInfo.point.point_name isEqualToString:@"起点点标"]) {
-//    }
-    
     NSRange erange = [_HistoryInfo.point.point_name rangeOfString:@"终"];
     if (erange.length >0){//包含
         [lineViewOne removeFromSuperview];

@@ -46,9 +46,16 @@
 
 - (void)state
 {
-    [HomeService choiceLineStateBlock:^(NSMutableDictionary *dict) {
+    HomeService *http = [HomeService sharedInstance];
+    [http statesucceed:^(id data) {
+         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments | NSJSONReadingMutableLeaves error:nil];
         _line = [[NSString stringWithFormat:@"%@",dict[@"Code"]] intValue];
-    } andWithToken:save];
+    } failure:^(NSError *error) {
+        
+    } WithToken:save];
+//    [HomeService choiceLineStateBlock:^(NSMutableDictionary *dict) {
+//        _line = [[NSString stringWithFormat:@"%@",dict[@"Code"]] intValue];
+//    } andWithToken:save];
 }
 
 - (void) viewWillAppear:(BOOL)animated

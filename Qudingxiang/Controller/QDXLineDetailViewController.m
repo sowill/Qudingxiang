@@ -15,6 +15,7 @@
 #import "HomeModel.h"
 #import "QDXOrderDetailTableViewController.h"
 #import "QDXLoginViewController.h"
+#import <WebKit/WebKit.h>
 
 @interface QDXLineDetailViewController ()
 {
@@ -31,7 +32,7 @@
     NSString *_orders_name;
     UIView *_bottom;
     UIView *_payView;
-    UIWebView *_webView;
+    WKWebView *_webView;
     UILabel *activityStartTime;
     UIImageView *activitypic;
     UILabel *place;
@@ -136,9 +137,8 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"详情";
     
-    _webView = [[UIWebView alloc] initWithFrame:self.view.frame];
+    _webView = [[WKWebView alloc] initWithFrame:self.view.frame];
     _webView.backgroundColor = [UIColor whiteColor];
-    _webView.delegate = self;
     [self.view addSubview:_webView];
             if([self.homeModel.good_st isEqualToString:@"1"]){
             [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/goods/index/goods_id/%@",self.homeModel.goods_id]]]];
@@ -342,6 +342,7 @@
     
     }
 }
+
 - (void)setupData
 {
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];

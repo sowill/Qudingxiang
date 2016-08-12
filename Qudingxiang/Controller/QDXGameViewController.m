@@ -8,7 +8,7 @@
 
 #import "QDXGameViewController.h"
 #import "QRCodeGenerator.h"
-#import "HomeController.h"
+//#import "HomeController.h"
 #import "QDXTeamsViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "ImagePickerController.h"
@@ -29,11 +29,12 @@
 #import "QDXMap.h"
 //#import "TTSExample.h"
 #import "QDXIsConnect.h"
-#import "QDXOffLineController.h"
+//#import "QDXOffLineController.h"
 #import "HelpViewController.h"
 #import "YLPopViewController.h"
 #import "UIView+EAFeatureGuideView.h"
 #import "LocalDBService.h"
+#import <WebKit/WebKit.h>
 
 #define READYVIEWHEIGHT                    QdxHeight * 0.05
 #define WEBVIEWHEIGHT                      QdxHeight * 0.95
@@ -43,7 +44,7 @@
 #define TASKHEIGHT                         QdxHeight * 0.73
 #define SHOWTASKHEIGHT                     TASKHEIGHT * 0.1
 
-@interface QDXGameViewController () <LrdOutputViewDelegate,UIWebViewDelegate>
+@interface QDXGameViewController () <LrdOutputViewDelegate>
 {
     //搜索到的mac值
     NSString *macStr;
@@ -67,7 +68,6 @@
     //    UIButton *moreDetails;
     //    UIImageView *arrow;
     NSString *questionUrl;
-    int online;
     //游戏中
     UIView *playView;
     UILabel *useTime;
@@ -94,13 +94,11 @@
     //游戏完成
     UIImageView *certificate;
     BOOL mapClick;
-    MAPointAnnotation *annotation_history;
+//    MAPointAnnotation *annotation_history;
     MAPointAnnotation *annotation_target;
     MAGroundOverlay *groundOverlay;
-    
-    UIWebView *_web;
 }
-@property (nonatomic,retain) UIWebView *webView;
+@property (nonatomic,retain) WKWebView *webView;
 @property (nonatomic, strong) QDXGameModel *gameInfo;
 @property (nonatomic, strong) point_questionModel *questionInfo;
 @property (nonatomic, strong) QDXIsConnect *resultInfo;
@@ -125,22 +123,11 @@
     
     [self creatButtonBack];
     
-    if (self.model.myline_id) {
-        oldMyLineid = self.model.myline_id;
-    }else{
-        oldMyLineid = mylineid;
-    }
-    
     self.QDXScrollView =[[UIScrollView alloc] initWithFrame:self.view.frame];
     self.QDXScrollView.showsVerticalScrollIndicator = FALSE;
     self.QDXScrollView.backgroundColor = [UIColor colorWithWhite:0.949 alpha:1.000];
     [self.view addSubview:self.QDXScrollView];
-    lock = NO;
-    [self setupFrame];
-    [self showGuideView];
-    [self setupgetMylineInfo:0];
-    
-    [self updatadd];
+    countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeFireMethod) userInfo:nil repeats:YES];
 }
 
 - (void)showGuideView
@@ -169,6 +156,7 @@
     if(!_mapView) {
         self.mapView = [[MAMapView alloc]initWithFrame:CGRectMake(0,QdxHeight - MAPVIEWHEIGHT ,QdxWidth,MAPVIEWHEIGHT)];
         self.mapView.mapType = MAMapTypeStandard;
+        self.mapView.showsScale = NO;
         self.doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mapClick)];
         self.doubleTap.delegate = self;
         self.doubleTap.numberOfTapsRequired = 1;
@@ -206,12 +194,8 @@
     [self intervalSinceNow];
     point.text = self.gameInfo.point.point_name;
     score_sum.text = [ToolView scoreTransfer:self.gameInfo.score];
-    //            score_ms.text = self.gameInfo.ms;
     
     if (code == 1) {
-        //                if([self.gameInfo.pointmap.pindex intValue] == 0){
-        //                    [self setupCompleteView:1];
-        //                }else
         if([self.gameInfo.pointmap.pindex intValue]<999){
             [self setupCompleteView:0];
         }
@@ -229,7 +213,7 @@
             break;
             
         case 2:
-            [self.navigationItem setTitle:[game.line.line_sub stringByAppendingString:@"-活动中"]];
+            [self.navigationItem setTitle:[self.gameInfo.line.line_sub stringByAppendingString:@"-活动中"]];
             if ([self.gameInfo.isLeader intValue] == 1) {
                 self.MyCentralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
             }
@@ -297,10 +281,11 @@
     
         //使用离线数据
         NSDictionary *res=[LocalDBService ReadMyline:oldMyLineid];
-        online = [res[@"online"] intValue];
         if (res !=nil) {
-            if ([res[@"mstatus_id"] intValue] == 2 &&  online== 2 ) {
+            if ([res[@"mstatus_id"] intValue] == 2 &&  [res[@"online"] intValue]== 2 ) {
+
                 [self setMylineInfo:res code:code];
+                
                 return ;
             }
             
@@ -315,9 +300,9 @@
         NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
         int ret = [infoDict[@"Code"] intValue];
         if (ret==1) {
-    
+
             [self setMylineInfo:infoDict[@"Msg"] code:code];
-            
+
             [LocalDBService LoadDb:^(NSDictionary *dict) {
                 
             } FailBlock:^(NSMutableArray *array) {
@@ -402,14 +387,13 @@
 }
 
 //地图覆盖物
-- (MAOverlayView *)mapView:(MAMapView *)mapView viewForOverlay:(id <MAOverlay>)overlay
+- (MAOverlayRenderer *)mapView:(MAMapView *)mapView rendererForOverlay:(id <MAOverlay>)overlay
 {
     if ([overlay isKindOfClass:[MAGroundOverlay class]])
     {
-        MAGroundOverlayView *groundOverlayView = [[MAGroundOverlayView alloc]
-                                                  initWithGroundOverlay:overlay];
+        MAGroundOverlayRenderer *groundOverlayRenderer = [[MAGroundOverlayRenderer alloc] initWithGroundOverlay:overlay];
         
-        return groundOverlayView;
+        return groundOverlayRenderer;
     }
     return nil;
 }
@@ -528,7 +512,7 @@
     readyLabel.font = [UIFont systemFontOfSize:14];
     [readyView addSubview:readyLabel];
     
-    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, READYVIEWHEIGHT, QdxWidth, WEBVIEWHEIGHT)];
+    self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, READYVIEWHEIGHT, QdxWidth, WEBVIEWHEIGHT)];
     self.webView.backgroundColor = [UIColor whiteColor];
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/myline/mylineweb/myline_id/%@/tmp/%@",oldMyLineid,save]]]];
     
@@ -544,7 +528,6 @@
     useTime.textColor = [UIColor colorWithWhite:0.067 alpha:1.000];
     useTime.font = [UIFont fontWithName:@"Helvetica-Bold" size:30];
     
-    countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeFireMethod) userInfo:nil repeats:YES];
     [playView addSubview:useTime];
     currentTime = [[UILabel alloc] init];
     CGFloat currentTimeCenterX = useTimeCenterX;
@@ -646,6 +629,7 @@ toViewController:(UIViewController *)toVC {
             return nil;
         }
     }
+
     return nil;
 }
 
@@ -660,22 +644,41 @@ toViewController:(UIViewController *)toVC {
         oldMyLineid = mylineid;
     }
     
-    [self getPointLonLat];
+    lock = NO;
+    [self setupFrame];
+    [self showGuideView];
+    [self setupgetMylineInfo:0];
+    [self updatadd];
+    
     self.navigationController.delegate = self;
     self.mapView.showsUserLocation = YES;
     self.mapView.userTrackingMode = MAUserTrackingModeFollow;
 }
 
+-(void)viewDidAppear:(BOOL)animated
+{
+    [self getPointLonLat];
+}
+
 //将计时器 地图内存释放
 -(void)viewWillDisappear:(BOOL)animated {
-    self.mapView.delegate = nil; // 不用时，置nil
-    [self.mapView removeAnnotation:annotation_history];
-    [self.mapView removeAnnotation:annotation_target];
-    [_mapView removeOverlay:groundOverlay];
-    [countDownTimer setFireDate:[NSDate distantFuture]];
-    [self.mapView setCompassImage:nil];
+    self.mapView.showsUserLocation = NO;
+    self.mapView.userTrackingMode  = MAUserTrackingModeFollow;
+    [self.mapView.layer removeAllAnimations];
+    [self.mapView removeAnnotations:self.mapView.annotations];
+    [self.mapView removeOverlays:self.mapView.overlays];
+    [self.mapView removeFromSuperview];
+    self.mapView.delegate = nil;
+    self.mapView = nil;
     
-    [LocalDBService UploadHistory:oldMyLineid];
+    [readyView removeFromSuperview];
+    [_webView removeFromSuperview];
+    [playView removeFromSuperview];
+    [self.history_button removeFromSuperview];
+    [self.task_button removeFromSuperview];
+    
+    [countDownTimer setFireDate:[NSDate distantFuture]];
+    [self updatadd];
 }
 
 //请求点标位置 地图位置
@@ -695,7 +698,6 @@ toViewController:(UIViewController *)toVC {
         NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
         int ret = [infoDict[@"Code"] intValue];
         if (ret == 1) {
-            
             QDXIsConnect *result = [QDXIsConnect mj_objectWithKeyValues:infoDict];
             self.resultInfo = result;
             
@@ -712,20 +714,21 @@ toViewController:(UIViewController *)toVC {
                 float lon = ([self.resultInfo.MapPoint.top_lon floatValue] + [self.resultInfo.MapPoint.bottom_lon floatValue])/2;
                 CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(lat, lon);
                 //缩放比例
-                MACoordinateSpan span = MACoordinateSpanMake(0.01, 0.01);
-                MACoordinateRegion region = MACoordinateRegionMake(coordinate, span);
-                //设置地图的显示区域
-                [_mapView setRegion:region];
+                MACoordinateSpan span = MACoordinateSpanMake(0.008, 0.008);
+                if (lat == 0 && lon == 0) {
+                    MACoordinateRegion region = MACoordinateRegionMake(self.mapView.userLocation.location.coordinate, span);
+                    //设置地图的显示区域
+                    [_mapView setRegion:region animated:YES];
+                }else{
+                    MACoordinateRegion region = MACoordinateRegionMake(coordinate, span);
+                    //设置地图的显示区域
+                    [_mapView setRegion:region animated:YES];
+                }
+                
             }
-        
-//            //缩放比例
-//            MACoordinateSpan span = MACoordinateSpanMake(0.01, 0.01);
-//            MACoordinateRegion region = MACoordinateRegionMake(self.mapView.userLocation.location.coordinate, span);
-//            //设置地图的显示区域
-//            [_mapView setRegion:region];
             
             CLLocationCoordinate2D coor;
-            for (line_pointModel *line_point in self.resultInfo.Unknown) {
+            for (line_pointModel *line_point in self.resultInfo.All) {
                 annotation_target = [[MAPointAnnotation alloc]init];
                 coor.latitude = [line_point.point.LAT floatValue];
                 coor.longitude = [line_point.point.LON floatValue];
@@ -734,16 +737,15 @@ toViewController:(UIViewController *)toVC {
                 annotation_target.subtitle = line_point.pointmap_des;
                 [self.mapView addAnnotation:annotation_target];
             }
-            for (line_pointModel *line_point in self.resultInfo.History) {
-                annotation_history = [[MAPointAnnotation alloc]init];
-                coor.latitude = [line_point.point.LAT floatValue];
-                coor.longitude = [line_point.point.LON floatValue];
-                annotation_history.coordinate = coor;
-                annotation_history.title = line_point.point.point_name;
-                annotation_history.subtitle = line_point.pointmap_des;
-                [self.mapView addAnnotation:annotation_history];
-            }
-            
+//            for (line_pointModel *line_point in self.resultInfo.History) {
+//                annotation_history = [[MAPointAnnotation alloc]init];
+//                coor.latitude = [line_point.point.LAT floatValue];
+//                coor.longitude = [line_point.point.LON floatValue];
+//                annotation_history.coordinate = coor;
+//                annotation_history.title = line_point.point.point_name;
+//                annotation_history.subtitle = line_point.pointmap_des;
+//                [self.mapView addAnnotation:annotation_history];
+//            }
         }
         else{
             
@@ -765,31 +767,31 @@ toViewController:(UIViewController *)toVC {
             annotationView = [[PointAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:reuseIndetifier];
         }
         
-        if ([annotation isEqual:annotation_history]){
-            UIImage *image = [UIImage imageNamed:@"historyPoint"];
-            annotationView.image = image;
-        }else if ([annotation isEqual:annotation_target]){
-            UIImage *image = [UIImage imageNamed:@"targetPoint"];
-            annotationView.image = image;
-        }
+        annotationView.image = [UIImage imageNamed:@"targetPoint"];
         
         NSString * result = [[annotation title] stringByReplacingOccurrencesOfString:@"点标" withString:@""]; //截取字符串
         result = [result stringByReplacingOccurrencesOfString:@"点" withString:@""];
         annotationView.point_ID.text = [result stringByReplacingOccurrencesOfString:@"号" withString:@""];
-        
+//        annotationView.point_url = self.gameInfo.img_url;
         //设置中心点偏移，使得标注底部中间点成为经纬度对应点
         annotationView.centerOffset = CGPointMake(0, -18);
         annotationView.canShowCallout = NO;
         return annotationView;
     }
+    
+    
     return nil;
 }
 
 - (void)dealloc {
-    if (self.mapView) {
-        self.mapView = nil;
-    }
-    
+    self.mapView.showsUserLocation = NO;
+    self.mapView.userTrackingMode  = MAUserTrackingModeFollow;
+    [self.mapView.layer removeAllAnimations];
+    [self.mapView removeAnnotations:self.mapView.annotations];
+    [self.mapView removeOverlays:self.mapView.overlays];
+    [self.mapView removeFromSuperview];
+    self.mapView.delegate = nil;
+    self.mapView = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -846,8 +848,8 @@ toViewController:(UIViewController *)toVC {
         }else if (indexPath.row == 3){
             [self giveUp];
         }else{
-            QDXOffLineController *offline = [[QDXOffLineController alloc] init];
-            [self.navigationController pushViewController:offline animated:YES];
+//            QDXOffLineController *offline = [[QDXOffLineController alloc] init];
+//            [self.navigationController pushViewController:offline animated:YES];
         }
     }else{
         if (indexPath.row == 0) {
@@ -888,7 +890,8 @@ toViewController:(UIViewController *)toVC {
         [playLineView_One removeFromSuperview];
         [score_sum removeFromSuperview];
         [score_sum_name removeFromSuperview];
-        
+//        [self.mapView removeAnnotations:self.mapView.annotations];
+        self.mapView.showsCompass =NO;
         [UIView animateWithDuration:1 animations:^{
             playView.frame = CGRectMake(0, 0, QdxWidth, QdxHeight * 0.1);
             self.mapView.frame = CGRectMake(0,QdxHeight * 0.1,QdxWidth,QdxHeight * 0.9);
@@ -900,13 +903,21 @@ toViewController:(UIViewController *)toVC {
             useTime.frame = CGRectMake((QdxWidth/4)* 3 - QdxWidth/2/2,pointHeight, QdxWidth/2, 20);
             useTime.font = [UIFont fontWithName:@"Helvetica-Bold" size:24];
             currentTime.frame = CGRectMake((QdxWidth/4)* 3 - 100/2,pointHeight + 20 + 5+ 5, 100, 15);
+            
+            if (QdxWidth >375){
+                self.task_button.frame = CGRectMake(QdxWidth - 60 -20 , QdxHeight - 64 - 60 - 20, 60, 60);
+                self.history_button.frame = CGRectMake(20 , QdxHeight - 64 - 60 - 20, 60, 60);
+            }else{
+                self.task_button.frame = CGRectMake(QdxWidth - 40 -20 , QdxHeight - 64 - 40 - 20, 40, 40);
+                self.history_button.frame = CGRectMake(20 , QdxHeight - 64 - 40 - 20, 40, 40);
+            }
+
         } completion:^(BOOL finished) {
+            
         }];
     }else{
         [self.mapView addGestureRecognizer:self.doubleTap];
         
-        [self.history_button removeFromSuperview];
-        [self.task_button removeFromSuperview];
         [UIView animateWithDuration:1 animations:^{
             self.mapView.frame = CGRectMake(0,QdxHeight - MAPVIEWHEIGHT ,QdxWidth,MAPVIEWHEIGHT);
             playView.frame = CGRectMake(0, 0, QdxWidth, SCOREVIEWHEIGHT);
@@ -927,12 +938,21 @@ toViewController:(UIViewController *)toVC {
             point_name.frame = CGRectMake(0,pointHeight + 20 + 5+ 5, QdxWidth/2, 15);
             score_sum.frame = CGRectMake((QdxWidth/4)* 3 - 100/2, pointHeight, 100, 20);
             score_sum_name.frame = CGRectMake((QdxWidth/4)* 3 - 100/2,pointHeight + 20 + 5+ 5, 100, 15);
+            
+            if (QdxWidth >375){
+                self.task_button.frame = CGRectMake(QdxWidth - 100 -20 , QdxHeight - 64 - 100 - 20, 100, 100);
+                self.history_button.frame = CGRectMake(20 , QdxHeight - 64 - 100 - 20, 100, 100);
+            }else{
+                self.task_button.frame = CGRectMake(QdxWidth - 80 -20 , QdxHeight - 64 - 80 - 20, 80, 80);
+                self.history_button.frame = CGRectMake(20 , QdxHeight - 64 - 80 - 20, 80, 80);
+            }
+
+            
         } completion:^(BOOL finished) {
             [playView addSubview:playLineView_One];
             [playView addSubview:score_sum_name];
             [playView addSubview:score_sum];
-            [self.view addSubview:self.history_button];
-            [self.view addSubview:self.task_button];
+            self.mapView.showsCompass =YES;
         }];
     }
 }
@@ -958,7 +978,7 @@ toViewController:(UIViewController *)toVC {
     macStr = @"";//避免重复提交
     
     //离线验证
-    if ([self.gameInfo.mstatus_id intValue] == 2 && online == 2 ) {
+    if ([self.gameInfo.mstatus_id intValue] == 2 && [self.gameInfo.online intValue] == 2 ) {
         [MBProgressHUD hideHUD];
         NSDictionary *dic = [LocalDBService CheckTask:params];
         int ret = [dic[@"Code"] intValue];
@@ -979,7 +999,6 @@ toViewController:(UIViewController *)toVC {
         }else if (ret == 2){
             [self setupgetMylineInfo:1];
             [self updatadd];
-            [self getPointLonLat];
         }
         return ;
     }
@@ -993,7 +1012,6 @@ toViewController:(UIViewController *)toVC {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
         NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
         int ret = [infoDict[@"Code"] intValue];
-//        NSLog(@"%@",infoDict[@"Msg"]);
         if (ret==1) {
             if (errorCount != 0) {
                 [MBProgressHUD showMessage:@"回答错误!"];
@@ -1011,8 +1029,6 @@ toViewController:(UIViewController *)toVC {
             errorCount++;
         }else if (ret == 2){
             [self setupgetMylineInfo:1];
-           
-            [self getPointLonLat];
         }
         else{
             
@@ -1034,9 +1050,15 @@ toViewController:(UIViewController *)toVC {
     [self removeFromSuperViewController];
     lock = YES;
     
+    NSString *stringurl = [NSString stringWithFormat:@"http://www.qudingxiang.cn/home/Myline/getQuestionWeb/myline_id/%@/tmp/%@",oldMyLineid,save]; //默认是在线
+    if ([self.gameInfo.online intValue] ==2) { //离线题
+        stringurl = [accountFile stringByAppendingString:@"/question.html"];
+    }
+    
     if ([self.questionInfo.question.ischoice intValue] == 2) {
         YLPopViewController *popView = [[YLPopViewController alloc] init];
-        popView.contentViewSize = CGSizeMake(300, QdxHeight*.7);
+        popView.webStr = stringurl;
+        popView.contentViewSize = CGSizeMake(TASKWEIGHT, TASKHEIGHT);
         popView.Title = self.gameInfo.line.line_sub;
         popView.placeHolder = @"请输入答案";
         popView.wordCount = 6 + self.questionInfo.question.qkey.length;//不设置则没有
@@ -1052,13 +1074,6 @@ toViewController:(UIViewController *)toVC {
             rmoveMacStr = @"0";
         };
     }else if ([self.questionInfo.question.ischoice intValue] == 1){
-        
-        NSString *stringurl = [NSString stringWithFormat:@"http://www.qudingxiang.cn/home/Myline/getQuestionWeb/myline_id/%@/tmp/%@",oldMyLineid,save]; //默认是在线
-        if (online ==2) { //离线题
-            stringurl = [accountFile stringByAppendingString:@"/question.html"];
-        }
-        
-//        CYAlertController *alert = [CYAlertController alertWithTitle:self.gameInfo.line.line_sub message:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/Myline/getQuestionWeb/myline_id/%@/tmp/%@",oldMyLineid,save]];
         
         CYAlertController *alert = [CYAlertController alertWithTitle:self.gameInfo.line.line_sub message:stringurl];
         
@@ -1099,25 +1114,25 @@ toViewController:(UIViewController *)toVC {
     self.deliverView = [[UIView alloc] init];
     self.deliverView.frame = CGRectMake(QdxWidth* 0.08,0,TASKWEIGHT/2,TASKHEIGHT/2);
     [self.view addSubview:self.deliverView];
-
-    [UIView animateWithDuration:0.5
-                          delay:0
-         usingSpringWithDamping:0.8
-          initialSpringVelocity:0.3
-                        options:UIViewAnimationOptionCurveLinear
-                     animations:^{
-                         self.BGView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
-                         self.deliverView.frame = CGRectMake(QdxWidth/2 - TASKWEIGHT/2,(QdxHeight-64 - TASKHEIGHT)/2,TASKWEIGHT,TASKHEIGHT);
-                         self.deliverView.backgroundColor = [UIColor whiteColor];
-                         self.deliverView.layer.borderWidth = 1;
-                         self.deliverView.layer.cornerRadius = 12;
-                         self.deliverView.layer.borderColor = [[UIColor clearColor]CGColor];
-                     }
-                     completion:^(BOOL finished) {
-                        
-                     }];
     
     if (code == 0) {
+        [UIView animateWithDuration:0.5
+                              delay:0
+             usingSpringWithDamping:0.8
+              initialSpringVelocity:0.3
+                            options:UIViewAnimationOptionCurveLinear
+                         animations:^{
+                             self.BGView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
+                             self.deliverView.frame = CGRectMake(QdxWidth/2 - TASKWEIGHT/2,(QdxHeight-64 - TASKHEIGHT)/2,TASKWEIGHT,TASKHEIGHT);
+                             self.deliverView.backgroundColor = [UIColor whiteColor];
+                             self.deliverView.layer.borderWidth = 1;
+                             self.deliverView.layer.cornerRadius = 12;
+                             self.deliverView.layer.borderColor = [[UIColor clearColor]CGColor];
+                         }
+                         completion:^(BOOL finished) {
+                             
+                         }];
+        
         successView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, TASKWEIGHT, TASKHEIGHT)];
         
         [successView setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,self.gameInfo.img_url]] placeholderImage:[UIImage imageNamed:@"加载中"] options:SDWebImageRefreshCached];
@@ -1130,6 +1145,35 @@ toViewController:(UIViewController *)toVC {
         showMsg_button.backgroundColor = [UIColor clearColor];
         [self.deliverView addSubview:showMsg_button];
     }else{
+        self.BGView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
+        self.deliverView.frame = CGRectMake(QdxWidth/2 - TASKWEIGHT/2,(QdxHeight-64 - TASKHEIGHT)/2,TASKWEIGHT,TASKHEIGHT);
+        self.deliverView.backgroundColor = [UIColor whiteColor];
+        self.deliverView.layer.borderWidth = 1;
+        self.deliverView.layer.cornerRadius = 12;
+        self.deliverView.layer.borderColor = [[UIColor clearColor]CGColor];
+        
+        
+        CGPoint finalPoint;
+        
+        finalPoint = CGPointMake(TASKWEIGHT, TASKHEIGHT);
+        
+        CGFloat radius = sqrt((finalPoint.x * finalPoint.x) + (finalPoint.y * finalPoint.y));
+        UIBezierPath *maskFinalBP = [UIBezierPath bezierPathWithOvalInRect:CGRectInset(self.deliverView.frame, -radius, -radius)];
+        UIBezierPath *maskStartBP =  [UIBezierPath bezierPathWithOvalInRect:self.task_button.frame];
+        
+        CAShapeLayer *maskLayer = [CAShapeLayer layer];
+        maskLayer.path = maskFinalBP.CGPath;
+        self.deliverView.layer.mask = maskLayer;
+        
+        CABasicAnimation *maskLayerAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
+        maskLayerAnimation.fromValue = (__bridge id)(maskStartBP.CGPath);
+        maskLayerAnimation.toValue = (__bridge id)((maskFinalBP.CGPath));
+        maskLayerAnimation.duration = 0.7;
+        maskLayerAnimation.timingFunction = [CAMediaTimingFunction  functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+        maskLayerAnimation.delegate = self;
+        
+        [maskLayer addAnimation:maskLayerAnimation forKey:@"path"];
+        
         [self showMsg_buttonClick];
     }
 }
@@ -1166,14 +1210,40 @@ toViewController:(UIViewController *)toVC {
 //    [cancel_button setBackgroundImage:[UIImage imageNamed:@"任务卡－取消"]  forState:UIControlStateNormal];
 //    [self.deliverView addSubview:cancel_button];
     
-    self.webView = [[UIWebView alloc] initWithFrame:CGRectMake(0,SHOWTASKHEIGHT, TASKWEIGHT, TASKHEIGHT - 2 * SHOWTASKHEIGHT)];
+    self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0,SHOWTASKHEIGHT, TASKWEIGHT, TASKHEIGHT - 2 * SHOWTASKHEIGHT)];
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/Myline/getTaskWeb/myline_id/%@/tmp/%@",oldMyLineid,save]]]];
     [self.deliverView addSubview:self.webView];
 }
 
 -(void)showOK_buttonClick
 {
-    [self removeFromSuperViewController];
+    UIBezierPath *finalPath = [UIBezierPath bezierPathWithOvalInRect:self.task_button.frame];
+    
+    CGPoint finalPoint;
+    
+    finalPoint = CGPointMake(self.task_button.center.x - 0, self.task_button.center.y - 0);
+    
+    CGFloat radius = sqrt(finalPoint.x * finalPoint.x + finalPoint.y * finalPoint.y);
+    UIBezierPath *startPath = [UIBezierPath bezierPathWithOvalInRect:CGRectInset(self.task_button.frame, -radius, -radius)];
+    
+    CAShapeLayer *maskLayer = [CAShapeLayer layer];
+    maskLayer.path = finalPath.CGPath;
+    self.deliverView.layer.mask = maskLayer;
+    
+    CABasicAnimation *pingAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
+    pingAnimation.fromValue = (__bridge id)(startPath.CGPath);
+    pingAnimation.toValue   = (__bridge id)(finalPath.CGPath);
+    pingAnimation.duration = 0.7;
+    pingAnimation.timingFunction = [CAMediaTimingFunction  functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    
+    pingAnimation.delegate = self;
+    
+    [maskLayer addAnimation:pingAnimation forKey:@"pingInvert"];
+    
+    dispatch_time_t time=dispatch_time(DISPATCH_TIME_NOW, 0.7 *NSEC_PER_SEC);
+    dispatch_after(time, dispatch_get_main_queue(), ^{
+         [self removeFromSuperViewController];
+    });
 }
 
 //-(void)cancel_buttonClick
@@ -1460,7 +1530,7 @@ toViewController:(UIViewController *)toVC {
     ImagePickerController *gameVC = [[ImagePickerController alloc] initWithBlock:^(NSString *result, BOOL flag,NSString *from) {
         gameVC.from = from;
         macStr = result;
-        NSLog(@"lock %@",lock?@"YES":@"NO");
+//        NSLog(@"lock %@",lock?@"YES":@"NO");
         if (lock == NO) {
             
             for (NSString * str in mac_Label) {
@@ -1485,7 +1555,7 @@ toViewController:(UIViewController *)toVC {
                     });
                 }
             }
-            
+            rmoveMacStr = @"";
         }
         
     }];
@@ -1518,10 +1588,21 @@ toViewController:(UIViewController *)toVC {
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-    self.mapView.delegate = nil; // 不用时，置nil
-    [self.mapView removeAnnotation:annotation_history];
-    [self.mapView removeAnnotation:annotation_target];
-    [_mapView removeOverlay:groundOverlay];
+    self.mapView.showsUserLocation = NO;
+    self.mapView.userTrackingMode  = MAUserTrackingModeFollow;
+    [self.mapView.layer removeAllAnimations];
+    [self.mapView removeAnnotations:self.mapView.annotations];
+    [self.mapView removeOverlays:self.mapView.overlays];
+    [self.mapView removeFromSuperview];
+    self.mapView.delegate = nil;
+    self.mapView = nil;
+    
+    [readyView removeFromSuperview];
+    [_webView removeFromSuperview];
+    [playView removeFromSuperview];
+    [self.history_button removeFromSuperview];
+    [self.task_button removeFromSuperview];
+    
     [countDownTimer setFireDate:[NSDate distantFuture]];
     [MBProgressHUD hideHUD];
     [self removeFromSuperViewController];

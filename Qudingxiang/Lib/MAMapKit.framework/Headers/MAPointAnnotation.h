@@ -1,21 +1,22 @@
 //
 //  MAPointAnnotation.h
-//  MAMapKit
+//  MAMapKitDemo
 //
-//  Created by AutoNavi.
-//  Copyright (c) 2013年 AutoNavi. All rights reserved.
+//  Created by songjian on 13-1-7.
+//  Copyright (c) 2013年 songjian. All rights reserved.
 //
 
 #import "MAShape.h"
+#import <CoreLocation/CLLocation.h>
 
-/*!
- @brief 点标注数据
+/**
+ *  点标注数据
  */
 @interface MAPointAnnotation : MAShape
 
-/*!
- @brief 经纬度
- */
+/**
+*  经纬度
+*/
 @property (nonatomic, assign) CLLocationCoordinate2D coordinate;
 
 @end

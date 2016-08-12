@@ -237,7 +237,7 @@
 
 - (void)sussRes
 {
-    //[MBProgressHUD showMessage:@"加载成功"];
+    [self hideProgess];
 }
 
 - (void)createLoginView

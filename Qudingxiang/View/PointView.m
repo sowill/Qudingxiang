@@ -14,7 +14,7 @@
 #define kPortraitWidth      70
 #define kPortraitHeight     50
 
-#define kTitleWidth         120
+#define kTitleWidth         150
 #define kTitleHeight        20
 
 @interface PointView ()
@@ -91,7 +91,7 @@
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPortraitMargin, kPortraitMargin, kTitleWidth, kTitleHeight)];
     self.titleLabel.font = [UIFont boldSystemFontOfSize:14];
     self.titleLabel.textColor = [UIColor colorWithWhite:0.067 alpha:1.000];
-    self.titleLabel.text = @"titletitletitletitle";
+    self.titleLabel.text = @"title";
     [self addSubview:self.titleLabel];
     
     // 添加副标题，即商户地址
@@ -99,7 +99,7 @@
     self.subtitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPortraitMargin , kPortraitMargin * 2 + kTitleHeight, kTitleWidth, kTitleHeight)];
     self.subtitleLabel.font = [UIFont systemFontOfSize:12];
     self.subtitleLabel.textColor = [UIColor colorWithWhite:0.961 alpha:1.000];
-    self.subtitleLabel.text = @"subtitleLabelsubtitleLabelsubtitleLabel";
+    self.subtitleLabel.text = @"subtitleLabel";
     [self addSubview:self.subtitleLabel];
 }
 

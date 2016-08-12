@@ -353,32 +353,24 @@
 }
 + (void)UploadHistory:(NSString *)Myline_id
 {
-  
-    
-    
+
     NSDictionary *MylineDic= [self ReadMyline:Myline_id];
     NSDictionary *res= MylineDic[@"history"];
     for(NSDictionary *hisInfo in res){
-        
          NSString *mylineinfo_id = hisInfo[@"mylineinfo_id"];
           // NSLog(@"hisInfo  %@",hisInfo);
         if (mylineinfo_id !=nil && [mylineinfo_id intValue] == 0) {
-            
-         
            NSString *time = hisInfo[@"edate"];
            NSString *myline_id = hisInfo[@"myline_id"]  ;
            NSString *pointmap_id =  hisInfo[@"pointmap_id"];
-              NSLog(@"time  %@",time);
+//              NSLog(@"time  %@",time);
            NSString *urlString = [hostUrl stringByAppendingString:uploadHistory];
            AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-           //说明服务器返回的事JSON数据
            mgr.responseSerializer = [AFJSONResponseSerializer serializer];
-         //封装请求参数
            NSMutableDictionary *params = [NSMutableDictionary dictionary];
            params[@"time"] = time;
            params[@"myline_id"] = myline_id;
            params[@"pointmap_id"] = pointmap_id;
-    
            __block NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
            [mgr POST:urlString parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
@@ -393,11 +385,6 @@
                     NSString *pointmap_id =Msg[@"pointmap_id"];
                     NSString *score =Msg[@"score"];
                     NSString *mylineinfo_id =Msg[@"mylineinfo_id"];
-                   
-                   
-                   
-                   
-                   
                     for(NSDictionary *theInfo in res){
                         
                         if([theInfo[@"pointmap_id"] isEqualToString:pointmap_id]){
@@ -408,14 +395,10 @@
                         }
                         
                     }
-                   
-        
                }
-        
            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-        
-        }];
+
+           }];
         
         }
     }

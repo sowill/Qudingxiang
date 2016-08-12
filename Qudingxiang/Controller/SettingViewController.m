@@ -200,10 +200,15 @@
     }else if (buttonIndex == 1 && alertView.tag == 2){
         //彻底删除文件
         [self clearCacheWith:[self getPath]];
-        
-//        [self clearCacheWith:[self gettempPath]];
         _valueDataLabel.text = [NSString stringWithFormat:@"%.2fMB",[self folderSizeWithPath:[self getPath]]];
-        
+//        NSString *DocumentsPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+//        NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtPath:DocumentsPath];
+//        for (NSString *fileName in enumerator) {
+//            [[NSFileManager defaultManager] removeItemAtPath:[DocumentsPath stringByAppendingPathComponent:fileName] error:nil];
+//        }
+//        [self dismissViewControllerAnimated:YES completion:^{
+//            
+//        }];
     }
 }
 //首先获取缓存文件的路径

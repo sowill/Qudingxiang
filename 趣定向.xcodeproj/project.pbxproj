@@ -30,9 +30,14 @@
 		453395241CF6F50B00B5A825 /* FeHourGlass.m in Sources */ = {isa = PBXBuildFile; fileRef = 4533951E1CF6F50B00B5A825 /* FeHourGlass.m */; };
 		453679F01CD30D0200828EF9 /* LrdOutputView.m in Sources */ = {isa = PBXBuildFile; fileRef = 453679EF1CD30D0200828EF9 /* LrdOutputView.m */; };
 		4536EB9B1D013B25005D3CB5 /* ImageScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4536EB9A1D013B25005D3CB5 /* ImageScrollView.m */; };
+		453AF0901D59756900FCC23E /* MyAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 453AF08F1D59756900FCC23E /* MyAnnotation.m */; };
 		453E44D91D252A3100BED603 /* btn1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 453E44D71D252A3100BED603 /* btn1@2x.png */; };
 		453E44DA1D252A3100BED603 /* btn2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 453E44D81D252A3100BED603 /* btn2@2x.png */; };
+		4544EA551D5C550F008314B1 /* MAMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4544EA541D5C550F008314B1 /* MAMapKit.framework */; };
+		4544EA571D5C55A8008314B1 /* AMap.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4544EA561D5C55A8008314B1 /* AMap.bundle */; };
+		4544EA591D5C564C008314B1 /* AMapFoundationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4544EA581D5C564C008314B1 /* AMapFoundationKit.framework */; };
 		4545CF371C80435000B73849 /* zoomImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4545CF361C80435000B73849 /* zoomImage.m */; };
+		455501191D5AD62500516CC0 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 455501181D5AD62500516CC0 /* WebKit.framework */; };
 		455611791D543E75006DF063 /* CustomAnimateTransitionPop.m in Sources */ = {isa = PBXBuildFile; fileRef = 455611681D543E75006DF063 /* CustomAnimateTransitionPop.m */; };
 		4556117A1D543E75006DF063 /* CustomAnimateTransitionPush.m in Sources */ = {isa = PBXBuildFile; fileRef = 4556116A1D543E75006DF063 /* CustomAnimateTransitionPush.m */; };
 		4556117B1D543E75006DF063 /* HUTransitionAnimator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4556116D1D543E75006DF063 /* HUTransitionAnimator.m */; };
@@ -224,7 +229,6 @@
 		45EE613A1CEAC641007302E3 /* PointAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EE61391CEAC641007302E3 /* PointAnnotationView.m */; };
 		45EE613D1CEAD4FC007302E3 /* UIImage+watermark.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EE613C1CEAD4FC007302E3 /* UIImage+watermark.m */; };
 		45EE61451CEB182C007302E3 /* TTSExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EE61441CEB182C007302E3 /* TTSExample.m */; };
-		45EE61471CEB2FE0007302E3 /* MAMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45EE61461CEB2FE0007302E3 /* MAMapKit.framework */; };
 		45F547821CDB423E0050B12F /* QDXHistoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45F547811CDB423E0050B12F /* QDXHistoryTableViewCell.m */; };
 		A31287A31CCF0DA200CB887E /* line_pointModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A31287A21CCF0DA200CB887E /* line_pointModel.m */; };
 		A31287A61CCF0DD700CB887E /* QDXOfflineDB.m in Sources */ = {isa = PBXBuildFile; fileRef = A31287A51CCF0DD700CB887E /* QDXOfflineDB.m */; };
@@ -312,10 +316,17 @@
 		453679EF1CD30D0200828EF9 /* LrdOutputView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LrdOutputView.m; sourceTree = "<group>"; };
 		4536EB991D013B25005D3CB5 /* ImageScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImageScrollView.h; sourceTree = "<group>"; };
 		4536EB9A1D013B25005D3CB5 /* ImageScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImageScrollView.m; sourceTree = "<group>"; };
+		453AF08E1D59756900FCC23E /* MyAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MyAnnotation.h; sourceTree = "<group>"; };
+		453AF08F1D59756900FCC23E /* MyAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAnnotation.m; sourceTree = "<group>"; };
 		453E44D71D252A3100BED603 /* btn1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn1@2x.png"; sourceTree = "<group>"; };
 		453E44D81D252A3100BED603 /* btn2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn2@2x.png"; sourceTree = "<group>"; };
+		4544EA521D5C2DEE008314B1 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
+		4544EA541D5C550F008314B1 /* MAMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MAMapKit.framework; sourceTree = "<group>"; };
+		4544EA561D5C55A8008314B1 /* AMap.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AMap.bundle; sourceTree = "<group>"; };
+		4544EA581D5C564C008314B1 /* AMapFoundationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapFoundationKit.framework; sourceTree = "<group>"; };
 		4545CF351C80435000B73849 /* zoomImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zoomImage.h; sourceTree = "<group>"; };
 		4545CF361C80435000B73849 /* zoomImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = zoomImage.m; sourceTree = "<group>"; };
+		455501181D5AD62500516CC0 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		455611671D543E75006DF063 /* CustomAnimateTransitionPop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAnimateTransitionPop.h; sourceTree = "<group>"; };
 		455611681D543E75006DF063 /* CustomAnimateTransitionPop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAnimateTransitionPop.m; sourceTree = "<group>"; };
 		455611691D543E75006DF063 /* CustomAnimateTransitionPush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAnimateTransitionPush.h; sourceTree = "<group>"; };
@@ -729,7 +740,6 @@
 		45EE613C1CEAD4FC007302E3 /* UIImage+watermark.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+watermark.m"; sourceTree = "<group>"; };
 		45EE61431CEB182C007302E3 /* TTSExample.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TTSExample.h; sourceTree = "<group>"; };
 		45EE61441CEB182C007302E3 /* TTSExample.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TTSExample.m; sourceTree = "<group>"; };
-		45EE61461CEB2FE0007302E3 /* MAMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MAMapKit.framework; sourceTree = "<group>"; };
 		45EEDBE61BCCFFDA0059B42A /* bitstream.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bitstream.c; sourceTree = "<group>"; };
 		45EEDBE71BCCFFDA0059B42A /* bitstream.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bitstream.h; sourceTree = "<group>"; };
 		45EEDBE81BCCFFDA0059B42A /* mask.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = mask.c; sourceTree = "<group>"; };
@@ -820,10 +830,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				455501191D5AD62500516CC0 /* WebKit.framework in Frameworks */,
 				455C8AA41CD063C7001F5FC5 /* libstdc++.6.0.9.tbd in Frameworks */,
 				4586957D1C4DD642009BAA81 /* CoreGraphics.framework in Frameworks */,
 				455C8AA21CD06396001F5FC5 /* OpenGLES.framework in Frameworks */,
-				45EE61471CEB2FE0007302E3 /* MAMapKit.framework in Frameworks */,
 				A3442D331C9BE39A0092363A /* MapKit.framework in Frameworks */,
 				A3442D311C9BE3900092363A /* CoreLocation.framework in Frameworks */,
 				458695A21C4DD74E009BAA81 /* AVFoundation.framework in Frameworks */,
@@ -843,7 +853,9 @@
 				4586958A1C4DD6AD009BAA81 /* libWeChatSDK.a in Frameworks */,
 				458695891C4DD687009BAA81 /* libstdc++.tbd in Frameworks */,
 				455C8A931CCF7827001F5FC5 /* AlipaySDK.framework in Frameworks */,
+				4544EA591D5C564C008314B1 /* AMapFoundationKit.framework in Frameworks */,
 				458695851C4DD664009BAA81 /* libc++.tbd in Frameworks */,
+				4544EA551D5C550F008314B1 /* MAMapKit.framework in Frameworks */,
 				458695831C4DD65B009BAA81 /* libz.tbd in Frameworks */,
 				458695811C4DD652009BAA81 /* CoreMotion.framework in Frameworks */,
 				4586957F1C4DD64A009BAA81 /* CoreText.framework in Frameworks */,
@@ -1531,6 +1543,8 @@
 				45EE61361CEAC074007302E3 /* PointView.m */,
 				45EE61381CEAC641007302E3 /* PointAnnotationView.h */,
 				45EE61391CEAC641007302E3 /* PointAnnotationView.m */,
+				453AF08E1D59756900FCC23E /* MyAnnotation.h */,
+				453AF08F1D59756900FCC23E /* MyAnnotation.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1575,6 +1589,8 @@
 		45DF76201BA6AAC20024A6B4 = {
 			isa = PBXGroup;
 			children = (
+				4544EA521D5C2DEE008314B1 /* Reveal.framework */,
+				455501181D5AD62500516CC0 /* WebKit.framework */,
 				455C8AA31CD063C7001F5FC5 /* libstdc++.6.0.9.tbd */,
 				455C8AA11CD06396001F5FC5 /* OpenGLES.framework */,
 				A3442D321C9BE39A0092363A /* MapKit.framework */,
@@ -1660,12 +1676,14 @@
 		45DF765A1BA6AB150024A6B4 /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				4544EA581D5C564C008314B1 /* AMapFoundationKit.framework */,
+				4544EA561D5C55A8008314B1 /* AMap.bundle */,
+				4544EA541D5C550F008314B1 /* MAMapKit.framework */,
 				455611661D543E75006DF063 /* Need */,
 				451828A11D40C87A00D5FC85 /* EAFeatureGuideView */,
 				04664EFF1D1CCE82008D50C7 /* YLPopView */,
 				4536EB981D013B25005D3CB5 /* ImgPageScrollView */,
 				453394FC1CF6D8C800B5A825 /* FeSpinner */,
-				45EE61461CEB2FE0007302E3 /* MAMapKit.framework */,
 				45EE61421CEB182C007302E3 /* TTSExample */,
 				4571CDBC1CE05B00002ED784 /* CYAlertController */,
 				453679D81CD3036700828EF9 /* PopMenuView */,
@@ -1861,6 +1879,7 @@
 				455C8A921CCF7827001F5FC5 /* AlipaySDK.bundle in Resources */,
 				4582B7E01C990F400002F5B1 /* Info.plist in Resources */,
 				45DD34DA1C33D5F500E24250 /* read_me.txt in Resources */,
+				4544EA571D5C55A8008314B1 /* AMap.bundle in Resources */,
 				45C6F5A31C92A20400C5AA31 /* QDXOrderTableViewCell.xib in Resources */,
 				45C6F59B1C92A1D500C5AA31 /* myViewCellTableViewCell.xib in Resources */,
 				453E44D91D252A3100BED603 /* btn1@2x.png in Resources */,
@@ -1955,6 +1974,7 @@
 				A3442D2C1C9BAA330092363A /* MineService.m in Sources */,
 				45C6F5E01C92A39300C5AA31 /* QDXLineDetailViewController.m in Sources */,
 				453395081CF6D8C800B5A825 /* FXBlurView.m in Sources */,
+				453AF0901D59756900FCC23E /* MyAnnotation.m in Sources */,
 				45C6F6111C92A46500C5AA31 /* QDXRegisterViewController.m in Sources */,
 				455C8A9A1CCF7827001F5FC5 /* DataSigner.m in Sources */,
 				45C6F5781C92A0D800C5AA31 /* QDXpaytype.m in Sources */,
@@ -2216,6 +2236,7 @@
 					"$(PROJECT_DIR)/Qudingxiang/Lib/AlipaySDK",
 					"$(PROJECT_DIR)/Qudingxiang/Lib",
 					"$(PROJECT_DIR)/Qudingxiang/Lib/BaiduMapApi",
+					"$(PROJECT_DIR)",
 				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2234,7 +2255,12 @@
 					"$(PROJECT_DIR)/Qudingxiang/Lib/AlipaySDK",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lz",
+					"-framework",
+					Reveal,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sport;
 				PRODUCT_NAME = "趣定向";
 				PROVISIONING_PROFILE = "";
@@ -2259,6 +2285,7 @@
 					"$(PROJECT_DIR)/Qudingxiang/Lib/AlipaySDK",
 					"$(PROJECT_DIR)/Qudingxiang/Lib",
 					"$(PROJECT_DIR)/Qudingxiang/Lib/BaiduMapApi",
+					"$(PROJECT_DIR)",
 				);
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -2277,7 +2304,12 @@
 					"$(PROJECT_DIR)/Qudingxiang/Lib/AlipaySDK",
 				);
 				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = "-ObjC";
+				OTHER_LDFLAGS = (
+					"-ObjC",
+					"-lz",
+					"-framework",
+					Reveal,
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sport;
 				PRODUCT_NAME = "趣定向";
 				PROVISIONING_PROFILE = "";

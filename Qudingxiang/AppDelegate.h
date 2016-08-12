@@ -11,7 +11,7 @@
 @property (strong, nonatomic) UIWindow *window;
 //@property (strong, nonatomic) MainController *mianVC;
 @property NSString *code;
-@property NSString *line;
+@property NSString *ticket;
 @property bool loading;
 @end
 

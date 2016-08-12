@@ -1,18 +1,19 @@
 //
 //  MAPinAnnotationView.h
-//  MAMapKit
+//  MAMapKitDemo
 //
-//  Created by AutoNavi.
-//  Copyright (c) 2013年 AutoNavi. All rights reserved.
+//  Created by songjian on 13-1-7.
+//  Copyright (c) 2013年 songjian. All rights reserved.
 //
 
-#import "MAAnnotationView.h"
+#import "MAMapKit.h"
 
-typedef NS_ENUM(NSInteger, MAPinAnnotationColor) {
-    MAPinAnnotationColorRed = 0,
-    MAPinAnnotationColorGreen,
-    MAPinAnnotationColorPurple
+typedef NS_ENUM(NSUInteger, MAPinAnnotationColor){
+    MAPinAnnotationColorRed = 0,    //!< 红色大头针
+    MAPinAnnotationColorGreen,      //!< 绿色大头针
+    MAPinAnnotationColorPurple      //!< 紫色大头针
 };
+//typedef NSUInteger MAPinAnnotationColor;
 
 /*!
  @brief 提供类似大头针效果的annotation view

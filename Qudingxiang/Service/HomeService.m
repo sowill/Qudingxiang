@@ -10,191 +10,172 @@
 #import "HomeService.h"
 
 @implementation HomeService
-+ (void)topViewDataBlock:(void (^)(NSDictionary *dict))block FailBlock:(void(^)(NSMutableArray *array))failBlock andWithToken:(NSString *)tokenKey
+static HomeService *httpRequest = nil;
++ (HomeService *)sharedInstance
 {
-    __block NSDictionary *dict = [[NSDictionary alloc] init];
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (httpRequest == nil) {
+            httpRequest = [[self alloc] init];
+        }
+    });
+    return httpRequest;
+}
+
++(instancetype)allocWithZone:(struct _NSZone *)zone
+{
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        if (httpRequest == nil) {
+            httpRequest = [super allocWithZone:zone];
+        }
+    });
+    return httpRequest;
+}
+
+- (instancetype)copyWithZone:(NSZone *)zone
+{
+    return httpRequest;
+}
+
+- (void)topViewDatasucceed:(void (^)(id data))succeed failure:(void (^)(NSError *error))failure;
+{
+    //创建网络请求管理对象
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    //申明返回的结果是json类型
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    //申明请求的数据是json类型
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    //manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", nil];
+    //发送网络请求(请求方式为POST)
     NSString *urlString = [hostUrl stringByAppendingString:detailUrl];
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    //mgr.responseSerializer.acceptableContentTypes=[NSSet setWithObject:@"text/html"];
-    //说明服务器返回的事JSON数据
-    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
-    //封装请求参数
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    //params[@"TokenKey"] = tokenKey;
     params[@"areatype_id"] = @"2";
     params[@"curr"] = @"1";
-    NSString *cachekey = [NSString stringWithFormat:@"%@%@21%@%@",urlString,tokenKey,VGoods,VLine];
+    NSString *cachekey = [NSString stringWithFormat:@"%@21%@%@",urlString,VGoods,VLine];
     NSString *str = [ToolView md5:cachekey];
-    
-    NSString *fileName = [accountFile stringByAppendingPathComponent:str];
+    NSString *topViewFile = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *fileName = [topViewFile stringByAppendingPathComponent:str];
     NSDictionary *res = [NSKeyedUnarchiver unarchiveObjectWithFile:fileName];
     if (res!=nil) {
-        dict = res;
-        if(block){
-            block(dict);
-        }
+        succeed(res);
     }else{
-    [mgr POST:urlString parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-        
+    [manager POST:urlString parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        dict = responseObject;
-        if (block) {
-            block(dict);
-            [NSKeyedArchiver archiveRootObject:dict toFile:fileName];
-        }
+        succeed(responseObject);
+        [NSKeyedArchiver archiveRootObject:responseObject toFile:fileName];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSMutableArray *failArr = [[NSMutableArray alloc]init];
-        [failArr addObject:error];
-        if (failBlock) {
-            failBlock(failArr);
-        }
-        
+        failure(error);
     }];
     }
+
 }
 
-+ (void)btnStateBlock:(void (^)(NSMutableDictionary *dict))block andWithToken:(NSString *)tokenKey
+- (void)statesucceed:(void (^)(id data))succeed failure:(void (^)(NSError *error))failure WithToken:(NSString *)tokenKey;
 {
+    //创建网络请求管理对象
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    //申明返回的结果是json类型
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    //内容类型
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"text/json",@"text/javascript",@"text/html", nil];
+    //如果报接受类型不一致请替换一致text/html或别的
+    //manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", nil];
+    //发送网络请求(请求方式为POST)
     NSString *urlString = [hostUrl stringByAppendingString:usingTicket];
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    //说明服务器返回的事JSON数据
-    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
-    //封装请求参数
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"TokenKey"] = tokenKey;
-    __block NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    [mgr POST:urlString parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-        
+    [manager POST:urlString parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
+            
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        dict = responseObject;
-        if (block) {
-            block(dict);
-        }
+            succeed(responseObject);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-
-        
-    }];
-}
-
-+ (void)btnTabStateBlock:(void (^)(NSMutableDictionary *dict))block FailBlock:(void(^)(NSMutableArray *array))failBlock andWithToken:(NSString *)tokenKey
-{
-    NSString *urlString = [hostUrl stringByAppendingString:usingTicket];
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    //说明服务器返回的事JSON数据
-    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
-    //封装请求参数
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"TokenKey"] = tokenKey;
-    __block NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    [mgr POST:urlString parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        dict = responseObject;
-        if (block) {
-            block(dict);
-        }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        NSMutableArray *failArr = [[NSMutableArray alloc]init];
-        [failArr addObject:error];
-        if (failBlock) {
-            failBlock(failArr);
-        }
+            failure(error);
     }];
     
+
 }
 
-+ (void)choiceLineStateBlock:(void (^)(NSMutableDictionary *dict))block andWithToken:(NSString *)tokenKey
+- (void)loadCellsucceed:(void (^)(id data))succeed failure:(void (^)(NSError *error))failure WithCurr:(NSString *)curr WithType:(NSString *)type ;
 {
-    NSString *urlString = [hostUrl stringByAppendingString:lineUrl];
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    //说明服务器返回的事JSON数据
-    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
-    //封装请求参数
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"TokenKey"] = tokenKey;
-    __block NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    [mgr POST:urlString parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        dict = responseObject;
-        if (block) {
-            block(dict);
-        }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-       
-        
-    }];
-
-}
-
-+ (void)cellDataBlock:(void (^)(NSDictionary *dict))block FailBlock:(void(^)(NSMutableArray *array))failBlock andWithToken:(NSString *)tokenKey andWithCurr:(NSString *)curr andWithType:(NSString *)type{
-    __block NSDictionary *dict = [[NSDictionary alloc] init];
     NSString *urlString = [hostUrl stringByAppendingString:goodsUrl];
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    //说明服务器返回的事JSON数据
-    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
-    //封装请求参数
+    //创建网络请求管理对象
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    //申明返回的结果是json类型
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    //内容类型
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"text/json",@"text/javascript",@"text/html", nil];
+    //如果报接受类型不一致请替换一致text/html或别的
+    //manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", nil];
+    //发送网络请求(请求方式为POST)
+   
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"areatype_id"] = @"1";
     params[@"curr"] = @"1";
     params[@"type"] =type;
-    NSString *cachekey = [NSString stringWithFormat:@"%@%@%@%@%@%@",urlString,tokenKey,curr,type,VGoods,VLine];
+    NSString *cachekey = [NSString stringWithFormat:@"%@%@%@%@",urlString,type,VGoods,VLine];
     NSString *str = [ToolView md5:cachekey];
-    
-    NSString *fileName = [accountFile stringByAppendingPathComponent:str];
+    NSString *homeCellFile = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *fileName = [homeCellFile stringByAppendingPathComponent:str];
     NSDictionary *res = [NSKeyedUnarchiver unarchiveObjectWithFile:fileName];
     if (res!=nil) {
-        dict = res;
-        if(block){
-        block(dict);
-        }
+        succeed(res);
     }else{
-        [mgr POST:urlString parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-            
-        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+    [manager POST:urlString parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
-            dict = responseObject;
-            if (block) {
-                block(dict);
-               [NSKeyedArchiver archiveRootObject:dict toFile:fileName];
-            }
-            
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            NSMutableArray *failArr = [[NSMutableArray alloc]init];
-            [failArr addObject:error];
-            if (failBlock) {
-                failBlock(failArr);
-            }
-            
-        }];
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        succeed(responseObject);
+        //NSLog(@"%@",responseObject);
+        [NSKeyedArchiver archiveRootObject:responseObject toFile:fileName];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure(error);
+    }];
     }
 }
 
-+ (void)dbversionBlock:(void (^)(void))block
+- (void)dbversionsucceed:(void (^)(id data))succeed failure:(void (^)(NSError *error))failure
 {
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    //创建网络请求管理对象
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    //申明返回的结果是json类型
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    //申明请求的数据是json类型
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];     //如果报接受类型不一致请替换一致text/html或别的
+    //manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", nil nil];
+    //发送网络请求(请求方式为POST)
     NSString *url = [hostUrl stringByAppendingString:@"Home/util/Dbversion"];
-    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
+    [manager POST:url parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
-        [NSKeyedArchiver archiveRootObject:infoDict[@"goods"] toFile:QDXGoods];
-        [NSKeyedArchiver archiveRootObject:infoDict[@"myline"] toFile:QDXMyline];
-        if (block) {
-            block();
-        }
+        [NSKeyedArchiver archiveRootObject:responseObject[@"goods"] toFile:QDXGoods];
+        [NSKeyedArchiver archiveRootObject:responseObject[@"myline"] toFile:QDXMyline];
+        succeed(responseObject);
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        if (block) {
-            block();
-        }
+        failure(error);
     }];
+}
 
+- (void)POST:(NSString *)URLString succeed:(void (^)(id data))succeed failure:(void (^)(NSError *error))failure
+{
+    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+    dict[@"TokenKey"] = save;
+
+    //创建网络请求管理对象
+    AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
+    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
+    //内容类型
+    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"text/json",@"text/javascript",@"text/html", nil];
+
+    //如果报接受类型不一致请替换一致text/html或别的
+    //manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", nil nil];
+    //发送网络请求(请求方式为POST)
+    [manager POST:URLString parameters:dict progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        succeed(responseObject);
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        failure(error);
+    }];
 }
 @end

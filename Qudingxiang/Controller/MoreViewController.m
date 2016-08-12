@@ -24,8 +24,6 @@
     self.navigationItem.title = @"社区";
     self.view.backgroundColor = [UIColor whiteColor];
     [self createUI];
-    
-    
 }
 
 - (void)createUI

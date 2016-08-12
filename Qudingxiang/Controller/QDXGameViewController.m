@@ -424,10 +424,10 @@
 {
     certificate = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxWidth * 1.425)];
     NSURL *certificate_url = [NSURL URLWithString:[hostUrl stringByAppendingString:self.gameInfo.point.area.map]];
-    UIImage *certificate_image = [UIImage imageWithData: [NSData dataWithContentsOfURL:certificate_url]];
-    certificate.image = certificate_image;
+    [certificate setImageWithURL:certificate_url placeholderImage:[UIImage imageNamed:@"加载中"] options:SDWebImageRefreshCached];
     
     self.tableview = [[UITableView alloc] initWithFrame:CGRectMake(0,10 + QdxWidth * 1.425, QdxWidth, 73 * self.gameInfo.history.count + 40) style:UITableViewStylePlain];
+    self.tableview.rowHeight = 73;
     self.tableview.delegate = self;
     self.tableview.dataSource = self;
     self.tableview.showsVerticalScrollIndicator = NO;
@@ -463,12 +463,6 @@
 //状态3
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return self.gameInfo.history.count;
-}
-
-//状态3
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 73;
 }
 
 //状态3
@@ -670,7 +664,7 @@ toViewController:(UIViewController *)toVC {
     [self.mapView removeFromSuperview];
     self.mapView.delegate = nil;
     self.mapView = nil;
-    
+    [self removeFromSuperViewController];
     [readyView removeFromSuperview];
     [_webView removeFromSuperview];
     [playView removeFromSuperview];
@@ -784,14 +778,10 @@ toViewController:(UIViewController *)toVC {
 }
 
 - (void)dealloc {
-    self.mapView.showsUserLocation = NO;
-    self.mapView.userTrackingMode  = MAUserTrackingModeFollow;
-    [self.mapView.layer removeAllAnimations];
-    [self.mapView removeAnnotations:self.mapView.annotations];
-    [self.mapView removeOverlays:self.mapView.overlays];
-    [self.mapView removeFromSuperview];
-    self.mapView.delegate = nil;
-    self.mapView = nil;
+    if (self.mapView) {
+        self.mapView.delegate = nil;
+        self.mapView = nil;
+    }
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -905,11 +895,11 @@ toViewController:(UIViewController *)toVC {
             currentTime.frame = CGRectMake((QdxWidth/4)* 3 - 100/2,pointHeight + 20 + 5+ 5, 100, 15);
             
             if (QdxWidth >375){
+                self.task_button.frame = CGRectMake(QdxWidth - 80 -20 , QdxHeight - 64 - 80 - 20, 80, 80);
+                self.history_button.frame = CGRectMake(20 , QdxHeight - 64 - 80 - 20, 80, 80);
+            }else{
                 self.task_button.frame = CGRectMake(QdxWidth - 60 -20 , QdxHeight - 64 - 60 - 20, 60, 60);
                 self.history_button.frame = CGRectMake(20 , QdxHeight - 64 - 60 - 20, 60, 60);
-            }else{
-                self.task_button.frame = CGRectMake(QdxWidth - 40 -20 , QdxHeight - 64 - 40 - 20, 40, 40);
-                self.history_button.frame = CGRectMake(20 , QdxHeight - 64 - 40 - 20, 40, 40);
             }
 
         } completion:^(BOOL finished) {
@@ -1124,7 +1114,7 @@ toViewController:(UIViewController *)toVC {
                          animations:^{
                              self.BGView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
                              self.deliverView.frame = CGRectMake(QdxWidth/2 - TASKWEIGHT/2,(QdxHeight-64 - TASKHEIGHT)/2,TASKWEIGHT,TASKHEIGHT);
-                             self.deliverView.backgroundColor = [UIColor whiteColor];
+                             self.deliverView.backgroundColor = [UIColor clearColor];
                              self.deliverView.layer.borderWidth = 1;
                              self.deliverView.layer.cornerRadius = 12;
                              self.deliverView.layer.borderColor = [[UIColor clearColor]CGColor];
@@ -1596,7 +1586,7 @@ toViewController:(UIViewController *)toVC {
     [self.mapView removeFromSuperview];
     self.mapView.delegate = nil;
     self.mapView = nil;
-    
+    [self removeFromSuperViewController];
     [readyView removeFromSuperview];
     [_webView removeFromSuperview];
     [playView removeFromSuperview];
@@ -1605,6 +1595,5 @@ toViewController:(UIViewController *)toVC {
     
     [countDownTimer setFireDate:[NSDate distantFuture]];
     [MBProgressHUD hideHUD];
-    [self removeFromSuperViewController];
 }
 @end

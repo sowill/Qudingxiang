@@ -12,7 +12,7 @@
 #import "MineCell.h"
 #import "TabbarController.h"
 #import "QDXNavigationController.h"
-
+#import "MineCellService.h"
 @interface MineLineController ()<UITableViewDataSource,UITableViewDelegate>
 {
     UITableView *_tableView;
@@ -26,8 +26,9 @@
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    if(save){
     [self netData];
-    
+    }
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -45,7 +46,6 @@
     {
         [_tableView setLayoutMargins:UIEdgeInsetsZero];
     }
-    [self loaddata];
 }
 
 -(void)createButtonBack
@@ -70,11 +70,6 @@
     [self.sideMenuViewController hideMenuViewController];
 }
 
-- (void)loaddata
-{
-    [self performSelectorInBackground:@selector(netData) withObject:nil];
-}
-
 - (void)createUI
 {
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight-64) style:UITableViewStylePlain];
@@ -88,22 +83,17 @@
 }
 - (void)netData
 {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     [self showProgessMsg:@"加载中"];
-    NSString *url = [NSString stringWithFormat:@"%@%@",hostUrl,mineUrl];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"TokenKey"] = save;
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
-    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary * dict = [NSDictionary dictionaryWithDictionary:responseObject];
-        if (!dict[@"Code"]) {
-            NSLog(@"没有线路");
+    MineCellService *mineCell = [MineCellService sharedInstance];
+    [mineCell cellDatasucceed:^(id data) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments | NSJSONReadingMutableLeaves error:nil];
+        if ([dict[@"Code"] intValue] == 0) {
+            
         }else{
             NSArray *dictData = dict[@"Msg"][@"data"];
             if([dictData isEqual:[NSNull null]]){
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您当前没有路线" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您当前没有路线" delegate:self cancelButtonTitle:@"好的" otherButtonTitles:nil, nil];
                 [alert show];
             }else{
                 _dataArr = [NSMutableArray arrayWithCapacity:0];
@@ -112,13 +102,25 @@
                     [model setValuesForKeysWithDictionary:dict];
                     [_dataArr addObject:model];
                 }
-                [_tableView reloadData];
-                [self hideProgess];
+                dispatch_async(dispatch_get_main_queue(), ^{
+                    [_tableView reloadData];
+                    [self hideProgess];
+                });
+                
             }
         }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+
+    } failure:^(NSError *error) {
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"加载失败，请检查网络！" message:nil preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
+        }]
+         ];
+        [self presentViewController:alert animated:YES completion:^{
+            
+        }];
+
     }];
+    });
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath

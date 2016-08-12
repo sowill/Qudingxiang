@@ -10,6 +10,7 @@
 		043A59E71D18F22600E5E1BB /* HelpViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 043A59E61D18F22600E5E1BB /* HelpViewController.m */; };
 		04664F061D1CCE82008D50C7 /* UITextView+YLTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04664F021D1CCE82008D50C7 /* UITextView+YLTextView.m */; };
 		04664F071D1CCE82008D50C7 /* YLPopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04664F041D1CCE82008D50C7 /* YLPopViewController.m */; };
+		04666F8D1D5DAC7700CBB6AF /* MineCellService.m in Sources */ = {isa = PBXBuildFile; fileRef = 04666F8C1D5DAC7700CBB6AF /* MineCellService.m */; };
 		451828AB1D40C87A00D5FC85 /* EAFeatureItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 451828A31D40C87A00D5FC85 /* EAFeatureItem.m */; };
 		451828AC1D40C87A00D5FC85 /* icon_ea_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 451828A51D40C87A00D5FC85 /* icon_ea_background@2x.png */; };
 		451828AD1D40C87A00D5FC85 /* icon_ea_background@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 451828A61D40C87A00D5FC85 /* icon_ea_background@3x.png */; };
@@ -283,6 +284,8 @@
 		04664F021D1CCE82008D50C7 /* UITextView+YLTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextView+YLTextView.m"; sourceTree = "<group>"; };
 		04664F031D1CCE82008D50C7 /* YLPopViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLPopViewController.h; sourceTree = "<group>"; };
 		04664F041D1CCE82008D50C7 /* YLPopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLPopViewController.m; sourceTree = "<group>"; };
+		04666F8B1D5DAC7700CBB6AF /* MineCellService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineCellService.h; sourceTree = "<group>"; };
+		04666F8C1D5DAC7700CBB6AF /* MineCellService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineCellService.m; sourceTree = "<group>"; };
 		451828A21D40C87A00D5FC85 /* EAFeatureItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAFeatureItem.h; sourceTree = "<group>"; };
 		451828A31D40C87A00D5FC85 /* EAFeatureItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAFeatureItem.m; sourceTree = "<group>"; };
 		451828A51D40C87A00D5FC85 /* icon_ea_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_ea_background@2x.png"; sourceTree = "<group>"; };
@@ -1570,6 +1573,8 @@
 				4525944C1D50D31A002BF84B /* LocalDBService.m */,
 				4525944E1D51A0D1002BF84B /* LocalSqlliteService.h */,
 				4525944F1D51A0D1002BF84B /* LocalSqlliteService.m */,
+				04666F8B1D5DAC7700CBB6AF /* MineCellService.h */,
+				04666F8C1D5DAC7700CBB6AF /* MineCellService.m */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -2076,6 +2081,7 @@
 				4556117F1D543E75006DF063 /* UIViewController+Animator.m in Sources */,
 				4569E5931C4CB64B00FF4E8B /* MBProgressHUD+MJ.m in Sources */,
 				4569E5941C4CB64B00FF4E8B /* MBProgressHUD.m in Sources */,
+				04666F8D1D5DAC7700CBB6AF /* MineCellService.m in Sources */,
 				455611791D543E75006DF063 /* CustomAnimateTransitionPop.m in Sources */,
 				4582B7D61C98EEC00002F5B1 /* QDXQuestionModel.m in Sources */,
 				45C6F60B1C92A43A00C5AA31 /* QDXForgetPasswordViewController.m in Sources */,

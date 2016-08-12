@@ -61,28 +61,6 @@
     self.window.rootViewController = guide;
 }
 
-//登录
--(void)authlogin
-{
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"TokenKey"] = save;
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Customer/authlogin"];
-    [BaseService netDataBlock:^(NSMutableDictionary *dict) {
-        QDXIsConnect *isConnect = [QDXIsConnect mj_objectWithKeyValues:dict];
-        int ret = [isConnect.Code intValue];
-        if (ret==1) {
-            [NSKeyedArchiver archiveRootObject:isConnect.Msg[@"token"] toFile:XWLAccountFile];
-        }else{
-            NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-            documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
-            [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
-        }
-
-    } FailBlock:^(NSMutableArray *array) {
-        
-    } andWithUrl:url andParams:params];
-}
-
 - (void)gotoHomeController
 {
     TabbarController *tabbar = [[TabbarController alloc] init];

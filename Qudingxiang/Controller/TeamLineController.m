@@ -12,6 +12,7 @@
 #import "MineCell.h"
 #import "TabbarController.h"
 #import "QDXNavigationController.h"
+#import "MineCellService.h"
 @interface TeamLineController ()<UITableViewDataSource,UITableViewDelegate>
 {
     UITableView *_tableView;
@@ -22,12 +23,18 @@
 
 @implementation TeamLineController
 
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    if(save){
+        [self netData];
+    }
+}
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"团队路线";
     self.view.backgroundColor = [UIColor colorWithRed:35/255 green:138/255 blue:215/255 alpha:1];
-    [self netData];
     [self createUI];
     [self createButtonBack];
     if ([_tableView respondsToSelector:@selector(setSeparatorInset:)])
@@ -78,28 +85,19 @@
 
 - (void)netData
 {
-    [self showProgessMsg:@"加载中"];
-    NSString *url = [NSString stringWithFormat:@"%@%@",hostUrl,teamUrl];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"TokenKey"] = save;
-    params[@"curr"] = @"1";
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
-    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary * dict = [NSDictionary dictionaryWithDictionary:responseObject];
-        //NSLog(@"%@",dict);
-        if (!dict[@"Code"]) {
-            NSLog(@"没有线路");
+    
+    MineCellService *mineCell = [MineCellService sharedInstance];
+    [mineCell teamCellDatasucceed:^(id data) {
+        [self showProgessMsg:@"加载中"];
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments | NSJSONReadingMutableLeaves error:nil];
+        if ([dict[@"Code"] intValue] == 0) {
+            
         }else{
-            //            NSLog(@"信息%@",dict[@"Msg"]);
             NSArray *dictData = dict[@"Msg"][@"data"];
             if([dictData isEqual:[NSNull null]]){
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您当前没有路线" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您当前没有团队路线" delegate:self cancelButtonTitle:@"好的" otherButtonTitles:nil, nil];
                 [alert show];
             }else{
-                
                 _dataArr = [NSMutableArray arrayWithCapacity:0];
                 for(NSDictionary *dict in dictData){
                     MineModel *model = [[MineModel alloc] init];
@@ -107,11 +105,11 @@
                     [_dataArr addObject:model];
                 }
                 [_tableView reloadData];
-                
+                [self hideProgess];
             }
         }
-        [self hideProgess];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    } failure:^(NSError *error) {
         
     }];
 }

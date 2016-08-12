@@ -70,6 +70,7 @@
 
 -(void)viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     [self loadData];
      appdelegate = [[UIApplication sharedApplication] delegate];
     
@@ -89,7 +90,6 @@
     arr = [[NSMutableArray alloc] initWithCapacity:0];
     self.navigationItem.title = @"趣定向";
     _curNumber = 1;
-    //[self loadcelldataWith:@"1"];
     [self createTableView];
     [self loadDataCell];
     [self createUI];
@@ -126,34 +126,29 @@
 - (void)loadDataCell
 {
     _scrollArr = [NSMutableArray arrayWithCapacity:0];
-    NSOperationQueue *queue = [[NSOperationQueue alloc]init];
-     queue.maxConcurrentOperationCount = 5;
-    NSBlockOperation *operationA = [NSBlockOperation blockOperationWithBlock:^{
-        [self performSelectorInBackground:@selector(cell1) withObject:nil];
-    }];
-    NSBlockOperation *operationB = [NSBlockOperation blockOperationWithBlock:^{
-        [self performSelectorInBackground:@selector(topViewData) withObject:nil];
-    }];
-    NSBlockOperation *operationC = [NSBlockOperation blockOperationWithBlock:^{
+    dispatch_queue_t queue = dispatch_queue_create("gcdtest.rongfzh.yc", DISPATCH_QUEUE_CONCURRENT);
+    dispatch_async(queue, ^{
         [self dbversion];
-        
-    }];
-    [operationA addDependency:operationC];
-    [operationB addDependency:operationC];
-    [queue addOperation:operationA];
-    [queue addOperation:operationB];
-    [queue addOperation:operationC];
+    });
+    dispatch_barrier_async(queue, ^{
+        [self cell1];
+        [self topViewData];
+    });
+    
+
 }
 
 - (void)cell1
 {
    [self cellDataWith:@"1" isRemoveAll:YES andWithType:@"0"];
 }
+
 - (void)loadData
 {
     
     if (save) {
-        [self performSelectorInBackground:@selector(state) withObject:nil];
+        [self state];
+        //[self performSelectorInBackground:@selector(state) withObject:nil];
     }else{
         _scanBtn.hidden = NO;
         [self state1];
@@ -409,8 +404,8 @@
 
 - (void)topViewData
 {
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     [homehttp topViewDatasucceed:^(id data) {
-
         NSDictionary *dataDict = data[@"Msg"][@"data"];
         for(NSDictionary *dict in dataDict){
             int i = [dict[@"goods_index"] intValue];
@@ -437,15 +432,19 @@
             [self.navigationController pushViewController:detailLine animated:YES];
         }];
         //刷新（必需的步骤）
-        [imgScrollView reloadView];
-        [self performSelectorOnMainThread:@selector(sussRes) withObject:nil waitUntilDone:YES];
+        dispatch_async(dispatch_get_main_queue(), ^(void){
+            [imgScrollView reloadView];
+        });
     } failure:^(NSError *error) {
         
     }];
+});
 }
 
 - (void)state
 {
+    [self showProgessMsg:@"加载中"];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     appdelegate.loading = YES;
     [homehttp statesucceed:^(id data) {
          NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments | NSJSONReadingMutableLeaves error:nil];
@@ -457,10 +456,11 @@
             [NSKeyedArchiver archiveRootObject:dict[@"Msg"][@"myline_id"] toFile:QDXCurrentMyLineFile];
         }
         appdelegate.loading = NO;
-        [self changeScanBtn];
-        [self performSelectorOnMainThread:@selector(sussRes) withObject:nil waitUntilDone:YES];
-        //[self hideProgess];
-    
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [self changeScanBtn];
+            [self hideProgess];
+        });
+        
     } failure:^(NSError *error) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"加载失败，请检查网络！" message:nil preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
@@ -470,7 +470,7 @@
             
         }];
     } WithToken:save];
-    
+    });
 }
 
 - (void)state1
@@ -482,7 +482,6 @@
 {
     [self showProgessMsg:@"加载中"];
     [homehttp dbversionsucceed:^(id data) {
-        [self performSelectorOnMainThread:@selector(sussRes) withObject:nil waitUntilDone:YES];
         [self hideProgess];
     } failure:^(NSError *error) {
         
@@ -490,9 +489,10 @@
 }
 - (void)cellDataWith:(NSString *)cur isRemoveAll:(BOOL)isRemoveAll andWithType:(NSString *)type
 {
+        [self showProgessMsg:@"加载中"];
+        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [homehttp loadCellsucceed:^(id data) {
-             NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments | NSJSONReadingMutableLeaves error:nil];
-            
+            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments | NSJSONReadingMutableLeaves error:nil];
             NSDictionary *dataDict = dict[@"Msg"][@"data"];
             _currNum = [dict[@"Msg"][@"curr"] integerValue];
             _countNum = [dict[@"Msg"][@"count"] integerValue];
@@ -505,17 +505,20 @@
                 [model setValuesForKeysWithDictionary:dict];
                 [_dataArr addObject:model];
             }
-            [_tableView reloadData];
-            [_header endRefreshing];
-            [_footer endRefreshing];
-            //[self hideProgess];
-            [self performSelectorOnMainThread:@selector(sussRes) withObject:nil waitUntilDone:YES];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [_tableView reloadData];
+                [_header endRefreshing];
+                [_footer endRefreshing];
+                [self hideProgess];
+            });
+            
+            //[self performSelectorOnMainThread:@selector(sussRes) withObject:nil waitUntilDone:YES];
     
         } failure:^(NSError *error) {
             [_header endRefreshing];
             [_footer endRefreshing];
         } WithCurr:cur WithType:type];
-    
+        });
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

@@ -48,17 +48,13 @@
     [super viewWillAppear:animated];
     if (save) {
         [self netData];
-    }
-    
-    
+    }  
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self createTableView];
-    
-    
-    
+  
 }
 
 - (void)createTableView
@@ -80,9 +76,6 @@
     
     [self.view addSubview:_tableView];
     
-    
-    
-    
 }
 
 - (void)netData
@@ -92,10 +85,10 @@
         _peopleDict=[NSDictionary dictionaryWithDictionary:_dic];
         NSLog(@"%@",_peopleDict[@"Msg"]);
         if([_peopleDict[@"Code"] integerValue] == 0){
-//            NSFileManager * fileManager = [[NSFileManager alloc]init];
-//            NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-//            documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
-//            [fileManager removeItemAtPath:documentDir error:nil];
+            NSFileManager * fileManager = [[NSFileManager alloc]init];
+            NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+            documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
+            [fileManager removeItemAtPath:documentDir error:nil];
         }else{
             [_tableView reloadData];
         }

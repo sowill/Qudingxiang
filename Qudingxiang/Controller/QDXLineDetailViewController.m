@@ -17,7 +17,7 @@
 #import "QDXLoginViewController.h"
 #import <WebKit/WebKit.h>
 
-@interface QDXLineDetailViewController ()
+@interface QDXLineDetailViewController ()<WKNavigationDelegate>
 {
     UIButton *pay;
     UILabel *_price;
@@ -43,6 +43,8 @@
 @property (nonatomic, strong) NSMutableArray *orders;
 @property (nonatomic ,strong) UIView *deliverView; //底部View
 @property (nonatomic ,strong) UIView *BGView; //遮罩
+@property (strong, nonatomic) UIProgressView *progressView;
+@property (assign, nonatomic) NSUInteger loadCount;
 @end
 
 @implementation QDXLineDetailViewController
@@ -137,16 +139,78 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"详情";
     
-    _webView = [[WKWebView alloc] initWithFrame:self.view.frame];
+    // 进度条
+    UIProgressView *progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth,1)];
+    progressView.tintColor = [UIColor colorWithRed:0.000 green:0.600 blue:0.992 alpha:1.000];
+    progressView.trackTintColor = [UIColor whiteColor];
+    [self.view addSubview:progressView];
+    self.progressView = progressView;
+    
+    _webView = [[WKWebView alloc] initWithFrame:self.view.bounds];
+    _webView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     _webView.backgroundColor = [UIColor whiteColor];
-    [self.view addSubview:_webView];
-            if([self.homeModel.good_st isEqualToString:@"1"]){
-            [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/goods/index/goods_id/%@",self.homeModel.goods_id]]]];
-            [self createPayUI];
-        }else
-        {
-             [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/goods/index/goods_id/%@",self.homeModel.goods_id]]]];
+    _webView.navigationDelegate = self;
+    
+    [self.view insertSubview:_webView belowSubview:progressView];
+    
+    [_webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:nil];
+    
+    NSString *url = [NSString stringWithFormat:@"http://www.qudingxiang.cn/home/goods/index/goods_id/%@",self.homeModel.goods_id];
+    
+    if([self.homeModel.good_st isEqualToString:@"1"]){
+        [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
+        [self createPayUI];
+    }else{
+        [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
+    }
+}
+
+// 计算wkWebView进度条
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if (object == _webView && [keyPath isEqualToString:@"estimatedProgress"]) {
+        CGFloat newprogress = [[change objectForKey:NSKeyValueChangeNewKey] doubleValue];
+        if (newprogress == 1) {
+            self.progressView.hidden = YES;
+            [self.progressView setProgress:0 animated:NO];
+        }else {
+            self.progressView.hidden = NO;
+            [self.progressView setProgress:newprogress animated:YES];
         }
+    }
+}
+
+// 记得取消监听
+- (void)dealloc {
+    [_webView removeObserver:self forKeyPath:@"estimatedProgress"];
+}
+
+// 计算webView进度条
+- (void)setLoadCount:(NSUInteger)loadCount {
+    _loadCount = loadCount;
+    if (loadCount == 0) {
+        self.progressView.hidden = YES;
+        [self.progressView setProgress:0 animated:NO];
+    }else {
+        self.progressView.hidden = NO;
+        CGFloat oldP = self.progressView.progress;
+        CGFloat newP = (1.0 - oldP) / (loadCount + 1) + oldP;
+        if (newP > 0.95) {
+            newP = 0.95;
+        }
+        [self.progressView setProgress:newP animated:YES];
+    }
+}
+
+- (void)webViewDidStartLoad:(UIWebView *)webView {
+    self.loadCount ++;
+}
+
+- (void)webViewDidFinishLoad:(UIWebView *)webView {
+    self.loadCount --;
+}
+
+- (void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error {
+    self.loadCount --;
 }
 
 - (void)createPayUI

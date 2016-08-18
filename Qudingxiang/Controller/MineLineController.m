@@ -88,6 +88,7 @@
     MineCellService *mineCell = [MineCellService sharedInstance];
     [mineCell cellDatasucceed:^(id data) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments | NSJSONReadingMutableLeaves error:nil];
+        [self hideProgess];
         if ([dict[@"Code"] intValue] == 0) {
             
         }else{
@@ -104,7 +105,7 @@
                 }
                 dispatch_async(dispatch_get_main_queue(), ^{
                     [_tableView reloadData];
-                    [self hideProgess];
+                    
                 });
                 
             }

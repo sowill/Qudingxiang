@@ -157,6 +157,7 @@
         self.mapView = [[MAMapView alloc]initWithFrame:CGRectMake(0,QdxHeight - MAPVIEWHEIGHT ,QdxWidth,MAPVIEWHEIGHT)];
         self.mapView.mapType = MAMapTypeStandard;
         self.mapView.showsScale = NO;
+        self.mapView.rotateCameraEnabled = NO;
         self.doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mapClick)];
         self.doubleTap.delegate = self;
         self.doubleTap.numberOfTapsRequired = 1;

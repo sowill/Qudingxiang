@@ -48,13 +48,17 @@
     [super viewWillAppear:animated];
     if (save) {
         [self netData];
-    }  
+    }
+    
+    
 }
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self createTableView];
-  
+    
+    
+    
 }
 
 - (void)createTableView
@@ -75,6 +79,9 @@
     _tableView.bounces = NO;
     
     [self.view addSubview:_tableView];
+    
+    
+    
     
 }
 

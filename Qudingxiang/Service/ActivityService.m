@@ -24,7 +24,7 @@
     params[@"curr"] = curr;
     NSString *cachekey = [NSString stringWithFormat:@"%@%@2%@%@%@",urlString,tokenKey,curr,VGoods,VLine];
     NSString *str = [ToolView md5:cachekey];
-    NSString *actFile = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    NSString *actFile = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString *fileName = [actFile stringByAppendingPathComponent:str];
     NSDictionary *res = [NSKeyedUnarchiver unarchiveObjectWithFile:fileName];
     if (res!=nil) {

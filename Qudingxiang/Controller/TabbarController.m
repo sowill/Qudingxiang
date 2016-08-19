@@ -135,7 +135,6 @@
         }];
 
     }
-    
 }
 - (void)setupAllChildViewControllers
 {
@@ -148,8 +147,6 @@
     MoreViewController *mineVC = [[MoreViewController alloc] init];
     [self setupChildViewController:mineVC title:@"社区" imageName:@"社区－常态" selectedImageName:@"社区－点击"];
     self.tabBar.backgroundImage = [[UIImage imageNamed:@"index_tab_bg"] stretchableImageWithLeftCapWidth:0 topCapHeight:0];
-     
-
 }
 
 - (void)setupChildViewController:(UIViewController *)childVc title:(NSString *)title imageName:(NSString *)imageName selectedImageName:(NSString *)selectedImageName

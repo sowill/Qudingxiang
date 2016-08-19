@@ -51,12 +51,8 @@
     
     pay = [[UIButton alloc] initWithFrame:CGRectMake(10, 245, QdxWidth-20, 40)];
     [pay setTitle:@"确认支付" forState:UIControlStateNormal];
-    CGFloat top = 25;
-    CGFloat bottom = 25;
-    CGFloat left = 5;
-    CGFloat right = 5;
-    UIEdgeInsets insets = UIEdgeInsetsMake(top, left, bottom, right);
-    [pay setBackgroundImage:[[UIImage imageNamed:@"sign_button"] resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch] forState:UIControlStateNormal];
+    pay.userInteractionEnabled = NO;
+    [pay setBackgroundImage:[ToolView createImageWithColor:[UIColor grayColor]] forState:UIControlStateNormal];
     [pay setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [pay setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
     [pay addTarget:self action:@selector(pay) forControlEvents:UIControlEventTouchUpInside];
@@ -246,6 +242,13 @@
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
         _Alipay = [AlipayModel mj_objectWithKeyValues:dict];
+        pay.userInteractionEnabled = YES;
+        CGFloat top = 25;
+        CGFloat bottom = 25;
+        CGFloat left = 5;
+        CGFloat right = 5;
+        UIEdgeInsets insets = UIEdgeInsetsMake(top, left, bottom, right);
+        [pay setBackgroundImage:[[UIImage imageNamed:@"sign_button"] resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch] forState:UIControlStateNormal];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
     }];
@@ -268,6 +271,13 @@
             NSMutableString *retcode = [dict objectForKey:@"retcode"];
             if (retcode.intValue == 0){
                 _WXpay = [WeixinModel mj_objectWithKeyValues:dict];
+                pay.userInteractionEnabled = YES;
+                CGFloat top = 25;
+                CGFloat bottom = 25;
+                CGFloat left = 5;
+                CGFloat right = 5;
+                UIEdgeInsets insets = UIEdgeInsetsMake(top, left, bottom, right);
+                [pay setBackgroundImage:[[UIImage imageNamed:@"sign_button"] resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch] forState:UIControlStateNormal];
             }
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -343,7 +353,7 @@
     
     //将商品信息拼接成字符串
     NSString *orderSpec = [order description];
-    NSLog(@"orderSpec = %@",orderSpec);
+//    NSLog(@"orderSpec = %@",orderSpec);
     
     //获取私钥并将商户信息签名,外部商户可以根据情况存放私钥和签名,只需要遵循RSA签名规范,并将签名字符串base64编码和UrlEncode
     id<DataSigner> signer = CreateRSADataSigner(privateKey);

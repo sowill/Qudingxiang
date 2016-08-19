@@ -197,6 +197,7 @@
     score_sum.text = [ToolView scoreTransfer:self.gameInfo.score];
     
     if (code == 1) {
+        lock = NO;
         if([self.gameInfo.pointmap.pindex intValue]<999){
             [self setupCompleteView:0];
         }
@@ -341,14 +342,11 @@
 //获得信号和mac地址
 - (void)centralManager:(CBCentralManager *)central didDiscoverPeripheral:(CBPeripheral *)peripheral advertisementData:(NSDictionary *)advertisementData RSSI:(NSNumber *)RSSI
 {
-    //    dispatch_time_t time=dispatch_time(DISPATCH_TIME_NOW, 30ull *NSEC_PER_SEC);
-    //    dispatch_after(time, dispatch_get_main_queue(), ^{
-    //        rmoveMacStr = @"0";
-    //    });
-    int b = abs([RSSI.description intValue]);
-    CGFloat ci = (b - abs([self.gameInfo.point.rssi intValue])) / (10 * 4.);
-    
-    if (pow(10,ci) < 1 )
+//    int b = abs([RSSI.description intValue]);
+//    CGFloat ci = (b - abs([self.gameInfo.point.rssi intValue])) / (10 * 4.);
+//    NSLog(@"%f",pow(10, ci));
+//    if (pow(10,ci) < 0.9 )
+    if (abs([RSSI.description intValue]) < abs([self.gameInfo.point.rssi intValue]))
     {
         NSMutableArray *macArr = [[NSMutableArray alloc] init];
         [macArr addObjectsFromArray:advertisementData[@"kCBAdvDataServiceUUIDs"]];
@@ -357,6 +355,7 @@
         NSString *string2 = [array1 componentsJoinedByString:@""];
         NSArray *array2 = [string2 componentsSeparatedByString:@">)"];
         NSString *string3 = [array2 componentsJoinedByString:@""];
+//        NSLog(@"lock %@",lock?@"YES":@"NO");
         if (string3.length > 8) {
             if (lock == NO) {
                 macStr = [string3 substringFromIndex:8];
@@ -367,7 +366,6 @@
                         lock = YES;
                         rmoveMacStr = macStr;
                         errorCount = 0;
-                        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
                         if([self.gameInfo.mstatus_id intValue] == 1)
                         {
                             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"是否确定开始本次活动？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
@@ -951,7 +949,6 @@ toViewController:(UIViewController *)toVC {
 //设置任务
 -(void)setupCheckTask
 {
-    [MBProgressHUD showMessage:@"加载中"];
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -964,13 +961,8 @@ toViewController:(UIViewController *)toVC {
     if(![macStr isEqualToString:@""] && macStr != nil){
         params[@"mac"] = macStr;
     }
-    
-    answer = @"";
-    macStr = @"";//避免重复提交
-    
     //离线验证
     if ([self.gameInfo.mstatus_id intValue] == 2 && [self.gameInfo.online intValue] == 2 ) {
-        [MBProgressHUD hideHUD];
         NSDictionary *dic = [LocalDBService CheckTask:params];
         int ret = [dic[@"Code"] intValue];
         if (ret==1) {
@@ -988,6 +980,7 @@ toViewController:(UIViewController *)toVC {
             AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
             errorCount++;
         }else if (ret == 2){
+            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
             [self setupgetMylineInfo:1];
             [self updatadd];
         }
@@ -1019,14 +1012,20 @@ toViewController:(UIViewController *)toVC {
             AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
             errorCount++;
         }else if (ret == 2){
+            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
             [self setupgetMylineInfo:1];
+        }else{
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"请稍候再试" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"重试" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
+                lock = NO;
+                rmoveMacStr = @"";
+            }];
+            [alertController addAction:okAction];
+            [self presentViewController:alertController animated:YES completion:nil];
         }
-        else{
-            
-        }
-        [MBProgressHUD hideHUD];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [MBProgressHUD hideHUD];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error){
+        lock = NO;
+        rmoveMacStr = @"";
     }];
 }
 
@@ -1521,7 +1520,6 @@ toViewController:(UIViewController *)toVC {
     ImagePickerController *gameVC = [[ImagePickerController alloc] initWithBlock:^(NSString *result, BOOL flag,NSString *from) {
         gameVC.from = from;
         macStr = result;
-//        NSLog(@"lock %@",lock?@"YES":@"NO");
         if (lock == NO) {
             
             for (NSString * str in mac_Label) {
@@ -1546,7 +1544,6 @@ toViewController:(UIViewController *)toVC {
                     });
                 }
             }
-            rmoveMacStr = @"";
         }
         
     }];

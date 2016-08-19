@@ -273,7 +273,7 @@
                 [self.ticket removeObjectAtIndex:indexPath.row];
                 [self.tableview deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationMiddle];
                 [self.tableview reloadData];
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"tabbarRefresh" object:nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"stateRefresh" object:nil];
                 [self state];
             }];
             [alertController addAction:cancelAction];

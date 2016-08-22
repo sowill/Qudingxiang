@@ -323,7 +323,6 @@
 		453AF08F1D59756900FCC23E /* MyAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAnnotation.m; sourceTree = "<group>"; };
 		453E44D71D252A3100BED603 /* btn1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn1@2x.png"; sourceTree = "<group>"; };
 		453E44D81D252A3100BED603 /* btn2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn2@2x.png"; sourceTree = "<group>"; };
-		4544EA521D5C2DEE008314B1 /* Reveal.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Reveal.framework; sourceTree = "<group>"; };
 		4544EA541D5C550F008314B1 /* MAMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MAMapKit.framework; sourceTree = "<group>"; };
 		4544EA561D5C55A8008314B1 /* AMap.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AMap.bundle; sourceTree = "<group>"; };
 		4544EA581D5C564C008314B1 /* AMapFoundationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapFoundationKit.framework; sourceTree = "<group>"; };
@@ -1594,7 +1593,6 @@
 		45DF76201BA6AAC20024A6B4 = {
 			isa = PBXGroup;
 			children = (
-				4544EA521D5C2DEE008314B1 /* Reveal.framework */,
 				455501181D5AD62500516CC0 /* WebKit.framework */,
 				455C8AA31CD063C7001F5FC5 /* libstdc++.6.0.9.tbd */,
 				455C8AA11CD06396001F5FC5 /* OpenGLES.framework */,
@@ -2261,12 +2259,7 @@
 					"$(PROJECT_DIR)/Qudingxiang/Lib/AlipaySDK",
 				);
 				ONLY_ACTIVE_ARCH = YES;
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-lz",
-					"-framework",
-					Reveal,
-				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sport;
 				PRODUCT_NAME = "趣定向";
 				PROVISIONING_PROFILE = "";
@@ -2310,12 +2303,7 @@
 					"$(PROJECT_DIR)/Qudingxiang/Lib/AlipaySDK",
 				);
 				ONLY_ACTIVE_ARCH = NO;
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-lz",
-					"-framework",
-					Reveal,
-				);
+				OTHER_LDFLAGS = "-ObjC";
 				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sport;
 				PRODUCT_NAME = "趣定向";
 				PROVISIONING_PROFILE = "";

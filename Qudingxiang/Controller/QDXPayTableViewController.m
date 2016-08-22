@@ -52,7 +52,7 @@
     pay = [[UIButton alloc] initWithFrame:CGRectMake(10, 245, QdxWidth-20, 40)];
     [pay setTitle:@"确认支付" forState:UIControlStateNormal];
     pay.userInteractionEnabled = NO;
-    [pay setBackgroundImage:[ToolView createImageWithColor:[UIColor grayColor]] forState:UIControlStateNormal];
+    [pay setBackgroundImage:[ToolView createImageWithColor:[UIColor colorWithWhite:0.773 alpha:1.000]] forState:UIControlStateNormal];
     [pay setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [pay setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
     [pay addTarget:self action:@selector(pay) forControlEvents:UIControlEventTouchUpInside];

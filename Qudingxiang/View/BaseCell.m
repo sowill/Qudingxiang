@@ -58,22 +58,22 @@
     CALayer *layer = _imageViewN.layer;
     [layer setMasksToBounds:NO];
     [self.contentView  addSubview:_imageViewN];
-    CGFloat imageViewY = CGRectGetMaxY(_imageViewN.frame);
-    _parkNamelabel = [ToolView createLabelWithFrame:CGRectMake(imageViewY+10, 10, QdxWidth, 20) text:@"公园名称" font:15 superView:self.contentView];
+    CGFloat imageViewX = CGRectGetMaxX(_imageViewN.frame);
+    _parkNamelabel = [ToolView createLabelWithFrame:CGRectMake(imageViewX+10, 10, QdxWidth - 70, 20) text:@"公园名称" font:15 superView:self.contentView];
     CGFloat parkLabelMaxY = CGRectGetMaxY(_parkNamelabel.frame);
     _parkNamelabel.textAlignment = NSTextAlignmentLeft;
     _parkNamelabel.backgroundColor = [UIColor whiteColor];
     _parkNamelabel.font = [UIFont systemFontOfSize:15];
     _parkNamelabel.textColor = [UIColor colorWithRed:17/255.0 green:17/255.0 blue:17/255.0 alpha:1];
     
-    _priceLabel = [ToolView createLabelWithFrame:CGRectMake(imageViewY+10, parkLabelMaxY+5, QdxWidth, 20) text:@"¥" font:18 superView:self.contentView];
+    _priceLabel = [ToolView createLabelWithFrame:CGRectMake(imageViewX+10, parkLabelMaxY+5, QdxWidth - 70, 20) text:@"¥" font:18 superView:self.contentView];
     _priceLabel.textAlignment = NSTextAlignmentLeft;
     _priceLabel.font = [UIFont systemFontOfSize:15];
     _priceLabel.backgroundColor = [UIColor whiteColor];
     _priceLabel.textColor = [UIColor colorWithRed:255/255.0 green:81/255.0 blue:0/255.0 alpha:1];
     CGFloat priceLabelMaxY = CGRectGetMaxY(_priceLabel.frame);
     
-    _nameLabel = [ToolView createLabelWithFrame:CGRectMake(imageViewY+10, priceLabelMaxY+5, QdxWidth/4, 20) text:@"项目名称" font:15 superView:self.contentView];
+    _nameLabel = [ToolView createLabelWithFrame:CGRectMake(imageViewX+10, priceLabelMaxY+5, QdxWidth/4, 20) text:@"项目名称" font:15 superView:self.contentView];
     _nameLabel.textAlignment = NSTextAlignmentLeft;
     _nameLabel.font = [UIFont systemFontOfSize:13];
     _nameLabel.backgroundColor = [UIColor whiteColor];

@@ -140,7 +140,7 @@
     self.navigationItem.title = @"详情";
     
     // 进度条
-    UIProgressView *progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth,1)];
+    UIProgressView *progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth,6)];
     progressView.tintColor = [UIColor colorWithRed:0.000 green:0.600 blue:0.992 alpha:1.000];
     progressView.trackTintColor = [UIColor whiteColor];
     [self.view addSubview:progressView];

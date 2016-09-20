@@ -322,6 +322,7 @@
     if (refreshView == _header) {
         _curNumber = 1;
         //刷新
+        
         [self cellDataWith:[NSString stringWithFormat:@"%li", (long)_curNumber] isRemoveAll:YES andWithType:@"0"];
         
     } else {

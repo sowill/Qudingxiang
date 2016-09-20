@@ -91,7 +91,6 @@
     [commitBtn setBackgroundImage:[[UIImage imageNamed:@"sign_button"] resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch] forState:UIControlStateNormal];
     [commitBtn addTarget:self action:@selector(upDate) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:commitBtn];
-
 }
 
 - (void) textViewDidBeginEditing:(UITextView *)textView {

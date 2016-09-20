@@ -1024,8 +1024,13 @@ toViewController:(UIViewController *)toVC {
             [self presentViewController:alertController animated:YES completion:nil];
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error){
-        lock = NO;
-        rmoveMacStr = @"";
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"请稍候再试" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"重试" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
+            lock = NO;
+            rmoveMacStr = @"";
+        }];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
     }];
 }
 

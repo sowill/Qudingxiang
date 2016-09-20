@@ -40,8 +40,6 @@
     [self setupTabbar];
     // 初始化所有的子控制器
     [self setupAllChildViewControllers];
-    
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(tabbarRefresh) name:@"tabbarRefresh" object:nil];
 }
 
 - (void)viewWillAppear:(BOOL)animated
@@ -54,14 +52,15 @@
         }
     }
     
-    
+//    [self.tabBar setBackgroundImage:[ToolView createImageWithColor:[UIColor clearColor]]];
+//    [self.tabBar setShadowImage:[ToolView createImageWithColor:[UIColor clearColor]]];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-
 }
+
 - (void)setupTabbar
 {
     TabbarView *customTabBar = [[TabbarView alloc] init];
@@ -136,6 +135,7 @@
 
     }
 }
+
 - (void)setupAllChildViewControllers
 {
     HomeController *homeVC = [[HomeController alloc] init];
@@ -146,7 +146,11 @@
     [self setupChildViewController:orderVC title:@"订单" imageName:@"index_order_nomal" selectedImageName:@"index_order_click"];
     MoreViewController *mineVC = [[MoreViewController alloc] init];
     [self setupChildViewController:mineVC title:@"社区" imageName:@"社区－常态" selectedImageName:@"社区－点击"];
-    self.tabBar.backgroundImage = [[UIImage imageNamed:@"index_tab_bg"] stretchableImageWithLeftCapWidth:0 topCapHeight:0];
+    if ([[UIDevice currentDevice] systemVersion].floatValue < 10.0) {
+        self.tabBar.backgroundImage = [[UIImage imageNamed:@"index_tab_bg"] stretchableImageWithLeftCapWidth:0 topCapHeight:0];
+    }else{
+        self.tabBar.selectionIndicatorImage = [[UIImage imageNamed:@"index_tab_bg"] stretchableImageWithLeftCapWidth:0 topCapHeight:0];
+    }
 }
 
 - (void)setupChildViewController:(UIViewController *)childVc title:(NSString *)title imageName:(NSString *)imageName selectedImageName:(NSString *)selectedImageName
@@ -168,8 +172,9 @@
     // 3.添加tabbar内部的按钮
     [self.customTabBar addTabBarButtonWithItem:childVc.tabBarItem];
     
+            
     //去掉tabbar黑线
-    CGRect rect = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+    CGRect rect = CGRectMake(0, 0, self.view.frame.size.width, 1);
     
     UIGraphicsBeginImageContext(rect.size);
     

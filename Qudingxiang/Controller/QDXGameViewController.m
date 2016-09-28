@@ -280,12 +280,13 @@
     params[@"TokenKey"] = save;
     params[@"myline_id"] = oldMyLineid;
     NSString *url = [hostUrl stringByAppendingString:@"Home/Myline/getMyline"];
-    
+
         //使用离线数据
         NSDictionary *res=[LocalDBService ReadMyline:oldMyLineid];
+    
         if (res !=nil) {
             if ([res[@"mstatus_id"] intValue] == 2 &&  [res[@"online"] intValue]== 2 ) {
-
+                [self updatadd];
                 [self setMylineInfo:res code:code];
                 
                 return ;
@@ -961,6 +962,7 @@ toViewController:(UIViewController *)toVC {
     if(![macStr isEqualToString:@""] && macStr != nil){
         params[@"mac"] = macStr;
     }
+    
     //离线验证
     if ([self.gameInfo.mstatus_id intValue] == 2 && [self.gameInfo.online intValue] == 2 ) {
         NSDictionary *dic = [LocalDBService CheckTask:params];
@@ -981,9 +983,11 @@ toViewController:(UIViewController *)toVC {
             errorCount++;
         }else if (ret == 2){
             AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-            [self setupgetMylineInfo:1];
             [self updatadd];
+            [self setupgetMylineInfo:1];
         }
+        answer = @"";
+        macStr = @"";
         return ;
     }
     
@@ -1014,6 +1018,9 @@ toViewController:(UIViewController *)toVC {
         }else if (ret == 2){
             AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
             [self setupgetMylineInfo:1];
+            
+            answer = @"";
+            macStr = @"";
         }else{
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"请稍候再试" preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"重试" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
@@ -1056,7 +1063,7 @@ toViewController:(UIViewController *)toVC {
         popView.contentViewSize = CGSizeMake(TASKWEIGHT, TASKHEIGHT);
         popView.Title = self.gameInfo.line.line_sub;
         popView.placeHolder = @"请输入答案";
-        popView.wordCount = 6 + self.questionInfo.question.qkey.length;//不设置则没有
+        //popView.wordCount = 6 + self.questionInfo.question.qkey.length;//不设置则没有
         [popView addContentView];//最后调用
         __typeof(popView)weakPopView = popView;
         popView.confirmBlock = ^(NSString *text) {

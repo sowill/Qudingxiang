@@ -42,23 +42,37 @@
     [self setupAllChildViewControllers];
 }
 
+- (void)getSubViews:(UIView *)view {
+    for (UIView *subView in view.subviews) {
+        if (subView.subviews.count) {
+            [self getSubViews:subView];
+        } else {
+            if (subView.frame.size.height <= 1) {
+                NSLog(@"----%@", subView);
+                //  <UIImageView: 0x7fa5b3500000; frame = (0 64; 375 0.5); userInteractionEnabled = NO; layer = <CALayer: 0x60000002be80>>
+                [subView removeFromSuperview];
+            }
+        }
+    }
+}
+
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
     // 删除系统自动生成的UITabBarButton
+
     for (UIView *child in self.tabBar.subviews) {
+        
         if ([child isKindOfClass:[UIControl class]]) {
             [child removeFromSuperview];
         }
     }
-    
-//    [self.tabBar setBackgroundImage:[ToolView createImageWithColor:[UIColor clearColor]]];
-//    [self.tabBar setShadowImage:[ToolView createImageWithColor:[UIColor clearColor]]];
 }
 
 - (void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
+    [self getSubViews:self.tabBar];
 }
 
 - (void)setupTabbar
@@ -146,11 +160,19 @@
     [self setupChildViewController:orderVC title:@"订单" imageName:@"index_order_nomal" selectedImageName:@"index_order_click"];
     MoreViewController *mineVC = [[MoreViewController alloc] init];
     [self setupChildViewController:mineVC title:@"社区" imageName:@"社区－常态" selectedImageName:@"社区－点击"];
-    if ([[UIDevice currentDevice] systemVersion].floatValue < 10.0) {
-        self.tabBar.backgroundImage = [[UIImage imageNamed:@"index_tab_bg"] stretchableImageWithLeftCapWidth:0 topCapHeight:0];
-    }else{
-        self.tabBar.selectionIndicatorImage = [[UIImage imageNamed:@"index_tab_bg"] stretchableImageWithLeftCapWidth:0 topCapHeight:0];
-    }
+    
+//    UIImage *image = [UIImage imageNamed:@"index_tab_bg"];
+//    
+//    CGFloat top = 10; // 顶端盖高度
+//    CGFloat bottom =  10; // 底端盖高度
+//    CGFloat left = 20; // 左端盖宽度
+//    CGFloat right = 20; // 右端盖宽度
+//    UIEdgeInsets insets = UIEdgeInsetsMake(top, left, bottom, right);
+//    // 指定为拉伸模式，伸缩后重新赋值
+//    UIImage *TabBgImage = [image resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch];
+//    self.tabBar.backgroundImage = TabBgImage;
+
+    self.tabBar.backgroundImage = [[UIImage imageNamed:@"index_tab_bg"] stretchableImageWithLeftCapWidth:0 topCapHeight:0];
 }
 
 - (void)setupChildViewController:(UIViewController *)childVc title:(NSString *)title imageName:(NSString *)imageName selectedImageName:(NSString *)selectedImageName
@@ -195,15 +217,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

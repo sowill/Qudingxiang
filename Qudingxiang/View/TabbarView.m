@@ -28,11 +28,13 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+     
         // 添加一个加号按钮
         UIButton *plusButton = [UIButton buttonWithType:UIButtonTypeCustom];
         [plusButton setBackgroundImage:[UIImage imageNamed:@"index_go"] forState:UIControlStateNormal];
         [plusButton setBackgroundImage:[UIImage imageNamed:@"index_go"] forState:UIControlStateHighlighted];
         plusButton.bounds = CGRectMake(0, 0, plusButton.currentBackgroundImage.size.width+10, plusButton.currentBackgroundImage.size.height+10);
+        
 //        plusButton.layer.cornerRadius = 40.0;
 //        plusButton.layer.borderWidth = 1.0;
 //        plusButton.layer.borderColor =[UIColor clearColor].CGColor;
@@ -41,6 +43,7 @@
         [self addSubview:plusButton];
         
         self.plusButton = plusButton;
+        
     }
     return self;
 }
@@ -55,6 +58,7 @@
 
 - (void)addTabBarButtonWithItem:(UITabBarItem *)item
 {
+    
     // 1.创建按钮
     TabbarButton *button = [[TabbarButton alloc] init];
     [self addSubview:button];
@@ -92,6 +96,7 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
+    
     
     // 调整加号按钮的位置
     CGFloat h = self.frame.size.height;

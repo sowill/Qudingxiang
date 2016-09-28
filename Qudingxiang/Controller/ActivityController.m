@@ -14,6 +14,8 @@
 #import "ActivityService.h"
 #import "QDXNavigationController.h"
 #import "QDXLoginViewController.h"
+//#import "DTScrollStatusView.h"
+
 @interface ActivityController ()<UITableViewDataSource,UITableViewDelegate,MJRefreshBaseViewDelegate,UIAlertViewDelegate>
 {
     UITableView *_tableView;
@@ -27,6 +29,7 @@
     NSString *_status_id;
     UIButton *_button;
 }
+//@property (strong , nonatomic) DTScrollStatusView *scrollTapViw;
 @end
 
 @implementation ActivityController
@@ -36,6 +39,11 @@
     _curNumber = 1;
     self.view.backgroundColor = [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1];;
     self.navigationItem.title = @"活动";
+    
+//    _scrollTapViw = [[DTScrollStatusView alloc]initWithTitleArr:@[@"进行中",@"已完成"] andType:ScrollTapTypeWithNavigation];
+//    _scrollTapViw.scrollStatusDelegate = self;
+//    [self.view addSubview:_scrollTapViw];
+    
     [self createTableView];
     if ([_tableView respondsToSelector:@selector(setSeparatorInset:)])
     {

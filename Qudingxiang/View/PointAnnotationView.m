@@ -9,8 +9,8 @@
 #import "PointAnnotationView.h"
 
 
-#define kCalloutWidth       150.0
-#define kCalloutHeight      70.0
+#define kCalloutWidth       80.0
+#define kCalloutHeight      50.0
 
 @interface PointAnnotationView ()
 
@@ -54,10 +54,10 @@
 {
     if ([super initWithAnnotation:annotation reuseIdentifier:reuseIdentifier]) {
         //在大头针旁边加一个label
-        self.point_ID = [[UILabel alloc] initWithFrame:CGRectMake(0, -20, 20, 60)];
+        self.point_ID = [[UILabel alloc] initWithFrame:CGRectMake(5, -12, 20, 60)];
         self.point_ID.textAlignment = NSTextAlignmentCenter;
         self.point_ID.backgroundColor = [UIColor clearColor];
-        self.point_ID.font = [UIFont systemFontOfSize:12];
+        self.point_ID.font = [UIFont fontWithName:@"Helvetica-Bold" size:10];
         self.point_ID.textColor = [UIColor colorWithWhite:0.067 alpha:1.000];
         [self addSubview:self.point_ID];
         

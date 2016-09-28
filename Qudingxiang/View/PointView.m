@@ -10,7 +10,7 @@
 
 #define kArrorHeight        10
 
-#define kPortraitMargin     5
+#define kPortraitMargin     10
 #define kPortraitWidth      70
 #define kPortraitHeight     50
 
@@ -31,15 +31,15 @@
 {
     [self drawInContext:UIGraphicsGetCurrentContext()];
     
-    self.layer.shadowColor = [[UIColor whiteColor] CGColor];
-    self.layer.shadowOpacity = 1.0;
-    self.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
+//    self.layer.shadowColor = [[UIColor whiteColor] CGColor];
+//    self.layer.shadowOpacity = 1.0;
+//    self.layer.shadowOffset = CGSizeMake(0.0f, 0.0f);
 }
 
 - (void)drawInContext:(CGContextRef)context
 {
     CGContextSetLineWidth(context, 2.0);
-    CGContextSetFillColorWithColor(context, [UIColor colorWithWhite:1.000 alpha:0.8].CGColor);
+    CGContextSetFillColorWithColor(context, [UIColor colorWithWhite:1.000 alpha:1.0].CGColor);
     
     [self getDrawPath:context];
     CGContextFillPath(context);

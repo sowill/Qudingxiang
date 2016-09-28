@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "目标点.png",
+      "filename" : "targetPoint.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "目标点@2x.png",
+      "filename" : "targetPoint@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "目标点@3x.png",
+      "filename" : "targetPoint@3x.png",
       "scale" : "3x"
     }
   ],

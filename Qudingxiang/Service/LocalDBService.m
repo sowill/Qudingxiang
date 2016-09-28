@@ -64,6 +64,8 @@
 
     NSDictionary *DicMyline = [self ReadMyline:Myline_id];
     
+    NSLog(@"aaaaaa %@",param);
+    
     if(param[@"mac"]!=nil && ![param[@"mac"] isEqualToString:@""]){
         NSString *mac = [[NSString alloc] initWithFormat:@"%@",param[@"mac"]];
         
@@ -102,6 +104,9 @@
                           [self PassChange:DicMyline PointMap:infoDic];
                           [resualt setValue:@"2" forKey:@"Code"];
                           [resualt setValue:@"Yes" forKey:@"Msg"];
+                          
+                          NSLog(@"aaaaaa %@",DicMyline[@"mstatus_id"]);
+                          
                           return resualt ;
                        
                       }else{
@@ -353,16 +358,19 @@
 }
 + (void)UploadHistory:(NSString *)Myline_id
 {
-
     NSDictionary *MylineDic= [self ReadMyline:Myline_id];
+    
+    NSLog(@"aaaaaa %@",MylineDic[@"mstatus_id"]);
+    
+    
     NSDictionary *res= MylineDic[@"history"];
     for(NSDictionary *hisInfo in res){
          NSString *mylineinfo_id = hisInfo[@"mylineinfo_id"];
           // NSLog(@"hisInfo  %@",hisInfo);
         if (mylineinfo_id !=nil && [mylineinfo_id intValue] == 0) {
            NSString *time = hisInfo[@"edate"];
-           NSString *myline_id = hisInfo[@"myline_id"]  ;
-           NSString *pointmap_id =  hisInfo[@"pointmap_id"];
+           NSString *myline_id = hisInfo[@"myline_id"];
+           NSString *pointmap_id = hisInfo[@"pointmap_id"];
 //              NSLog(@"time  %@",time);
            NSString *urlString = [hostUrl stringByAppendingString:uploadHistory];
            AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];

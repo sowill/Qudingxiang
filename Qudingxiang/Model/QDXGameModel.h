@@ -94,7 +94,7 @@
 /**
  *  是否离线
  */
-@property (strong,nonatomic) NSString *online;
+@property (copy,nonatomic) NSString *online;
 
 -(instancetype)initWithL_id:(NSString *)line_id
                        ML_id:(NSString *)myline_id

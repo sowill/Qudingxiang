@@ -114,24 +114,24 @@ static HomeService *httpRequest = nil;
     params[@"areatype_id"] = @"1";
     params[@"curr"] = @"1";
     params[@"type"] =type;
-    NSString *cachekey = [NSString stringWithFormat:@"%@%@%@%@",urlString,type,VGoods,VLine];
-    NSString *str = [ToolView md5:cachekey];
-    NSString *homeCellFile = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString *fileName = [homeCellFile stringByAppendingPathComponent:str];
-    NSDictionary *res = [NSKeyedUnarchiver unarchiveObjectWithFile:fileName];
-    if (res!=nil) {
-        succeed(res);
-    }else{
+//    NSString *cachekey = [NSString stringWithFormat:@"%@%@%@%@",urlString,type,VGoods,VLine];
+//    NSString *str = [ToolView md5:cachekey];
+//    NSString *homeCellFile = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+//    NSString *fileName = [homeCellFile stringByAppendingPathComponent:str];
+//    NSDictionary *res = [NSKeyedUnarchiver unarchiveObjectWithFile:fileName];
+//    if (res!=nil) {
+//        succeed(res);
+//    }else{
     [manager POST:urlString parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         succeed(responseObject);
         //NSLog(@"%@",responseObject);
-        [NSKeyedArchiver archiveRootObject:responseObject toFile:fileName];
+//        [NSKeyedArchiver archiveRootObject:responseObject toFile:fileName];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         failure(error);
     }];
-    }
+//    }
 }
 
 - (void)dbversionsucceed:(void (^)(id data))succeed failure:(void (^)(NSError *error))failure

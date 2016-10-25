@@ -245,10 +245,10 @@
     [cost setBackgroundColor:[UIColor whiteColor]];
     cost.userInteractionEnabled = NO;
     [self.view addSubview:cost];
-    UILabel *sum = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth/4 - 90/2 - 25/2, 50/2-25/2, 25, 25)];
-    sum.text = @"总计";
-    sum.textColor = [UIColor colorWithWhite:0.400 alpha:1.000];
-    sum.font = [UIFont systemFontOfSize:12];
+    UILabel *sum = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth/4 - 90/2 , 50/2-25/2, 25, 25)];
+    sum.text = @"¥";
+    sum.textColor = [UIColor colorWithRed:1.000 green:0.318 blue:0.000 alpha:1.000];
+    sum.font = [UIFont systemFontOfSize:16];
     [cost addSubview:sum];
     UILabel * price_1 = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth/4 - 90/2 + 20, 50/2-40/2, 90, 40)];
     price_1.textColor = [UIColor colorWithRed:1.000 green:0.318 blue:0.000 alpha:1.000];
@@ -340,7 +340,7 @@
         
         
         UILabel *activityTime = [[UILabel alloc] initWithFrame:CGRectMake(10, 15, 60, 15)];
-        activityTime.text = @"活动时间";
+        activityTime.text = @"截止日期";
         activityTime.font = [UIFont systemFontOfSize:14];
         activityTime.textColor = [UIColor colorWithWhite:0.067 alpha:1.000];
         [_payView addSubview:activityTime];

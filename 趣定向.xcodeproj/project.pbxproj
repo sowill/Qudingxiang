@@ -126,6 +126,7 @@
 		4569E5941C4CB64B00FF4E8B /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 455672291BA936ED0016D26F /* MBProgressHUD.m */; };
 		4569E59E1C4CB64B00FF4E8B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DF76311BA6AAC20024A6B4 /* AppDelegate.m */; };
 		4569E5A01C4CB64B00FF4E8B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DF762E1BA6AAC20024A6B4 /* main.m */; };
+		456FE0241DBF5E630025AFEE /* TabbarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 456FE0231DBF5E630025AFEE /* TabbarController.m */; };
 		4571CDE71CE05B00002ED784 /* CYAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4571CDBE1CE05B00002ED784 /* CYAlertController.m */; };
 		4571CDE81CE05B00002ED784 /* CYAlertDismissContractHorizontal.m in Sources */ = {isa = PBXBuildFile; fileRef = 4571CDC11CE05B00002ED784 /* CYAlertDismissContractHorizontal.m */; };
 		4571CDE91CE05B00002ED784 /* CYAlertDismissContractVertical.m in Sources */ = {isa = PBXBuildFile; fileRef = 4571CDC31CE05B00002ED784 /* CYAlertDismissContractVertical.m */; };
@@ -240,7 +241,6 @@
 		A31287AB1CCF165D00CB887E /* BaseService.m in Sources */ = {isa = PBXBuildFile; fileRef = A31287A81CCF165D00CB887E /* BaseService.m */; };
 		A31287AC1CCF165D00CB887E /* UpdateService.m in Sources */ = {isa = PBXBuildFile; fileRef = A31287AA1CCF165D00CB887E /* UpdateService.m */; };
 		A31822181C92B87C00A1882B /* LoginService.m in Sources */ = {isa = PBXBuildFile; fileRef = A31822171C92B87C00A1882B /* LoginService.m */; };
-		A3311D991CD31B8500114FC0 /* TabbarController.m in Sources */ = {isa = PBXBuildFile; fileRef = A3311D981CD31B8500114FC0 /* TabbarController.m */; };
 		A3311D9C1CD3490300114FC0 /* TabbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3311D9B1CD3490300114FC0 /* TabbarView.m */; };
 		A3311D9F1CD34F5500114FC0 /* TabbarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A3311D9E1CD34F5500114FC0 /* TabbarButton.m */; };
 		A340BDCF1C9697EE009F40FD /* TeamLineController.m in Sources */ = {isa = PBXBuildFile; fileRef = A340BDCE1C9697EE009F40FD /* TeamLineController.m */; };
@@ -538,6 +538,8 @@
 		455C8AA31CD063C7001F5FC5 /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		455C8AB61CD064B5001F5FC5 /* QDXOffLineController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXOffLineController.h; sourceTree = "<group>"; };
 		455C8AB71CD064B5001F5FC5 /* QDXOffLineController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXOffLineController.m; sourceTree = "<group>"; };
+		456FE0221DBF5E630025AFEE /* TabbarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabbarController.h; sourceTree = "<group>"; };
+		456FE0231DBF5E630025AFEE /* TabbarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabbarController.m; sourceTree = "<group>"; };
 		4571CDBD1CE05B00002ED784 /* CYAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYAlertController.h; sourceTree = "<group>"; };
 		4571CDBE1CE05B00002ED784 /* CYAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYAlertController.m; sourceTree = "<group>"; };
 		4571CDC01CE05B00002ED784 /* CYAlertDismissContractHorizontal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYAlertDismissContractHorizontal.h; sourceTree = "<group>"; };
@@ -783,8 +785,6 @@
 		A31822161C92B87C00A1882B /* LoginService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginService.h; sourceTree = "<group>"; };
 		A31822171C92B87C00A1882B /* LoginService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginService.m; sourceTree = "<group>"; };
 		A3271F861CA9383700B6B95D /* ImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImagePickerController.h; sourceTree = "<group>"; };
-		A3311D971CD31B8500114FC0 /* TabbarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabbarController.h; sourceTree = "<group>"; };
-		A3311D981CD31B8500114FC0 /* TabbarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabbarController.m; sourceTree = "<group>"; };
 		A3311D9A1CD3490300114FC0 /* TabbarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabbarView.h; sourceTree = "<group>"; };
 		A3311D9B1CD3490300114FC0 /* TabbarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabbarView.m; sourceTree = "<group>"; };
 		A3311D9D1CD34F5500114FC0 /* TabbarButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabbarButton.h; sourceTree = "<group>"; };
@@ -1526,10 +1526,10 @@
 				4557D1551CD9D51900CA76BD /* QDXTaskViewController.m */,
 				455C8AB61CD064B5001F5FC5 /* QDXOffLineController.h */,
 				455C8AB71CD064B5001F5FC5 /* QDXOffLineController.m */,
-				A3311D971CD31B8500114FC0 /* TabbarController.h */,
-				A3311D981CD31B8500114FC0 /* TabbarController.m */,
 				043A59E51D18F22600E5E1BB /* HelpViewController.h */,
 				043A59E61D18F22600E5E1BB /* HelpViewController.m */,
+				456FE0221DBF5E630025AFEE /* TabbarController.h */,
+				456FE0231DBF5E630025AFEE /* TabbarController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1956,6 +1956,7 @@
 				A3311D9F1CD34F5500114FC0 /* TabbarButton.m in Sources */,
 				455A95CA1C97F5400039FA88 /* QDXAreaModel.m in Sources */,
 				45C6F5BD1C92A30600C5AA31 /* LineCell.m in Sources */,
+				456FE0241DBF5E630025AFEE /* TabbarController.m in Sources */,
 				453679F01CD30D0200828EF9 /* LrdOutputView.m in Sources */,
 				4571CDF81CE05B00002ED784 /* CYAlertAction.m in Sources */,
 				A35DAC421CCF184B00D01CF0 /* UIViewController+RESideMenu.m in Sources */,
@@ -2085,7 +2086,6 @@
 				4569E5861C4CB64B00FF4E8B /* UIImage+GIF.m in Sources */,
 				A35DAC321CCF184000D01CF0 /* AFHTTPSessionManager.m in Sources */,
 				4571CDEE1CE05B00002ED784 /* CYAlertDismissSlideUp.m in Sources */,
-				A3311D991CD31B8500114FC0 /* TabbarController.m in Sources */,
 				A340BE171C96ACB4009F40FD /* BaseViewController.m in Sources */,
 				4569E5871C4CB64B00FF4E8B /* UIImage+MultiFormat.m in Sources */,
 				45C6F5F71C92A3DF00C5AA31 /* QDXLineChooseViewController.m in Sources */,

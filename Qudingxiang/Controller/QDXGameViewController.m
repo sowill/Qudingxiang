@@ -1601,7 +1601,6 @@ toViewController:(UIViewController *)toVC {
     [playView removeFromSuperview];
     [self.history_button removeFromSuperview];
     [self.task_button removeFromSuperview];
-    
     [countDownTimer setFireDate:[NSDate distantFuture]];
     [MBProgressHUD hideHUD];
 }

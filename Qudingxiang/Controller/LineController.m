@@ -16,7 +16,7 @@
 #import "ImagePickerController.h"
 #import "QDXGameViewController.h"
 #import "QDXProtocolViewController.h"
-#import "TabbarController.h"
+//#import "TabbarController.h"
 #import "QDXNavigationController.h"
 @interface LineController ()<UITableViewDataSource,UITableViewDelegate,PassTicketIDDelegate,UIAlertViewDelegate>
 {

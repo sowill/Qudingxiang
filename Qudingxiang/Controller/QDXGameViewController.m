@@ -8,7 +8,6 @@
 
 #import "QDXGameViewController.h"
 #import "QRCodeGenerator.h"
-//#import "HomeController.h"
 #import "QDXTeamsViewController.h"
 #import <QuartzCore/QuartzCore.h>
 #import "ImagePickerController.h"
@@ -27,9 +26,7 @@
 #import "CYAlertController.h"
 #import "PointAnnotationView.h"
 #import "QDXMap.h"
-//#import "TTSExample.h"
 #import "QDXIsConnect.h"
-//#import "QDXOffLineController.h"
 #import "HelpViewController.h"
 #import "YLPopViewController.h"
 #import "UIView+EAFeatureGuideView.h"
@@ -65,8 +62,7 @@
     
     //准备开始view
     UIView *readyView;
-    //    UIButton *moreDetails;
-    //    UIImageView *arrow;
+    
     NSString *questionUrl;
     //游戏中
     UIView *playView;
@@ -74,7 +70,7 @@
     int secondsCountDown;
     NSTimer *countDownTimer;
     NSString *sdateStr;
-//    UIButton *map_click;
+
     UILabel *currentTime;
     UIView *playLineView_One;
     UIView *playLineView_Two;
@@ -82,9 +78,7 @@
     UILabel *point_name;
     UILabel *score_sum;
     UILabel *score_sum_name;
-//    UILabel *score_ms;
-//    UIButton *task_button;
-//    UIButton *history_button;
+
     UIButton *showMsg_button;
     UIImageView *successView;
     UIButton *showOK_button;
@@ -146,7 +140,8 @@
 //{
 //    if (updatingLocation)
 //    {
-//        NSLog(@"userlocation :%@", userLocation.location);
+//        NSLog(@"userlocation :%@",[NSString stringWithFormat:@"%f   %f",userLocation.location.coordinate.latitude,userLocation.location.coordinate.longitude]);
+//
 ////        [_mapView setCenterCoordinate:userLocation.location.coordinate animated:YES];
 //    }
 //}
@@ -347,6 +342,7 @@
 //    CGFloat ci = (b - abs([self.gameInfo.point.rssi intValue])) / (10 * 4.);
 //    NSLog(@"%f",pow(10, ci));
 //    if (pow(10,ci) < 0.9 )
+//    if (abs([RSSI.description intValue]) < 80)
     if (abs([RSSI.description intValue]) < abs([self.gameInfo.point.rssi intValue]))
     {
         NSMutableArray *macArr = [[NSMutableArray alloc] init];
@@ -361,6 +357,7 @@
             if (lock == NO) {
                 macStr = [string3 substringFromIndex:8];
                 macStr = [macStr substringToIndex:12];
+                NSLog(@"macStr    %@",macStr);
                 for (NSString * str in mac_Label) {
                     if ([macStr isEqualToString:str] && ![macStr isEqualToString:rmoveMacStr])
                     {
@@ -469,6 +466,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     QDXHistoryTableViewCell *cell = [QDXHistoryTableViewCell cellWithTableView:tableView];
+    
     cell.HistoryInfo = self.gameInfo.history[self.gameInfo.history.count-1 - indexPath.row];
     return cell;
 }
@@ -726,6 +724,7 @@ toViewController:(UIViewController *)toVC {
                 annotation_target = [[MAPointAnnotation alloc]init];
                 coor.latitude = [line_point.point.LAT floatValue];
                 coor.longitude = [line_point.point.LON floatValue];
+                
                 annotation_target.coordinate = coor;
                 annotation_target.title = line_point.point.point_name;
                 annotation_target.subtitle = line_point.pointmap_des;
@@ -1372,7 +1371,7 @@ toViewController:(UIViewController *)toVC {
     }else if (buttonIndex ==0 && alertView.tag == 1) {
         
     }else if (buttonIndex ==0 && alertView.tag == 2){
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{ // 2.0s后执行block里面的代码
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{ // 1.0s后执行block里面的代码
             lock = NO;
             rmoveMacStr = @"0";
         });

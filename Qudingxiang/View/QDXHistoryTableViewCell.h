@@ -14,4 +14,6 @@
 //@property (nonatomic, strong) QDXGameModel *GameInfo;
 
 + (instancetype)cellWithTableView:(UITableView *)tableView;
+
+- (void)setDataSource:(NSDictionary *)dic isFirst:(BOOL)isFirst isLast:(BOOL)isLast;
 @end

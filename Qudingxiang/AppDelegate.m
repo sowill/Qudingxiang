@@ -13,7 +13,7 @@
 #import "MineViewController.h"
 #import "GuideViewController.h"
 #import "HomeController.h"
-#import "TabbarController.h"
+#import "LBTabBarController.h"
 #import "HomeService.h"
 
 @interface AppDelegate ()<UIScrollViewDelegate>
@@ -63,7 +63,7 @@
 
 - (void)gotoHomeController
 {
-    TabbarController *tabbar = [[TabbarController alloc] init];
+    LBTabBarController *tabbar = [[LBTabBarController alloc] init];
     MineViewController *mine = [[MineViewController alloc] init];
     RESideMenu *sideMenuViewController = [[RESideMenu alloc] initWithContentViewController:tabbar
                                                                     leftMenuViewController:mine

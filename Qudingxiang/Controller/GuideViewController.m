@@ -8,7 +8,7 @@
 
 #import "GuideViewController.h"
 #import "HomeController.h"
-#import "TabbarController.h"
+#import "LBTabBarController.h"
 #import "MineViewController.h"
 @interface GuideViewController ()<UIScrollViewDelegate,RESideMenuDelegate>
 {
@@ -79,7 +79,7 @@
     } completion:^(BOOL finished) {
         [_scrollView removeFromSuperview];
         [_pageControl removeFromSuperview];
-        TabbarController *mainTabbarVC = [[TabbarController alloc] init];
+        LBTabBarController *mainTabbarVC = [[LBTabBarController alloc] init];
         MineViewController *mine = [[MineViewController alloc] init];
         
         RESideMenu *sideMenuViewController = [[RESideMenu alloc] initWithContentViewController:mainTabbarVC

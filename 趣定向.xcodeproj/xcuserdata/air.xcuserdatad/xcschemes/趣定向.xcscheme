@@ -87,9 +87,9 @@
       </BuildableProductRunnable>
       <EnvironmentVariables>
          <EnvironmentVariable
-            key = "OS_ACTIVITY_MODE &#xff1d; Disable"
-            value = ""
-            isEnabled = "YES">
+            key = "OS_ACTIVITY_MODE"
+            value = "Disable"
+            isEnabled = "NO">
          </EnvironmentVariable>
       </EnvironmentVariables>
       <AdditionalOptions>

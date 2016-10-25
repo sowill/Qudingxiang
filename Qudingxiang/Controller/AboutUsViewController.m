@@ -8,7 +8,7 @@
 
 #import "AboutUsViewController.h"
 #import "NoticeViewController.h"
-#import "TabbarController.h"
+#import "LBTabBarController.h"
 @interface AboutUsViewController ()<UIAlertViewDelegate,UITableViewDelegate,UITableViewDataSource>
 {
     NSString *_strVersion;
@@ -72,7 +72,7 @@
 -(void)buttonBackSetting
 {
     
-    [self.sideMenuViewController setContentViewController:[[TabbarController alloc] init]
+    [self.sideMenuViewController setContentViewController:[[LBTabBarController alloc] init]
                                                  animated:YES];
     [self.sideMenuViewController hideMenuViewController];}
 

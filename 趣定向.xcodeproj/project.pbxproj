@@ -38,6 +38,10 @@
 		4544EA571D5C55A8008314B1 /* AMap.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4544EA561D5C55A8008314B1 /* AMap.bundle */; };
 		4544EA591D5C564C008314B1 /* AMapFoundationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4544EA581D5C564C008314B1 /* AMapFoundationKit.framework */; };
 		4545CF371C80435000B73849 /* zoomImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4545CF361C80435000B73849 /* zoomImage.m */; };
+		4549C7651DBE103800180FB5 /* UIImage+Image.m in Sources */ = {isa = PBXBuildFile; fileRef = 4549C7621DBE103800180FB5 /* UIImage+Image.m */; };
+		4549C7661DBE103800180FB5 /* UIView+LBExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 4549C7641DBE103800180FB5 /* UIView+LBExtension.m */; };
+		4549C7691DBE106800180FB5 /* LBTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4549C7681DBE106800180FB5 /* LBTabBarController.m */; };
+		4549C76C1DBE108300180FB5 /* LBTabBar.m in Sources */ = {isa = PBXBuildFile; fileRef = 4549C76B1DBE108300180FB5 /* LBTabBar.m */; };
 		455501191D5AD62500516CC0 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 455501181D5AD62500516CC0 /* WebKit.framework */; };
 		455611791D543E75006DF063 /* CustomAnimateTransitionPop.m in Sources */ = {isa = PBXBuildFile; fileRef = 455611681D543E75006DF063 /* CustomAnimateTransitionPop.m */; };
 		4556117A1D543E75006DF063 /* CustomAnimateTransitionPush.m in Sources */ = {isa = PBXBuildFile; fileRef = 4556116A1D543E75006DF063 /* CustomAnimateTransitionPush.m */; };
@@ -328,6 +332,14 @@
 		4544EA581D5C564C008314B1 /* AMapFoundationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapFoundationKit.framework; sourceTree = "<group>"; };
 		4545CF351C80435000B73849 /* zoomImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zoomImage.h; sourceTree = "<group>"; };
 		4545CF361C80435000B73849 /* zoomImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = zoomImage.m; sourceTree = "<group>"; };
+		4549C7611DBE103800180FB5 /* UIImage+Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Image.h"; sourceTree = "<group>"; };
+		4549C7621DBE103800180FB5 /* UIImage+Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Image.m"; sourceTree = "<group>"; };
+		4549C7631DBE103800180FB5 /* UIView+LBExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+LBExtension.h"; sourceTree = "<group>"; };
+		4549C7641DBE103800180FB5 /* UIView+LBExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+LBExtension.m"; sourceTree = "<group>"; };
+		4549C7671DBE106800180FB5 /* LBTabBarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBTabBarController.h; sourceTree = "<group>"; };
+		4549C7681DBE106800180FB5 /* LBTabBarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBTabBarController.m; sourceTree = "<group>"; };
+		4549C76A1DBE108300180FB5 /* LBTabBar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBTabBar.h; sourceTree = "<group>"; };
+		4549C76B1DBE108300180FB5 /* LBTabBar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBTabBar.m; sourceTree = "<group>"; };
 		455501181D5AD62500516CC0 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		455611671D543E75006DF063 /* CustomAnimateTransitionPop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomAnimateTransitionPop.h; sourceTree = "<group>"; };
 		455611681D543E75006DF063 /* CustomAnimateTransitionPop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomAnimateTransitionPop.m; sourceTree = "<group>"; };
@@ -1000,6 +1012,17 @@
 			path = ImgPageScrollView;
 			sourceTree = "<group>";
 		};
+		4549C7601DBE103800180FB5 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				4549C7611DBE103800180FB5 /* UIImage+Image.h */,
+				4549C7621DBE103800180FB5 /* UIImage+Image.m */,
+				4549C7631DBE103800180FB5 /* UIView+LBExtension.h */,
+				4549C7641DBE103800180FB5 /* UIView+LBExtension.m */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
 		455611661D543E75006DF063 /* Need */ = {
 			isa = PBXGroup;
 			children = (
@@ -1429,6 +1452,8 @@
 		45C6F5921C92A1A300C5AA31 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				4549C7671DBE106800180FB5 /* LBTabBarController.h */,
+				4549C7681DBE106800180FB5 /* LBTabBarController.m */,
 				4556CD6F1CEDC5CF00577A61 /* SignViewController.h */,
 				4556CD701CEDC5CF00577A61 /* SignViewController.m */,
 				A3415F111CE1911A00B1B77A /* MoreViewController.h */,
@@ -1512,6 +1537,8 @@
 		45C6F5931C92A1A300C5AA31 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				4549C76A1DBE108300180FB5 /* LBTabBar.h */,
+				4549C76B1DBE108300180FB5 /* LBTabBar.m */,
 				45C6F5B51C92A30600C5AA31 /* DetailCell.h */,
 				45C6F5B61C92A30600C5AA31 /* DetailCell.m */,
 				45C6F5B71C92A30600C5AA31 /* HomeCell.h */,
@@ -1679,6 +1706,7 @@
 		45DF765A1BA6AB150024A6B4 /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				4549C7601DBE103800180FB5 /* Category */,
 				4544EA581D5C564C008314B1 /* AMapFoundationKit.framework */,
 				4544EA561D5C55A8008314B1 /* AMap.bundle */,
 				4544EA541D5C550F008314B1 /* MAMapKit.framework */,
@@ -1924,6 +1952,7 @@
 				45C6F5F61C92A3DF00C5AA31 /* QDXGameViewController.m in Sources */,
 				455C8AB81CD064B5001F5FC5 /* QDXOffLineController.m in Sources */,
 				455A95BD1C97E3EB0039FA88 /* NSObject+MJProperty.m in Sources */,
+				4549C7661DBE103800180FB5 /* UIView+LBExtension.m in Sources */,
 				A3311D9F1CD34F5500114FC0 /* TabbarButton.m in Sources */,
 				455A95CA1C97F5400039FA88 /* QDXAreaModel.m in Sources */,
 				45C6F5BD1C92A30600C5AA31 /* LineCell.m in Sources */,
@@ -1998,12 +2027,14 @@
 				4569E5741C4CB64B00FF4E8B /* qrinput.c in Sources */,
 				A35DAC331CCF184000D01CF0 /* AFNetworkReachabilityManager.m in Sources */,
 				A3442D221C9B946A0092363A /* SettingViewController.m in Sources */,
+				4549C7651DBE103800180FB5 /* UIImage+Image.m in Sources */,
 				453395071CF6D8C800B5A825 /* FeHandwriting.m in Sources */,
 				45C6F59A1C92A1D500C5AA31 /* myViewCellTableViewCell.m in Sources */,
 				A31287A61CCF0DD700CB887E /* QDXOfflineDB.m in Sources */,
 				4569E5751C4CB64B00FF4E8B /* qrspec.c in Sources */,
 				4571CDF91CE05B00002ED784 /* CYAlertView.m in Sources */,
 				4569E5761C4CB64B00FF4E8B /* rscode.c in Sources */,
+				4549C7691DBE106800180FB5 /* LBTabBarController.m in Sources */,
 				455A95C71C97F13A0039FA88 /* QDXPointModel.m in Sources */,
 				4569E5771C4CB64B00FF4E8B /* split.c in Sources */,
 				4569E5781C4CB64B00FF4E8B /* MJRefreshBaseView.m in Sources */,
@@ -2083,6 +2114,7 @@
 				455611791D543E75006DF063 /* CustomAnimateTransitionPop.m in Sources */,
 				4582B7D61C98EEC00002F5B1 /* QDXQuestionModel.m in Sources */,
 				45C6F60B1C92A43A00C5AA31 /* QDXForgetPasswordViewController.m in Sources */,
+				4549C76C1DBE108300180FB5 /* LBTabBar.m in Sources */,
 				A35DAC401CCF184B00D01CF0 /* RECommonFunctions.m in Sources */,
 				4571CDF41CE05B00002ED784 /* CYAlertPresentSlideLeft.m in Sources */,
 				45C6F5E11C92A39300C5AA31 /* QDXPayTableViewController.m in Sources */,
@@ -2261,7 +2293,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sport;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sporttest;
 				PRODUCT_NAME = "趣定向";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -2306,7 +2338,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sport;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sporttest;
 				PRODUCT_NAME = "趣定向";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;

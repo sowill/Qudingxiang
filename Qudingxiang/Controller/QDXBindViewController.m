@@ -7,7 +7,7 @@
 //
 
 #import "QDXBindViewController.h"
-#import "TabbarController.h"
+//#import "TabbarController.h"
 #import "QDXIsConnect.h"
 #import "QDXCreateCodeViewController.h"
 #import <TencentOpenAPI/TencentOAuth.h>

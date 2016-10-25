@@ -64,7 +64,7 @@
 
     NSDictionary *DicMyline = [self ReadMyline:Myline_id];
     
-    NSLog(@"aaaaaa %@",param);
+//    NSLog(@"aaaaaa %@",param);
     
     if(param[@"mac"]!=nil && ![param[@"mac"] isEqualToString:@""]){
         NSString *mac = [[NSString alloc] initWithFormat:@"%@",param[@"mac"]];
@@ -105,7 +105,7 @@
                           [resualt setValue:@"2" forKey:@"Code"];
                           [resualt setValue:@"Yes" forKey:@"Msg"];
                           
-                          NSLog(@"aaaaaa %@",DicMyline[@"mstatus_id"]);
+//                          NSLog(@"aaaaaa %@",DicMyline[@"mstatus_id"]);
                           
                           return resualt ;
                        
@@ -360,7 +360,7 @@
 {
     NSDictionary *MylineDic= [self ReadMyline:Myline_id];
     
-    NSLog(@"aaaaaa %@",MylineDic[@"mstatus_id"]);
+//    NSLog(@"aaaaaa %@",MylineDic[@"mstatus_id"]);
     
     
     NSDictionary *res= MylineDic[@"history"];

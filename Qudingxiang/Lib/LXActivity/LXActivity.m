@@ -19,8 +19,8 @@
 
 #define CANCEL_BUTTON_COLOR                     [UIColor whiteColor]
 
-#define SHAREBUTTON_WIDTH                       [UIScreen mainScreen].bounds.size.width * 0.15
-#define SHAREBUTTON_HEIGHT                      [UIScreen mainScreen].bounds.size.width * 0.15
+#define SHAREBUTTON_WIDTH                       [UIScreen mainScreen].bounds.size.width * 0.16
+#define SHAREBUTTON_HEIGHT                      [UIScreen mainScreen].bounds.size.width * 0.16
 #define SHAREBUTTON_INTERVAL_WIDTH              ([UIScreen mainScreen].bounds.size.width -4*SHAREBUTTON_WIDTH)/5
 #define SHAREBUTTON_INTERVAL_HEIGHT             36
 
@@ -38,8 +38,8 @@
 #define SHADOW_OFFSET                           CGSizeMake(0, 0.0f)
 #define TITLE_NUMBER_LINES                      2
 
-#define BUTTON_INTERVAL_HEIGHT                  5
-#define BUTTON_HEIGHT                           40
+#define BUTTON_INTERVAL_HEIGHT                  0
+#define BUTTON_HEIGHT                           45
 #define BUTTON_INTERVAL_WIDTH                   0
 #define BUTTON_WIDTH                            [UIScreen mainScreen].bounds.size.width
 #define BUTTONTITLE_FONT                        [UIFont systemFontOfSize:14]
@@ -268,7 +268,10 @@
     [cancelButton setTitleColor:[UIColor colorWithRed:0.000 green:0.600 blue:0.992 alpha:1.000] forState:UIControlStateNormal];
     UIImage *image = [UIImage imageWithColor:CANCEL_BUTTON_COLOR];
     [cancelButton setBackgroundImage:image forState:UIControlStateNormal];
-
+    
+//    [cancelButton setBackgroundImage:image forState:UIControlStateSelected];
+//    [cancelButton setBackgroundImage:image forState:UIControlStateHighlighted];
+    
     [cancelButton setTitle:cancelButtonTitle forState:UIControlStateNormal];
     cancelButton.titleLabel.font = BUTTONTITLE_FONT;
 

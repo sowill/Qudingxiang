@@ -32,10 +32,11 @@
         //            Ivar ivar = ivarList[i];
         //            LBLog(@"%s",ivar_getName(ivar));
         //        }
-        [self setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor]]];
+        
+//        [self setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor]]];
         
         self.backgroundColor = [UIColor whiteColor];
-        [self setShadowImage:[UIImage imageWithColor:[UIColor clearColor]]];
+//        [self setShadowImage:[UIImage imageWithColor:[UIColor whiteColor]]];
         
         UIButton *plusBtn = [[UIButton alloc] init];
         [plusBtn setBackgroundImage:[UIImage imageNamed:@"index_go"] forState:UIControlStateNormal];
@@ -43,13 +44,10 @@
         
         self.plusBtn = plusBtn;
         
-        
         [plusBtn addTarget:self action:@selector(plusBtnDidClick) forControlEvents:UIControlEventTouchUpInside];
         
         [self addSubview:plusBtn];
-        
-        
-        
+
     }
     return self;
 }
@@ -97,6 +95,7 @@
     
     [self bringSubviewToFront:self.plusBtn];
 }
+
 
 //点击了发布按钮
 - (void)plusBtnDidClick

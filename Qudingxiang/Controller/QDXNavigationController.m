@@ -28,10 +28,14 @@
     [navBar setBackgroundImage:[UIImage imageNamed:@"navigation"] forBarMetrics:UIBarMetricsDefault];
     
     // 设置标题文字颜色
-    NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
-    attrs[NSForegroundColorAttributeName] = [UIColor whiteColor];
-    attrs[NSFontAttributeName] = [UIFont systemFontOfSize:18];
-    [navBar setTitleTextAttributes:attrs];
+//    NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
+//    attrs[NSForegroundColorAttributeName] = [UIColor whiteColor];
+//    attrs[NSFontAttributeName] = [UIFont systemFontOfSize:18];
+//    [navBar setTitleTextAttributes:attrs];
+    
+    navBar.tintColor = [UIColor whiteColor];
+    
+    [navBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
 }
 
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated

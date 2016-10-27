@@ -30,6 +30,7 @@
     NSString *_ticket;
 }
 @property (nonatomic, strong) UIButton *publishButton;
+@property (nonatomic, assign) long indexFlag;
 @end
 
 @implementation LBTabBarController
@@ -77,7 +78,7 @@
     [self.publishButton setBackgroundImage:[UIImage imageNamed:@"post_normal"] forState:UIControlStateNormal];
     [self.publishButton setBackgroundImage:[UIImage imageNamed:@"post_normal"] forState:UIControlStateHighlighted];
     
-    [self.publishButton addTarget:self action:@selector(cancelButtonClicked) forControlEvents:UIControlEventTouchUpInside];
+//    [self.publishButton addTarget:self action:@selector(cancelButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     self.publishButton.size = CGSizeMake(self.publishButton.currentBackgroundImage.size.width, self.publishButton.currentBackgroundImage.size.height);
     self.publishButton.centerX = self.view.centerX;
     self.publishButton.centerY = tabbar.height * 0.5 - 2 * LBMagin + CGRectGetMinY(tabbar.frame);
@@ -88,11 +89,11 @@
     
     [self setUpAllChildVc];
     
-    //创建自己的tabbar，然后用kvc将自己的tabbar和系统的tabBar替换下
-    LBTabBar *tabbar = [[LBTabBar alloc] init];
-    tabbar.myDelegate = self;
-    //kvc实质是修改了系统的_tabBar
-    [self setValue:tabbar forKeyPath:@"tabBar"];
+//    //创建自己的tabbar，然后用kvc将自己的tabbar和系统的tabBar替换下
+//    LBTabBar *tabbar = [[LBTabBar alloc] init];
+//    tabbar.myDelegate = self;
+//    //kvc实质是修改了系统的_tabBar
+//    [self setValue:tabbar forKeyPath:@"tabBar"];
     
     
 }
@@ -103,8 +104,7 @@
 
 - (void)setUpAllChildVc
 {
-    
-    
+
     HomeController *homeVC = [[HomeController alloc] init];
     [self setUpOneChildVcWithVc:homeVC Image:@"index_home_nomal" selectedImage:@"index_home_click" title:@"首页"];
     ActivityController *activityVC = [[ActivityController alloc] init];
@@ -148,6 +148,8 @@
     Vc.tabBarItem.title = title;
     
     Vc.navigationItem.title = title;
+    
+    
     
     [self addChildViewController:nav];
     
@@ -204,6 +206,37 @@
         }
         
     }
+    
+}
+
+- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
+    
+    NSInteger index = [self.tabBar.items indexOfObject:item];
+    
+    if (self.indexFlag != index) {
+        [self animationWithIndex:index];
+    }
+
+}
+// 动画
+- (void)animationWithIndex:(NSInteger) index {
+    NSMutableArray * tabbarbuttonArray = [NSMutableArray array];
+    for (UIView *tabBarButton in self.tabBar.subviews) {
+        if ([tabBarButton isKindOfClass:NSClassFromString(@"UITabBarButton")]) {
+            [tabbarbuttonArray addObject:tabBarButton];
+        }
+    }
+    CABasicAnimation*pulse = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
+    pulse.timingFunction= [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+    pulse.duration = 0.08;
+    pulse.repeatCount= 1;
+    pulse.autoreverses= YES;
+    pulse.fromValue= [NSNumber numberWithFloat:0.7];
+    pulse.toValue= [NSNumber numberWithFloat:1.3];
+    [[tabbarbuttonArray[index] layer]
+     addAnimation:pulse forKey:nil];
+    
+    self.indexFlag = index;
     
 }
 

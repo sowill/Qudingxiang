@@ -156,6 +156,8 @@
         self.doubleTap = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(mapClick)];
         self.doubleTap.delegate = self;
         self.doubleTap.numberOfTapsRequired = 1;
+        self.mapView.showsUserLocation = YES;
+        self.mapView.userTrackingMode = MAUserTrackingModeFollow;
         [self.mapView addGestureRecognizer:self.doubleTap];
     }
     return _mapView;
@@ -201,9 +203,6 @@
     switch ([self.gameInfo.mstatus_id intValue]) {
         case 1:
             self.navigationItem.title = @"准备活动";
-            if ([self.gameInfo.isLeader intValue] == 1) {
-                self.MyCentralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
-            }
             [self.mapView removeFromSuperview];
             [self.QDXScrollView addSubview:readyView];
             [self.QDXScrollView addSubview:_webView];
@@ -211,9 +210,6 @@
             
         case 2:
             [self.navigationItem setTitle:[self.gameInfo.line.line_sub stringByAppendingString:@"-活动中"]];
-            if ([self.gameInfo.isLeader intValue] == 1) {
-                self.MyCentralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
-            }
             if([self.gameInfo.line.linetype_id isEqualToString:@"3"])
             {
                 currentTime.text = @"倒计时";
@@ -275,18 +271,14 @@
     params[@"TokenKey"] = save;
     params[@"myline_id"] = oldMyLineid;
     NSString *url = [hostUrl stringByAppendingString:@"Home/Myline/getMyline"];
-
         //使用离线数据
         NSDictionary *res=[LocalDBService ReadMyline:oldMyLineid];
-    
         if (res !=nil) {
             if ([res[@"mstatus_id"] intValue] == 2 &&  [res[@"online"] intValue]== 2 ) {
                 [self updatadd];
                 [self setMylineInfo:res code:code];
-                
                 return ;
             }
-            
         }
     //////////////////
     
@@ -328,7 +320,16 @@
         }
             break;
         case CBCentralManagerStatePoweredOff:
+        {
+            UIAlertController *btController = [UIAlertController alertControllerWithTitle:@"提示" message:@"蓝牙没有打开,请先打开蓝牙" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
+                
+            }];
+            [btController addAction:okAction];
+            [self presentViewController:btController animated:YES completion:nil];
+            
             NSLog(@"蓝牙没有打开,请先打开蓝牙");
+        }
             break;
         default:
             break;
@@ -343,20 +344,22 @@
 //    NSLog(@"%f",pow(10, ci));
 //    if (pow(10,ci) < 0.9 )
 //    if (abs([RSSI.description intValue]) < 80)
+    
     if (abs([RSSI.description intValue]) < abs([self.gameInfo.point.rssi intValue]))
     {
         NSMutableArray *macArr = [[NSMutableArray alloc] init];
         [macArr addObjectsFromArray:advertisementData[@"kCBAdvDataServiceUUIDs"]];
         NSString *string1 = [macArr componentsJoinedByString:@""];
-        NSArray *array1 = [string1 componentsSeparatedByString:@"Unknown (<"];
-        NSString *string2 = [array1 componentsJoinedByString:@""];
-        NSArray *array2 = [string2 componentsSeparatedByString:@">)"];
-        NSString *string3 = [array2 componentsJoinedByString:@""];
+        
+//        NSArray *array1 = [string1 componentsSeparatedByString:@"Unknown (<"];
+//        NSString *string2 = [array1 componentsJoinedByString:@""];
+//        NSArray *array2 = [string2 componentsSeparatedByString:@">)"];
+//        NSString *string3 = [array2 componentsJoinedByString:@""];
+        
 //        NSLog(@"lock %@",lock?@"YES":@"NO");
-        if (string3.length > 8) {
+        if (string1.length > 8) {
             if (lock == NO) {
-                macStr = [string3 substringFromIndex:8];
-                macStr = [macStr substringToIndex:12];
+                macStr = [[string1 substringFromIndex:8] substringToIndex:12];
                 NSLog(@"macStr    %@",macStr);
                 for (NSString * str in mac_Label) {
                     if ([macStr isEqualToString:str] && ![macStr isEqualToString:rmoveMacStr])
@@ -627,15 +630,11 @@ toViewController:(UIViewController *)toVC {
 
 //将上级页面的mylineid传入
 -(void)viewWillAppear:(BOOL)animated {
-    self.mapView.delegate = self; // 此处记得不用的时候需要置nil，否则影响内存的释放
-    [countDownTimer setFireDate:[NSDate distantPast]];
-    
     if (self.model.myline_id) {
         oldMyLineid = self.model.myline_id;
     }else{
         oldMyLineid = mylineid;
     }
-    
     lock = NO;
     [self setupFrame];
     [self showGuideView];
@@ -643,17 +642,20 @@ toViewController:(UIViewController *)toVC {
     [self updatadd];
     
     self.navigationController.delegate = self;
-    self.mapView.showsUserLocation = YES;
-    self.mapView.userTrackingMode = MAUserTrackingModeFollow;
+    [countDownTimer setFireDate:[NSDate distantPast]];
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
+    self.MyCentralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
     [self getPointLonLat];
 }
 
 //将计时器 地图内存释放
 -(void)viewWillDisappear:(BOOL)animated {
+    
+    [self.MyCentralManager stopScan];
+    
     self.mapView.showsUserLocation = NO;
     self.mapView.userTrackingMode  = MAUserTrackingModeFollow;
     [self.mapView.layer removeAllAnimations];
@@ -1587,21 +1589,5 @@ toViewController:(UIViewController *)toVC {
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-    self.mapView.showsUserLocation = NO;
-    self.mapView.userTrackingMode  = MAUserTrackingModeFollow;
-    [self.mapView.layer removeAllAnimations];
-    [self.mapView removeAnnotations:self.mapView.annotations];
-    [self.mapView removeOverlays:self.mapView.overlays];
-    [self.mapView removeFromSuperview];
-    self.mapView.delegate = nil;
-    self.mapView = nil;
-    [self removeFromSuperViewController];
-    [readyView removeFromSuperview];
-    [_webView removeFromSuperview];
-    [playView removeFromSuperview];
-    [self.history_button removeFromSuperview];
-    [self.task_button removeFromSuperview];
-    [countDownTimer setFireDate:[NSDate distantFuture]];
-    [MBProgressHUD hideHUD];
 }
 @end

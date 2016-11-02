@@ -17,6 +17,8 @@
 		451828AE1D40C87A00D5FC85 /* icon_ea_indicator@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 451828A71D40C87A00D5FC85 /* icon_ea_indicator@2x.png */; };
 		451828AF1D40C87A00D5FC85 /* icon_ea_indicator@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 451828A81D40C87A00D5FC85 /* icon_ea_indicator@3x.png */; };
 		451828B01D40C87A00D5FC85 /* UIView+EAFeatureGuideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 451828AA1D40C87A00D5FC85 /* UIView+EAFeatureGuideView.m */; };
+		451A143F1DC7375A003B8805 /* down_blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 451A143C1DC7375A003B8805 /* down_blue@2x.png */; };
+		451A14401DC7375A003B8805 /* XDMultTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 451A143E1DC7375A003B8805 /* XDMultTableView.m */; };
 		4525944D1D50D31A002BF84B /* LocalDBService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4525944C1D50D31A002BF84B /* LocalDBService.m */; };
 		452594501D51A0D1002BF84B /* LocalSqlliteService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4525944F1D51A0D1002BF84B /* LocalSqlliteService.m */; };
 		453395071CF6D8C800B5A825 /* FeHandwriting.m in Sources */ = {isa = PBXBuildFile; fileRef = 453394FF1CF6D8C800B5A825 /* FeHandwriting.m */; };
@@ -300,6 +302,9 @@
 		451828AA1D40C87A00D5FC85 /* UIView+EAFeatureGuideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+EAFeatureGuideView.m"; sourceTree = "<group>"; };
 		4519DA5D1C3D0C8600E34BE4 /* LXActivity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LXActivity.h; sourceTree = "<group>"; };
 		4519DA5E1C3D0C8600E34BE4 /* LXActivity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LXActivity.m; sourceTree = "<group>"; };
+		451A143C1DC7375A003B8805 /* down_blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "down_blue@2x.png"; sourceTree = "<group>"; };
+		451A143D1DC7375A003B8805 /* XDMultTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XDMultTableView.h; sourceTree = "<group>"; };
+		451A143E1DC7375A003B8805 /* XDMultTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XDMultTableView.m; sourceTree = "<group>"; };
 		452523941BAABD6E0058A8BE /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		4525944B1D50D31A002BF84B /* LocalDBService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalDBService.h; sourceTree = "<group>"; };
 		4525944C1D50D31A002BF84B /* LocalDBService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalDBService.m; sourceTree = "<group>"; };
@@ -933,6 +938,16 @@
 			path = LXActivity;
 			sourceTree = "<group>";
 		};
+		451A143B1DC7375A003B8805 /* XDMultTableView */ = {
+			isa = PBXGroup;
+			children = (
+				451A143C1DC7375A003B8805 /* down_blue@2x.png */,
+				451A143D1DC7375A003B8805 /* XDMultTableView.h */,
+				451A143E1DC7375A003B8805 /* XDMultTableView.m */,
+			);
+			path = XDMultTableView;
+			sourceTree = "<group>";
+		};
 		453394FC1CF6D8C800B5A825 /* FeSpinner */ = {
 			isa = PBXGroup;
 			children = (
@@ -1537,6 +1552,7 @@
 		45C6F5931C92A1A300C5AA31 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				451A143B1DC7375A003B8805 /* XDMultTableView */,
 				4549C76A1DBE108300180FB5 /* LBTabBar.h */,
 				4549C76B1DBE108300180FB5 /* LBTabBar.m */,
 				45C6F5B51C92A30600C5AA31 /* DetailCell.h */,
@@ -1902,6 +1918,7 @@
 				45C6F5A51C92A20400C5AA31 /* QDXTicketTableViewCell.xib in Resources */,
 				453395121CF6E06100B5A825 /* WifiMan_Sign_3@2x.png in Resources */,
 				4577AE041BB23E8C004FCC8D /* MJRefresh.bundle in Resources */,
+				451A143F1DC7375A003B8805 /* down_blue@2x.png in Resources */,
 				45DF76381BA6AAC20024A6B4 /* Main.storyboard in Resources */,
 				453395101CF6E06100B5A825 /* WifiMan_Sign_1@2x.png in Resources */,
 				453395111CF6E06100B5A825 /* WifiMan_Sign_2@2x.png in Resources */,
@@ -2090,6 +2107,7 @@
 				4569E5871C4CB64B00FF4E8B /* UIImage+MultiFormat.m in Sources */,
 				45C6F5F71C92A3DF00C5AA31 /* QDXLineChooseViewController.m in Sources */,
 				45C6F5C31C92A32C00C5AA31 /* myViewController.m in Sources */,
+				451A14401DC7375A003B8805 /* XDMultTableView.m in Sources */,
 				A3413EC21C97F565009332B3 /* HomeService.m in Sources */,
 				4569E5881C4CB64B00FF4E8B /* UIImage+WebP.m in Sources */,
 				4536EB9B1D013B25005D3CB5 /* ImageScrollView.m in Sources */,

@@ -156,7 +156,7 @@
 
 - (void)createTableView
 {
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight-64) style:UITableViewStyleGrouped];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight-64-10) style:UITableViewStyleGrouped];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.showsVerticalScrollIndicator = NO;
@@ -164,7 +164,6 @@
     self.automaticallyAdjustsScrollViewInsets = false;
     [self.view addSubview:_tableView];
     [self refreshView];
-    
 }
 
 - (void)createUI

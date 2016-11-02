@@ -9,10 +9,18 @@
 #import "MoreViewController.h"
 #import "QDXNavigationController.h"
 #import "QDXLoginViewController.h"
-@interface MoreViewController ()<UIAlertViewDelegate>
+//#import "XDMultTableView.h"
+
+//@interface MoreViewController ()<UIAlertViewDelegate,XDMultTableViewDatasource,XDMultTableViewDelegate>
+@interface MoreViewController ()<UIAlertViewDelegate,UITableViewDelegate,UITableViewDataSource>
 {
     UIButton *_button;
+    UILabel *rowOne;
+    UILabel *rowTwo;
+    UILabel *rowThree;
 }
+//@property(nonatomic, readwrite, strong)XDMultTableView *tableView;
+@property(nonatomic, readwrite, strong)UITableView *tableView;
 @end
 
 @implementation MoreViewController
@@ -21,10 +29,179 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.navigationItem.title = @"社区";
-    self.view.backgroundColor = [UIColor whiteColor];
-    [self createUI];
+    self.navigationItem.title = @"玩法";
+    self.view.backgroundColor = [UIColor colorWithWhite:0.949 alpha:1.000];
+    
+//    [self createUI];
+    
+    [self createTableView];
 }
+
+- (void) createTableView
+{
+//    _tableView = [[XDMultTableView alloc] initWithFrame:CGRectMake(0,0, QdxWidth, QdxHeight-64)];
+//    _tableView.delegate = self;
+//    _tableView.datasource = self;
+//    _tableView.backgroundColor = [UIColor colorWithWhite:0.961 alpha:1.000];
+//    _tableView.openSectionArray = [NSArray arrayWithObjects:@0,nil];
+//    [self.view addSubview:self.tableView];
+    
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,10, QdxWidth, QdxHeight-64-60) style:UITableViewStylePlain];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    _tableView.showsVerticalScrollIndicator = NO;
+    _tableView.rowHeight = 117;
+    _tableView.backgroundColor = [UIColor colorWithWhite:0.949 alpha:1.000];
+    _tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    [self.view addSubview:_tableView];
+}
+
+#pragma mark - Table view data source
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 3;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    static NSString *CMainCell = @"CMainCell";     //  0
+    
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CMainCell];      //   1
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier: CMainCell];    //  2
+    }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//    cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
+    
+    UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, 150)];
+    bgView.backgroundColor = [UIColor colorWithWhite:0.961 alpha:1.000];
+    [cell addSubview:bgView];
+    
+    UIView *frontView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, QdxWidth - 20, 130)];
+    frontView.backgroundColor = [UIColor whiteColor];
+    [bgView addSubview:frontView];
+    
+    CAGradientLayer *gradientLayer = [[CAGradientLayer alloc] init];
+    
+    gradientLayer.colors = @[(__bridge id)[UIColor colorWithRed:0.000 green:0.600 blue:0.992 alpha:1.000].CGColor,(__bridge id)[UIColor blueColor].CGColor];
+    gradientLayer.startPoint = CGPointMake(0, 1);
+    gradientLayer.endPoint = CGPointMake(1, 1);
+    gradientLayer.frame = CGRectMake(0, 0, CGRectGetWidth(frontView.frame), CGRectGetHeight(frontView.frame));
+    [frontView.layer addSublayer:gradientLayer];
+    
+    UILabel *infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, QdxWidth - 20, 30)];
+    [frontView addSubview:infoLabel];
+    
+    if (indexPath.row == 0) {
+        infoLabel.text = @"依次穿越";
+    }else if (indexPath.row == 1){
+        infoLabel.text = @"自由规划";
+    }else{
+        infoLabel.text = @"自由挑战";
+    }
+    
+    return cell;
+}
+
+#pragma mark - 代理方法
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    return 150;
+}
+
+
+//#pragma mark - datasource
+//- (NSInteger)mTableView:(XDMultTableView *)mTableView numberOfRowsInSection:(NSInteger)section{
+//    return 1;
+//}
+//
+//- (XDMultTableViewCell *)mTableView:(XDMultTableView *)mTableView
+//              cellForRowAtIndexPath:(NSIndexPath *)indexPath{
+//    static NSString *cellIdentifier = @"cell";
+//    UITableViewCell *cell = [mTableView dequeueReusableCellWithIdentifier:cellIdentifier];
+//    if (cell == nil)
+//    {
+//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+//    }
+//    UIView *view = [[UIView alloc] initWithFrame:cell.bounds] ;
+//    view.layer.backgroundColor  = [UIColor whiteColor].CGColor;
+//    view.layer.masksToBounds    = YES;
+//    view.layer.borderWidth      = 10;
+//    view.layer.borderColor      = [UIColor colorWithWhite:0.961 alpha:1.000].CGColor;
+//    
+//    cell.backgroundView = view;
+//    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+//    
+//
+//
+//    
+//    if (indexPath.section==0) {
+//        rowOne = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, QdxWidth - 20, 300-20)];
+//        rowOne.numberOfLines = 0;
+//        rowOne.text = @"本线路为依次穿越式，即从点标处获取任务并完成，按照顺序从起点到达终点。所有参赛队员严禁在比赛过程中故意跟随其它队伍，或是损藏比赛器材。";
+//        [view addSubview:rowOne];
+//    }else if (indexPath.section==1){
+//        rowTwo = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, QdxWidth - 20, 300-20)];
+//        rowTwo.numberOfLines = 0;
+//        rowTwo.text = @"本线路为自由规划式，即从点标处获取任务并完成，按照顺序从起点到达终点。若发现有身体不适的参赛队员，要及时帮助联系并给予救助。";
+//        [view addSubview:rowTwo];
+//    }else if(indexPath.section==2){
+//        rowThree = [[UILabel alloc]initWithFrame:CGRectMake(10, 10, QdxWidth - 20, 300-20)];
+//        rowThree.numberOfLines = 0;
+//        rowThree.text = @"本线路为自由挑战式，即从点标处获取任务并完成，按照顺序从起点到达终点。所有参赛队员必须坚持“安全第一、友谊第一”的运动精神.";
+//        [view addSubview:rowThree];
+//    }
+//    
+//    return cell;
+//}
+//
+//- (NSInteger)numberOfSectionsInTableView:(XDMultTableView *)mTableView{
+//    return 3;
+//}
+//
+//-(NSString *)mTableView:(XDMultTableView *)mTableView titleForHeaderInSection:(NSInteger)section{
+//    if (section == 0){
+//        return @"依次穿越";
+//    }else if (section == 1){
+//        return @"自由规划";
+//    }else{
+//        return @"自由挑战";
+//    }
+//}
+//
+//#pragma mark - delegate
+//- (CGFloat)mTableView:(XDMultTableView *)mTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
+//    return 300;
+//}
+//
+//- (CGFloat)mTableView:(XDMultTableView *)mTableView heightForHeaderInSection:(NSInteger)section{
+//    return 100;
+//}
+//
+//
+//- (void)mTableView:(XDMultTableView *)mTableView willOpenHeaderAtSection:(NSInteger)section{
+//
+//}
+//
+//
+//- (void)mTableView:(XDMultTableView *)mTableView willCloseHeaderAtSection:(NSInteger)section{
+//    if (section == 0) {
+//        rowOne.text = nil;
+//        [rowOne removeFromSuperview];
+//    }else if (section == 1){
+//        rowTwo.text = nil;
+//        [rowTwo removeFromSuperview];
+//    }else if (section == 2){
+//        rowThree.text = nil;
+//        [rowThree removeFromSuperview];
+//    }
+//}
+//
+//- (void)mTableView:(XDMultTableView *)mTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
+//    NSLog(@"点击cell");
+//}
 
 - (void)createUI
 {
@@ -85,17 +262,6 @@
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

@@ -10,17 +10,22 @@
 #import "QDXNavigationController.h"
 #import "QDXLoginViewController.h"
 //#import "XDMultTableView.h"
+#import "DWViewCell.h"
+#import "DWFlowLayout.h"
 
 //@interface MoreViewController ()<UIAlertViewDelegate,XDMultTableViewDatasource,XDMultTableViewDelegate>
-@interface MoreViewController ()<UIAlertViewDelegate,UITableViewDelegate,UITableViewDataSource>
+//@interface MoreViewController ()<UIAlertViewDelegate,UITableViewDelegate,UITableViewDataSource>
+@interface MoreViewController ()<UIAlertViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate>
 {
     UIButton *_button;
-    UILabel *rowOne;
-    UILabel *rowTwo;
-    UILabel *rowThree;
+//    UILabel *rowOne;
+//    UILabel *rowTwo;
+//    UILabel *rowThree;
+    NSArray *data;
 }
 //@property(nonatomic, readwrite, strong)XDMultTableView *tableView;
-@property(nonatomic, readwrite, strong)UITableView *tableView;
+//@property(nonatomic, readwrite, strong)UITableView *tableView;
+@property(nonatomic, readwrite, strong)UICollectionView *collectionView;
 @end
 
 @implementation MoreViewController
@@ -34,82 +39,130 @@
     
 //    [self createUI];
     
-    [self createTableView];
+//    [self createTableView];
+    
+    DWFlowLayout *layout = [[DWFlowLayout alloc] init];
+    //设置是否需要分页
+    layout.move_x = -25;
+    [layout setPagingEnabled:YES];
+    
+    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight - 64) collectionViewLayout:layout];
+    [_collectionView registerClass:[DWViewCell class] forCellWithReuseIdentifier:@"DWViewCell"];
+    _collectionView.backgroundColor = [UIColor colorWithWhite:0.961 alpha:1.000];
+    _collectionView.showsHorizontalScrollIndicator = NO;
+    _collectionView.delegate = self;
+    _collectionView.dataSource = self;
+    [self.view addSubview:_collectionView];
+    
+    
+    data = @[@"01",@"02",@"03"];
+    [_collectionView reloadData];
 }
 
-- (void) createTableView
+#pragma mark cell的数量
+-(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
-//    _tableView = [[XDMultTableView alloc] initWithFrame:CGRectMake(0,0, QdxWidth, QdxHeight-64)];
-//    _tableView.delegate = self;
-//    _tableView.datasource = self;
-//    _tableView.backgroundColor = [UIColor colorWithWhite:0.961 alpha:1.000];
-//    _tableView.openSectionArray = [NSArray arrayWithObjects:@0,nil];
-//    [self.view addSubview:self.tableView];
-    
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,10, QdxWidth, QdxHeight-64-60) style:UITableViewStylePlain];
-    _tableView.delegate = self;
-    _tableView.dataSource = self;
-    _tableView.showsVerticalScrollIndicator = NO;
-    _tableView.rowHeight = 117;
-    _tableView.backgroundColor = [UIColor colorWithWhite:0.949 alpha:1.000];
-    _tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-    [self.view addSubview:_tableView];
+    return data.count;
 }
 
-#pragma mark - Table view data source
-
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+#pragma mark cell的视图
+- (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 3;
-}
-
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    static NSString *CMainCell = @"CMainCell";     //  0
+    NSString *cellIdentifier = @"DWViewCell";
+    DWViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
     
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CMainCell];      //   1
-    if (cell == nil) {
-        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier: CMainCell];    //  2
-    }
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-//    cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
-    
-    UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, 150)];
-    bgView.backgroundColor = [UIColor colorWithWhite:0.961 alpha:1.000];
-    [cell addSubview:bgView];
-    
-    UIView *frontView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, QdxWidth - 20, 130)];
-    frontView.backgroundColor = [UIColor whiteColor];
-    [bgView addSubview:frontView];
-    
-    CAGradientLayer *gradientLayer = [[CAGradientLayer alloc] init];
-    
-    gradientLayer.colors = @[(__bridge id)[UIColor colorWithRed:0.000 green:0.600 blue:0.992 alpha:1.000].CGColor,(__bridge id)[UIColor blueColor].CGColor];
-    gradientLayer.startPoint = CGPointMake(0, 1);
-    gradientLayer.endPoint = CGPointMake(1, 1);
-    gradientLayer.frame = CGRectMake(0, 0, CGRectGetWidth(frontView.frame), CGRectGetHeight(frontView.frame));
-    [frontView.layer addSublayer:gradientLayer];
-    
-    UILabel *infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, QdxWidth - 20, 30)];
-    [frontView addSubview:infoLabel];
-    
-    if (indexPath.row == 0) {
-        infoLabel.text = @"依次穿越";
-    }else if (indexPath.row == 1){
-        infoLabel.text = @"自由规划";
-    }else{
-        infoLabel.text = @"自由挑战";
-    }
+    NSInteger row = indexPath.row;
+    cell.showImg.image = [UIImage imageNamed:[data objectAtIndex:row]];
     
     return cell;
 }
 
-#pragma mark - 代理方法
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 150;
+#pragma mark cell的大小
+-(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
+    return CGSizeMake(QdxWidth - 76, QdxHeight - 64 - 68 - 68);
 }
+
+#pragma mark cell的点击事件
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
+{
+    NSLog(@"点击图片%ld",indexPath.row);
+}
+
+
+
+//- (void) createTableView
+//{
+////    _tableView = [[XDMultTableView alloc] initWithFrame:CGRectMake(0,0, QdxWidth, QdxHeight-64)];
+////    _tableView.delegate = self;
+////    _tableView.datasource = self;
+////    _tableView.backgroundColor = [UIColor colorWithWhite:0.961 alpha:1.000];
+////    _tableView.openSectionArray = [NSArray arrayWithObjects:@0,nil];
+////    [self.view addSubview:self.tableView];
+//    
+//    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,10, QdxWidth, QdxHeight-64-60) style:UITableViewStylePlain];
+//    _tableView.delegate = self;
+//    _tableView.dataSource = self;
+//    _tableView.showsVerticalScrollIndicator = NO;
+//    _tableView.rowHeight = 117;
+//    _tableView.backgroundColor = [UIColor colorWithWhite:0.949 alpha:1.000];
+//    _tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+//    _tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+//    [self.view addSubview:_tableView];
+//}
+
+//#pragma mark - Table view data source
+//
+//- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+//{
+//    return 3;
+//}
+//
+//- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    static NSString *CMainCell = @"CMainCell";     //  0
+//    
+//    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CMainCell];      //   1
+//    if (cell == nil) {
+//        cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault  reuseIdentifier: CMainCell];    //  2
+//    }
+//    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+////    cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
+//    
+//    UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, 150)];
+//    bgView.backgroundColor = [UIColor colorWithWhite:0.961 alpha:1.000];
+//    [cell addSubview:bgView];
+//    
+//    UIView *frontView = [[UIView alloc] initWithFrame:CGRectMake(10, 10, QdxWidth - 20, 130)];
+//    frontView.backgroundColor = [UIColor whiteColor];
+//    [bgView addSubview:frontView];
+//    
+//    CAGradientLayer *gradientLayer = [[CAGradientLayer alloc] init];
+//    
+//    gradientLayer.colors = @[(__bridge id)[UIColor colorWithRed:0.000 green:0.600 blue:0.992 alpha:1.000].CGColor,(__bridge id)[UIColor blueColor].CGColor];
+//    gradientLayer.startPoint = CGPointMake(0, 1);
+//    gradientLayer.endPoint = CGPointMake(1, 1);
+//    gradientLayer.frame = CGRectMake(0, 0, CGRectGetWidth(frontView.frame), CGRectGetHeight(frontView.frame));
+//    [frontView.layer addSublayer:gradientLayer];
+//    
+//    UILabel *infoLabel = [[UILabel alloc] initWithFrame:CGRectMake(20, 20, QdxWidth - 20, 30)];
+//    [frontView addSubview:infoLabel];
+//    
+//    if (indexPath.row == 0) {
+//        infoLabel.text = @"依次穿越";
+//    }else if (indexPath.row == 1){
+//        infoLabel.text = @"自由规划";
+//    }else{
+//        infoLabel.text = @"自由挑战";
+//    }
+//    
+//    return cell;
+//}
+//
+//#pragma mark - 代理方法
+//- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    return 150;
+//}
 
 
 //#pragma mark - datasource

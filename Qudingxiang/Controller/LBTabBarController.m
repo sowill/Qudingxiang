@@ -112,7 +112,7 @@
     OrderController *orderVC = [[OrderController alloc] init];
     [self setUpOneChildVcWithVc:orderVC Image:@"index_order_nomal" selectedImage:@"index_order_click" title:@"订单"];
     MoreViewController *mineVC = [[MoreViewController alloc] init];
-    [self setUpOneChildVcWithVc:mineVC Image:@"社区－常态" selectedImage:@"社区－点击" title:@"社区"];
+    [self setUpOneChildVcWithVc:mineVC Image:@"index_more_nomal" selectedImage:@"index_more_click" title:@"更多"];
 }
 
 #pragma mark - 初始化设置tabBar上面单个按钮的方法

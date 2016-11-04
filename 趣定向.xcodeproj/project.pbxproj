@@ -173,6 +173,7 @@
 		4586959E1C4DD741009BAA81 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4586959D1C4DD741009BAA81 /* CoreMedia.framework */; };
 		458695A01C4DD748009BAA81 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4586959F1C4DD748009BAA81 /* QuartzCore.framework */; };
 		458695A21C4DD74E009BAA81 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 458695A11C4DD74E009BAA81 /* AVFoundation.framework */; };
+		459AEBD81DCC4E44000472F1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 459AEBD71DCC4E43000472F1 /* Images.xcassets */; };
 		45AEE2B71D13E4F800116AD0 /* UIControl+UIControl_buttonCon.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AEE2B61D13E4F800116AD0 /* UIControl+UIControl_buttonCon.m */; };
 		45C6F55F1C929FD000C5AA31 /* HomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F55A1C929FD000C5AA31 /* HomeModel.m */; };
 		45C6F5601C929FD000C5AA31 /* ImageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F55C1C929FD000C5AA31 /* ImageModel.m */; };
@@ -232,12 +233,13 @@
 		45C6F61A1C92A92C00C5AA31 /* TencentOpenAPI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45C6F6191C92A92C00C5AA31 /* TencentOpenAPI.framework */; };
 		45DD34DA1C33D5F500E24250 /* read_me.txt in Resources */ = {isa = PBXBuildFile; fileRef = 45DD34D51C33D5F500E24250 /* read_me.txt */; };
 		45DF76381BA6AAC20024A6B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45DF76361BA6AAC20024A6B4 /* Main.storyboard */; };
-		45DF763A1BA6AAC20024A6B4 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 45DF76391BA6AAC20024A6B4 /* Images.xcassets */; };
 		45EE61371CEAC074007302E3 /* PointView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EE61361CEAC074007302E3 /* PointView.m */; };
 		45EE613A1CEAC641007302E3 /* PointAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EE61391CEAC641007302E3 /* PointAnnotationView.m */; };
 		45EE613D1CEAD4FC007302E3 /* UIImage+watermark.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EE613C1CEAD4FC007302E3 /* UIImage+watermark.m */; };
 		45EE61451CEB182C007302E3 /* TTSExample.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EE61441CEB182C007302E3 /* TTSExample.m */; };
 		45F547821CDB423E0050B12F /* QDXHistoryTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45F547811CDB423E0050B12F /* QDXHistoryTableViewCell.m */; };
+		45F6642E1DCB1DDC00C33FAF /* DWFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 45F6642B1DCB1DDC00C33FAF /* DWFlowLayout.m */; };
+		45F6642F1DCB1DDC00C33FAF /* DWViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45F6642D1DCB1DDC00C33FAF /* DWViewCell.m */; };
 		A31287A31CCF0DA200CB887E /* line_pointModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A31287A21CCF0DA200CB887E /* line_pointModel.m */; };
 		A31287A61CCF0DD700CB887E /* QDXOfflineDB.m in Sources */ = {isa = PBXBuildFile; fileRef = A31287A51CCF0DD700CB887E /* QDXOfflineDB.m */; };
 		A31287AB1CCF165D00CB887E /* BaseService.m in Sources */ = {isa = PBXBuildFile; fileRef = A31287A81CCF165D00CB887E /* BaseService.m */; };
@@ -618,6 +620,7 @@
 		4586959D1C4DD741009BAA81 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		4586959F1C4DD748009BAA81 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		458695A11C4DD74E009BAA81 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		459AEBD71DCC4E43000472F1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		459C6E281BD89D2300743FEC /* JTSAnimatedGIFUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JTSAnimatedGIFUtility.h; sourceTree = "<group>"; };
 		459C6E291BD89D2300743FEC /* JTSAnimatedGIFUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JTSAnimatedGIFUtility.m; sourceTree = "<group>"; };
 		459C6E2A1BD89D2300743FEC /* JTSImageInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JTSImageInfo.h; sourceTree = "<group>"; };
@@ -750,7 +753,6 @@
 		45DF76301BA6AAC20024A6B4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		45DF76311BA6AAC20024A6B4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		45DF76371BA6AAC20024A6B4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		45DF76391BA6AAC20024A6B4 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		45DF76421BA6AAC20024A6B4 /* 趣定向.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "趣定向.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		45DF76471BA6AAC20024A6B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		45EE61351CEAC074007302E3 /* PointView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointView.h; sourceTree = "<group>"; };
@@ -779,6 +781,10 @@
 		45EEDBF51BCCFFDA0059B42A /* split.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = split.h; sourceTree = "<group>"; };
 		45F547801CDB423E0050B12F /* QDXHistoryTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXHistoryTableViewCell.h; sourceTree = "<group>"; };
 		45F547811CDB423E0050B12F /* QDXHistoryTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXHistoryTableViewCell.m; sourceTree = "<group>"; };
+		45F6642A1DCB1DDC00C33FAF /* DWFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWFlowLayout.h; sourceTree = "<group>"; };
+		45F6642B1DCB1DDC00C33FAF /* DWFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DWFlowLayout.m; sourceTree = "<group>"; };
+		45F6642C1DCB1DDC00C33FAF /* DWViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DWViewCell.h; sourceTree = "<group>"; };
+		45F6642D1DCB1DDC00C33FAF /* DWViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DWViewCell.m; sourceTree = "<group>"; };
 		A31287A11CCF0DA200CB887E /* line_pointModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = line_pointModel.h; sourceTree = "<group>"; };
 		A31287A21CCF0DA200CB887E /* line_pointModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = line_pointModel.m; sourceTree = "<group>"; };
 		A31287A41CCF0DD700CB887E /* QDXOfflineDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXOfflineDB.h; sourceTree = "<group>"; };
@@ -944,6 +950,10 @@
 				451A143C1DC7375A003B8805 /* down_blue@2x.png */,
 				451A143D1DC7375A003B8805 /* XDMultTableView.h */,
 				451A143E1DC7375A003B8805 /* XDMultTableView.m */,
+				45F6642A1DCB1DDC00C33FAF /* DWFlowLayout.h */,
+				45F6642B1DCB1DDC00C33FAF /* DWFlowLayout.m */,
+				45F6642C1DCB1DDC00C33FAF /* DWViewCell.h */,
+				45F6642D1DCB1DDC00C33FAF /* DWViewCell.m */,
 			);
 			path = XDMultTableView;
 			sourceTree = "<group>";
@@ -1687,7 +1697,6 @@
 				45DF76301BA6AAC20024A6B4 /* AppDelegate.h */,
 				45DF76311BA6AAC20024A6B4 /* AppDelegate.m */,
 				45DF76361BA6AAC20024A6B4 /* Main.storyboard */,
-				45DF76391BA6AAC20024A6B4 /* Images.xcassets */,
 				45DF762C1BA6AAC20024A6B4 /* Supporting Files */,
 			);
 			path = Qudingxiang;
@@ -1696,6 +1705,7 @@
 		45DF762C1BA6AAC20024A6B4 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				459AEBD71DCC4E43000472F1 /* Images.xcassets */,
 				4582B7DF1C990F400002F5B1 /* Info.plist */,
 				45DF762E1BA6AAC20024A6B4 /* main.m */,
 			);
@@ -1909,6 +1919,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				453395131CF6E06100B5A825 /* WifiMan_Sign_4@2x.png in Resources */,
+				459AEBD81DCC4E44000472F1 /* Images.xcassets in Resources */,
 				451828AF1D40C87A00D5FC85 /* icon_ea_indicator@3x.png in Resources */,
 				451828AE1D40C87A00D5FC85 /* icon_ea_indicator@2x.png in Resources */,
 				453395141CF6E06100B5A825 /* wifimanhub_grayscale@2x.png in Resources */,
@@ -1931,7 +1942,6 @@
 				45C6F5A31C92A20400C5AA31 /* QDXOrderTableViewCell.xib in Resources */,
 				45C6F59B1C92A1D500C5AA31 /* myViewCellTableViewCell.xib in Resources */,
 				453E44D91D252A3100BED603 /* btn1@2x.png in Resources */,
-				45DF763A1BA6AAC20024A6B4 /* Images.xcassets in Resources */,
 				4571CDFA1CE05B00002ED784 /* CYAlertViewController.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2083,6 +2093,7 @@
 				45C6F5C81C92A36200C5AA31 /* OrderController.m in Sources */,
 				45C6F5601C929FD000C5AA31 /* ImageModel.m in Sources */,
 				45C6F60A1C92A43A00C5AA31 /* QDXChangePwdViewController.m in Sources */,
+				45F6642F1DCB1DDC00C33FAF /* DWViewCell.m in Sources */,
 				45C6F5881C92A10300C5AA31 /* LineModel.m in Sources */,
 				4569E57F1C4CB64B00FF4E8B /* SDWebImageCompat.m in Sources */,
 				4569E5801C4CB64B00FF4E8B /* SDWebImageDecoder.m in Sources */,
@@ -2092,6 +2103,7 @@
 				4569E5831C4CB64B00FF4E8B /* SDWebImageManager.m in Sources */,
 				A3311D9C1CD3490300114FC0 /* TabbarView.m in Sources */,
 				45C6F5AE1C92A27100C5AA31 /* ScrollView.m in Sources */,
+				45F6642E1DCB1DDC00C33FAF /* DWFlowLayout.m in Sources */,
 				4571CDE71CE05B00002ED784 /* CYAlertController.m in Sources */,
 				45C6F5CC1C92A38600C5AA31 /* QDXNavigationController.m in Sources */,
 				4569E5841C4CB64B00FF4E8B /* SDWebImagePrefetcher.m in Sources */,

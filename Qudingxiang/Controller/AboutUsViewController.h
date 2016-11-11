@@ -10,4 +10,6 @@
 
 @interface AboutUsViewController : UIViewController
 
+@property(nonatomic,retain) NSString *level;
+
 @end

@@ -193,7 +193,6 @@
     
     // 3.添加tabbar内部的按钮
     [self.customTabBar addTabBarButtonWithItem:childVc.tabBarItem];
-    
             
     //去掉tabbar黑线
     CGRect rect = CGRectMake(0, 0, self.view.frame.size.width, 1);

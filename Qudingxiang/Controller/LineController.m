@@ -16,8 +16,9 @@
 #import "ImagePickerController.h"
 #import "QDXGameViewController.h"
 #import "QDXProtocolViewController.h"
-//#import "TabbarController.h"
+#import "TabbarController.h"
 #import "QDXNavigationController.h"
+#import "AppDelegate.h"
 @interface LineController ()<UITableViewDataSource,UITableViewDelegate,PassTicketIDDelegate,UIAlertViewDelegate>
 {
     UITableView *_tableView;
@@ -41,16 +42,17 @@
     self.navigationItem.title = @"路线选择";
     _isEnterToGame = NO;
     [self btnData];
+    [self createTableView];
     [self creatButtonBack];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noti2) name:@"noti2" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noti3) name:@"noti3" object:nil];
-
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noti2) name:@"noti2" object:nil];
+    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noti3) name:@"noti3" object:nil];
+    
 }
 
 -(void)noti3
 {
     [self dismissViewControllerAnimated:YES completion:^{
-    
+        
     }];
 }
 
@@ -125,7 +127,7 @@
     //    if(target){
     //        [self.navigationController popToViewController:target animated:YES];
     //    }
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"noti1" object:nil];
+    //[[NSNotificationCenter defaultCenter] postNotificationName:@"noti1" object:nil];
     [self dismissViewControllerAnimated:YES completion:^{
         
     }];
@@ -149,7 +151,7 @@
     mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"TokenKey"] = save;
-    params[@"ticket_id"] = saveTicket_id;
+    params[@"ticket_id"] = self.ticketID;
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -161,7 +163,6 @@
             //将字典转模型
             NSDictionary *dictArr = dict[@"Msg"][@"data"];
             _dataArr = [NSMutableArray arrayWithCapacity:0];
-            [self createTableView];
             for(NSDictionary *dict in dictArr){
                 LineModel *model = [[LineModel alloc] init];
                 [model setValuesForKeysWithDictionary:dict[@"line"]];

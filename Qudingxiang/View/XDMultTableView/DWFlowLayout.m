@@ -18,8 +18,8 @@
     if (self) {
         _move_x = 0.0;
         self.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-        self.minimumLineSpacing = 20.0;
-        self.sectionInset = UIEdgeInsetsMake(0,30, 0,30);
+        self.minimumLineSpacing = FitRealValue(52.0);
+        self.sectionInset = UIEdgeInsetsMake(0,FitRealValue(52), 0,FitRealValue(52));
     }
     return self;
 }
@@ -40,9 +40,9 @@
     CGFloat set_x =  proposedContentOffset.x;
     
     if (set_x > _move_x) {
-        _move_x += SCREENWITH - self.minimumLineSpacing * 2;
+        _move_x += SCREENWITH - self.minimumLineSpacing * 3;
     }else if(set_x < _move_x){
-        _move_x -= SCREENWITH - self.minimumLineSpacing * 2;
+        _move_x -= SCREENWITH - self.minimumLineSpacing * 3;
     }
     set_x = _move_x;
     return set_x;

@@ -9,6 +9,8 @@
 #import "AboutUsViewController.h"
 #import "NoticeViewController.h"
 #import "LBTabBarController.h"
+#import "QDXPointListViewController.h"
+
 @interface AboutUsViewController ()<UIAlertViewDelegate,UITableViewDelegate,UITableViewDataSource>
 {
     NSString *_strVersion;
@@ -39,7 +41,6 @@
     {
         [_tableView setLayoutMargins:UIEdgeInsetsZero];
     }
-    
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -99,8 +100,13 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-    return 2;
+    if ([_level isEqualToString:@"0"]) {
+        return 2;
+    }else{
+        return 3;
+    }
 }
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellID = @"ID";
@@ -138,6 +144,11 @@
             
             
             [cell addSubview:desLabel];
+        }else if(indexPath.section == 2){
+            UILabel *label = [ToolView createLabelWithFrame:CGRectMake(10, 10, 100, 24) text:@"点标管理" font:14 superView:cell];
+            label.textColor = [UIColor colorWithRed:17/255.0 green:17/255.0 blue:17/255.0 alpha:1];
+            cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
     }
     return cell;
@@ -163,8 +174,12 @@
     if (indexPath.section == 1) {
         NoticeViewController *noticeVC = [[NoticeViewController alloc] init];
         [self.navigationController pushViewController:noticeVC animated:YES];
+    }else if (indexPath.section == 2){
+        QDXPointListViewController *pointListVC = [[QDXPointListViewController alloc] init];
+        [self.navigationController pushViewController:pointListVC animated:YES];
     }
 }
+
 - (void)createUI
 {
     UIButton *share = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 40, 40)];

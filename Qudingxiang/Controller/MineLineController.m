@@ -84,11 +84,11 @@
 - (void)netData
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    [self showProgessMsg:@"加载中"];
+//    [self showProgessMsg:@"加载中"];
     MineCellService *mineCell = [MineCellService sharedInstance];
     [mineCell cellDatasucceed:^(id data) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments | NSJSONReadingMutableLeaves error:nil];
-        [self hideProgess];
+//        [self hideProgess];
         if ([dict[@"Code"] intValue] == 0) {
             
         }else{

@@ -266,6 +266,9 @@
     }else if (indexPath.row == 5){
         AboutUsViewController *aboutVC = [[AboutUsViewController alloc] init];
         UINavigationController* navController = [[QDXNavigationController alloc] initWithRootViewController:aboutVC];
+        
+        aboutVC.level =  _peopleDict[@"Msg"][@"level"];
+        
         [self.sideMenuViewController setContentViewController:navController
                                                      animated:YES];
         [self.sideMenuViewController hideMenuViewController];

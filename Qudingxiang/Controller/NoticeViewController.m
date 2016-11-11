@@ -24,7 +24,7 @@
     self.view.backgroundColor = [UIColor whiteColor];
     self.title = @"活动须知";
     //[self createTableView];
-    protocol = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight)];
+    protocol = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight - 64)];
     protocol.backgroundColor = [UIColor clearColor];
     protocol.scrollView.showsVerticalScrollIndicator = FALSE;
     [self.view addSubview:protocol];

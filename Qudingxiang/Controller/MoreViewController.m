@@ -41,9 +41,19 @@
     
 //    [self createTableView];
     
+    _button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+    [_button setImage:[UIImage imageNamed:@"index_my"] forState:UIControlStateNormal];
+    [_button addTarget:self action:@selector(setClick) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_button];
+    
+    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:_button];
+    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    negativeSpacer.width = -10;
+    self.navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
+    
     DWFlowLayout *layout = [[DWFlowLayout alloc] init];
     //设置是否需要分页
-    layout.move_x = -25;
+//    layout.move_x = - FitRealValue(60);
     [layout setPagingEnabled:YES];
     
     _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight - 64) collectionViewLayout:layout];
@@ -72,14 +82,25 @@
     DWViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:cellIdentifier forIndexPath:indexPath];
     
     NSInteger row = indexPath.row;
-    cell.showImg.image = [UIImage imageNamed:[data objectAtIndex:row]];
-    
+    if (row == 0) {
+        cell.showImg.image = [UIImage imageNamed:@"依次穿越"];
+        cell.showLab.text = @"依次穿越";
+        cell.showText.text = @"依次按提示依次到达各点标，直至终点，用时少胜。";
+    }else if (row == 1){
+        cell.showImg.image = [UIImage imageNamed:@"自由规划"];
+        cell.showLab.text = @"自由规划";
+        cell.showText.text = @"一次性给出所有点标，自行规划线路，直至寻访所有点标，用时少胜。";
+    }else{
+        cell.showImg.image = [UIImage imageNamed:@"自由挑战"];
+        cell.showLab.text = @"自由挑战";
+        cell.showText.text = @"一次性给出所有点标，在规定时间内，以寻访点标数量多为胜。";
+    }
     return cell;
 }
 
 #pragma mark cell的大小
 -(CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath{
-    return CGSizeMake(QdxWidth - 76, QdxHeight - 64 - 68 - 68);
+    return CGSizeMake(FitRealValue(574), FitRealValue(938));
 }
 
 #pragma mark cell的点击事件

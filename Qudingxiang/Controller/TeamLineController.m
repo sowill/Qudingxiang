@@ -10,7 +10,7 @@
 #import "QDXGameViewController.h"
 #import "MineModel.h"
 #import "MineCell.h"
-#import "TabbarController.h"
+#import "LBTabBarController.h"
 #import "QDXNavigationController.h"
 #import "MineCellService.h"
 @interface TeamLineController ()<UITableViewDataSource,UITableViewDelegate>
@@ -65,7 +65,7 @@
 
 -(void)buttonBackSetting
 {
-    [self.sideMenuViewController setContentViewController:[[TabbarController alloc] init]
+    [self.sideMenuViewController setContentViewController:[[LBTabBarController alloc] init]
                                                  animated:YES];
     [self.sideMenuViewController hideMenuViewController];
 

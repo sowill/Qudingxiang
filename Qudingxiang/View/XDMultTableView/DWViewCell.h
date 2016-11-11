@@ -11,4 +11,6 @@
 @interface DWViewCell : UICollectionViewCell
 //@property (weak, nonatomic) IBOutlet UIImageView *showImg;
 @property (nonatomic,strong) UIImageView* showImg;
+@property (nonatomic,strong) UILabel *showLab;
+@property (nonatomic,strong) UITextView *showText;
 @end

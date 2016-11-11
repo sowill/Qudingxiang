@@ -86,11 +86,11 @@
     _tableView.scrollEnabled = NO;
     _tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     [_tableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
-    _tableView.backgroundColor = [UIColor colorWithRed:247/255.0 green:247/255.0 blue:247/255.0 alpha:1];
+    _tableView.backgroundColor = QDXBGColor;
     [self.view addSubview:_tableView];
     UILabel *coChinese = [ToolView createLabelWithFrame:CGRectMake(0, QdxHeight-90, QdxWidth, 10) text:@"趣定向体育科技发展(上海)有限公司" font:12 superView:self.view];
     coChinese.textAlignment = NSTextAlignmentCenter;
-    coChinese.textColor = [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1];
+    coChinese.textColor = QDXBlack;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -115,18 +115,19 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
         if(indexPath.section == 1){
             UILabel *label = [ToolView createLabelWithFrame:CGRectMake(10, 10, 100, 24) text:@"活动须知" font:14 superView:cell];
-            label.textColor = [UIColor colorWithRed:17/255.0 green:17/255.0 blue:17/255.0 alpha:1];
+            label.textColor = QDXBlack;
             cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }else if(indexPath.section == 0){
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UIImageView *imageIcon = [ToolView createImageWithFrame:CGRectMake(QdxWidth/2-22.5, 25, 55, 55)];
             imageIcon.image = [UIImage imageNamed:@"icon"];
-            imageIcon.backgroundColor = [UIColor colorWithRed:35/255.0 green:164/255.0 blue:248/255.0 alpha:1];            [cell addSubview:imageIcon];
+            imageIcon.backgroundColor = [UIColor clearColor];
+            [cell addSubview:imageIcon];
             UIButton *version = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth/2-20, 85, 50, 20)];
             [version setTitle:_strVersion forState:UIControlStateNormal];
             version.titleLabel.font = [UIFont systemFontOfSize:14];
-            [version setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+            [version setTitleColor:QDXGray forState:UIControlStateNormal];
             [cell addSubview:version];
             UILabel *desLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 115, QdxWidth-20, 100)];
             //desLabel.text = @"        趣定向是国内首家定向运动互联网增值服务平台运营商，同时也是国内最大的城市定向系列赛事的发起者和组织者。以‘趣定向，趣生活’为理念，倡导全民户外定向运动。现已覆盖上海多家公园。";
@@ -134,10 +135,10 @@
             //desLabel.font = [UIFont systemFontOfSize:14];
             desLabel.numberOfLines = 0;
             if (QdxWidth>320) {
-                NSDictionary *attributesDic = [self settingAttributesWithLineSpacing:3 FirstLineHeadIndent:2 * 14 Font:[UIFont systemFontOfSize:15] TextColor:[UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1]];
+                NSDictionary *attributesDic = [self settingAttributesWithLineSpacing:3 FirstLineHeadIndent:2 * 14 Font:[UIFont systemFontOfSize:15] TextColor:QDXGray];
                 desLabel.attributedText = [[NSAttributedString alloc] initWithString:@"趣定向是国内首家定向运动互联网增值服务平台运营商，同时也是国内最大的城市定向系列赛事的发起者和组织者。以‘趣定向，趣生活’为理念，倡导全民户外定向运动。现已覆盖上海多家公园。" attributes:attributesDic];
             }else{
-                NSDictionary *attributesDic = [self settingAttributesWithLineSpacing:3 FirstLineHeadIndent:2 * 14 Font:[UIFont systemFontOfSize:14] TextColor:[UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1]];
+                NSDictionary *attributesDic = [self settingAttributesWithLineSpacing:3 FirstLineHeadIndent:2 * 14 Font:[UIFont systemFontOfSize:14] TextColor:QDXGray];
                 desLabel.attributedText = [[NSAttributedString alloc] initWithString:@"趣定向是国内首家定向运动互联网增值服务平台运营商，同时也是国内最大的城市定向系列赛事的发起者和组织者。以‘趣定向，趣生活’为理念，倡导全民户外定向运动。现已覆盖上海多家公园。" attributes:attributesDic];
                 
             }
@@ -146,7 +147,7 @@
             [cell addSubview:desLabel];
         }else if(indexPath.section == 2){
             UILabel *label = [ToolView createLabelWithFrame:CGRectMake(10, 10, 100, 24) text:@"点标管理" font:14 superView:cell];
-            label.textColor = [UIColor colorWithRed:17/255.0 green:17/255.0 blue:17/255.0 alpha:1];
+            label.textColor = QDXBlack;
             cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }
@@ -204,26 +205,26 @@
     UIButton *version = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth/2-25, imageIconMaxY+20, 50, 20)];
     [version setTitle:_strVersion forState:UIControlStateNormal];
     version.titleLabel.font = [UIFont systemFontOfSize:13];
-    [version setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [version setTitleColor:QDXGray forState:UIControlStateNormal];
     [imageBg addSubview:version];
     CGFloat versionMaxY = CGRectGetMaxY(version.frame);
     UIButton *telephone = [[UIButton alloc] initWithFrame:CGRectMake(0, versionMaxY+100, QdxWidth, 30)];
     [telephone setTitle:[NSString stringWithFormat:@"电话:400-820-3899"] forState:UIControlStateNormal];
     telephone.titleLabel.font = [UIFont systemFontOfSize:15];
-    [telephone setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [telephone setTitleColor:QDXGray forState:UIControlStateNormal];
     [telephone addTarget:self action:@selector(takeTelephone) forControlEvents:UIControlEventTouchUpInside];
     [imageBg addSubview:telephone];
     
     UIButton *download = [[UIButton alloc] initWithFrame:CGRectMake(0, versionMaxY+130, QdxWidth, 30)];
     [download setTitle:[NSString stringWithFormat:@"趣定向官网"] forState:UIControlStateNormal];
     download.titleLabel.font = [UIFont systemFontOfSize:15];
-    [download setTitleColor:[UIColor grayColor] forState:UIControlStateNormal];
+    [download setTitleColor:QDXGray forState:UIControlStateNormal];
     [download addTarget:self action:@selector(download) forControlEvents:UIControlEventTouchUpInside];
     [imageBg addSubview:download];
     
     UILabel *coChinese = [ToolView createLabelWithFrame:CGRectMake(0, QdxHeight-25-64, QdxWidth, 10) text:@"趣定向体育科技发展(上海)有限公司" font:15 superView:imageBg];
     coChinese.textAlignment = NSTextAlignmentCenter;
-    coChinese.textColor = [UIColor grayColor];
+    coChinese.textColor = QDXGray;
     
 }
 

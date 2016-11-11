@@ -160,7 +160,7 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.showsVerticalScrollIndicator = NO;
-    _tableView.backgroundColor = [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1];
+    _tableView.backgroundColor = QDXBGColor;
     self.automaticallyAdjustsScrollViewInsets = false;
     [self.view addSubview:_tableView];
     [self refreshView];

@@ -20,7 +20,7 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"帮助";
-    self.view.backgroundColor = [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1];
+    self.view.backgroundColor = QDXBGColor;
     protocol = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight-15)];
     protocol.backgroundColor = [UIColor clearColor];
     protocol.scrollView.showsVerticalScrollIndicator = FALSE;

@@ -38,9 +38,9 @@
 
     //[self.contentView addSubview:_imageView];
     _desLabel = [ToolView createLabelWithFrame:CGRectMake(70, 10, 100, 20) text:@"路线" font:15 superView:self.contentView];
-    _desLabel.textColor = [UIColor colorWithRed:58/255.0 green:58/255.0 blue:58/255.0 alpha:1];
+    _desLabel.textColor = QDXBlack;
     _nameLabel = [ToolView createLabelWithFrame:CGRectMake(70, 30, 150, 32) text:@"名字" font:16 superView:self.contentView];
-    _nameLabel.textColor = [UIColor colorWithRed:35.0f/255.0f green:138.0f/255.0f blue:215.0f/255.0f alpha:1.0f];
+    _nameLabel.textColor = QDXGray;
 }
 
 - (void)setModel:(CellModel *)model

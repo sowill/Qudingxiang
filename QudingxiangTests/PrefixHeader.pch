@@ -28,7 +28,17 @@
 #define QdxWidth [UIScreen mainScreen].bounds.size.width
 #define QdxHeight [UIScreen mainScreen].bounds.size.height
 
-#define QDXGray [UIColor colorWithWhite:0.961 alpha:1.000]
+#define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
+
+#define QDXGray UIColorFromRGB(0x666666)
+
+#define QDXBlue UIColorFromRGB(0x0099fd)
+
+#define QDXBlack UIColorFromRGB(0x111111)
+
+#define QDXOrange UIColorFromRGB(0xff5100)
+
+#define QDXBGColor [UIColor colorWithWhite:0.961 alpha:1.000]
 
 #define FitRealValue(value) ((value)/750.0f*[UIScreen mainScreen].bounds.size.width)
 

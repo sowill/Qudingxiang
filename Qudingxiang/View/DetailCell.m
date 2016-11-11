@@ -36,7 +36,7 @@
     details.editable = NO;
     details.autoresizingMask = UIViewAutoresizingFlexibleHeight;
     details.font = [UIFont fontWithName:@"Arial" size:15.0f];
-    details.textColor = [UIColor grayColor];
+    details.textColor = QDXGray;
     //    details.backgroundColor = [UIColor redColor];
     [self.contentView addSubview:details];
 }

@@ -635,6 +635,7 @@
 		459C6E311BD89D2300743FEC /* UIApplication+JTSImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+JTSImageViewController.m"; sourceTree = "<group>"; };
 		459C6E321BD89D2300743FEC /* UIImage+JTSImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+JTSImageEffects.h"; sourceTree = "<group>"; };
 		459C6E331BD89D2300743FEC /* UIImage+JTSImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+JTSImageEffects.m"; sourceTree = "<group>"; };
+		45A0547F1DD5AF0B0076E06E /* 趣定向.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "趣定向.entitlements"; sourceTree = "<group>"; };
 		45AEE2B51D13E4F800116AD0 /* UIControl+UIControl_buttonCon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIControl+UIControl_buttonCon.h"; sourceTree = "<group>"; };
 		45AEE2B61D13E4F800116AD0 /* UIControl+UIControl_buttonCon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+UIControl_buttonCon.m"; sourceTree = "<group>"; };
 		45C6F5591C929FD000C5AA31 /* HomeModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeModel.h; sourceTree = "<group>"; };
@@ -1656,6 +1657,7 @@
 		45DF76201BA6AAC20024A6B4 = {
 			isa = PBXGroup;
 			children = (
+				45A0547F1DD5AF0B0076E06E /* 趣定向.entitlements */,
 				455501181D5AD62500516CC0 /* WebKit.framework */,
 				455C8AA31CD063C7001F5FC5 /* libstdc++.6.0.9.tbd */,
 				455C8AA11CD06396001F5FC5 /* OpenGLES.framework */,
@@ -1895,6 +1897,11 @@
 					45DF76281BA6AAC20024A6B4 = {
 						CreatedOnToolsVersion = 6.4;
 						DevelopmentTeam = X5T2295222;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+						};
 					};
 					45DF76411BA6AAC20024A6B4 = {
 						CreatedOnToolsVersion = 6.4;
@@ -2303,6 +2310,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = "趣定向.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
@@ -2347,6 +2355,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
+				CODE_SIGN_ENTITLEMENTS = "趣定向.entitlements";
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;

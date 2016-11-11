@@ -71,7 +71,7 @@
     sideMenuViewController.mainController = tabbar;
     sideMenuViewController.menuPreferredStatusBarStyle = 1;
     sideMenuViewController.delegate = self;
-    sideMenuViewController.contentViewShadowColor = [UIColor blackColor];
+    sideMenuViewController.contentViewShadowColor = UIColorFromRGB(0x0b598c);
     sideMenuViewController.contentViewShadowOffset = CGSizeMake(0, 0);
     sideMenuViewController.contentViewShadowOpacity = 0.6;
     sideMenuViewController.contentViewShadowRadius = 12;

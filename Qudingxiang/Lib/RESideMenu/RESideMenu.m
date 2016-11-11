@@ -87,7 +87,7 @@
     _animationDuration = 0.35f;
     _interactivePopGestureRecognizerEnabled = YES;
   
-    _menuViewControllerTransformation = CGAffineTransformMakeScale(1.5f, 1.5f);
+    _menuViewControllerTransformation = CGAffineTransformMakeScale(1.0f, 1.0f);
     
     _scaleContentView = YES;
     _scaleBackgroundImageView = YES;
@@ -107,7 +107,7 @@
     _panMinimumOpenThreshold = 60.0;
     
     _contentViewShadowEnabled = YES;
-    _contentViewShadowColor = [UIColor colorWithRed:15/255.0 green:52/255.0 blue:76/255.0 alpha:0.7];
+    _contentViewShadowColor = [UIColor colorWithRed:74/255.0 green:38/255.0 blue:20/255.0 alpha:0.7];
     _contentViewShadowOffset = CGSizeZero;
     _contentViewShadowOpacity = 0.4f;
     _contentViewShadowRadius = 8.0f;
@@ -160,11 +160,11 @@
         [self setContentViewController:contentViewController];
     } else {
         [self addChildViewController:contentViewController];
-        contentViewController.view.alpha = 0;
+//        contentViewController.view.alpha = 1;
         contentViewController.view.frame = self.contentViewContainer.bounds;
         [self.contentViewContainer addSubview:contentViewController.view];
         [UIView animateWithDuration:self.animationDuration animations:^{
-            contentViewController.view.alpha = 1;
+//            contentViewController.view.alpha = 1;
         } completion:^(BOOL finished) {
             [self hideViewController:self.contentViewController];
             [contentViewController didMoveToParentViewController:self];
@@ -233,7 +233,7 @@
     
     self.menuViewContainer.alpha = !self.fadeMenuView ?: 0;
     if (self.scaleBackgroundImageView)
-        self.backgroundImageView.transform = CGAffineTransformMakeScale(1.7f, 1.7f);
+        self.backgroundImageView.transform = CGAffineTransformMakeScale(1.0f, 1.0f);
     
     [self addMenuViewControllerMotionEffects];
     
@@ -263,7 +263,7 @@
     }
     self.menuViewContainer.alpha = !self.fadeMenuView ?: 0;
     if (self.scaleBackgroundImageView)
-        self.backgroundImageView.transform = CGAffineTransformMakeScale(1.7f, 1.7f);
+        self.backgroundImageView.transform = CGAffineTransformMakeScale(1.0f, 1.0f);
     
     if ([self.delegate conformsToProtocol:@protocol(RESideMenuDelegate)] && [self.delegate respondsToSelector:@selector(sideMenu:willShowMenuViewController:)]) {
         [self.delegate sideMenu:self willShowMenuViewController:menuViewController];
@@ -396,7 +396,7 @@
         strongSelf.contentViewContainer.alpha = 1;
 
         if (strongSelf.scaleBackgroundImageView) {
-            strongSelf.backgroundImageView.transform = CGAffineTransformMakeScale(1.7f, 1.7f);
+            strongSelf.backgroundImageView.transform = CGAffineTransformMakeScale(1.0f, 1.0f);
         }
         if (strongSelf.parallaxEnabled) {
             IF_IOS7_OR_GREATER(

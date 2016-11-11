@@ -90,7 +90,7 @@
     
     self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPortraitMargin, kPortraitMargin, kTitleWidth, kTitleHeight)];
     self.titleLabel.font = [UIFont boldSystemFontOfSize:14];
-    self.titleLabel.textColor = [UIColor colorWithWhite:0.067 alpha:1.000];
+    self.titleLabel.textColor = QDXBlack;
     self.titleLabel.text = @"title";
     [self addSubview:self.titleLabel];
     
@@ -98,7 +98,7 @@
 //    self.subtitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPortraitMargin * 2 + kPortraitWidth, kPortraitMargin * 2 + kTitleHeight, kTitleWidth, kTitleHeight)];
     self.subtitleLabel = [[UILabel alloc] initWithFrame:CGRectMake(kPortraitMargin , kPortraitMargin * 2 + kTitleHeight, kTitleWidth, kTitleHeight)];
     self.subtitleLabel.font = [UIFont systemFontOfSize:12];
-    self.subtitleLabel.textColor = [UIColor colorWithWhite:0.961 alpha:1.000];
+    self.subtitleLabel.textColor = QDXGray;
     self.subtitleLabel.text = @"subtitleLabel";
     [self addSubview:self.subtitleLabel];
 }

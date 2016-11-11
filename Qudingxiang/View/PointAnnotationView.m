@@ -58,7 +58,7 @@
         self.point_ID.textAlignment = NSTextAlignmentCenter;
         self.point_ID.backgroundColor = [UIColor clearColor];
         self.point_ID.font = [UIFont fontWithName:@"Helvetica-Bold" size:10];
-        self.point_ID.textColor = [UIColor colorWithWhite:0.067 alpha:1.000];
+        self.point_ID.textColor = QDXBlack;
         [self addSubview:self.point_ID];
         
     }

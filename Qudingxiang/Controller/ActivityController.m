@@ -37,7 +37,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     _curNumber = 1;
-    self.view.backgroundColor = [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1];;
+    self.view.backgroundColor = QDXBGColor;
     self.navigationItem.title = @"活动";
     
 //    _scrollTapViw = [[DTScrollStatusView alloc]initWithTitleArr:@[@"进行中",@"已完成"] andType:ScrollTapTypeWithNavigation];
@@ -67,7 +67,7 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.showsVerticalScrollIndicator = NO;
-    _tableView.backgroundColor = [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1];
+    _tableView.backgroundColor = QDXBGColor;
     [self.view addSubview:_tableView];
     [self loadDataWith:@"1" isRemoveAll:NO];
     [self refreshView];

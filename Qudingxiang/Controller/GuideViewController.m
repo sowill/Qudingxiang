@@ -24,7 +24,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor colorWithRed:0.992 green:0.953 blue:0.812 alpha:1.000];
+    self.view.backgroundColor = QDXBGColor;
     [self createUI];
 }
 
@@ -88,7 +88,7 @@
         sideMenuViewController.mainController = mainTabbarVC;
         sideMenuViewController.menuPreferredStatusBarStyle = 1;
         sideMenuViewController.delegate = self;
-        sideMenuViewController.contentViewShadowColor = [UIColor blackColor];
+        sideMenuViewController.contentViewShadowColor = QDXGray;
         sideMenuViewController.contentViewShadowOffset = CGSizeMake(0, 0);
         sideMenuViewController.contentViewShadowOpacity = 0.6;
         sideMenuViewController.contentViewShadowRadius = 12;

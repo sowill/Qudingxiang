@@ -47,7 +47,7 @@
 
 -(void)setupFgpwd
 {
-    self.view.backgroundColor = [UIColor colorWithWhite:0.949 alpha:1.000];
+    self.view.backgroundColor = QDXBGColor;
     
     //2 添加一个手机号码输入框
     telText = [[UITextField alloc]init];
@@ -58,7 +58,7 @@
     telText.borderStyle = UITextBorderStyleNone;
     telText.placeholder = @"请输入手机号码";
     telText.font = [UIFont fontWithName:@"Arial" size:16.0f];
-    telText.textColor = [UIColor colorWithWhite:0.400 alpha:1.000];
+    telText.textColor = QDXGray;
     telText.clearButtonMode = UITextFieldViewModeNever;
     telText.keyboardType = UIKeyboardTypeNumberPad;
     telText.backgroundColor = [UIColor whiteColor];
@@ -89,7 +89,7 @@
     vcodeText.borderStyle = UITextBorderStyleNone;
     vcodeText.placeholder = @"请输入短信验证码";
     vcodeText.font = [UIFont fontWithName:@"Arial" size:16.0f];
-    vcodeText.textColor = [UIColor colorWithWhite:0.400 alpha:1.000];
+    vcodeText.textColor = QDXGray;
     vcodeText.clearButtonMode = UITextFieldViewModeNever;
     vcodeText.keyboardType = UIKeyboardTypeNumberPad;
     vcodeText.backgroundColor = [UIColor whiteColor];
@@ -119,7 +119,7 @@
     timeLabel.backgroundColor = [UIColor clearColor];
     timeLabel.textAlignment = NSTextAlignmentCenter;
     timeLabel.font = [UIFont systemFontOfSize:17];
-    timeLabel.textColor = [UIColor colorWithWhite:0.400 alpha:1.000];
+    timeLabel.textColor = QDXBlack;
     timeLabel.text = @"获取验证码";
     [getCodeBtn addSubview:timeLabel];
     
@@ -131,7 +131,7 @@
     loginBtn.center = CGPointMake(loginBtnCenterX, loginBtnCenterY);
     loginBtn.bounds = CGRectMake(0, 0, QdxWidth-20, 40);
     [loginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [loginBtn setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+    [loginBtn setTitleColor:QDXGray forState:UIControlStateHighlighted];
     //    [loginBtn setBackgroundColor:[UIColor colorWithRed:40/255.0 green:132/255.0 blue:250/255.0 alpha:1]];
     CGFloat top = 25; // 顶端盖高度
     CGFloat bottom = 25; // 底端盖高度

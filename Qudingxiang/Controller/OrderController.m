@@ -58,7 +58,7 @@
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"我的订单";
     
-    self.view.backgroundColor = [UIColor colorWithWhite:0.961 alpha:1.000];
+    self.view.backgroundColor = QDXBGColor;
     
     [self createTableView];
 
@@ -78,7 +78,7 @@
     self.tableview.delegate = self;
     self.tableview.dataSource = self;
     self.tableview.showsVerticalScrollIndicator = NO;
-    self.tableview.backgroundColor = [UIColor colorWithWhite:0.961 alpha:1.000];
+    self.tableview.backgroundColor = QDXBGColor;
     //    self.tableview.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.tableview setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [self.view addSubview:self.tableview];
@@ -225,7 +225,7 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, 10)];
-    headerView.backgroundColor = [UIColor colorWithWhite:0.961 alpha:1.000];
+    headerView.backgroundColor = QDXBGColor;
     return headerView;
 }
 
@@ -242,7 +242,7 @@
 - (void)createLoginView
 {
     loginView = [[UIView alloc] initWithFrame:self.tableview.frame];
-    loginView.backgroundColor = [UIColor colorWithWhite:0.961 alpha:1.000];
+    loginView.backgroundColor = QDXBGColor;
     [self.tableview addSubview:loginView];
     
     UIImageView *sad = [[UIImageView alloc] init];
@@ -258,8 +258,8 @@
     sadButton.bounds = CGRectMake(0, 0, 135, 30);
     [sadButton setTitle:@"登录查看订单" forState:UIControlStateNormal];
     [sadButton addTarget:self action:@selector(sign_in) forControlEvents:UIControlEventTouchUpInside];
-    [sadButton setTitleColor:[UIColor colorWithRed:0.000 green:0.600 blue:0.992 alpha:1.000] forState:UIControlStateNormal];
-    sadButton.layer.borderColor = [[UIColor colorWithRed:0.000 green:0.600 blue:0.992 alpha:1.000]CGColor];
+    [sadButton setTitleColor:QDXBlue forState:UIControlStateNormal];
+    sadButton.layer.borderColor = QDXBlue.CGColor;
     sadButton.layer.borderWidth = 0.5;
     sadButton.layer.cornerRadius = 4;
     sadButton.titleLabel.font = [UIFont systemFontOfSize:14];
@@ -291,7 +291,7 @@
     sadButton_1.text = @"您当前没有订单";
     sadButton_1.font = [UIFont systemFontOfSize:12];
     sadButton_1.textAlignment = NSTextAlignmentCenter;
-    sadButton_1.textColor = [UIColor colorWithWhite:0.400 alpha:1.000];
+    sadButton_1.textColor = QDXGray;
     [self.tableview addSubview:sadButton_1];
 }
 

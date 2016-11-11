@@ -34,7 +34,7 @@
 
 -(void)setupChangePwd
 {
-    self.view.backgroundColor = [UIColor colorWithWhite:0.949 alpha:1.000];
+    self.view.backgroundColor = QDXBGColor;
     
     //4 添加一个密码输入框
     pwdText = [[UITextField alloc]init];
@@ -45,7 +45,7 @@
     pwdText.borderStyle = UITextBorderStyleNone;
     pwdText.placeholder = @"请输入密码";
     pwdText.font = [UIFont fontWithName:@"Arial" size:16.0f];
-    pwdText.textColor = [UIColor colorWithWhite:0.400 alpha:1.000];
+    pwdText.textColor = QDXGray;
     pwdText.clearButtonMode = UITextFieldViewModeNever;
     pwdText.keyboardType = UIKeyboardTypeDefault;
     pwdText.secureTextEntry = YES;
@@ -88,7 +88,7 @@
     pwdsureText.borderStyle = UITextBorderStyleNone;
     pwdsureText.placeholder = @"请确认密码";
     pwdsureText.font = [UIFont fontWithName:@"Arial" size:16.0f];
-    pwdsureText.textColor = [UIColor colorWithWhite:0.400 alpha:1.000];
+    pwdsureText.textColor = QDXGray;
     pwdsureText.clearButtonMode = UITextFieldViewModeNever;
     pwdsureText.keyboardType = UIKeyboardTypeDefault;
     pwdsureText.secureTextEntry = YES;
@@ -119,7 +119,7 @@
     loginBtn.center = CGPointMake(loginBtnCenterX, loginBtnCenterY);
     loginBtn.bounds = CGRectMake(0, 0, QdxWidth-20, 40);
     [loginBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [loginBtn setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+    [loginBtn setTitleColor:QDXGray forState:UIControlStateHighlighted];
     //    [loginBtn setBackgroundColor:[UIColor colorWithRed:40/255.0 green:132/255.0 blue:250/255.0 alpha:1]];
     CGFloat top = 25; // 顶端盖高度
     CGFloat bottom = 25; // 底端盖高度

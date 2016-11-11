@@ -84,7 +84,7 @@
     [lb setTextAlignment:NSTextAlignmentCenter];
     lb.text = sg;
     [lb setFont:[UIFont systemFontOfSize:14]];
-    [lb setTextColor:[UIColor grayColor]];
+    [lb setTextColor:QDXGray];
     [lb setFrame:CGRectMake(0,QdxHeight/2-140,QdxWidth, 44)];
     [_vi_notData addSubview:lb];
     UIImageView *vi = [[UIImageView alloc] init];

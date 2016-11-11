@@ -106,7 +106,7 @@
 
 -(void)setupBind
 {
-    self.view.backgroundColor = [UIColor colorWithWhite:0.949 alpha:1.000];
+    self.view.backgroundColor = QDXBGColor;
     
     //4 添加一个用户名称输入框
     customerNameText = [[UITextField alloc]init];

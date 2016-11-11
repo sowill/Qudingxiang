@@ -125,7 +125,7 @@
     
     self.QDXScrollView =[[UIScrollView alloc] initWithFrame:self.view.frame];
     self.QDXScrollView.showsVerticalScrollIndicator = FALSE;
-    self.QDXScrollView.backgroundColor = [UIColor colorWithWhite:0.949 alpha:1.000];
+    self.QDXScrollView.backgroundColor = QDXBGColor;
     [self.view addSubview:self.QDXScrollView];
     countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeFireMethod) userInfo:nil repeats:YES];
 }
@@ -414,7 +414,7 @@
     sadButton.text = @"您已经强制结束比赛";
     sadButton.font = [UIFont systemFontOfSize:12];
     sadButton.textAlignment = NSTextAlignmentCenter;
-    sadButton.textColor = [UIColor colorWithWhite:0.400 alpha:1.000];
+    sadButton.textColor = QDXGray;
     [self.QDXScrollView addSubview:sadButton];
 }
 
@@ -430,7 +430,7 @@
     self.tableview.delegate = self;
     self.tableview.dataSource = self;
     self.tableview.showsVerticalScrollIndicator = NO;
-    self.tableview.backgroundColor = [UIColor colorWithWhite:0.949 alpha:1.000];
+    self.tableview.backgroundColor = QDXBGColor;
     self.tableview.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.QDXScrollView addSubview:self.tableview];
 }
@@ -485,7 +485,7 @@
     headerView.backgroundColor = [UIColor whiteColor];
     UILabel *header = [[UILabel alloc] initWithFrame:CGRectMake(10, 15, QdxWidth *  0.7 , 20)];
     header.text = @"定向足迹";
-    header.textColor = [UIColor colorWithWhite:0.067 alpha:1.000];
+    header.textColor = QDXBlack;
     header.font = [UIFont fontWithName:@"Arial" size:15];
     [headerView addSubview:header];
     UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 40 -1, QdxWidth, 1)];

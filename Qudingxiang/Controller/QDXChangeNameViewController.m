@@ -66,7 +66,7 @@
 
 -(void)setupChangeName
 {
-    self.view.backgroundColor = [UIColor colorWithWhite:0.949 alpha:1.000];
+    self.view.backgroundColor = QDXBGColor;
     
     //4 添加一个用户名称输入框
     customerNameText = [[UITextField alloc]init];
@@ -78,7 +78,7 @@
     customerNameText.text = _cusName;
 //    customerNameText.placeholder = @"请修改昵称";
     customerNameText.font = [UIFont fontWithName:@"Arial" size:16.0f];
-    customerNameText.textColor = [UIColor colorWithWhite:0.400 alpha:1.000];
+    customerNameText.textColor = QDXGray;
     customerNameText.clearButtonMode = UITextFieldViewModeNever;
     customerNameText.keyboardType = UIKeyboardTypeDefault;
     customerNameText.backgroundColor = [UIColor whiteColor];
@@ -108,7 +108,7 @@
     commitBtn.center = CGPointMake(commitBtnCenterX, commitBtnCenterY);
     commitBtn.bounds = CGRectMake(0, 0, QdxWidth-20, 40);
     [commitBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    [commitBtn setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
+    [commitBtn setTitleColor:QDXGray forState:UIControlStateHighlighted];
     CGFloat top = 25; // 顶端盖高度
     CGFloat bottom = 25; // 底端盖高度
     CGFloat left = 5; // 左端盖宽度

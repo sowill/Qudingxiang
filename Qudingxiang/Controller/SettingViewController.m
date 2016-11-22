@@ -10,7 +10,7 @@
 #import "QDXLoginViewController.h"
 #import "QDXChangePwdViewController.h"
 #import "QDXNavigationController.h"
-#import "TabbarController.h"
+//#import "TabbarController.h"
 
 @interface SettingViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 {

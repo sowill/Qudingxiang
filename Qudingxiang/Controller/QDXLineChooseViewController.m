@@ -16,7 +16,7 @@
 #import "JTSImageViewController.h"
 #import "JTSImageInfo.h"
 #import <QuartzCore/QuartzCore.h>
-#import "TabbarController.h"
+//#import "TabbarController.h"
 #import "QDXNavigationController.h"
 @interface QDXLineChooseViewController ()
 {

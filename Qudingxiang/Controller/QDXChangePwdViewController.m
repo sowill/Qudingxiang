@@ -7,7 +7,7 @@
 //
 
 #import "QDXChangePwdViewController.h"
-#import "TabbarController.h"
+//#import "TabbarController.h"
 #import "QDXIsConnect.h"
 #import "CheckDataTool.h"
 

@@ -12,7 +12,7 @@
 #import "ActivityController.h"
 #import "OrderController.h"
 #import "MoreViewController.h"
-#import "TabbarController.h"
+#import "LBTabBarController.h"
 #import "MineViewController.h"
 
 #import "AppDelegate.h"
@@ -90,34 +90,7 @@
         [_scrollView removeFromSuperview];
         [_pageControl removeFromSuperview];
         
-        HomeController *homeVC = [[HomeController alloc] init];
-        
-        UINavigationController *firstNav = [[QDXNavigationController alloc] initWithRootViewController:homeVC];
-        firstNav.tabBarItem.image = [UIImage imageNamed:@"index_home_nomal"];
-        homeVC.title = @"首页";
-        //    homeVC.navigationController.navigationBar.barTintColor = [UIColor redColor];
-        
-        ActivityController *activityVC = [[ActivityController alloc] init];
-        
-        UINavigationController *secondNav = [[QDXNavigationController alloc] initWithRootViewController:activityVC];
-        secondNav.tabBarItem.image = [UIImage imageNamed:@"index_location_click"];
-        activityVC.title = @"活动";
-        
-        OrderController *orderVC = [[OrderController alloc] init];
-        
-        UINavigationController *thridNav = [[QDXNavigationController alloc] initWithRootViewController:orderVC];
-        thridNav.tabBarItem.image = [UIImage imageNamed:@"index_order_nomal"];
-        orderVC.title = @"订单";
-        
-        MoreViewController *moreVC = [[MoreViewController alloc] init];
-        
-        UINavigationController *fourNav = [[QDXNavigationController alloc] initWithRootViewController:moreVC];
-        fourNav.tabBarItem.image = [UIImage imageNamed:@"index_more_nomal"];
-        moreVC.title = @"更多";
-        
-        TabbarController *tabVC = [[TabbarController alloc] init];
-        [tabVC setViewControllers:@[firstNav,secondNav,thridNav,fourNav]];
-        tabVC.tabBar.tintColor = QDXBlue;
+        LBTabBarController *tabVC = [[LBTabBarController alloc] init];
         
         MineViewController *leftVC = [[MineViewController alloc] init];
         MCLeftSlideViewController *rootVC = [[MCLeftSlideViewController alloc] initWithLeftView:leftVC andMainView:tabVC];

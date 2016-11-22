@@ -8,7 +8,7 @@
 
 #import "QDXChangeNameViewController.h"
 #import "QDXIsConnect.h"
-#import "TabbarController.h"
+//#import "TabbarController.h"
 
 @interface QDXChangeNameViewController ()<UITextFieldDelegate>
 {

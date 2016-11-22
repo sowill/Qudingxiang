@@ -29,7 +29,7 @@
     self.navigationItem.title = @"个性签名";
     self.view.backgroundColor = [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1];
     [self createText];
-    [self createNavBtn];
+//    [self createNavBtn];
     [_signText becomeFirstResponder];
 
 }

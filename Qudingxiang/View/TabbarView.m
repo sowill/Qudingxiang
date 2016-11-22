@@ -7,129 +7,112 @@
 //
 
 #import "TabbarView.h"
-#import "TabbarButton.h"
-@interface TabbarView()<UIAlertViewDelegate>
-@property (nonatomic, strong) NSMutableArray *tabBarButtons;
+//#import "TipsManager.h"
+
+@interface TabbarView()
+// 加号按钮 存储的属性
 @property (nonatomic, weak) UIButton *plusButton;
-@property (nonatomic, weak) TabbarButton *selectedButton;
 
 @end
 @implementation TabbarView
 
-- (NSMutableArray *)tabBarButtons
+#pragma mark - 4、监听方法------
+// 点击加号按钮的时候调用
+- (void)plusClick
 {
-    if (_tabBarButtons == nil) {
-        _tabBarButtons = [NSMutableArray array];
-    }
-    return _tabBarButtons;
-}
-
-- (id)initWithFrame:(CGRect)frame
-{
-    self = [super initWithFrame:frame];
-    if (self) {
-     
-        // 添加一个加号按钮
-        UIButton *plusButton = [UIButton buttonWithType:UIButtonTypeCustom];
-        [plusButton setBackgroundImage:[UIImage imageNamed:@"index_go"] forState:UIControlStateNormal];
-        [plusButton setBackgroundImage:[UIImage imageNamed:@"index_go"] forState:UIControlStateHighlighted];
-        plusButton.bounds = CGRectMake(0, 0, plusButton.currentBackgroundImage.size.width+10, plusButton.currentBackgroundImage.size.height+10);
-        
-//        plusButton.layer.cornerRadius = 40.0;
-//        plusButton.layer.borderWidth = 1.0;
-//        plusButton.layer.borderColor =[UIColor clearColor].CGColor;
-//        plusButton.clipsToBounds = TRUE;
-        [plusButton addTarget:self action:@selector(plusButtonClick) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:plusButton];
-        
-        self.plusButton = plusButton;
-        
-    }
-    return self;
-}
-
-- (void)plusButtonClick
-{
+//    NSLog(@"加号按钮点击事件");
+//    [[TipsManager sharedInstance] showTips:@"加号按钮点击事件"];
     
+    //如果tabbar的代理实现了对应的代理方法，那么就调用代理的该方法
     if ([self.delegate respondsToSelector:@selector(tabBarDidClickedPlusButton:)]) {
         [self.delegate tabBarDidClickedPlusButton:self];
     }
 }
 
-- (void)addTabBarButtonWithItem:(UITabBarItem *)item
-{
-    
-    // 1.创建按钮
-    TabbarButton *button = [[TabbarButton alloc] init];
-    [self addSubview:button];
-    // 添加按钮到数组中
-    [self.tabBarButtons addObject:button];
-    
-    // 2.设置数据
-    button.item = item;
-    
-    // 3.监听按钮点击
-    [button addTarget:self action:@selector(buttonClick:) forControlEvents:UIControlEventTouchDown];
-    
-    // 4.默认选中第0个按钮
-    if (self.tabBarButtons.count == 1) {
-        [self buttonClick:button];
-    }
-}
+#pragma mark - 2、给tabBar内部bottom进行位置布局------
 
-/**
- *  监听按钮点击
- */
-- (void)buttonClick:(TabbarButton *)button
-{
-    // 1.通知代理
-    if ([self.delegate respondsToSelector:@selector(tabBar:didSelectedButtonFrom:to:)]) {
-        [self.delegate tabBar:self didSelectedButtonFrom:self.selectedButton.tag to:button.tag];
-    }
-    
-    // 2.设置按钮的状态
-    self.selectedButton.selected = NO;
-    button.selected = YES;
-    self.selectedButton = button;
-}
-
+// self.items UITabBarItem模型，有多少个子控制器就有多少个UITabBarItem模型
+// 调整子控件的位置
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    
-    
-    // 调整加号按钮的位置
-    CGFloat h = self.frame.size.height;
-    CGFloat w = self.frame.size.width;
-    self.plusButton.center = CGPointMake(w * 0.5, h * 0.3);
-    
-    // 按钮的frame数据
-    CGFloat buttonH = h;
-    CGFloat buttonW = w / self.subviews.count;
-    CGFloat buttonY = 0;
-    
-    for (int index = 0; index<self.tabBarButtons.count; index++) {
-        // 1.取出按钮
-        TabbarButton *button = self.tabBarButtons[index];
-        
-        // 2.设置按钮的frame
-        CGFloat buttonX = index * buttonW;
-        if (index > 1) {
-            buttonX += buttonW;
+    // 取得tabBarItem的宽和高
+    CGFloat w = self.bounds.size.width;
+    CGFloat h = self.bounds.size.height;
+    // 设置按钮在tabBarItem内部的Frame
+    CGFloat btnX = 0;
+    CGFloat btnY = 0;
+    CGFloat btnW = w / (self.items.count + 1);
+    CGFloat btnH = self.bounds.size.height;
+    NSUInteger i = 0;
+    // 设置tabBarButton的frame
+    for (UIView *tabBarButton in self.subviews) {
+        NSLog(@"%@",NSStringFromClass([tabBarButton class]));
+        if ([tabBarButton isKindOfClass:NSClassFromString(@"UITabBarButton")]) {
+            // 将加号按钮的位置腾出来
+            if (i == 2) {
+                i = 3;
+            }
+            btnX = i * btnW;
+            tabBarButton.frame = CGRectMake(btnX, btnY, btnW, btnH);
+            i++;
         }
-        button.frame = CGRectMake(buttonX, buttonY, buttonW, buttonH);
         
-        // 3.绑定tag
-        button.tag = index;
+    }
+    // 设置添加按钮的位置
+    self.plusButton.center = CGPointMake(w * 0.5, h * 0.7 - 2*10);
+}
+
+- (instancetype)initWithFrame:(CGRect)frame
+{
+    if (self=[super initWithFrame:frame]) {
+        //        ----runtime - test----
+        
+        //        unsigned int count = 0;
+        //        Ivar *ivarList = class_copyIvarList([UITabBar class], &count);
+        //        for (int i =0; i<count; i++) {
+        //            Ivar ivar = ivarList[i];
+        //            LBLog(@"%s",ivar_getName(ivar));
+        //        }
+        
+        //        [self setBackgroundImage:[UIImage imageWithColor:[UIColor whiteColor]]];
+        self.backgroundColor = [UIColor whiteColor];
+        //        [self setShadowImage:[UIImage imageWithColor:[UIColor whiteColor]]];
+
+    }
+    return self;
+}
+
+/// 关键的方法如果在加号里面返回YES
+-(BOOL)pointInside:(CGPoint)point withEvent:(UIEvent *)event{
+    if ([super pointInside:point withEvent:event]) {
+        return [super pointInside:point withEvent:event];
+    }else{
+        CGRect rect = [self convertRect:self.plusButton.frame toView:self];
+        return CGRectContainsPoint(rect, point);
     }
 }
 
-/*
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
+// 重写加号按钮的getter方法进行赋值
+- (UIButton *)plusButton
+{
+    if (_plusButton == nil) {
+        UIButton *btn = [UIButton buttonWithType:UIButtonTypeCustom];
+        
+//        [btn setImage:[UIImage imageNamed:@"tabbar_compose_icon_add_highlighted"] forState:UIControlStateNormal];
+//        [btn setImage:[UIImage imageNamed:@"tabbar_compose_background_icon_add"] forState:UIControlStateHighlighted];
+        [btn setBackgroundImage:[UIImage imageNamed:@"index_go"] forState:UIControlStateNormal];
+        [btn setBackgroundImage:[UIImage imageNamed:@"index_go"] forState:UIControlStateHighlighted];
+        // 默认按钮的尺寸跟背景图片一样大
+        // sizeToFit:默认会根据按钮的背景图片或者image和文字计算出按钮的最合适的尺寸
+        [btn sizeToFit];
+        // 监听按钮的点击
+        [btn addTarget:self action:@selector(plusClick) forControlEvents:UIControlEventTouchUpInside];
+        _plusButton = btn;
+        [self addSubview:_plusButton];
+    }
+    return _plusButton;
 }
-*/
+
 
 @end

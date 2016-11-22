@@ -12,6 +12,7 @@
 //#import "XDMultTableView.h"
 #import "DWViewCell.h"
 #import "DWFlowLayout.h"
+#import "MCLeftSliderManager.h"
 
 //@interface MoreViewController ()<UIAlertViewDelegate,XDMultTableViewDatasource,XDMultTableViewDelegate>
 //@interface MoreViewController ()<UIAlertViewDelegate,UITableViewDelegate,UITableViewDataSource>
@@ -41,15 +42,11 @@
     
 //    [self createTableView];
     
-    _button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-    [_button setImage:[UIImage imageNamed:@"index_my"] forState:UIControlStateNormal];
-    [_button addTarget:self action:@selector(setClick) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_button];
-    
-    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:_button];
-    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    negativeSpacer.width = -10;
-    self.navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
+    UIButton *menuBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    menuBtn.frame = CGRectMake(0, 0, 20, 18);
+    [menuBtn setBackgroundImage:[UIImage imageNamed:@"index_my"] forState:UIControlStateNormal];
+    [menuBtn addTarget:self action:@selector(openOrCloseLeftList) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:menuBtn];
     
     DWFlowLayout *layout = [[DWFlowLayout alloc] init];
     //设置是否需要分页
@@ -67,6 +64,19 @@
     
     data = @[@"01",@"02",@"03"];
     [_collectionView reloadData];
+}
+
+- (void) openOrCloseLeftList
+{
+    
+    if ([MCLeftSliderManager sharedInstance].LeftSlideVC.closed)
+    {
+        [[MCLeftSliderManager sharedInstance].LeftSlideVC openLeftView];
+    }
+    else
+    {
+        [[MCLeftSliderManager sharedInstance].LeftSlideVC closeLeftView];
+    }
 }
 
 #pragma mark cell的数量
@@ -297,15 +307,15 @@
     label1.textColor = [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1];
     [self.view addSubview:label1];
     
-    _button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-    [_button setImage:[UIImage imageNamed:@"index_my"] forState:UIControlStateNormal];
-    [_button addTarget:self action:@selector(setClick) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_button];
-    
-    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:_button];
-    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    negativeSpacer.width = -10;
-    self.navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
+//    _button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+//    [_button setImage:[UIImage imageNamed:@"index_my"] forState:UIControlStateNormal];
+//    [_button addTarget:self action:@selector(setClick) forControlEvents:UIControlEventTouchUpInside];
+//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_button];
+//    
+//    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:_button];
+//    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+//    negativeSpacer.width = -10;
+//    self.navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
 }
 
 - (void)setClick
@@ -314,7 +324,7 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"登陆后才可使用此功能" delegate:self cancelButtonTitle:@"暂不登录" otherButtonTitles:@"立即登录", nil];
         [alert show];
     }else{
-        [self.sideMenuViewController presentLeftMenuViewController];
+//        [self.sideMenuViewController presentLeftMenuViewController];
     }
 }
 

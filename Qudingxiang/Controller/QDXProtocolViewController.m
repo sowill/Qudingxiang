@@ -27,7 +27,7 @@
     [self setupCurrentLine];
     [self setupProtocol];
     
-    [self createButtonBack];
+//    [self createButtonBack];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noti3) name:@"noti3" object:nil];
 }
 

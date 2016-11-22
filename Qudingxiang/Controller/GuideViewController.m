@@ -7,10 +7,20 @@
 //
 
 #import "GuideViewController.h"
+
 #import "HomeController.h"
-#import "LBTabBarController.h"
+#import "ActivityController.h"
+#import "OrderController.h"
+#import "MoreViewController.h"
+#import "TabbarController.h"
 #import "MineViewController.h"
-@interface GuideViewController ()<UIScrollViewDelegate,RESideMenuDelegate>
+
+#import "AppDelegate.h"
+
+#import "QDXNavigationController.h"
+#import "MCLeftSlideViewController.h"
+
+@interface GuideViewController ()<UIScrollViewDelegate>
 {
     UIImageView *_imageView;
     UIScrollView *_scrollView;
@@ -79,28 +89,45 @@
     } completion:^(BOOL finished) {
         [_scrollView removeFromSuperview];
         [_pageControl removeFromSuperview];
-        LBTabBarController *mainTabbarVC = [[LBTabBarController alloc] init];
-        MineViewController *mine = [[MineViewController alloc] init];
         
-        RESideMenu *sideMenuViewController = [[RESideMenu alloc] initWithContentViewController:mainTabbarVC
-                                                                        leftMenuViewController:mine
-                                                                       rightMenuViewController:nil];
-        sideMenuViewController.mainController = mainTabbarVC;
-        sideMenuViewController.menuPreferredStatusBarStyle = 1;
-        sideMenuViewController.delegate = self;
-        sideMenuViewController.contentViewShadowColor = QDXGray;
-        sideMenuViewController.contentViewShadowOffset = CGSizeMake(0, 0);
-        sideMenuViewController.contentViewShadowOpacity = 0.6;
-        sideMenuViewController.contentViewShadowRadius = 12;
-        sideMenuViewController.contentViewShadowEnabled = YES;
-        //是否缩小
-        sideMenuViewController.scaleContentView = NO;
-        [self presentViewController:sideMenuViewController animated:YES completion:^{
-            
-        }];
+        HomeController *homeVC = [[HomeController alloc] init];
+        
+        UINavigationController *firstNav = [[QDXNavigationController alloc] initWithRootViewController:homeVC];
+        firstNav.tabBarItem.image = [UIImage imageNamed:@"index_home_nomal"];
+        homeVC.title = @"首页";
+        //    homeVC.navigationController.navigationBar.barTintColor = [UIColor redColor];
+        
+        ActivityController *activityVC = [[ActivityController alloc] init];
+        
+        UINavigationController *secondNav = [[QDXNavigationController alloc] initWithRootViewController:activityVC];
+        secondNav.tabBarItem.image = [UIImage imageNamed:@"index_location_click"];
+        activityVC.title = @"活动";
+        
+        OrderController *orderVC = [[OrderController alloc] init];
+        
+        UINavigationController *thridNav = [[QDXNavigationController alloc] initWithRootViewController:orderVC];
+        thridNav.tabBarItem.image = [UIImage imageNamed:@"index_order_nomal"];
+        orderVC.title = @"订单";
+        
+        MoreViewController *moreVC = [[MoreViewController alloc] init];
+        
+        UINavigationController *fourNav = [[QDXNavigationController alloc] initWithRootViewController:moreVC];
+        fourNav.tabBarItem.image = [UIImage imageNamed:@"index_more_nomal"];
+        moreVC.title = @"更多";
+        
+        TabbarController *tabVC = [[TabbarController alloc] init];
+        [tabVC setViewControllers:@[firstNav,secondNav,thridNav,fourNav]];
+        tabVC.tabBar.tintColor = QDXBlue;
+        
+        MineViewController *leftVC = [[MineViewController alloc] init];
+        MCLeftSlideViewController *rootVC = [[MCLeftSlideViewController alloc] initWithLeftView:leftVC andMainView:tabVC];
+        UIApplication *app = [UIApplication sharedApplication];
+        AppDelegate *app2 = app.delegate;
+        app2.window.rootViewController = rootVC;
+        
     }];
-    
 }
+
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
     
@@ -123,15 +150,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

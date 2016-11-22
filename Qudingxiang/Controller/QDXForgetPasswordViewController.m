@@ -49,6 +49,8 @@
 {
     self.view.backgroundColor = QDXBGColor;
     
+    [self createButtonBack];
+    
     //2 添加一个手机号码输入框
     telText = [[UITextField alloc]init];
     CGFloat telTextCenterX = QdxWidth * 0.5;
@@ -108,14 +110,14 @@
     
     //3 添加一个获取验证码按钮
     getCodeBtn = [[UIButton alloc] init];
-    CGFloat getCodeBtnCenterX = QdxWidth-10 - 90/2;
+    CGFloat getCodeBtnCenterX = QdxWidth-10 - 94/2;
     CGFloat getCodeBtnCenterY = vcodeTextCenterY;
     getCodeBtn.center = CGPointMake(getCodeBtnCenterX, getCodeBtnCenterY);
-    getCodeBtn.bounds = CGRectMake(0, 0, 90, 40);
+    getCodeBtn.bounds = CGRectMake(0, 0, 94, 40);
     [getCodeBtn addTarget:self action:@selector(getCodeBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:getCodeBtn];
     
-    timeLabel=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, 90, 40)];
+    timeLabel=[[UILabel alloc]initWithFrame:CGRectMake(0, 0, 94, 40)];
     timeLabel.backgroundColor = [UIColor clearColor];
     timeLabel.textAlignment = NSTextAlignmentCenter;
     timeLabel.font = [UIFont systemFontOfSize:17];
@@ -141,6 +143,27 @@
     [loginBtn setBackgroundImage:[[UIImage imageNamed:@"sign_button"] resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch] forState:UIControlStateNormal];
     [loginBtn addTarget:self action:@selector(LoginBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:loginBtn];
+}
+
+// 返回按钮
+-(void)createButtonBack
+{
+    UIButton *buttonBack = [UIButton buttonWithType:UIButtonTypeSystem];
+    buttonBack.frame = CGRectMake(0, 0, 20, 18);
+    [buttonBack addTarget:self action:@selector(buttonBackSetting) forControlEvents:UIControlEventTouchUpInside];
+    [buttonBack setTitle:nil forState:UIControlStateNormal];
+    [buttonBack setBackgroundImage:[UIImage imageNamed:@"sign_return"] forState:UIControlStateNormal];
+    buttonBack.backgroundColor = [UIColor clearColor];
+    
+    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:buttonBack];
+    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    negativeSpacer.width = 0;
+    self.navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
+}
+
+-(void)buttonBackSetting
+{
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)deletetel

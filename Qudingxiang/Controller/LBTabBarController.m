@@ -7,17 +7,20 @@
 //
 
 #import "LBTabBarController.h"
-#import "QDXNavigationController.h"
 
 #import "HomeController.h"
 #import "ActivityController.h"
 #import "OrderController.h"
 #import "MoreViewController.h"
+
+#import "QDXNavigationController.h"
 #import "QDXGameViewController.h"
 #import "LineController.h"
-#import "QDXLoginViewController.h"
 #import "QDXProtocolViewController.h"
 #import "AppDelegate.h"
+
+#import "QDXLoginViewController.h"
+
 #import "LBTabBar.h"
 #import "UIImage+Image.h"
 #import "UIView+LBExtension.h"
@@ -94,8 +97,6 @@
 //    tabbar.myDelegate = self;
 //    //kvc实质是修改了系统的_tabBar
 //    [self setValue:tabbar forKeyPath:@"tabBar"];
-    
-    
 }
 
 

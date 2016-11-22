@@ -15,6 +15,7 @@
 #import "QDXNavigationController.h"
 #import "QDXLoginViewController.h"
 //#import "DTScrollStatusView.h"
+#import "MCLeftSliderManager.h"
 
 @interface ActivityController ()<UITableViewDataSource,UITableViewDelegate,MJRefreshBaseViewDelegate,UIAlertViewDelegate>
 {
@@ -44,6 +45,12 @@
 //    _scrollTapViw.scrollStatusDelegate = self;
 //    [self.view addSubview:_scrollTapViw];
     
+    UIButton *menuBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    menuBtn.frame = CGRectMake(0, 0, 20, 18);
+    [menuBtn setBackgroundImage:[UIImage imageNamed:@"index_my"] forState:UIControlStateNormal];
+    [menuBtn addTarget:self action:@selector(openOrCloseLeftList) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:menuBtn];
+    
     [self createTableView];
     if ([_tableView respondsToSelector:@selector(setSeparatorInset:)])
     {
@@ -52,6 +59,19 @@
     if ([_tableView respondsToSelector:@selector(setLayoutMargins:)])
     {
         [_tableView setLayoutMargins:UIEdgeInsetsZero];
+    }
+}
+
+- (void) openOrCloseLeftList
+{
+    
+    if ([MCLeftSliderManager sharedInstance].LeftSlideVC.closed)
+    {
+        [[MCLeftSliderManager sharedInstance].LeftSlideVC openLeftView];
+    }
+    else
+    {
+        [[MCLeftSliderManager sharedInstance].LeftSlideVC closeLeftView];
     }
 }
 
@@ -72,15 +92,15 @@
     [self loadDataWith:@"1" isRemoveAll:NO];
     [self refreshView];
     
-    _button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-    [_button setImage:[UIImage imageNamed:@"index_my"] forState:UIControlStateNormal];
-    [_button addTarget:self action:@selector(setClick) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_button];
-    
-    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:_button];
-    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    negativeSpacer.width = -10;
-    self.navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
+//    _button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+//    [_button setImage:[UIImage imageNamed:@"index_my"] forState:UIControlStateNormal];
+//    [_button addTarget:self action:@selector(setClick) forControlEvents:UIControlEventTouchUpInside];
+//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_button];
+//    
+//    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:_button];
+//    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+//    negativeSpacer.width = -10;
+//    self.navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
 }
 
 - (void)setClick
@@ -89,7 +109,7 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"登陆后才可使用此功能" delegate:self cancelButtonTitle:@"暂不登录" otherButtonTitles:@"立即登录", nil];
         [alert show];
     }else{
-        [self.sideMenuViewController presentLeftMenuViewController];
+//        [self.sideMenuViewController presentLeftMenuViewController];
     }
 }
 

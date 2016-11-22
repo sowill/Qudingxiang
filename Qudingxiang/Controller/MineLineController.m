@@ -35,7 +35,7 @@
     // Do any additional setup after loading the view.
     self.title = @"我的路线";
     self.view.backgroundColor = [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1];
-    [self createButtonBack];
+//    [self createButtonBack];
     [self createUI];
 
     if ([_tableView respondsToSelector:@selector(setSeparatorInset:)])
@@ -48,27 +48,27 @@
     }
 }
 
--(void)createButtonBack
-{
-    UIButton *buttonBack = [UIButton buttonWithType:UIButtonTypeSystem];
-    buttonBack.frame = CGRectMake(0, 0, 18, 14);
-    [buttonBack addTarget:self action:@selector(buttonBackSetting) forControlEvents:UIControlEventTouchUpInside];
-    [buttonBack setTitle:nil forState:UIControlStateNormal];
-    [buttonBack setBackgroundImage:[UIImage imageNamed:@"sign_return"] forState:UIControlStateNormal];
-    buttonBack.backgroundColor = [UIColor clearColor];
-    
-    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:buttonBack];
-    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    negativeSpacer.width = -10;
-    self.navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
-}
+//-(void)createButtonBack
+//{
+//    UIButton *buttonBack = [UIButton buttonWithType:UIButtonTypeSystem];
+//    buttonBack.frame = CGRectMake(0, 0, 18, 14);
+//    [buttonBack addTarget:self action:@selector(buttonBackSetting) forControlEvents:UIControlEventTouchUpInside];
+//    [buttonBack setTitle:nil forState:UIControlStateNormal];
+//    [buttonBack setBackgroundImage:[UIImage imageNamed:@"sign_return"] forState:UIControlStateNormal];
+//    buttonBack.backgroundColor = [UIColor clearColor];
+//    
+//    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:buttonBack];
+//    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+//    negativeSpacer.width = -10;
+//    self.navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
+//}
 
--(void)buttonBackSetting
-{
-    [self.sideMenuViewController setContentViewController:[[LBTabBarController alloc] init]
-                                                 animated:YES];
-    [self.sideMenuViewController hideMenuViewController];
-}
+//-(void)buttonBackSetting
+//{
+//    [self.sideMenuViewController setContentViewController:[[LBTabBarController alloc] init]
+//                                                 animated:YES];
+//    [self.sideMenuViewController hideMenuViewController];
+//}
 
 - (void)createUI
 {

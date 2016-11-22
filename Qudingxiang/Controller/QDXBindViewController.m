@@ -35,7 +35,7 @@
     // Do any additional setup after loading the view.
     
     [self setupBind];
-    [self createButtonBack];
+//    [self createButtonBack];
     self.navigationItem.title = @"绑定手机";
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"注册" style:UIControlStateNormal target:self action:@selector(registerClick)];

@@ -59,11 +59,11 @@
     [share addTarget:self action:@selector(shareClick) forControlEvents:UIControlEventTouchUpInside];
     [share setImage:[UIImage imageNamed:@"Share"] forState:UIControlStateNormal];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:share];
-    if (![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"weixin://"]]) {
-        share.hidden = YES;
-    }else{
-        share.hidden = NO;
-    }
+//    if (![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"weixin://"]]) {
+//        share.hidden = YES;
+//    }else{
+//        share.hidden = NO;
+//    }
 }
 
 -(void)shareClick
@@ -402,8 +402,6 @@
         [self presentViewController:navController animated:YES completion:^{
             
         }];
-        
-    
     }
 }
 

@@ -25,7 +25,7 @@
     // Do any additional setup after loading the view.
     
     [self setupChangeName];
-    [self createButtonBack];
+//    [self createButtonBack];
     self.navigationItem.title = @"修改用户昵称";
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChange) name:UITextFieldTextDidChangeNotification object:customerNameText];
 
@@ -42,7 +42,7 @@
     
     UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:buttonBack];
     UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    negativeSpacer.width = -10;
+    negativeSpacer.width = 0;
     self.navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
 }
 

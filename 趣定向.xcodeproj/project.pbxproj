@@ -174,6 +174,11 @@
 		458695A01C4DD748009BAA81 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4586959F1C4DD748009BAA81 /* QuartzCore.framework */; };
 		458695A21C4DD74E009BAA81 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 458695A11C4DD74E009BAA81 /* AVFoundation.framework */; };
 		459AEBDA1DCC7C11000472F1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 459AEBD91DCC7C11000472F1 /* Images.xcassets */; };
+		459BB4991DDAE49A00DBEC39 /* TipsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 459BB4981DDAE49A00DBEC39 /* TipsManager.m */; };
+		459BB4A31DDAEFFC00DBEC39 /* MCContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 459BB49C1DDAEFFC00DBEC39 /* MCContent.m */; };
+		459BB4A41DDAEFFD00DBEC39 /* MCLeftSliderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 459BB49E1DDAEFFC00DBEC39 /* MCLeftSliderManager.m */; };
+		459BB4A51DDAEFFD00DBEC39 /* MCLeftSlideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 459BB4A01DDAEFFC00DBEC39 /* MCLeftSlideViewController.m */; };
+		459BB4A61DDAEFFD00DBEC39 /* UIView_extra.m in Sources */ = {isa = PBXBuildFile; fileRef = 459BB4A21DDAEFFC00DBEC39 /* UIView_extra.m */; };
 		45AEE2B71D13E4F800116AD0 /* UIControl+UIControl_buttonCon.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AEE2B61D13E4F800116AD0 /* UIControl+UIControl_buttonCon.m */; };
 		45C6F55F1C929FD000C5AA31 /* HomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F55A1C929FD000C5AA31 /* HomeModel.m */; };
 		45C6F5601C929FD000C5AA31 /* ImageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F55C1C929FD000C5AA31 /* ImageModel.m */; };
@@ -248,7 +253,6 @@
 		A31287AC1CCF165D00CB887E /* UpdateService.m in Sources */ = {isa = PBXBuildFile; fileRef = A31287AA1CCF165D00CB887E /* UpdateService.m */; };
 		A31822181C92B87C00A1882B /* LoginService.m in Sources */ = {isa = PBXBuildFile; fileRef = A31822171C92B87C00A1882B /* LoginService.m */; };
 		A3311D9C1CD3490300114FC0 /* TabbarView.m in Sources */ = {isa = PBXBuildFile; fileRef = A3311D9B1CD3490300114FC0 /* TabbarView.m */; };
-		A3311D9F1CD34F5500114FC0 /* TabbarButton.m in Sources */ = {isa = PBXBuildFile; fileRef = A3311D9E1CD34F5500114FC0 /* TabbarButton.m */; };
 		A340BDCF1C9697EE009F40FD /* TeamLineController.m in Sources */ = {isa = PBXBuildFile; fileRef = A340BDCE1C9697EE009F40FD /* TeamLineController.m */; };
 		A340BE171C96ACB4009F40FD /* BaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A340BE161C96ACB4009F40FD /* BaseViewController.m */; };
 		A3413EC21C97F565009332B3 /* HomeService.m in Sources */ = {isa = PBXBuildFile; fileRef = A3413EC11C97F565009332B3 /* HomeService.m */; };
@@ -623,6 +627,16 @@
 		4586959F1C4DD748009BAA81 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		458695A11C4DD74E009BAA81 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		459AEBD91DCC7C11000472F1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		459BB4971DDAE49A00DBEC39 /* TipsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TipsManager.h; sourceTree = "<group>"; };
+		459BB4981DDAE49A00DBEC39 /* TipsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TipsManager.m; sourceTree = "<group>"; };
+		459BB49B1DDAEFFC00DBEC39 /* MCContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCContent.h; sourceTree = "<group>"; };
+		459BB49C1DDAEFFC00DBEC39 /* MCContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCContent.m; sourceTree = "<group>"; };
+		459BB49D1DDAEFFC00DBEC39 /* MCLeftSliderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCLeftSliderManager.h; sourceTree = "<group>"; };
+		459BB49E1DDAEFFC00DBEC39 /* MCLeftSliderManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCLeftSliderManager.m; sourceTree = "<group>"; };
+		459BB49F1DDAEFFC00DBEC39 /* MCLeftSlideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCLeftSlideViewController.h; sourceTree = "<group>"; };
+		459BB4A01DDAEFFC00DBEC39 /* MCLeftSlideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCLeftSlideViewController.m; sourceTree = "<group>"; };
+		459BB4A11DDAEFFC00DBEC39 /* UIView_extra.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIView_extra.h; sourceTree = "<group>"; };
+		459BB4A21DDAEFFC00DBEC39 /* UIView_extra.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIView_extra.m; sourceTree = "<group>"; };
 		459C6E281BD89D2300743FEC /* JTSAnimatedGIFUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JTSAnimatedGIFUtility.h; sourceTree = "<group>"; };
 		459C6E291BD89D2300743FEC /* JTSAnimatedGIFUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JTSAnimatedGIFUtility.m; sourceTree = "<group>"; };
 		459C6E2A1BD89D2300743FEC /* JTSImageInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JTSImageInfo.h; sourceTree = "<group>"; };
@@ -805,8 +819,6 @@
 		A3271F861CA9383700B6B95D /* ImagePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImagePickerController.h; sourceTree = "<group>"; };
 		A3311D9A1CD3490300114FC0 /* TabbarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabbarView.h; sourceTree = "<group>"; };
 		A3311D9B1CD3490300114FC0 /* TabbarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabbarView.m; sourceTree = "<group>"; };
-		A3311D9D1CD34F5500114FC0 /* TabbarButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabbarButton.h; sourceTree = "<group>"; };
-		A3311D9E1CD34F5500114FC0 /* TabbarButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabbarButton.m; sourceTree = "<group>"; };
 		A340BDCD1C9697EE009F40FD /* TeamLineController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamLineController.h; sourceTree = "<group>"; };
 		A340BDCE1C9697EE009F40FD /* TeamLineController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamLineController.m; sourceTree = "<group>"; };
 		A340BE151C96ACB4009F40FD /* BaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseViewController.h; sourceTree = "<group>"; };
@@ -1401,6 +1413,21 @@
 			path = MJRefresh;
 			sourceTree = "<group>";
 		};
+		459BB49A1DDAEFFC00DBEC39 /* LeftSlideViewController */ = {
+			isa = PBXGroup;
+			children = (
+				459BB49B1DDAEFFC00DBEC39 /* MCContent.h */,
+				459BB49C1DDAEFFC00DBEC39 /* MCContent.m */,
+				459BB49D1DDAEFFC00DBEC39 /* MCLeftSliderManager.h */,
+				459BB49E1DDAEFFC00DBEC39 /* MCLeftSliderManager.m */,
+				459BB49F1DDAEFFC00DBEC39 /* MCLeftSlideViewController.h */,
+				459BB4A01DDAEFFC00DBEC39 /* MCLeftSlideViewController.m */,
+				459BB4A11DDAEFFC00DBEC39 /* UIView_extra.h */,
+				459BB4A21DDAEFFC00DBEC39 /* UIView_extra.m */,
+			);
+			path = LeftSlideViewController;
+			sourceTree = "<group>";
+		};
 		459C6E271BD89D2300743FEC /* JTSImage */ = {
 			isa = PBXGroup;
 			children = (
@@ -1603,8 +1630,8 @@
 				45F547811CDB423E0050B12F /* QDXHistoryTableViewCell.m */,
 				A3311D9A1CD3490300114FC0 /* TabbarView.h */,
 				A3311D9B1CD3490300114FC0 /* TabbarView.m */,
-				A3311D9D1CD34F5500114FC0 /* TabbarButton.h */,
-				A3311D9E1CD34F5500114FC0 /* TabbarButton.m */,
+				459BB4971DDAE49A00DBEC39 /* TipsManager.h */,
+				459BB4981DDAE49A00DBEC39 /* TipsManager.m */,
 				45EE61351CEAC074007302E3 /* PointView.h */,
 				45EE61361CEAC074007302E3 /* PointView.m */,
 				45EE61381CEAC641007302E3 /* PointAnnotationView.h */,
@@ -1744,6 +1771,7 @@
 		45DF765A1BA6AB150024A6B4 /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				459BB49A1DDAEFFC00DBEC39 /* LeftSlideViewController */,
 				4549C7601DBE103800180FB5 /* Category */,
 				4544EA581D5C564C008314B1 /* AMapFoundationKit.framework */,
 				4544EA561D5C55A8008314B1 /* AMap.bundle */,
@@ -1986,6 +2014,7 @@
 				455A95B51C97E3EB0039FA88 /* MJExtensionConst.m in Sources */,
 				45C6F5671C92A07900C5AA31 /* QDXIsConnect.m in Sources */,
 				45C6F5791C92A0D800C5AA31 /* QDXTicketInfoModel.m in Sources */,
+				459BB4A51DDAEFFD00DBEC39 /* MCLeftSlideViewController.m in Sources */,
 				4525944D1D50D31A002BF84B /* LocalDBService.m in Sources */,
 				455C8A941CCF7827001F5FC5 /* APAuthV2Info.m in Sources */,
 				A3442D2B1C9BAA330092363A /* ActivityService.m in Sources */,
@@ -1997,7 +2026,6 @@
 				455C8AB81CD064B5001F5FC5 /* QDXOffLineController.m in Sources */,
 				455A95BD1C97E3EB0039FA88 /* NSObject+MJProperty.m in Sources */,
 				4549C7661DBE103800180FB5 /* UIView+LBExtension.m in Sources */,
-				A3311D9F1CD34F5500114FC0 /* TabbarButton.m in Sources */,
 				455A95CA1C97F5400039FA88 /* QDXAreaModel.m in Sources */,
 				45C6F5BD1C92A30600C5AA31 /* LineCell.m in Sources */,
 				456FE0241DBF5E630025AFEE /* TabbarController.m in Sources */,
@@ -2041,10 +2069,12 @@
 				4569E56B1C4CB64B00FF4E8B /* JTSImageInfo.m in Sources */,
 				A35DAC371CCF184000D01CF0 /* AFURLSessionManager.m in Sources */,
 				455A95B81C97E3EB0039FA88 /* MJPropertyKey.m in Sources */,
+				459BB4991DDAE49A00DBEC39 /* TipsManager.m in Sources */,
 				45C6F5F91C92A3DF00C5AA31 /* QDXTeamsViewController.m in Sources */,
 				4556117D1D543E75006DF063 /* HUTransitionHorizontalLinesAnimator.m in Sources */,
 				455A95BB1C97E3EB0039FA88 /* NSObject+MJCoding.m in Sources */,
 				453395091CF6D8C800B5A825 /* UIColor+flat.m in Sources */,
+				459BB4A61DDAEFFD00DBEC39 /* UIView_extra.m in Sources */,
 				4569E56C1C4CB64B00FF4E8B /* JTSImageViewController.m in Sources */,
 				45C6F5911C92A13A00C5AA31 /* ActModel.m in Sources */,
 				4569E56D1C4CB64B00FF4E8B /* JTSSimpleImageDownloader.m in Sources */,
@@ -2078,6 +2108,7 @@
 				A31287A61CCF0DD700CB887E /* QDXOfflineDB.m in Sources */,
 				4569E5751C4CB64B00FF4E8B /* qrspec.c in Sources */,
 				4571CDF91CE05B00002ED784 /* CYAlertView.m in Sources */,
+				459BB4A31DDAEFFC00DBEC39 /* MCContent.m in Sources */,
 				4569E5761C4CB64B00FF4E8B /* rscode.c in Sources */,
 				4549C7691DBE106800180FB5 /* LBTabBarController.m in Sources */,
 				455A95C71C97F13A0039FA88 /* QDXPointModel.m in Sources */,
@@ -2089,6 +2120,7 @@
 				4569E5791C4CB64B00FF4E8B /* MJRefreshConst.m in Sources */,
 				4569E57A1C4CB64B00FF4E8B /* MJRefreshFooterView.m in Sources */,
 				455A95C41C97EF160039FA88 /* QDXHIstoryModel.m in Sources */,
+				459BB4A41DDAEFFD00DBEC39 /* MCLeftSliderManager.m in Sources */,
 				45EE61371CEAC074007302E3 /* PointView.m in Sources */,
 				4569E57B1C4CB64B00FF4E8B /* MJRefreshHeaderView.m in Sources */,
 				45C6F6091C92A43A00C5AA31 /* QDXChangeNameViewController.m in Sources */,
@@ -2332,7 +2364,7 @@
 					"$(SRCROOT)/Qudingxiang/Lib/AlipaySDK",
 				);
 				INFOPLIST_FILE = Qudingxiang/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
@@ -2377,7 +2409,7 @@
 					"$(SRCROOT)/Qudingxiang/Lib/AlipaySDK",
 				);
 				INFOPLIST_FILE = Qudingxiang/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",

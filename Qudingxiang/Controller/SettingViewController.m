@@ -11,6 +11,7 @@
 #import "QDXChangePwdViewController.h"
 #import "QDXNavigationController.h"
 #import "TabbarController.h"
+
 @interface SettingViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 {
     UITableView *_tableView;
@@ -27,38 +28,37 @@
     [super viewWillAppear:animated];
     _dataValue = [self folderSizeWithPath:[self getPath]];
     _valueDataLabel.text = [NSString stringWithFormat:@"%.2fMB",_dataValue];
-    
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"设置";
     [self createTableView];
-    [self createButtonBack];
-    
+//    [self createButtonBack];
 }
 
--(void)createButtonBack
-{
-    UIButton *buttonBack = [UIButton buttonWithType:UIButtonTypeSystem];
-    buttonBack.frame = CGRectMake(0, 0, 18, 14);
-    [buttonBack addTarget:self action:@selector(buttonBackSetting) forControlEvents:UIControlEventTouchUpInside];
-    [buttonBack setTitle:nil forState:UIControlStateNormal];
-    [buttonBack setBackgroundImage:[UIImage imageNamed:@"sign_return"] forState:UIControlStateNormal];
-    buttonBack.backgroundColor = [UIColor clearColor];
-    
-    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:buttonBack];
-    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    negativeSpacer.width = -10;
-    self.navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
-}
-
--(void)buttonBackSetting
-{
-    [self dismissViewControllerAnimated:YES completion:^{
-        
-    }];
-}
+//-(void)createButtonBack
+//{
+//    UIButton *buttonBack = [UIButton buttonWithType:UIButtonTypeSystem];
+//    buttonBack.frame = CGRectMake(0, 0, 18, 14);
+//    [buttonBack addTarget:self action:@selector(buttonBackSetting) forControlEvents:UIControlEventTouchUpInside];
+//    [buttonBack setTitle:nil forState:UIControlStateNormal];
+//    [buttonBack setBackgroundImage:[UIImage imageNamed:@"sign_return"] forState:UIControlStateNormal];
+//    buttonBack.backgroundColor = [UIColor clearColor];
+//    
+//    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:buttonBack];
+//    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+//    negativeSpacer.width = -10;
+//    self.navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
+//}
+//
+//-(void)buttonBackSetting
+//{
+//    [self dismissViewControllerAnimated:YES completion:^{
+//        
+//    }];
+//}
 
 - (void)createTableView
 {
@@ -193,9 +193,12 @@
 //        [self.sideMenuViewController setContentViewController:[[TabbarController alloc] init] animated:YES];
 //        [self.sideMenuViewController hideMenuViewController];
         
-        [self dismissViewControllerAnimated:YES completion:^{
+        QDXLoginViewController *login = [[QDXLoginViewController alloc] init];
+        QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:login];
+        [self presentViewController:nav animated:YES completion:^{
             
         }];
+        
         [[NSNotificationCenter defaultCenter] postNotificationName:@"stateRefresh" object:nil];
     }else if (buttonIndex == 1 && alertView.tag == 2){
         //彻底删除文件

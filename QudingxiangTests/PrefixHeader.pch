@@ -13,7 +13,7 @@
 #import "WechatAuthSDK.h"
 #import <AlipaySDK/AlipaySDK.h>
 #import "BaseViewController.h"
-#import "RESideMenu.h"
+//#import "RESideMenu.h"
 #import "BaseService.h"
 #import <MAMapKit/MAMapKit.h>
 #import <AMapFoundationKit/AMapFoundationKit.h>
@@ -28,6 +28,21 @@
 #define QdxWidth [UIScreen mainScreen].bounds.size.width
 #define QdxHeight [UIScreen mainScreen].bounds.size.height
 
+#define FitRealValue(value) ((value)/750.0f*[UIScreen mainScreen].bounds.size.width)
+
+#define kMainPageDistance   FitRealValue(180)
+#define kMainPageScale   1.0  //打开左侧窗时，中视图(右视图）缩放比例
+#define kMainPageCenter  CGPointMake(QdxWidth + QdxWidth * kMainPageScale / 2.0 - kMainPageDistance, QdxHeight / 2)  //打开左侧窗时，中视图中心点
+
+#define vCouldChangeDeckStateDistance  (QdxWidth - kMainPageDistance) / 2.0 - 40 //滑动距离大于此数时，状态改变（关--》开，或者开--》关）
+#define vSpeedFloat   0.7    //滑动速度
+
+#define kLeftAlpha 0.9  //左侧蒙版的最大值
+#define kLeftCenterX -50 //左侧初始偏移量
+#define kLeftScale 1.0 //左侧初始缩放比例
+//#define kLeftSwitchViewCenterX 0
+#define vDeckCanNotPanViewTag    987654   // 不响应此侧滑的View的tag
+
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 #define QDXGray UIColorFromRGB(0x666666)
@@ -39,8 +54,6 @@
 #define QDXOrange UIColorFromRGB(0xff5100)
 
 #define QDXBGColor [UIColor colorWithWhite:0.961 alpha:1.000]
-
-#define FitRealValue(value) ((value)/750.0f*[UIScreen mainScreen].bounds.size.width)
 
 //是否提示
 #define     QDXPromptFile [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"prompt.data"]

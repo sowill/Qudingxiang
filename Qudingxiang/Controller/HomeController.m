@@ -18,16 +18,16 @@
 #import "HomeService.h"
 #import "ImagePickerController.h"
 //#import "QDXOffLineController.h"
-#import "MineViewController.h"
-#import "QDXLoginViewController.h"
+//#import "MineViewController.h"
+//#import "QDXLoginViewController.h"
 #import "QDXNavigationController.h"
 #import "ImageScrollView.h"
-#import "ActivityController.h"
+//#import "ActivityController.h"
 #import "AppDelegate.h"
 #import "BaseService.h"
 #define NotificaitonChange @"code"
 
-@interface HomeController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,UINavigationControllerDelegate,MJRefreshBaseViewDelegate,UIAlertViewDelegate>
+@interface HomeController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,UINavigationControllerDelegate,MJRefreshBaseViewDelegate>
 {
     UITableView *_tableView;
     UIScrollView *_scrollView;
@@ -143,14 +143,12 @@
 
 - (void)loadData
 {
-    
     if (save) {
         [self state];
         //[self performSelectorInBackground:@selector(state) withObject:nil];
     }else{
         _scanBtn.hidden = NO;
         [self state1];
-        
     }
 }
 
@@ -205,26 +203,28 @@
     [self createButtonWithView:view];
     [self.view addSubview:_tableView];
     
-    _button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-    [_button setImage:[UIImage imageNamed:@"index_my"] forState:UIControlStateNormal];
-    [_button addTarget:self action:@selector(setClick) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_button];
-    UIBarButtonItem *btn_left = [[UIBarButtonItem alloc] initWithCustomView:_button];
-    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]
-                                       initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-                                       target:nil action:nil];
-    negativeSpacer.width = -10;
-    self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:negativeSpacer, btn_left, nil];
+//    _button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
+//    [_button setImage:[UIImage imageNamed:@"index_my"] forState:UIControlStateNormal];
+//    [_button addTarget:self action:@selector(setClick) forControlEvents:UIControlEventTouchUpInside];
+//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_button];
+//    UIBarButtonItem *btn_left = [[UIBarButtonItem alloc] initWithCustomView:_button];
+//    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]
+//                                       initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+//                                       target:nil action:nil];
+//    negativeSpacer.width = -10;
+//    self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:negativeSpacer, btn_left, nil];
     
-    _scanBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-    [_scanBtn setImage:[UIImage imageNamed:@"index_sweep"] forState:UIControlStateNormal];
+    _scanBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 18)];
+//    [_scanBtn setImage:[UIImage imageNamed:@"index_sweep"] forState:UIControlStateNormal];
+    [_scanBtn setBackgroundImage:[UIImage imageNamed:@"index_sweep"] forState:UIControlStateNormal];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_scanBtn];
-    UIBarButtonItem *btn_right = [[UIBarButtonItem alloc] initWithCustomView:_scanBtn];
-    UIBarButtonItem *negativeSpacer1 = [[UIBarButtonItem alloc]
-                                        initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-                                        target:nil action:nil];
-    negativeSpacer1.width = -10;
-    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:negativeSpacer1, btn_right, nil];
+//    UIBarButtonItem *btn_right = [[UIBarButtonItem alloc] initWithCustomView:_scanBtn];
+//    UIBarButtonItem *negativeSpacer1 = [[UIBarButtonItem alloc]
+//                                        initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
+//                                        target:nil action:nil];
+//    negativeSpacer1.width = -10;
+//    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:negativeSpacer1, btn_right, nil];
+    
     if([promptStr intValue] == 1){
         
         
@@ -672,30 +672,30 @@
     }];
 }
 
-- (void)setClick
-{
-    if(save == nil){
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"登陆后才可使用此功能" delegate:self cancelButtonTitle:@"暂不登录" otherButtonTitles:@"立即登录", nil];
-        [alert show];
-    }else{
-        [self.sideMenuViewController presentLeftMenuViewController];
-    }
-}
+//- (void)setClick
+//{
+//    if(save == nil){
+//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"登陆后才可使用此功能" delegate:self cancelButtonTitle:@"暂不登录" otherButtonTitles:@"立即登录", nil];
+//        [alert show];
+//    }else{
+////        [self.sideMenuViewController presentLeftMenuViewController];
+//    }
+//}
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 0) {
-        
-    }else if(buttonIndex == 1){
-        QDXLoginViewController* regi=[[QDXLoginViewController alloc]init];
-        QDXNavigationController* navController = [[QDXNavigationController alloc] initWithRootViewController:regi];
-        regi.hidesBottomBarWhenPushed = YES;
-        [self presentViewController:navController animated:YES completion:^{
-            
-        }];
-        
-    }
-}
+//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+//{
+//    if (buttonIndex == 0) {
+//        
+//    }else if(buttonIndex == 1){
+//        QDXLoginViewController* regi=[[QDXLoginViewController alloc]init];
+//        QDXNavigationController* navController = [[QDXNavigationController alloc] initWithRootViewController:regi];
+//        regi.hidesBottomBarWhenPushed = YES;
+//        [self presentViewController:navController animated:YES completion:^{
+//            
+//        }];
+//        
+//    }
+//}
 
 - (void)choiceBtnClicked
 {

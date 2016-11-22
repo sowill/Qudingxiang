@@ -597,7 +597,7 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:more];
     UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:more];
     UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    negativeSpacer.width = -10;
+    negativeSpacer.width = 0;
     self.navigationItem.rightBarButtonItems = @[negativeSpacer, buttonItem];
     
 }
@@ -1014,14 +1014,16 @@ toViewController:(UIViewController *)toVC {
         }else if (ret == 2){
             AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
             [self setupgetMylineInfo:1];
+            answer = @"";
+            macStr = @"";
         }else{
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"请稍候再试" preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"重试" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
+//            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"请稍候再试" preferredStyle:UIAlertControllerStyleAlert];
+//            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"重试" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
                 lock = NO;
                 rmoveMacStr = @"";
-            }];
-            [alertController addAction:okAction];
-            [self presentViewController:alertController animated:YES completion:nil];
+//            }];
+//            [alertController addAction:okAction];
+//            [self presentViewController:alertController animated:YES completion:nil];
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error){
         lock = NO;
@@ -1051,7 +1053,7 @@ toViewController:(UIViewController *)toVC {
         popView.contentViewSize = CGSizeMake(TASKWEIGHT, TASKHEIGHT);
         popView.Title = self.gameInfo.line.line_sub;
         popView.placeHolder = @"请输入答案";
-        popView.wordCount = 6 + self.questionInfo.question.qkey.length;//不设置则没有
+//        popView.wordCount = 6 + self.questionInfo.question.qkey.length;//不设置则没有
         [popView addContentView];//最后调用
         __typeof(popView)weakPopView = popView;
         popView.confirmBlock = ^(NSString *text) {
@@ -1555,7 +1557,7 @@ toViewController:(UIViewController *)toVC {
 - (void)creatButtonBack
 {
     UIButton *buttonBack = [UIButton buttonWithType:UIButtonTypeSystem];
-    buttonBack.frame = CGRectMake(0, 0, 18, 14);
+    buttonBack.frame = CGRectMake(0, 0, 20, 18);
     [buttonBack addTarget:self action:@selector(buttonBackSetting) forControlEvents:UIControlEventTouchUpInside];
     [buttonBack setTitle:nil forState:UIControlStateNormal];
     [buttonBack setBackgroundImage:[UIImage imageNamed:@"sign_return"] forState:UIControlStateNormal];
@@ -1563,7 +1565,7 @@ toViewController:(UIViewController *)toVC {
     
     UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:buttonBack];
     UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    negativeSpacer.width = -10;
+    negativeSpacer.width = 0;
     self.navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
 }
 
@@ -1576,22 +1578,5 @@ toViewController:(UIViewController *)toVC {
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
-    self.mapView.showsUserLocation = NO;
-    self.mapView.userTrackingMode  = MAUserTrackingModeFollow;
-    [self.mapView.layer removeAllAnimations];
-    [self.mapView removeAnnotations:self.mapView.annotations];
-    [self.mapView removeOverlays:self.mapView.overlays];
-    [self.mapView removeFromSuperview];
-    self.mapView.delegate = nil;
-    self.mapView = nil;
-    [self removeFromSuperViewController];
-    [readyView removeFromSuperview];
-    [_webView removeFromSuperview];
-    [playView removeFromSuperview];
-    [self.history_button removeFromSuperview];
-    [self.task_button removeFromSuperview];
-    
-    [countDownTimer setFireDate:[NSDate distantFuture]];
-    [MBProgressHUD hideHUD];
 }
 @end

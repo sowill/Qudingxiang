@@ -18,6 +18,8 @@
 #import "QDXIsConnect.h"
 #import "QDXLoginViewController.h"
 #import "QDXNavigationController.h"
+#import "MCLeftSliderManager.h"
+
 @interface OrderController ()<MJRefreshBaseViewDelegate,UIAlertViewDelegate,UITableViewDataSource,UITableViewDelegate>
 {
     int curr;
@@ -62,14 +64,24 @@
     
     [self createTableView];
 
-    _button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-    [_button setImage:[UIImage imageNamed:@"index_my"] forState:UIControlStateNormal];
-    [_button addTarget:self action:@selector(setClick) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_button];
-    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:_button];
-    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    negativeSpacer.width = -10;
-    self.navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
+    UIButton *menuBtn = [UIButton buttonWithType:UIButtonTypeCustom];
+    menuBtn.frame = CGRectMake(0, 0, 20, 18);
+    [menuBtn setBackgroundImage:[UIImage imageNamed:@"index_my"] forState:UIControlStateNormal];
+    [menuBtn addTarget:self action:@selector(openOrCloseLeftList) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:menuBtn];
+}
+
+- (void) openOrCloseLeftList
+{
+    
+    if ([MCLeftSliderManager sharedInstance].LeftSlideVC.closed)
+    {
+        [[MCLeftSliderManager sharedInstance].LeftSlideVC openLeftView];
+    }
+    else
+    {
+        [[MCLeftSliderManager sharedInstance].LeftSlideVC closeLeftView];
+    }
 }
 
 - (void) createTableView
@@ -91,7 +103,7 @@
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"登陆后才可使用此功能" delegate:self cancelButtonTitle:@"暂不登录" otherButtonTitles:@"立即登录", nil];
         [alert show];
     }else{
-        [self.sideMenuViewController presentLeftMenuViewController];
+//        [self.sideMenuViewController presentLeftMenuViewController];
     }
 }
 

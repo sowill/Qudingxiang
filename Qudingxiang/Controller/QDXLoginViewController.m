@@ -450,22 +450,22 @@
     [self.view endEditing:YES];
 }
 
--(void)viewWillAppear:(BOOL)animated
-{
-    if (![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"weixin://"]]) {
-        _OAuthWxinBtn.hidden = YES;
-        WXLabel.hidden = YES;
-    }else{
-        _OAuthWxinBtn.hidden = NO;
-        WXLabel.hidden = NO;
-    }
-}
+//-(void)viewWillAppear:(BOOL)animated
+//{
+//    if (![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"weixin://"]]) {
+//        _OAuthWxinBtn.hidden = YES;
+//        WXLabel.hidden = YES;
+//    }else{
+//        _OAuthWxinBtn.hidden = NO;
+//        WXLabel.hidden = NO;
+//    }
+//}
 
 // 返回按钮
 -(void)createButtonBack
 {
     UIButton *buttonBack = [UIButton buttonWithType:UIButtonTypeSystem];
-    buttonBack.frame = CGRectMake(0, 0, 18, 14);
+    buttonBack.frame = CGRectMake(0, 0, 20, 18);
     [buttonBack addTarget:self action:@selector(buttonBackSetting) forControlEvents:UIControlEventTouchUpInside];
     [buttonBack setTitle:nil forState:UIControlStateNormal];
     [buttonBack setBackgroundImage:[UIImage imageNamed:@"sign_return"] forState:UIControlStateNormal];
@@ -473,7 +473,7 @@
     
     UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:buttonBack];
     UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    negativeSpacer.width = -10;
+    negativeSpacer.width = 0;
     self.navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
 }
 

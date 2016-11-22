@@ -1,9 +1,9 @@
 //
 //  UIView_extra.h
-//  Woyoli
+//  LeftSlide
 //
-//  Created by jamie on 14-11-25.
-//  Copyright (c) 2014年 Missionsky. All rights reserved.
+//  Created by apple on 16/4/29.
+//  Copyright © 2016年 machao. All rights reserved.
 //
 
 #define vAlertTag    10086

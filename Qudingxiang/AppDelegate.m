@@ -8,13 +8,21 @@
 
 #import "AppDelegate.h"
 //#import "QDXLoginViewController.h"
-#import "QDXIsConnect.h"
+//#import "QDXIsConnect.h"
 #import "QDXNavigationController.h"
 #import "MineViewController.h"
 #import "GuideViewController.h"
+//#import "LBTabBarController.h"
+//#import "HomeService.h"
+
 #import "HomeController.h"
-#import "LBTabBarController.h"
-#import "HomeService.h"
+#import "ActivityController.h"
+#import "OrderController.h"
+#import "MoreViewController.h"
+#import "TabbarController.h"
+
+#import "MCLeftSlideViewController.h"
+#import "MCLeftSliderManager.h"
 
 @interface AppDelegate ()<UIScrollViewDelegate>
 {
@@ -31,7 +39,8 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.window.rootViewController = [[UIViewController alloc] init];
+    self.window.backgroundColor = [UIColor whiteColor];   //设置通用背景颜色
+    [self.window makeKeyAndVisible];
     
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     
@@ -51,7 +60,7 @@
     }else{
         [self gotoHomeController];
     }
-    [self.window makeKeyAndVisible];
+    
     return YES;
 }
 
@@ -63,23 +72,42 @@
 
 - (void)gotoHomeController
 {
-    LBTabBarController *tabbar = [[LBTabBarController alloc] init];
-    MineViewController *mine = [[MineViewController alloc] init];
-    RESideMenu *sideMenuViewController = [[RESideMenu alloc] initWithContentViewController:tabbar
-                                                                    leftMenuViewController:mine
-                                                                   rightMenuViewController:nil];
-    sideMenuViewController.mainController = tabbar;
-    sideMenuViewController.menuPreferredStatusBarStyle = 1;
-    sideMenuViewController.delegate = self;
-    sideMenuViewController.contentViewShadowColor = UIColorFromRGB(0x0b598c);
-    sideMenuViewController.contentViewShadowOffset = CGSizeMake(0, 0);
-    sideMenuViewController.contentViewShadowOpacity = 0.6;
-    sideMenuViewController.contentViewShadowRadius = 12;
-    sideMenuViewController.contentViewShadowEnabled = YES;
-    //是否缩小
-    sideMenuViewController.scaleContentView = NO;
-    self.window.rootViewController = sideMenuViewController;
     
+    HomeController *homeVC = [[HomeController alloc] init];
+    
+    UINavigationController *firstNav = [[QDXNavigationController alloc] initWithRootViewController:homeVC];
+    firstNav.tabBarItem.image = [UIImage imageNamed:@"index_home_nomal"];
+    homeVC.title = @"首页";
+//    homeVC.navigationController.navigationBar.barTintColor = [UIColor redColor];
+    
+    ActivityController *activityVC = [[ActivityController alloc] init];
+    
+    UINavigationController *secondNav = [[QDXNavigationController alloc] initWithRootViewController:activityVC];
+    secondNav.tabBarItem.image = [UIImage imageNamed:@"index_location_click"];
+    activityVC.title = @"活动";
+    
+    OrderController *orderVC = [[OrderController alloc] init];
+    
+    UINavigationController *thridNav = [[QDXNavigationController alloc] initWithRootViewController:orderVC];
+    thridNav.tabBarItem.image = [UIImage imageNamed:@"index_order_nomal"];
+    orderVC.title = @"订单";
+    
+    MoreViewController *moreVC = [[MoreViewController alloc] init];
+    
+    UINavigationController *fourNav = [[QDXNavigationController alloc] initWithRootViewController:moreVC];
+    fourNav.tabBarItem.image = [UIImage imageNamed:@"index_more_nomal"];
+    moreVC.title = @"更多";
+    
+    TabbarController *tabVC = [[TabbarController alloc] init];
+    [tabVC setViewControllers:@[firstNav,secondNav,thridNav,fourNav]];
+    tabVC.tabBar.tintColor = QDXBlue;
+    
+    MineViewController *leftVC = [[MineViewController alloc] init];
+    MCLeftSlideViewController *rootVC = [[MCLeftSlideViewController alloc] initWithLeftView:leftVC andMainView:tabVC];
+    self.window.rootViewController = rootVC;
+    
+    // 启动图片
+//    [[MCAdvertManager sharedInstance] setAdvertViewController];
 }
 
 //- (void)gotoLogin

@@ -15,7 +15,7 @@
 #import "QDXGameViewController.h"
 #import "MoreViewController.h"
 #import "MineViewController.h"
-#import "myViewController.h"
+
 @interface MainController ()<UITabBarControllerDelegate>
 {
     UIImageView *_imageView;

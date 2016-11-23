@@ -65,8 +65,7 @@
     
     //准备开始view
     UIView *readyView;
-    //    UIButton *moreDetails;
-    //    UIImageView *arrow;
+
     NSString *questionUrl;
     //游戏中
     UIView *playView;
@@ -74,7 +73,7 @@
     int secondsCountDown;
     NSTimer *countDownTimer;
     NSString *sdateStr;
-    //    UIButton *map_click;
+
     UILabel *currentTime;
     UIView *playLineView_One;
     UIView *playLineView_Two;
@@ -82,9 +81,7 @@
     UILabel *point_name;
     UILabel *score_sum;
     UILabel *score_sum_name;
-    //    UILabel *score_ms;
-    //    UIButton *task_button;
-    //    UIButton *history_button;
+
     UIButton *showMsg_button;
     UIImageView *successView;
     UIButton *showOK_button;
@@ -94,7 +91,7 @@
     //游戏完成
     UIImageView *certificate;
     BOOL mapClick;
-    //    MAPointAnnotation *annotation_history;
+
     MAPointAnnotation *annotation_target;
     MAGroundOverlay *groundOverlay;
 }
@@ -111,8 +108,6 @@
 @property (nonatomic,strong) MAMapView *mapView;
 @property (nonatomic,strong) CBCentralManager *MyCentralManager;
 @property (nonatomic,strong) NSTimer *timer;
-//@property (nonatomic, strong) NSMutableArray *annotations_history;
-//@property (nonatomic, strong) NSMutableArray *annotations_target;
 @property (nonatomic, strong) UITapGestureRecognizer *doubleTap;
 @end
 
@@ -139,17 +134,6 @@
     title.introduceFont = [UIFont systemFontOfSize:16];
     [self.navigationController.view showWithFeatureItems:@[title] saveKeyName:@"button" inVersion:nil];
 }
-
-//#pragma mark - MAMapViewDelegate
-//
-//- (void)mapView:(MAMapView *)mapView didUpdateUserLocation:(MAUserLocation *)userLocation updatingLocation:(BOOL)updatingLocation
-//{
-//    if (updatingLocation)
-//    {
-//        NSLog(@"userlocation :%@", userLocation.location);
-////        [_mapView setCenterCoordinate:userLocation.location.coordinate animated:YES];
-//    }
-//}
 
 //懒加载地图
 - (MAMapView *)mapView{
@@ -250,7 +234,8 @@
             [self.QDXScrollView addSubview:certificate];
             [self refreshScrollView];
             break;
-        default:
+            
+        case 4:
             lock = YES;
             if (![mylineid isEqualToString:self.model.myline_id]){
                 NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
@@ -267,13 +252,31 @@
             self.navigationItem.title = @"强制结束";
             [self createSadView];
             break;
+            
+        default:
+            lock = YES;
+            if (![mylineid isEqualToString:self.model.myline_id]){
+                NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+                documentDir= [documentDir stringByAppendingPathComponent:@"QDXMyLine.data"];
+                [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
+            }
+            [self removeFromSuperViewController];
+            [self.mapView removeFromSuperview];
+            [readyView removeFromSuperview];
+            [_webView removeFromSuperview];
+            [playView removeFromSuperview];
+            [self.task_button removeFromSuperview];
+            [self.history_button removeFromSuperview];
+            self.navigationItem.title = @"超时结束";
+            [self createSadView];
+            break;
     }
     
 }
+
 //请求当前线路1）准备 2）活动中 3）活动完成 4）强制结束
 -(void)setupgetMylineInfo:(int) code
 {
-    
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -292,7 +295,6 @@
         }
         
     }
-    
     
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
@@ -411,7 +413,11 @@
     UILabel *sadButton = [[UILabel alloc] init];
     sadButton.center = CGPointMake(sadCenterX, sadCenterY + 30 + 15);
     sadButton.bounds = CGRectMake(0, 0, 120, 100);
-    sadButton.text = @"您已经强制结束比赛";
+    if ([self.gameInfo.mstatus_id intValue] == 4) {
+        sadButton.text = @"您已经强制结束比赛";
+    }else{
+        sadButton.text = @"您已经超时结束比赛";
+    }
     sadButton.font = [UIFont systemFontOfSize:12];
     sadButton.textAlignment = NSTextAlignmentCenter;
     sadButton.textColor = QDXGray;
@@ -1573,6 +1579,7 @@ toViewController:(UIViewController *)toVC {
 {
     //    [[NSNotificationCenter defaultCenter] postNotificationName:@"noti3" object:nil];
     [self dismissViewControllerAnimated:YES completion:^{}];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

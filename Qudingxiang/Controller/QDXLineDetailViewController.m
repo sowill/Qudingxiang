@@ -15,6 +15,7 @@
 #import "HomeModel.h"
 #import "QDXOrderDetailTableViewController.h"
 #import "QDXLoginViewController.h"
+//#import "QDXNavigationController.h"
 #import <WebKit/WebKit.h>
 
 @interface QDXLineDetailViewController ()<WKNavigationDelegate>
@@ -261,10 +262,21 @@
 {
     if ([save length] == 0) {
         
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"登陆后才可使用此功能" delegate:self cancelButtonTitle:@"暂不登录" otherButtonTitles:@"立即登录", nil];
-        [alert show];
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"登陆后才可使用此功能" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"立即登录" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
+            
+            QDXLoginViewController* regi=[[QDXLoginViewController alloc]init];
+            [self.navigationController pushViewController:regi animated:YES];
+            
+        }];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"暂不登录" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
+            
+        }];
+        [alertController addAction:cancelAction];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
 
-            }else{
+    }else{
         [self payDataWithNumber:@"3" PassNum:YES];
         [self setupData];
         // ------全屏遮罩
@@ -388,22 +400,6 @@
     }
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 0) {
-        
-    }else if(buttonIndex == 1){
-        NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
-        [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
-        QDXLoginViewController* regi=[[QDXLoginViewController alloc]init];
-        UINavigationController* navController = [[UINavigationController alloc] initWithRootViewController:regi];
-        regi.hidesBottomBarWhenPushed = YES;
-        [self presentViewController:navController animated:YES completion:^{
-            
-        }];
-    }
-}
 
 - (void)setupData
 {

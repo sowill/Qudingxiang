@@ -33,22 +33,23 @@
 
 - (void)addSubViews
 {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, 10)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, FitRealValue(20))];
     view.backgroundColor = [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1];
     [self.contentView addSubview:view];
-    _imageView = [ToolView createImageWithFrame:CGRectMake(0, 10, QdxHeight*0.13, QdxHeight*0.13)];
+    _imageView = [ToolView createImageWithFrame:CGRectMake(0, FitRealValue(20), FitRealValue(150), FitRealValue(150))];
     _imageView.backgroundColor = [UIColor clearColor];
     _imageView.image = [UIImage imageNamed:@""];
     CALayer *lay  = _imageView.layer;//获取ImageView的层
     [lay setMasksToBounds:NO];
     //[lay setCornerRadius:45.0];
     [self.contentView addSubview:_imageView];
-    _desLabel = [ToolView createLabelWithFrame:CGRectMake(QdxHeight*0.13 + 10, 10+QdxHeight*0.026, QdxWidth-30, 20) text:@"路线" font:17 superView:self.contentView];
-    _desLabel.textColor = [UIColor colorWithRed:17/255.0f green:17/255.0f blue:17/255.0f alpha:1.0f];
-    _nameLabel = [ToolView createLabelWithFrame:CGRectMake(QdxHeight*0.13 + 10, QdxHeight*0.13-QdxHeight*0.026-10, QdxWidth-30, 20) text:@"名字" font:15 superView:self.contentView];
-    _nameLabel.textColor = [UIColor colorWithRed:102/255.0f green:102/255.0f blue:102/255.0f alpha:1.0f];
+    
+    _desLabel = [ToolView createLabelWithFrame:CGRectMake(FitRealValue(170), FitRealValue(60), QdxWidth-30, FitRealValue(20)) text:@"路线" font:15 superView:self.contentView];
+    _desLabel.textColor = QDXBlack;
+    _nameLabel = [ToolView createLabelWithFrame:CGRectMake(FitRealValue(170), FitRealValue(60 + 20 + 40), QdxWidth-30, FitRealValue(20)) text:@"名字" font:12 superView:self.contentView];
+    _nameLabel.textColor = QDXGray;
     UIImageView *rightView = [[UIImageView alloc] init];
-    rightView.frame = CGRectMake(QdxWidth - 16, 10+QdxHeight*0.13/2-5, 6, 10);
+    rightView.frame = CGRectMake(QdxWidth - FitRealValue(48), 10+FitRealValue(150)/2-5,FitRealValue(16), FitRealValue(24));
     rightView.image = [UIImage imageNamed:@"activity_arrow"];
     [self.contentView addSubview:rightView];
 }

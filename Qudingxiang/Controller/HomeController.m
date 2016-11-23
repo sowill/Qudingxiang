@@ -19,7 +19,7 @@
 #import "ImagePickerController.h"
 //#import "QDXOffLineController.h"
 //#import "MineViewController.h"
-//#import "QDXLoginViewController.h"
+#import "QDXLoginViewController.h"
 #import "QDXNavigationController.h"
 #import "ImageScrollView.h"
 //#import "ActivityController.h"
@@ -536,8 +536,23 @@
     if (save) {
         [self scanClick1];
     }else{
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"登陆后才可使用此功能" delegate:self cancelButtonTitle:@"暂不登录" otherButtonTitles:@"立即登录", nil];
-        [alert show];
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"登陆后才可使用此功能" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"立即登录" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
+        
+            QDXLoginViewController* regi=[[QDXLoginViewController alloc]init];
+            QDXNavigationController* navController = [[QDXNavigationController alloc] initWithRootViewController:regi];
+            regi.hidesBottomBarWhenPushed = YES;
+            [self presentViewController:navController animated:YES completion:^{
+        
+            }];
+        
+        }];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"暂不登录" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
+        
+        }];
+        [alertController addAction:cancelAction];
+        [alertController addAction:okAction];
+        [self presentViewController:alertController animated:YES completion:nil];
     }
 }
 - (void)scanClick1
@@ -603,31 +618,6 @@
         
     }];
 }
-
-//- (void)setClick
-//{
-//    if(save == nil){
-//        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"登陆后才可使用此功能" delegate:self cancelButtonTitle:@"暂不登录" otherButtonTitles:@"立即登录", nil];
-//        [alert show];
-//    }else{
-////        [self.sideMenuViewController presentLeftMenuViewController];
-//    }
-//}
-
-//- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-//{
-//    if (buttonIndex == 0) {
-//        
-//    }else if(buttonIndex == 1){
-//        QDXLoginViewController* regi=[[QDXLoginViewController alloc]init];
-//        QDXNavigationController* navController = [[QDXNavigationController alloc] initWithRootViewController:regi];
-//        regi.hidesBottomBarWhenPushed = YES;
-//        [self presentViewController:navController animated:YES completion:^{
-//            
-//        }];
-//        
-//    }
-//}
 
 - (void)choiceBtnClicked
 {

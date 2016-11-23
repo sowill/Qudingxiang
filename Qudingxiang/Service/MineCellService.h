@@ -10,6 +10,9 @@
 
 @interface MineCellService : NSObject
 + (MineCellService *)sharedInstance;
-- (void)cellDatasucceed:(void (^)(id data))succeed failure:(void (^)(NSError *error))failure;
-- (void)teamCellDatasucceed:(void (^)(id data))succeed failure:(void (^)(NSError *error))failure;
+
+- (void)cellDatasucceed:(void (^)(id data))succeed failure:(void (^)(NSError *error))failure andWithCurr:(NSString *)curr;
+
+- (void)teamCellDatasucceed:(void (^)(id data))succeed failure:(void (^)(NSError *error))failure andWithCurr:(NSString *)curr;
+
 @end

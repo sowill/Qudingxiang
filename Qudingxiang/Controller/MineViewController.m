@@ -107,20 +107,20 @@
         _imageView.clipsToBounds = YES;
         _imageView.layer.cornerRadius = CGRectGetHeight(_imageView.bounds)/2;
         _imageView.userInteractionEnabled = YES;
-        NSString *aPath3=[NSString stringWithFormat:@"%@/Documents/image/%@.png",NSHomeDirectory(),@"image"];
-        _path = aPath3;
-        UIImage *imgFromUrl3=[[UIImage alloc]initWithContentsOfFile:aPath3];
+//        NSString *aPath3=[NSString stringWithFormat:@"%@/Documents/image/%@.png",NSHomeDirectory(),@"image"];
+//        _path = aPath3;
+//        UIImage *imgFromUrl3=[[UIImage alloc]initWithContentsOfFile:aPath3];
         
-        if(_im){
-            _imageView.image = imgFromUrl3;
-        }else{
-            if([_peopleDict[@"Code"] integerValue] == 0){
-                _imageView.image = [UIImage imageNamed:@"my_head"];
-            }else{
+//        if(_im){
+//            _imageView.image = imgFromUrl3;
+//        }else{
+            if(save){
                 NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,_peopleDict[@"Msg"][@"headurl"]]];
                 [_imageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"my_head"]];
+            }else{
+                _imageView.image = [UIImage imageNamed:@"my_head"];
             }
-        }
+//        }
         
         [view addSubview:_imageView];
         _picBtn = [[UIButton alloc] init];

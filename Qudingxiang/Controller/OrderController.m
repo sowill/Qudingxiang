@@ -71,7 +71,6 @@
 
 - (void) openOrCloseLeftList
 {
-    
     if ([MCLeftSliderManager sharedInstance].LeftSlideVC.closed)
     {
         [[MCLeftSliderManager sharedInstance].LeftSlideVC openLeftView];

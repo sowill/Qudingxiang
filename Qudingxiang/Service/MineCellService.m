@@ -36,7 +36,7 @@ static MineCellService *httpRequest = nil;
     return httpRequest;
 }
 
-- (void)cellDatasucceed:(void (^)(id))succeed failure:(void (^)(NSError *))failure
+- (void)cellDatasucceed:(void (^)(id))succeed failure:(void (^)(NSError *))failure andWithCurr:(NSString *)curr
 {
     NSString *urlString = [NSString stringWithFormat:@"%@%@",hostUrl,mineUrl];
     //创建网络请求管理对象
@@ -51,14 +51,7 @@ static MineCellService *httpRequest = nil;
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"TokenKey"] = save;
-//    NSString *cachekey = [NSString stringWithFormat:@"%@%@%@",urlString,VGoods,VLine];
-//    NSString *str = [ToolView md5:cachekey];
-//    NSString *mineCellFile = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-//    NSString *fileName = [mineCellFile stringByAppendingPathComponent:str];
-//    NSDictionary *res = [NSKeyedUnarchiver unarchiveObjectWithFile:fileName];
-//    if (res!=nil) {
-//        succeed(res);
-//    }else{
+    params[@"curr"] = curr;
         [manager POST:urlString parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
             
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -72,7 +65,7 @@ static MineCellService *httpRequest = nil;
 
 }
 
-- (void)teamCellDatasucceed:(void (^)(id data))succeed failure:(void (^)(NSError *error))failure
+- (void)teamCellDatasucceed:(void (^)(id data))succeed failure:(void (^)(NSError *error))failure andWithCurr:(NSString *)curr
 {
     NSString *urlString = [NSString stringWithFormat:@"%@%@",hostUrl,teamUrl];
     //创建网络请求管理对象
@@ -87,14 +80,7 @@ static MineCellService *httpRequest = nil;
     
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"TokenKey"] = save;
-//    NSString *cachekey = [NSString stringWithFormat:@"%@%@%@",urlString,VGoods,VLine];
-//    NSString *str = [ToolView md5:cachekey];
-//    NSString *teamCellFile = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-//    NSString *fileName = [teamCellFile stringByAppendingPathComponent:str];
-//    NSDictionary *res = [NSKeyedUnarchiver unarchiveObjectWithFile:fileName];
-//    if (res!=nil) {
-//        succeed(res);
-//    }else{
+    params[@"curr"] = curr;
         [manager POST:urlString parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
             
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {

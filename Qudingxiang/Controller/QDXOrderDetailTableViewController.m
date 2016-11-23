@@ -30,8 +30,6 @@
 @property (nonatomic, strong) NSMutableArray *ticket;
 @property (nonatomic, strong) NSMutableArray *orderInfo;
 @property (nonatomic, strong) UITableView *tableview;
-@property(nonatomic,weak) MJRefreshFooterView *footer;
-@property (nonatomic, weak) MJRefreshHeaderView *header;
 @end
 
 @implementation QDXOrderDetailTableViewController

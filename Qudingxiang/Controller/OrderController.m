@@ -20,7 +20,7 @@
 #import "QDXNavigationController.h"
 #import "MCLeftSliderManager.h"
 
-@interface OrderController ()<MJRefreshBaseViewDelegate,UIAlertViewDelegate,UITableViewDataSource,UITableViewDelegate>
+@interface OrderController ()<UIAlertViewDelegate,UITableViewDataSource,UITableViewDelegate>
 {
     int curr;
     int page;
@@ -31,8 +31,6 @@
     UIView *loginView;
 }
 @property (nonatomic, strong) NSMutableArray *orders;
-@property (nonatomic, weak) MJRefreshFooterView *footer;
-@property (nonatomic, weak) MJRefreshHeaderView *header;
 @property (nonatomic, strong) UITableView *tableview;
 @end
 
@@ -133,60 +131,54 @@
 - (void)setupRefreshView
 {
     // 1.下拉刷新
-    MJRefreshHeaderView *header = [MJRefreshHeaderView header];
-    header.scrollView = self.tableview;
-    header.delegate = self;
-    // 自动进入刷新状态
-    [header beginRefreshing];
-    self.header = header;
+    __weak __typeof(self) weakSelf = self;
+    
+    self.tableview.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [weakSelf loadNewData];
+    }];
+    
+    // 马上进入刷新状态
+    [self.tableview.mj_header beginRefreshing];
     
     // 2.上拉刷新(上拉加载更多数据)
-    MJRefreshFooterView *footer = [MJRefreshFooterView footer];
-    footer.scrollView = self.tableview;
-    footer.delegate = self;
-    self.footer = footer;
+//    self.tableview.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
+//        [weakSelf loadMoreData];
+//    }];
+    self.tableview.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+    // 设置了底部inset
+//    self.tableview.contentInset = UIEdgeInsetsMake(0, 0, 30, 0);
+//    // 忽略掉底部inset
+//    self.tableview.mj_footer.ignoredScrollViewContentInsetBottom = 30;
+    
 }
 
-- (void)dealloc
+#pragma mark - 数据处理相关
+#pragma mark 下拉刷新数据
+- (void)loadNewData
 {
-    // 释放内存
-    [self.header free];
-    [self.footer free];
-}
-
-/**
- *  刷新控件进入开始刷新状态的时候调用
- */
-- (void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView
-{
-    [self showProgessMsg:@"正在加载"];
-    dispatch_time_t time=dispatch_time(DISPATCH_TIME_NOW, 3ull *NSEC_PER_SEC);
-    dispatch_after(time, dispatch_get_main_queue(), ^{
-        //执行操作
-        [self showProgessOK:@"加载成功"];
-        [self.footer endRefreshing];
-        [self.header endRefreshing];
-    });
-    if ([refreshView isKindOfClass:[MJRefreshHeaderView class]]) { // 下拉刷新
-        curr = 1;
-        [self getOrdersListAjax];
-    } else { // 上拉刷新
-        curr++;
-        if(curr > page ){
-            [self.footer endRefreshing];
-        }else{
-            [self getOrdersListAjax];
-        }
-    }
-}
-
--(void)refreshViewEndRefreshing:(MJRefreshBaseView *)refreshView
-{
-    //执行操作
-    [MBProgressHUD hideHUD];
-    [self.footer endRefreshing];
-    [self.header endRefreshing];
+    curr = 1;
+    [self getOrdersListAjax];
+    
+    // 刷新表格
     [self.tableview reloadData];
+    // 拿到当前的下拉刷新控件，结束刷新状态
+    [self.tableview.mj_header endRefreshing];
+}
+
+#pragma mark 上拉加载更多数据
+- (void)loadMoreData
+{
+    curr++;
+    if(curr > page ){
+        // 刷新表格
+        [self.tableview reloadData];
+        
+        // 拿到当前的上拉刷新控件，结束刷新状态
+        
+        [self.tableview.mj_footer endRefreshingWithNoMoreData];
+    }else{
+        [self getOrdersListAjax];
+    }
 }
 
 -(void)getOrdersListAjax
@@ -220,11 +212,8 @@
         }
         // 刷新表格
         [self.tableview reloadData];
-        [self.header endRefreshing];
-        [self.footer endRefreshing];
+        [self.tableview.mj_footer endRefreshing];
     } FailBlock:^(NSMutableArray *array) {
-        [self.header endRefreshing];
-        [self.footer endRefreshing];
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"加载失败,请检查网络！" message:nil preferredStyle:UIAlertControllerStyleAlert];
         [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
         }] ];

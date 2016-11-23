@@ -17,12 +17,10 @@
 //#import "DTScrollStatusView.h"
 #import "MCLeftSliderManager.h"
 
-@interface ActivityController ()<UITableViewDataSource,UITableViewDelegate,MJRefreshBaseViewDelegate,UIAlertViewDelegate>
+@interface ActivityController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 {
     UITableView *_tableView;
     NSMutableArray *_dataArr;
-    MJRefreshHeaderView *_header;
-    MJRefreshFooterView *_footer;
     NSInteger _curNumber;
     NSInteger _currNum;
     NSInteger _countNum;
@@ -91,16 +89,6 @@
     [self.view addSubview:_tableView];
     [self loadDataWith:@"1" isRemoveAll:NO];
     [self refreshView];
-    
-//    _button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-//    [_button setImage:[UIImage imageNamed:@"index_my"] forState:UIControlStateNormal];
-//    [_button addTarget:self action:@selector(setClick) forControlEvents:UIControlEventTouchUpInside];
-//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_button];
-//    
-//    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:_button];
-//    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-//    negativeSpacer.width = -10;
-//    self.navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
 }
 
 - (void)setClick
@@ -131,28 +119,51 @@
 
 - (void)refreshView
 {
-    _header = [MJRefreshHeaderView header];
-    _header.delegate = self;
-    _header.scrollView = _tableView;
+    // 1.下拉刷新
+    __weak __typeof(self) weakSelf = self;
     
-    _footer = [MJRefreshFooterView footer];
-    _footer.delegate = self;
-    _footer.scrollView = _tableView;
+    _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [weakSelf loadNewData];
+    }];
+    
+    // 马上进入刷新状态
+    [_tableView.mj_header beginRefreshing];
+    
+    // 2.上拉刷新(上拉加载更多数据)
+    _tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+    // 设置了底部inset
+//    _tableView.contentInset = UIEdgeInsetsMake(0, 0, 30, 0);
+//    // 忽略掉底部inset
+//    _tableView.mj_footer.ignoredScrollViewContentInsetBottom = 30;
+
 }
 
-- (void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView
+#pragma mark - 数据处理相关
+#pragma mark 下拉刷新数据
+- (void)loadNewData
 {
-    if (refreshView == _header) {
-        _curNumber = 1;
-        //刷新
-        [self loadDataWith:[NSString stringWithFormat:@"%li", (long)_curNumber] isRemoveAll:YES];
-    } else {
-        _curNumber ++;
-        if(_countNum/20+1 == _currNum){
-            [_footer endRefreshing];
-        }else{
+    _curNumber = 1;
+    //刷新
+    [self loadDataWith:[NSString stringWithFormat:@"%li", (long)_curNumber] isRemoveAll:YES];
+    // 刷新表格
+    [_tableView reloadData];
+    // 拿到当前的下拉刷新控件，结束刷新状态
+    [_tableView.mj_header endRefreshing];
+}
+
+#pragma mark 上拉加载更多数据
+- (void)loadMoreData
+{
+    _curNumber ++;
+    if(_countNum/20+1 == _currNum){
+        // 刷新表格
+        [_tableView reloadData];
+        
+        // 拿到当前的上拉刷新控件，结束刷新状态
+        [_tableView.mj_footer endRefreshingWithNoMoreData];
+       
+    }else{
         [self loadDataWith:[NSString stringWithFormat:@"%li", (long)_curNumber] isRemoveAll:NO];
-        }
     }
 }
 
@@ -186,8 +197,7 @@
             [_dataArr addObject:model];
         }
         [_tableView reloadData];
-        [_header endRefreshing];
-        [_footer endRefreshing];
+        [_tableView.mj_footer endRefreshing];
         [self performSelectorOnMainThread:@selector(sussRes) withObject:nil waitUntilDone:YES];
     } FailBlock:^(NSMutableArray *array) {
         UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"加载失败,请检查网络！" message:nil preferredStyle:UIAlertControllerStyleAlert];

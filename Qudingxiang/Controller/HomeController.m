@@ -27,7 +27,7 @@
 #import "BaseService.h"
 #define NotificaitonChange @"code"
 
-@interface HomeController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,UINavigationControllerDelegate,MJRefreshBaseViewDelegate>
+@interface HomeController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,UINavigationControllerDelegate>
 {
     UITableView *_tableView;
     UIScrollView *_scrollView;
@@ -44,8 +44,6 @@
     NSTimer *_myTimer;
     NSArray *_topImage;
     NSMutableArray *_modelArr;
-    MJRefreshFooterView *_footer;
-    MJRefreshHeaderView *_header;
     NSInteger _curNumber;
     NSInteger _countNum;
     NSInteger _currNum;
@@ -203,27 +201,11 @@
     [self createButtonWithView:view];
     [self.view addSubview:_tableView];
     
-//    _button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 20)];
-//    [_button setImage:[UIImage imageNamed:@"index_my"] forState:UIControlStateNormal];
-//    [_button addTarget:self action:@selector(setClick) forControlEvents:UIControlEventTouchUpInside];
-//    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_button];
-//    UIBarButtonItem *btn_left = [[UIBarButtonItem alloc] initWithCustomView:_button];
-//    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]
-//                                       initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-//                                       target:nil action:nil];
-//    negativeSpacer.width = -10;
-//    self.navigationItem.leftBarButtonItems = [NSArray arrayWithObjects:negativeSpacer, btn_left, nil];
     
     _scanBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 18)];
-//    [_scanBtn setImage:[UIImage imageNamed:@"index_sweep"] forState:UIControlStateNormal];
     [_scanBtn setBackgroundImage:[UIImage imageNamed:@"index_sweep"] forState:UIControlStateNormal];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_scanBtn];
-//    UIBarButtonItem *btn_right = [[UIBarButtonItem alloc] initWithCustomView:_scanBtn];
-//    UIBarButtonItem *negativeSpacer1 = [[UIBarButtonItem alloc]
-//                                        initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace
-//                                        target:nil action:nil];
-//    negativeSpacer1.width = -10;
-//    self.navigationItem.rightBarButtonItems = [NSArray arrayWithObjects:negativeSpacer1, btn_right, nil];
+
     
     if([promptStr intValue] == 1){
         
@@ -297,98 +279,49 @@
 
 - (void)refreshView
 {
-    _header = [MJRefreshHeaderView header];
-    _header.delegate = self;
-    _header.scrollView = _tableView;
+    __weak __typeof(self) weakSelf = self;
     
-//    _footer = [MJRefreshFooterView footer];
-//    _footer.delegate = self;
-//    _footer.scrollView = _tableView;
+    // 设置回调（一旦进入刷新状态就会调用这个refreshingBlock）
+    _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [weakSelf loadNewData];
+    }];
+    
+    // 马上进入刷新状态
+    [_tableView.mj_header beginRefreshing];
+    
+    // 设置回调（一旦进入刷新状态就会调用这个refreshingBlock）
+    _tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+//    // 设置了底部inset
+//    _tableView.contentInset = UIEdgeInsetsMake(0, 0, 30, 0);
+//    // 忽略掉底部inset
+//    _tableView.mj_footer.ignoredScrollViewContentInsetBottom = 30;
 }
 
-- (void)dealloc
-
+#pragma mark - 数据处理相关
+#pragma mark 下拉刷新数据
+- (void)loadNewData
 {
-    [_header free];
+    _curNumber = 1;
+    //刷新
     
-    //[_footer free];
+    [self cellDataWith:[NSString stringWithFormat:@"%li", (long)_curNumber] isRemoveAll:YES andWithType:@"0"];
+    
+    [_tableView.mj_header endRefreshing];
 }
 
-- (void)refreshViewBeginRefreshing:(MJRefreshBaseView *)refreshView
+#pragma mark 上拉加载更多数据
+- (void)loadMoreData
 {
-    if (refreshView == _header) {
-        _curNumber = 1;
-        //刷新
-        
-        [self cellDataWith:[NSString stringWithFormat:@"%li", (long)_curNumber] isRemoveAll:YES andWithType:@"0"];
-        
-    } else {
-//        //加载更多
-//        _curNumber ++;
-//        if(_countNum/13+1 == _currNum){
-//            [_footer endRefreshing];
-//        }else{
-//            [self cellDataWith:[NSString stringWithFormat:@"%li", (long)_curNumber] isRemoveAll:NO];
-//        }
+    _curNumber ++;
+    
+    if(_countNum/13+1 == _currNum){
+        [_tableView reloadData];
+        [_tableView.mj_footer endRefreshingWithNoMoreData];
+    }else{
+        [self cellDataWith:[NSString stringWithFormat:@"%li", (long)_curNumber] isRemoveAll:NO andWithType:@"0"];
     }
 }
-//- (void)addTimer
-//{
-//    _myTimer = [NSTimer scheduledTimerWithTimeInterval:2.0 target:self selector:@selector(nextImage) userInfo:nil repeats:YES];
-//    [[NSRunLoop currentRunLoop] addTimer:_myTimer forMode:NSRunLoopCommonModes];
-//}
-//
-//- (void)nextImage
-//{
-//    // 1.增加pageControl的页码
-//    _currentIndex = 0;
-//    if (_pageControl.currentPage == 3) {
-//        _currentIndex = 0;
-//    } else {
-//        _currentIndex = _pageControl.currentPage + 1;
-//    }
-//
-//    // 2.计算scrollView滚动的位置
-//    CGFloat offsetX = _currentIndex * _scrollView.frame.size.width;
-//    CGPoint offset = CGPointMake(offsetX, 0);
-//    [_scrollView setContentOffset:offset animated:YES];
-//}
-//
-//- (void)removeTimer
-//{
-//    [_myTimer invalidate];
-//    _myTimer = nil;
-//}
-//
-//- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
-//{
-//    // 停止定时器(一旦定时器停止了,就不能再使用)
-//    [self removeTimer];
-//}
-////停止拖拽的时候调用
-//
-//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-//{
-//    // 开启定时器
-//    [self addTimer];
-//}
-//
-//- (void)scrollViewDidScroll:(UIScrollView *)scrollView
-//{
-//
-//    CGFloat scrollW = _scrollView.frame.size.width;
-//    _currentIndex = (scrollView.contentOffset.x + scrollW * 0.5) / scrollW;
-//    _pageControl.currentPage = _currentIndex;
-//}
-//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
-//{
-//    _currentIndex = _scrollView.contentOffset.x/QdxWidth;
-//    if(_scrollView.contentOffset.x >=QdxWidth*3){
-//        _scrollView.contentOffset = CGPointMake(0, 0);
-//    }
-//    _pageControl.currentPage = _currentIndex;
-//
-//}
+
 
 - (void)sussRes
 {
@@ -486,6 +419,7 @@
         [self hideProgess];
     }];
 }
+
 - (void)cellDataWith:(NSString *)cur isRemoveAll:(BOOL)isRemoveAll andWithType:(NSString *)type
 {
         [self showProgessMsg:@"加载中"];
@@ -506,16 +440,14 @@
             }
             dispatch_async(dispatch_get_main_queue(), ^{
                 [_tableView reloadData];
-                [_header endRefreshing];
-                [_footer endRefreshing];
+
                 [self hideProgess];
             });
             
             //[self performSelectorOnMainThread:@selector(sussRes) withObject:nil waitUntilDone:YES];
-    
+            [_tableView.mj_footer endRefreshing];
         } failure:^(NSError *error) {
-            [_header endRefreshing];
-            [_footer endRefreshing];
+
         } WithCurr:cur WithType:type];
         });
 }

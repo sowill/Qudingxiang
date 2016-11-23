@@ -15,7 +15,6 @@
 
 @interface QDXHistoryViewController () <UITableViewDataSource,UITableViewDelegate,UINavigationControllerDelegate>
 @property (nonatomic, strong) UITableView *tableview;
-@property (nonatomic, weak) MJRefreshHeaderView *header;
 @end
 
 @implementation QDXHistoryViewController

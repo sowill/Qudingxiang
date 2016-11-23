@@ -17,12 +17,9 @@
 #import "QDXLineDetailViewController.h"
 #import "HomeService.h"
 #import "ImagePickerController.h"
-//#import "QDXOffLineController.h"
-//#import "MineViewController.h"
 #import "QDXLoginViewController.h"
 #import "QDXNavigationController.h"
 #import "ImageScrollView.h"
-//#import "ActivityController.h"
 #import "AppDelegate.h"
 #import "BaseService.h"
 #define NotificaitonChange @"code"
@@ -37,7 +34,7 @@
     UIImageView *_topImageView;
     UIButton *_leftButton;
     UIButton *_rightButton;
-    //NSMutableArray *_scrollArr;
+
     NSMutableArray *_dataArr;
     NSString *_result;
     NSInteger _currentIndex;
@@ -240,14 +237,11 @@
         [_promptView addSubview:_leftBtn];
         [_rightBtn addTarget:self action:@selector(rightClick) forControlEvents:UIControlEventTouchUpInside];
         [_promptView addSubview:_rightBtn];
-        
     }
-    
 }
 
 - (void)leftClick
 {
-    
     [_promptView removeFromSuperview];
 }
 
@@ -258,8 +252,6 @@
     [NSKeyedArchiver archiveRootObject:str toFile:QDXPromptFile];
     [_promptView removeFromSuperview];
 }
-
-
 
 - (void)createButtonWithView:(UIView *)view
 {
@@ -519,21 +511,17 @@
 
 - (void)changeScanBtn
 {
-    
     if(_code == 0){
         _scanBtn.hidden = NO;
-        [_scanBtn addTarget:self action:@selector(scanClick1) forControlEvents:UIControlEventTouchUpInside];
-        
+        [_scanBtn addTarget:self action:@selector(scanClick) forControlEvents:UIControlEventTouchUpInside];
     }else{
-        
         _scanBtn.hidden = YES;
     }
-    
 }
 
 - (void)scanClick
 {
-    if (save) {
+    if ([save length] != 0) {
         [self scanClick1];
     }else{
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"登陆后才可使用此功能" preferredStyle:UIAlertControllerStyleAlert];

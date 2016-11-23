@@ -778,7 +778,6 @@ toViewController:(UIViewController *)toVC {
         return annotationView;
     }
     
-    
     return nil;
 }
 

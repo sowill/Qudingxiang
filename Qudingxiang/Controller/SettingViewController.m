@@ -184,22 +184,18 @@
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
 {
     if(buttonIndex == 1 && alertView.tag == 1){
+        
         NSFileManager * fileManager = [[NSFileManager alloc]init];
         NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
         
         documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
         [fileManager removeItemAtPath:documentDir error:nil];
         
-//        [self.sideMenuViewController setContentViewController:[[TabbarController alloc] init] animated:YES];
-//        [self.sideMenuViewController hideMenuViewController];
-        
         QDXLoginViewController *login = [[QDXLoginViewController alloc] init];
-        QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:login];
-        [self presentViewController:nav animated:YES completion:^{
-            
-        }];
+        [self.navigationController pushViewController:login animated:YES];
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"stateRefresh" object:nil];
+        
     }else if (buttonIndex == 1 && alertView.tag == 2){
         //彻底删除文件
         [self clearCacheWith:[self getPath]];

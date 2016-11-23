@@ -266,6 +266,7 @@
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"立即登录" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
             
             QDXLoginViewController* regi=[[QDXLoginViewController alloc]init];
+//            self.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:regi animated:YES];
             
         }];

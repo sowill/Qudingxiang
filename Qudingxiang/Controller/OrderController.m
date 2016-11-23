@@ -20,7 +20,7 @@
 #import "QDXNavigationController.h"
 #import "MCLeftSliderManager.h"
 
-@interface OrderController ()<UIAlertViewDelegate,UITableViewDataSource,UITableViewDelegate>
+@interface OrderController ()<UIAlertViewDelegate,UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>
 {
     int curr;
     int page;
@@ -29,6 +29,10 @@
     UIImageView *sad_1;
     UILabel *sadButton_1;
     UIView *loginView;
+    
+    UIView *_tipView;
+    UIScrollView *_sliderScrollView;
+    UIScrollView *_contentScrollView;
 }
 @property (nonatomic, strong) NSMutableArray *orders;
 @property (nonatomic, strong) UITableView *tableview;
@@ -59,14 +63,161 @@
     self.navigationItem.title = @"我的订单";
     
     self.view.backgroundColor = QDXBGColor;
-    
-    [self createTableView];
 
     UIButton *menuBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     menuBtn.frame = CGRectMake(0, 0, 20, 18);
     [menuBtn setBackgroundImage:[UIImage imageNamed:@"index_my"] forState:UIControlStateNormal];
     [menuBtn addTarget:self action:@selector(openOrCloseLeftList) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:menuBtn];
+    
+    self.automaticallyAdjustsScrollViewInsets = NO;
+    
+    [self setupUI];
+    
+//    [self createTableView];
+}
+
+- (void)setupUI {
+    // 滑动条
+    _sliderScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, 50)];
+    _sliderScrollView.showsHorizontalScrollIndicator = NO;
+    _sliderScrollView.contentSize = CGSizeMake(QdxWidth/4 * 4, 50);
+    [self.view addSubview:_sliderScrollView];
+    
+    // 滑动条上的按钮
+    for (int i = 0; i < 4; i++) {
+        UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
+        button.frame = CGRectMake(QdxWidth/4 * i, 0, QdxWidth/4, 50);
+        [button setTitle:@"1111" forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+        [button setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
+        [button addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
+        [_sliderScrollView addSubview:button];
+        button.tag = i + 1;
+        
+        // 设置起始的选中状态
+        if (i == 0) {
+            button.selected = YES;
+        } else {
+            button.selected = NO;
+        }
+        
+    }
+    
+    // 滑动条底部线条
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 50 - 0.5, QdxWidth, 0.5)];
+    line.backgroundColor = [UIColor lightGrayColor];
+    [self.view addSubview:line];
+    
+    // 按钮下面的标识条
+    _tipView = [[UIView alloc] initWithFrame:CGRectMake(0, 50 - 3, QdxWidth/4, 3)];
+    _tipView.backgroundColor = [UIColor redColor];
+    [_sliderScrollView addSubview:_tipView];
+    
+    // 内容视图
+    _contentScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 50, QdxWidth, QdxHeight - 50)];
+    _contentScrollView.contentSize = CGSizeMake(QdxWidth * 4, QdxHeight - 50);
+    _contentScrollView.pagingEnabled = YES;
+    _contentScrollView.showsHorizontalScrollIndicator = NO;
+    _contentScrollView.delegate = self;
+    [self.view addSubview:_contentScrollView];
+    
+    // 每个页面添加一个view
+    for (int i = 0; i < 4; i++) {
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(i * QdxWidth, 0, QdxWidth, QdxHeight - 50)];
+        [_contentScrollView addSubview:view];
+        
+        if (i % 3 == 0) {
+            view.backgroundColor = [UIColor cyanColor];
+        } else if (i %3 == 1) {
+            view.backgroundColor = [UIColor whiteColor];
+        } else {
+            view.backgroundColor = [UIColor yellowColor];
+        }
+    }
+}
+
+// 按钮点击事件
+- (void)btnClick:(UIButton *)btn {
+    // 1.将标识条移到选中的按钮下
+    [self moveTipview:btn];
+    
+    // 2.将选中的按钮字体变色
+    [self changeBtnColor:btn];
+    
+    // 3.将选中的按钮移到中间
+    [self moveSlider:btn];
+    
+    // 4.将内容视图调整到对应的页面
+    [self moveContentScrollView:btn];
+}
+
+- (void)moveSlider:(UIButton *)btn {
+    CGPoint contentOffset = _sliderScrollView.contentOffset;
+    contentOffset.x += (btn.frame.origin.x + (QdxWidth/4) / 2) - _sliderScrollView.contentOffset.x - QdxWidth / 2;
+    
+    if (contentOffset.x < 0) {
+        contentOffset.x = 0;
+    }
+    
+    if (contentOffset.x + QdxWidth > _sliderScrollView.contentSize.width) {
+        contentOffset.x = _sliderScrollView.contentSize.width - QdxWidth;
+    }
+    
+    [UIView animateWithDuration:0.5f animations:^{
+        _sliderScrollView.contentOffset = contentOffset;
+    }];
+    
+}
+
+- (void)changeBtnColor:(UIButton *)btn {
+    for (UIView *view in _sliderScrollView.subviews) {
+        for (int i = 1; i <= 4; i++) {
+            if (view.tag == i) {
+                UIButton *elseBtn = (UIButton *)view;
+                btn.selected = YES;
+                elseBtn.selected = NO;
+            }
+        }
+    }
+    
+}
+
+- (void)moveTipview:(UIButton *)btn {
+    [UIView animateWithDuration:0.1f animations:^{
+        CGRect frame = _tipView.frame;
+        frame.origin.x = btn.frame.origin.x;
+        _tipView.frame = frame;
+    }];
+}
+
+- (void)moveContentScrollView:(UIButton *)btn {
+    CGPoint contentOffset = _contentScrollView.contentOffset;
+    contentOffset.x = (btn.tag - 1) * QdxWidth;
+    [UIView animateWithDuration:0.1f animations:^{
+        _contentScrollView.contentOffset = contentOffset;
+    }];
+}
+
+#pragma mark - UIScrollViewDelegate
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    int index = scrollView.contentOffset.x / QdxWidth + 1;
+    
+    for (UIView *view in _sliderScrollView.subviews) {
+        if (view.tag == index) {
+            UIButton *button = (UIButton *)view;
+            
+            // 1.将标识条移到选中的按钮下
+            [self moveTipview:button];
+            
+            // 2.将选中的按钮字体变色
+            [self changeBtnColor:button];
+            
+            // 3.将选中的按钮移到中间
+            [self moveSlider:button];
+        }
+    }
+    
 }
 
 - (void) openOrCloseLeftList

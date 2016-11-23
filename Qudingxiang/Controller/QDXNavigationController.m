@@ -39,6 +39,18 @@
     [navBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
 }
 
+//- (void)presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)flag completion:(void (^)(void))completion
+//{
+//    [[MCLeftSliderManager sharedInstance].LeftSlideVC setPanEnabled:YES];
+//    return [super presentViewController:viewControllerToPresent animated:flag completion:(void (^)(void))completion];
+//}
+//
+//- (void)dismissViewControllerAnimated:(BOOL)flag completion:(void (^)(void))completion
+//{
+//    [[MCLeftSliderManager sharedInstance].LeftSlideVC setPanEnabled:YES];
+//    return [super dismissViewControllerAnimated:flag completion:(void (^)(void))completion];
+//}
+
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
 //    viewController.hidesBottomBarWhenPushed = YES;

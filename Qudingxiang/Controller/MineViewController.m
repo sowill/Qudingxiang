@@ -59,6 +59,13 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     [self createTableView];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stateRefresh) name:@"stateRefresh" object:nil];
+}
+
+-(void)stateRefresh
+{
+    [self netData];
 }
 
 - (void)createTableView
@@ -114,7 +121,7 @@
 //        if(_im){
 //            _imageView.image = imgFromUrl3;
 //        }else{
-            if(save){
+            if([save length] != 0){
                 NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,_peopleDict[@"Msg"][@"headurl"]]];
                 [_imageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"my_head"]];
             }else{
@@ -128,7 +135,7 @@
 //        _picBtn.imageView.clipsToBounds = YES;
 //        _picBtn.imageView.layer.cornerRadius = CGRectGetHeight(_picBtn.bounds)/2;
         
-        if (save == nil) {
+        if ([save length] == 0) {
             [_picBtn setTitle:@"登录" forState:UIControlStateNormal];
         }else{
             [_picBtn setTitle:@"" forState:UIControlStateNormal];
@@ -147,7 +154,7 @@
         
         UIButton *signBtn = [[UIButton alloc] init];
         signBtn.frame = CGRectMake(20,headBtnMaxY+35,QdxWidth*4/5,42);
-        if (save == nil) {
+        if ([save length] == 0) {
             [signBtn setTitle:@"登录后显示个性签名" forState:UIControlStateNormal];
         }else{
             [signBtn setTitle:_peopleDict[@"Msg"][@"signature"] forState:UIControlStateNormal];
@@ -193,7 +200,7 @@
     }
     
     if(indexPath.row == 0){
-        if (save == nil) {
+        if ([save length] == 0) {
             cell._name.text = @"昵称";
         }else{
             cell._name.text = _peopleDict[@"Msg"][@"customer_name"];
@@ -201,7 +208,7 @@
         cell._id.text= nil;
         cell.imageV.image = [UIImage imageNamed:@"my_name"];
     }else if(indexPath.row == 1){
-        if (save == nil) {
+        if ([save length] == 0) {
             cell._name.text = @"账号";
         }else{
             cell._name.text =_peopleDict[@"Msg"][@"code"];
@@ -435,12 +442,22 @@
 
 - (void)login
 {
-    QDXLoginViewController* regi=[[QDXLoginViewController alloc]init];
-    UINavigationController* navController = [[UINavigationController alloc] initWithRootViewController:regi];
-    regi.hidesBottomBarWhenPushed = YES;
-    [self presentViewController:navController animated:YES completion:^{
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"登陆后才可使用此功能" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"立即登录" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
+        
+        QDXLoginViewController* regi=[[QDXLoginViewController alloc]init];
+        QDXNavigationController* navController = [[QDXNavigationController alloc] initWithRootViewController:regi];
+        [self presentViewController:navController animated:YES completion:^{
+            [[MCLeftSliderManager sharedInstance].LeftSlideVC setPanEnabled:YES];
+        }];
         
     }];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"暂不登录" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
+        
+    }];
+    [alertController addAction:cancelAction];
+    [alertController addAction:okAction];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (void)signbtn

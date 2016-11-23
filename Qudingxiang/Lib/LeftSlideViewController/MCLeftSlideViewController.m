@@ -140,28 +140,7 @@
     
     if ([MCLeftSliderManager sharedInstance].LeftSlideVC.closed)
     {
-//        if(save == nil){
-//            
-//            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"登陆后才可使用此功能" preferredStyle:UIAlertControllerStyleAlert];
-//            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"立即登录" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
-//                
-//                QDXLoginViewController* regi=[[QDXLoginViewController alloc]init];
-//                QDXNavigationController* navController = [[QDXNavigationController alloc] initWithRootViewController:regi];
-//                regi.hidesBottomBarWhenPushed = YES;
-//                [self presentViewController:navController animated:YES completion:^{
-//                    
-//                }];
-//                
-//            }];
-//            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"暂不登录" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
-//                
-//            }];
-//            [alertController addAction:cancelAction];
-//            [alertController addAction:okAction];
-//            [self presentViewController:alertController animated:YES completion:nil];
-//        }else{
-            [[MCLeftSliderManager sharedInstance].LeftSlideVC openLeftView];
-//        }
+        [[MCLeftSliderManager sharedInstance].LeftSlideVC openLeftView];
     }
     else
     {

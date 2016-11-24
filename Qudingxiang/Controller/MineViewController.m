@@ -121,7 +121,7 @@
 //        if(_im){
 //            _imageView.image = imgFromUrl3;
 //        }else{
-            if([save length] != 0){
+            if([_peopleDict[@"Code"] intValue] != 0){
                 NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,_peopleDict[@"Msg"][@"headurl"]]];
                 [_imageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"my_head"]];
             }else{
@@ -135,7 +135,7 @@
 //        _picBtn.imageView.clipsToBounds = YES;
 //        _picBtn.imageView.layer.cornerRadius = CGRectGetHeight(_picBtn.bounds)/2;
         
-        if ([save length] == 0) {
+        if ([_peopleDict[@"Code"] intValue] == 0) {
             [_picBtn setTitle:@"登录" forState:UIControlStateNormal];
         }else{
             [_picBtn setTitle:@"" forState:UIControlStateNormal];
@@ -154,7 +154,7 @@
         
         UIButton *signBtn = [[UIButton alloc] init];
         signBtn.frame = CGRectMake(20,headBtnMaxY+35,QdxWidth*4/5,42);
-        if ([save length] == 0) {
+        if ([_peopleDict[@"Code"] intValue] == 0) {
             [signBtn setTitle:@"登录后显示个性签名" forState:UIControlStateNormal];
         }else{
             [signBtn setTitle:_peopleDict[@"Msg"][@"signature"] forState:UIControlStateNormal];
@@ -200,7 +200,7 @@
     }
     
     if(indexPath.row == 0){
-        if ([save length] == 0) {
+        if ([_peopleDict[@"Code"] intValue] == 0) {
             cell._name.text = @"昵称";
         }else{
             cell._name.text = _peopleDict[@"Msg"][@"customer_name"];
@@ -208,7 +208,7 @@
         cell._id.text= nil;
         cell.imageV.image = [UIImage imageNamed:@"my_name"];
     }else if(indexPath.row == 1){
-        if ([save length] == 0) {
+        if ([_peopleDict[@"Code"] intValue] == 0) {
             cell._name.text = @"账号";
         }else{
             cell._name.text =_peopleDict[@"Msg"][@"code"];
@@ -245,7 +245,7 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if (save == nil) {
+    if ([_peopleDict[@"Code"] intValue] == 0) {
         [self login];
     }else{
         if(indexPath.row == 0){
@@ -303,7 +303,7 @@
 
 - (void)updatahead
 {
-    if (save == nil) {
+    if ([_peopleDict[@"Code"] intValue] == 0) {
         [self login];
     }else{
         //创建UIAlertController是为了让用户去选择照片来源,拍照或者相册.
@@ -462,7 +462,7 @@
 
 - (void)signbtn
 {
-    if (save == nil) {
+    if ([_peopleDict[@"Code"] intValue] == 0) {
         [self login];
     }else{
         SignViewController *sign = [[SignViewController alloc] init];

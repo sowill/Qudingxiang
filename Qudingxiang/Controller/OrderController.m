@@ -33,6 +33,11 @@
     UIView *_tipView;
     UIScrollView *_sliderScrollView;
     UIScrollView *_contentScrollView;
+    
+    UIView *allOrdersView;
+    UIView *willPayView;
+    UIView *didPayView;
+    UIView *didCompletedView;
 }
 @property (nonatomic, strong) NSMutableArray *orders;
 @property (nonatomic, strong) UITableView *tableview;
@@ -74,23 +79,42 @@
     
     [self setupUI];
     
-//    [self createTableView];
 }
 
 - (void)setupUI {
     // 滑动条
-    _sliderScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, 50)];
+    _sliderScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, FitRealValue(80))];
     _sliderScrollView.showsHorizontalScrollIndicator = NO;
-    _sliderScrollView.contentSize = CGSizeMake(QdxWidth/4 * 4, 50);
+    _sliderScrollView.backgroundColor = [UIColor whiteColor];
+    _sliderScrollView.contentSize = CGSizeMake(QdxWidth/4 * 4, FitRealValue(80));
     [self.view addSubview:_sliderScrollView];
     
     // 滑动条上的按钮
     for (int i = 0; i < 4; i++) {
         UIButton *button = [UIButton buttonWithType:UIButtonTypeCustom];
-        button.frame = CGRectMake(QdxWidth/4 * i, 0, QdxWidth/4, 50);
-        [button setTitle:@"1111" forState:UIControlStateNormal];
-        [button setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
-        [button setTitleColor:[UIColor redColor] forState:UIControlStateSelected];
+        button.frame = CGRectMake(QdxWidth/4 * i, 0, QdxWidth/4, FitRealValue(80));
+        
+        switch (i) {
+            case 0:
+                [button setTitle:@"全部订单" forState:UIControlStateNormal];
+                break;
+            case 1:
+                [button setTitle:@"待支付" forState:UIControlStateNormal];
+                break;
+            case 2:
+                [button setTitle:@"已支付" forState:UIControlStateNormal];
+                break;
+            case 3:
+                [button setTitle:@"已完成" forState:UIControlStateNormal];
+                break;
+            default:
+                break;
+        }
+        
+        
+        [button setTitleColor:QDXBlack forState:UIControlStateNormal];
+        [button setTitleColor:QDXBlue forState:UIControlStateSelected];
+        button.titleLabel.font = [UIFont systemFontOfSize:14];
         [button addTarget:self action:@selector(btnClick:) forControlEvents:UIControlEventTouchUpInside];
         [_sliderScrollView addSubview:button];
         button.tag = i + 1;
@@ -105,34 +129,47 @@
     }
     
     // 滑动条底部线条
-    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, 50 - 0.5, QdxWidth, 0.5)];
-    line.backgroundColor = [UIColor lightGrayColor];
+    UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, FitRealValue(80) - 0.5, QdxWidth, 0.5)];
+    line.backgroundColor = QDXLineColor;
     [self.view addSubview:line];
     
     // 按钮下面的标识条
-    _tipView = [[UIView alloc] initWithFrame:CGRectMake(0, 50 - 3, QdxWidth/4, 3)];
-    _tipView.backgroundColor = [UIColor redColor];
+    _tipView = [[UIView alloc] initWithFrame:CGRectMake(0, FitRealValue(80) - 3, QdxWidth/4, 3)];
+    _tipView.backgroundColor = QDXBlue;
     [_sliderScrollView addSubview:_tipView];
     
     // 内容视图
-    _contentScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 50, QdxWidth, QdxHeight - 50)];
-    _contentScrollView.contentSize = CGSizeMake(QdxWidth * 4, QdxHeight - 50);
+    _contentScrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, FitRealValue(80), QdxWidth, QdxHeight - FitRealValue(80))];
+    _contentScrollView.contentSize = CGSizeMake(QdxWidth * 4, QdxHeight - FitRealValue(80));
     _contentScrollView.pagingEnabled = YES;
     _contentScrollView.showsHorizontalScrollIndicator = NO;
     _contentScrollView.delegate = self;
+    _contentScrollView.backgroundColor = QDXBGColor;
     [self.view addSubview:_contentScrollView];
     
     // 每个页面添加一个view
     for (int i = 0; i < 4; i++) {
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(i * QdxWidth, 0, QdxWidth, QdxHeight - 50)];
-        [_contentScrollView addSubview:view];
         
-        if (i % 3 == 0) {
-            view.backgroundColor = [UIColor cyanColor];
-        } else if (i %3 == 1) {
-            view.backgroundColor = [UIColor whiteColor];
-        } else {
-            view.backgroundColor = [UIColor yellowColor];
+        switch (i) {
+            case 0:
+                allOrdersView = [[UIView alloc] initWithFrame:CGRectMake(i * QdxWidth, 0, QdxWidth, QdxHeight - FitRealValue(80))];
+                [_contentScrollView addSubview:allOrdersView];
+                [self createTableView];
+                break;
+            case 1:
+                willPayView = [[UIView alloc] initWithFrame:CGRectMake(i * QdxWidth, 0, QdxWidth, QdxHeight - FitRealValue(80))];
+                [_contentScrollView addSubview:willPayView];
+                break;
+            case 2:
+                didPayView = [[UIView alloc] initWithFrame:CGRectMake(i * QdxWidth, 0, QdxWidth, QdxHeight - FitRealValue(80))];
+                [_contentScrollView addSubview:didPayView];
+                break;
+            case 3:
+                didCompletedView = [[UIView alloc] initWithFrame:CGRectMake(i * QdxWidth, 0, QdxWidth, QdxHeight - FitRealValue(80))];
+                [_contentScrollView addSubview:didCompletedView];
+                break;
+            default:
+                break;
         }
     }
 }
@@ -234,14 +271,22 @@
 
 - (void) createTableView
 {
-    self.tableview = [[UITableView alloc] initWithFrame:CGRectMake(0,0, QdxWidth, QdxHeight-64) style:UITableViewStyleGrouped];
+    self.tableview = [[UITableView alloc] initWithFrame:CGRectMake(0,0, QdxWidth, QdxHeight - FitRealValue(80)-64) style:UITableViewStyleGrouped];
     self.tableview.delegate = self;
     self.tableview.dataSource = self;
     self.tableview.showsVerticalScrollIndicator = NO;
     self.tableview.backgroundColor = QDXBGColor;
     //    self.tableview.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.tableview setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    [self.view addSubview:self.tableview];
+    
+    [allOrdersView addSubview:self.tableview];
+
+//    [willPayView addSubview:self.tableview];
+//
+//    [didPayView addSubview:self.tableview];
+//
+//    [didCompletedView addSubview:self.tableview];
+    
     [self setupRefreshView];
 }
 
@@ -291,14 +336,11 @@
     [self.tableview.mj_header beginRefreshing];
     
     // 2.上拉刷新(上拉加载更多数据)
-//    self.tableview.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
-//        [weakSelf loadMoreData];
-//    }];
     self.tableview.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
     // 设置了底部inset
-//    self.tableview.contentInset = UIEdgeInsetsMake(0, 0, 30, 0);
-//    // 忽略掉底部inset
-//    self.tableview.mj_footer.ignoredScrollViewContentInsetBottom = 30;
+    self.tableview.contentInset = UIEdgeInsetsMake(0, 0, 30, 0);
+    // 忽略掉底部inset
+    self.tableview.mj_footer.ignoredScrollViewContentInsetBottom = 30;
     
 }
 
@@ -349,8 +391,9 @@
                 page = [dict[@"Msg"][@"page"] intValue];
                 //将字典转模型
                 NSArray *dataDict = dict[@"Msg"][@"data"];
+                
                 for(NSDictionary *dict in dataDict){
-                    [self.orders  addObject:[QDXOrdermodel OrderWithDict:dict]];
+                    [self.orders addObject:[QDXOrdermodel OrderWithDict:dict]];
                 }
             }else{
                 self.orders = [[NSMutableArray alloc] init];

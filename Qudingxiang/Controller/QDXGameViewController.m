@@ -966,6 +966,7 @@ toViewController:(UIViewController *)toVC {
     if(![macStr isEqualToString:@""] && macStr != nil){
         params[@"mac"] = macStr;
     }
+    
     //离线验证
     if ([self.gameInfo.mstatus_id intValue] == 2 && [self.gameInfo.online intValue] == 2 ) {
         NSDictionary *dic = [LocalDBService CheckTask:params];
@@ -1019,8 +1020,8 @@ toViewController:(UIViewController *)toVC {
         }else if (ret == 2){
             AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
             [self setupgetMylineInfo:1];
-            answer = @"";
-            macStr = @"";
+//            answer = @"";
+//            macStr = @"";
         }else{
 //            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"请稍候再试" preferredStyle:UIAlertControllerStyleAlert];
 //            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"重试" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){

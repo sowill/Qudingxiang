@@ -53,6 +53,8 @@
 
 #define QDXOrange UIColorFromRGB(0xff5100)
 
+#define QDXLineColor UIColorFromRGB(0xe5e5e5)
+
 #define QDXBGColor [UIColor colorWithWhite:0.961 alpha:1.000]
 
 //是否提示

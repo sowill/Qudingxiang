@@ -31,6 +31,10 @@
     NSInteger _code;
     NSString *_line_id;
     NSString *_ticket;
+    
+    UIImageView *_promptView;
+    UIButton *_leftBtn;
+    UIButton *_rightBtn;
 }
 @property (nonatomic, strong) UIButton *publishButton;
 @property (nonatomic, assign) long indexFlag;
@@ -85,6 +89,29 @@
     self.publishButton.size = CGSizeMake(self.publishButton.currentBackgroundImage.size.width, self.publishButton.currentBackgroundImage.size.height);
     self.publishButton.centerX = self.view.centerX;
     self.publishButton.centerY = tabbar.height * 0.5 - 2 * LBMagin + CGRectGetMinY(tabbar.frame);
+    
+    
+    if([promptStr intValue] == 1){
+    
+    
+    }else{
+        _promptView = [[UIImageView alloc] initWithFrame:CGRectMake(QdxWidth/2 - FitRealValue(200),-FitRealValue(217), FitRealValue(400), FitRealValue(177))];
+        _leftBtn = [[UIButton alloc] init];
+        _leftBtn.frame = CGRectMake(0, FitRealValue(80), FitRealValue(200), FitRealValue(80));
+        _rightBtn = [[UIButton alloc] init];
+        _rightBtn.frame = CGRectMake(FitRealValue(200), FitRealValue(80), FitRealValue(200), FitRealValue(80));
+        
+        _promptView.image = [UIImage imageNamed:@"气泡"];
+        _promptView.userInteractionEnabled = YES;
+        _promptView.backgroundColor = [UIColor clearColor];
+        [self.view bringSubviewToFront:_promptView];
+        
+        [tabbar addSubview:_promptView];
+        [_leftBtn addTarget:self action:@selector(leftClick) forControlEvents:UIControlEventTouchUpInside];
+        [_promptView addSubview:_leftBtn];
+        [_rightBtn addTarget:self action:@selector(rightClick) forControlEvents:UIControlEventTouchUpInside];
+        [_promptView addSubview:_rightBtn];
+    }
 }
 
 - (void)viewDidLoad {
@@ -97,6 +124,19 @@
 //    tabbar.myDelegate = self;
 //    //kvc实质是修改了系统的_tabBar
 //    [self setValue:tabbar forKeyPath:@"tabBar"];
+}
+
+- (void)leftClick
+{
+    [_promptView removeFromSuperview];
+}
+
+- (void)rightClick
+{
+    //yongjiushanchu
+    NSString *str = @"1";
+    [NSKeyedArchiver archiveRootObject:str toFile:QDXPromptFile];
+    [_promptView removeFromSuperview];
 }
 
 

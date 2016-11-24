@@ -53,9 +53,7 @@
     UIButton *_scanBtn;
     ImageScrollView *imgScrollView;
     NSMutableArray *arr;
-    UIImageView *_promptView;
-    UIButton *_leftBtn;
-    UIButton *_rightBtn;
+
     AppDelegate *appdelegate;
     HomeService *homehttp;
 }
@@ -88,6 +86,7 @@
     [self createTableView];
     [self loadDataCell];
     [self createUI];
+    
     if ([_tableView respondsToSelector:@selector(setSeparatorInset:)])
     {
         [_tableView setSeparatorInset:UIEdgeInsetsZero];
@@ -96,20 +95,15 @@
     {
         [_tableView setLayoutMargins:UIEdgeInsetsZero];
     }
+    
     //    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"firstStart"]){
     //        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstStart"];
     //        NSLog(@"第一次启动");
     //    }else{
     //        NSLog(@"不是第一次启动");
     //    }
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stateRefresh) name:@"stateRefresh" object:nil];
-//    BaseService *httpRequest = [BaseService sharedInstance];
-//    NSString *url = [hostUrl stringByAppendingString:@"Home/util/Dbversion"];
-//    [httpRequest POST:url dict:nil succeed:^(id data) {
-//        NSLog(@"%@",data[@"goods"]);
-//    } failure:^(NSError *error) {
-//        
-//    }];
 }
 
 - (void)stateRefresh
@@ -170,23 +164,6 @@
     view.frame = CGRectMake(0, 0, QdxWidth, viewMaxY+30);
     
     _tableView.tableHeaderView = view;
-    //    _scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxWidth*0.59)];
-    //    _scrollView.showsHorizontalScrollIndicator = NO;
-    //    _scrollView.backgroundColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.5];
-    //    _scrollView.pagingEnabled = YES;
-    //    _scrollView.userInteractionEnabled = YES;
-    //    _scrollView.delegate = self;
-    //    _scrollView.contentSize = CGSizeMake(4*QdxWidth, 0);
-    //    _scrollView.showsVerticalScrollIndicator = NO;
-    //    _scrollView.bounces = YES;
-    //    _scrollView.scrollEnabled = YES;
-    //    [view addSubview:_scrollView];
-    //    _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, QdxWidth*0.59-20, QdxWidth, 10)];
-    //    _pageControl.currentPageIndicatorTintColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1];
-    //    _pageControl.pageIndicatorTintColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.5];
-    //    _pageControl.numberOfPages = 4;
-    //    _pageControl.currentPage = 0;
-    //    [view addSubview:_pageControl];
     
     //创建
     imgScrollView = [[ImageScrollView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxWidth*0.59)];
@@ -202,55 +179,6 @@
     _scanBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 18)];
     [_scanBtn setBackgroundImage:[UIImage imageNamed:@"index_sweep"] forState:UIControlStateNormal];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_scanBtn];
-
-    
-    if([promptStr intValue] == 1){
-        
-        
-    }else{
-        if (QdxHeight == 736) {
-            _promptView = [[UIImageView alloc] initWithFrame:CGRectMake(QdxWidth/2-125, QdxHeight - 240,250, 110)];
-            _leftBtn = [[UIButton alloc] init];
-            _leftBtn.frame = CGRectMake(0, 50, 115, 45);
-            _rightBtn = [[UIButton alloc] init];
-            _rightBtn.frame = CGRectMake(130, 50, 115, 45);
-        }else if (QdxHeight == 667){
-            _promptView = [[UIImageView alloc] initWithFrame:CGRectMake(QdxWidth/2-113.5, QdxHeight - 228,227, 100)];
-            _leftBtn = [[UIButton alloc] init];
-            _leftBtn.frame = CGRectMake(0, 45, 110, 40);
-            _rightBtn = [[UIButton alloc] init];
-            _rightBtn.frame = CGRectMake(115, 45, 110, 40);
-        }else{
-            _promptView = [[UIImageView alloc] initWithFrame:CGRectMake(QdxWidth/2-90, QdxHeight - 205,180, 76)];
-            _leftBtn = [[UIButton alloc] init];
-            _leftBtn.frame = CGRectMake(0, 36, 85, 30);
-            _rightBtn = [[UIButton alloc] init];
-            _rightBtn.frame = CGRectMake(93, 36, 85, 30);
-            
-        }
-        _promptView.image = [UIImage imageNamed:@"气泡"];
-        _promptView.userInteractionEnabled = YES;
-        _promptView.backgroundColor = [UIColor clearColor];
-        [self.view bringSubviewToFront:_promptView];
-        [self.view addSubview:_promptView];
-        [_leftBtn addTarget:self action:@selector(leftClick) forControlEvents:UIControlEventTouchUpInside];
-        [_promptView addSubview:_leftBtn];
-        [_rightBtn addTarget:self action:@selector(rightClick) forControlEvents:UIControlEventTouchUpInside];
-        [_promptView addSubview:_rightBtn];
-    }
-}
-
-- (void)leftClick
-{
-    [_promptView removeFromSuperview];
-}
-
-- (void)rightClick
-{
-    //yongjiushanchu
-    NSString *str = @"1";
-    [NSKeyedArchiver archiveRootObject:str toFile:QDXPromptFile];
-    [_promptView removeFromSuperview];
 }
 
 - (void)createButtonWithView:(UIView *)view
@@ -328,40 +256,40 @@
 - (void)topViewData
 {
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    [homehttp topViewDatasucceed:^(id data) {
-        NSDictionary *dataDict = data[@"Msg"][@"data"];
-        for(NSDictionary *dict in dataDict){
-            int i = [dict[@"goods_index"] intValue];
-            if (i == 1) {
-                HomeModel *model = [[HomeModel alloc] init];
-                [model setValuesForKeysWithDictionary:dict];
-                _model_tmp = model;
-                NSString *str = model.good_url;
-                [_scrollArr addObject:[NSString stringWithFormat:@"%@%@",hostUrl,str]];
-                [_modelArr addObject:model];
+        [homehttp topViewDatasucceed:^(id data) {
+            NSDictionary *dataDict = data[@"Msg"][@"data"];
+            for(NSDictionary *dict in dataDict){
+                int i = [dict[@"goods_index"] intValue];
+                if (i == 1) {
+                    HomeModel *model = [[HomeModel alloc] init];
+                    [model setValuesForKeysWithDictionary:dict];
+                    _model_tmp = model;
+                    NSString *str = model.good_url;
+                    [_scrollArr addObject:[NSString stringWithFormat:@"%@%@",hostUrl,str]];
+                    [_modelArr addObject:model];
+                }
             }
-        }
         
-        for(int i = 0;i<4;i++){
-            [arr addObject:_scrollArr[i]];
-        }
-        //添加数据
-        imgScrollView.pics = arr;
-        //点击事件
-        [imgScrollView returnIndex:^(NSInteger index) {
+            for(int i = 0;i<4;i++){
+                [arr addObject:_scrollArr[i]];
+            }
+            //添加数据
+            imgScrollView.pics = arr;
+            //点击事件
+            [imgScrollView returnIndex:^(NSInteger index) {
             QDXLineDetailViewController *detailLine = [[QDXLineDetailViewController alloc] init];
-            detailLine.homeModel = [_modelArr objectAtIndex:index];
-            detailLine.hidesBottomBarWhenPushed = YES;
-            [self.navigationController pushViewController:detailLine animated:YES];
-        }];
-        //刷新（必需的步骤）
-        dispatch_async(dispatch_get_main_queue(), ^(void){
-            [imgScrollView reloadView];
-        });
-    } failure:^(NSError *error) {
+                detailLine.homeModel = [_modelArr objectAtIndex:index];
+                detailLine.hidesBottomBarWhenPushed = YES;
+                [self.navigationController pushViewController:detailLine animated:YES];
+            }];
+            //刷新（必需的步骤）
+            dispatch_async(dispatch_get_main_queue(), ^(void){
+                [imgScrollView reloadView];
+            });
+        } failure:^(NSError *error) {
         
-    }];
-});
+        }];
+    });
 }
 
 - (void)state

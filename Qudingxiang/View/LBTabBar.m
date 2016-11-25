@@ -13,7 +13,12 @@
 
 #define LBMagin 10
 @interface LBTabBar ()
-
+{
+    UIImageView *_promptView;
+    UIButton *_leftBtn;
+    UIButton *_rightBtn;
+    UIButton *_topBtn;
+}
 /** plus按钮 */
 @property (nonatomic, weak) UIButton *plusBtn ;
 
@@ -47,9 +52,48 @@
         [plusBtn addTarget:self action:@selector(plusBtnDidClick) forControlEvents:UIControlEventTouchUpInside];
         
         [self addSubview:plusBtn];
-
+        
+        
+        if([promptStr intValue] == 1){
+            
+            
+        }else{
+            _promptView = [[UIImageView alloc] initWithFrame:CGRectMake(QdxWidth/2 - FitRealValue(200),-FitRealValue(217), FitRealValue(400), FitRealValue(177))];
+            _leftBtn = [[UIButton alloc] init];
+            _leftBtn.frame = CGRectMake(0, FitRealValue(80), FitRealValue(200), FitRealValue(80));
+            _rightBtn = [[UIButton alloc] init];
+            _rightBtn.frame = CGRectMake(FitRealValue(200), FitRealValue(80), FitRealValue(200), FitRealValue(80));
+            _topBtn = [[UIButton alloc] init];
+            _topBtn.frame = CGRectMake(0, 0, FitRealValue(400), FitRealValue(80));
+            
+            _promptView.image = [UIImage imageNamed:@"气泡"];
+            _promptView.userInteractionEnabled = YES;
+            _promptView.backgroundColor = [UIColor clearColor];
+            [self bringSubviewToFront:_promptView];
+            [self addSubview:_promptView];
+            
+            [_leftBtn addTarget:self action:@selector(leftClick) forControlEvents:UIControlEventTouchUpInside];
+            [_promptView addSubview:_leftBtn];
+            [_rightBtn addTarget:self action:@selector(rightClick) forControlEvents:UIControlEventTouchUpInside];
+            [_promptView addSubview:_rightBtn];
+            [_topBtn addTarget:self action:@selector(plusBtnDidClick) forControlEvents:UIControlEventTouchUpInside];
+            [_promptView addSubview:_topBtn];
+        }
     }
     return self;
+}
+
+- (void)leftClick
+{
+    [_promptView removeFromSuperview];
+}
+
+- (void)rightClick
+{
+    //yongjiushanchu
+    NSString *str = @"1";
+    [NSKeyedArchiver archiveRootObject:str toFile:QDXPromptFile];
+    [_promptView removeFromSuperview];
 }
 
 - (void)layoutSubviews
@@ -119,11 +163,21 @@
         //将当前tabbar的触摸点转换坐标系，转换到发布按钮的身上，生成一个新的点
         CGPoint newP = [self convertPoint:point toView:self.plusBtn];
         
-        //判断如果这个新的点是在发布按钮身上，那么处理点击事件最合适的view就是发布按钮
+        CGPoint newP2 = [self convertPoint:point toView:_leftBtn];
+        
+        CGPoint newP3 = [self convertPoint:point toView:_rightBtn];
+        
+        CGPoint newP4 = [self convertPoint:point toView:_topBtn];
+        
         if ( [self.plusBtn pointInside:newP withEvent:event]) {
             return self.plusBtn;
+        }else if ([_leftBtn pointInside:newP2 withEvent:event]){
+            return _leftBtn;
+        }else if ([_rightBtn pointInside:newP3 withEvent:event]){
+            return _rightBtn;
+        }else if ([_topBtn pointInside:newP4 withEvent:event]){
+            return _topBtn;
         }else{//如果点不在发布按钮身上，直接让系统处理就可以了
-            
             return [super hitTest:point withEvent:event];
         }
     }

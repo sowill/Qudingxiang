@@ -397,6 +397,8 @@
 
 - (void)goHome
 {
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"stateRefresh" object:nil];
+    [self.navigationController popViewControllerAnimated:YES];
     [self dismissViewControllerAnimated:YES completion:^{
         
     }];

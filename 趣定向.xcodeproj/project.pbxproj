@@ -251,6 +251,11 @@
 		45CA52321DE452270025A376 /* UIScrollView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CA521C1DE452270025A376 /* UIScrollView+MJExtension.m */; };
 		45CA52331DE452270025A376 /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CA521E1DE452270025A376 /* UIScrollView+MJRefresh.m */; };
 		45CA52341DE452270025A376 /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CA52201DE452270025A376 /* UIView+MJExtension.m */; };
+		45DBF7241DE7E84B008FDA7D /* QDXSlideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DBF7231DE7E84B008FDA7D /* QDXSlideView.m */; };
+		45DBF7271DE804DB008FDA7D /* QDXSlideHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DBF7261DE804DB008FDA7D /* QDXSlideHeaderView.m */; };
+		45DBF72A1DE80B53008FDA7D /* QDXSlideHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DBF7291DE80B53008FDA7D /* QDXSlideHeaderCell.m */; };
+		45DBF72D1DE80DF4008FDA7D /* QDXSlideCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DBF72C1DE80DF4008FDA7D /* QDXSlideCollectionViewCell.m */; };
+		45DBF7301DE80F66008FDA7D /* QDXSlideTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DBF72F1DE80F66008FDA7D /* QDXSlideTableViewCell.m */; };
 		45DD34DA1C33D5F500E24250 /* read_me.txt in Resources */ = {isa = PBXBuildFile; fileRef = 45DD34D51C33D5F500E24250 /* read_me.txt */; };
 		45DF76381BA6AAC20024A6B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45DF76361BA6AAC20024A6B4 /* Main.storyboard */; };
 		45EE61371CEAC074007302E3 /* PointView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EE61361CEAC074007302E3 /* PointView.m */; };
@@ -805,6 +810,16 @@
 		45CA521E1DE452270025A376 /* UIScrollView+MJRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+MJRefresh.m"; sourceTree = "<group>"; };
 		45CA521F1DE452270025A376 /* UIView+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MJExtension.h"; sourceTree = "<group>"; };
 		45CA52201DE452270025A376 /* UIView+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MJExtension.m"; sourceTree = "<group>"; };
+		45DBF7221DE7E84B008FDA7D /* QDXSlideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXSlideView.h; sourceTree = "<group>"; };
+		45DBF7231DE7E84B008FDA7D /* QDXSlideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXSlideView.m; sourceTree = "<group>"; };
+		45DBF7251DE804DB008FDA7D /* QDXSlideHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXSlideHeaderView.h; sourceTree = "<group>"; };
+		45DBF7261DE804DB008FDA7D /* QDXSlideHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXSlideHeaderView.m; sourceTree = "<group>"; };
+		45DBF7281DE80B53008FDA7D /* QDXSlideHeaderCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXSlideHeaderCell.h; sourceTree = "<group>"; };
+		45DBF7291DE80B53008FDA7D /* QDXSlideHeaderCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXSlideHeaderCell.m; sourceTree = "<group>"; };
+		45DBF72B1DE80DF4008FDA7D /* QDXSlideCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXSlideCollectionViewCell.h; sourceTree = "<group>"; };
+		45DBF72C1DE80DF4008FDA7D /* QDXSlideCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXSlideCollectionViewCell.m; sourceTree = "<group>"; };
+		45DBF72E1DE80F66008FDA7D /* QDXSlideTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXSlideTableViewCell.h; sourceTree = "<group>"; };
+		45DBF72F1DE80F66008FDA7D /* QDXSlideTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXSlideTableViewCell.m; sourceTree = "<group>"; };
 		45DD34D41C33D5F500E24250 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
 		45DD34D51C33D5F500E24250 /* read_me.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = read_me.txt; sourceTree = "<group>"; };
 		45DD34D61C33D5F500E24250 /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
@@ -1666,6 +1681,16 @@
 				45EE61391CEAC641007302E3 /* PointAnnotationView.m */,
 				453AF08E1D59756900FCC23E /* MyAnnotation.h */,
 				453AF08F1D59756900FCC23E /* MyAnnotation.m */,
+				45DBF7221DE7E84B008FDA7D /* QDXSlideView.h */,
+				45DBF7231DE7E84B008FDA7D /* QDXSlideView.m */,
+				45DBF7251DE804DB008FDA7D /* QDXSlideHeaderView.h */,
+				45DBF7261DE804DB008FDA7D /* QDXSlideHeaderView.m */,
+				45DBF7281DE80B53008FDA7D /* QDXSlideHeaderCell.h */,
+				45DBF7291DE80B53008FDA7D /* QDXSlideHeaderCell.m */,
+				45DBF72B1DE80DF4008FDA7D /* QDXSlideCollectionViewCell.h */,
+				45DBF72C1DE80DF4008FDA7D /* QDXSlideCollectionViewCell.m */,
+				45DBF72E1DE80F66008FDA7D /* QDXSlideTableViewCell.h */,
+				45DBF72F1DE80F66008FDA7D /* QDXSlideTableViewCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2153,6 +2178,7 @@
 				455A95BD1C97E3EB0039FA88 /* NSObject+MJProperty.m in Sources */,
 				4549C7661DBE103800180FB5 /* UIView+LBExtension.m in Sources */,
 				455A95CA1C97F5400039FA88 /* QDXAreaModel.m in Sources */,
+				45DBF7271DE804DB008FDA7D /* QDXSlideHeaderView.m in Sources */,
 				45C6F5BD1C92A30600C5AA31 /* LineCell.m in Sources */,
 				456FE0241DBF5E630025AFEE /* TabbarController.m in Sources */,
 				453679F01CD30D0200828EF9 /* LrdOutputView.m in Sources */,
@@ -2227,10 +2253,12 @@
 				4556CD711CEDC5CF00577A61 /* SignViewController.m in Sources */,
 				A35DAC361CCF184000D01CF0 /* AFURLResponseSerialization.m in Sources */,
 				45C6F5891C92A10300C5AA31 /* QDXDetailsModel.m in Sources */,
+				45DBF72D1DE80DF4008FDA7D /* QDXSlideCollectionViewCell.m in Sources */,
 				4556CD6E1CED672600577A61 /* QDXMap.m in Sources */,
 				4569E5721C4CB64B00FF4E8B /* QRCodeGenerator.m in Sources */,
 				4569E5731C4CB64B00FF4E8B /* qrencode.c in Sources */,
 				4569E5741C4CB64B00FF4E8B /* qrinput.c in Sources */,
+				45DBF72A1DE80B53008FDA7D /* QDXSlideHeaderCell.m in Sources */,
 				A35DAC331CCF184000D01CF0 /* AFNetworkReachabilityManager.m in Sources */,
 				A3442D221C9B946A0092363A /* SettingViewController.m in Sources */,
 				4549C7651DBE103800180FB5 /* UIImage+Image.m in Sources */,
@@ -2282,6 +2310,7 @@
 				4569E5811C4CB64B00FF4E8B /* SDWebImageDownloader.m in Sources */,
 				4569E5821C4CB64B00FF4E8B /* SDWebImageDownloaderOperation.m in Sources */,
 				4569E5831C4CB64B00FF4E8B /* SDWebImageManager.m in Sources */,
+				45DBF7241DE7E84B008FDA7D /* QDXSlideView.m in Sources */,
 				A3311D9C1CD3490300114FC0 /* TabbarView.m in Sources */,
 				45C6F5AE1C92A27100C5AA31 /* ScrollView.m in Sources */,
 				45F6642E1DCB1DDC00C33FAF /* DWFlowLayout.m in Sources */,
@@ -2351,6 +2380,7 @@
 				4557D1531CD9A33300CA76BD /* QDXHistoryViewController.m in Sources */,
 				45C6F5B41C92A2D500C5AA31 /* QDXLoginViewController.m in Sources */,
 				45C6F5BB1C92A30600C5AA31 /* DetailCell.m in Sources */,
+				45DBF7301DE80F66008FDA7D /* QDXSlideTableViewCell.m in Sources */,
 				4569E59E1C4CB64B00FF4E8B /* AppDelegate.m in Sources */,
 				452594501D51A0D1002BF84B /* LocalSqlliteService.m in Sources */,
 				4569E5A01C4CB64B00FF4E8B /* main.m in Sources */,

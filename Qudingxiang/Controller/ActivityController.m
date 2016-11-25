@@ -200,10 +200,7 @@
         [_tableView.mj_footer endRefreshing];
         [self performSelectorOnMainThread:@selector(sussRes) withObject:nil waitUntilDone:YES];
     } FailBlock:^(NSMutableArray *array) {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"加载失败,请检查网络！" message:nil preferredStyle:UIAlertControllerStyleAlert];
-        [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        }] ];
-        [self presentViewController:alert animated:YES completion:nil];
+        
     } andWithToken:save andWithCurr:cur];
 }
 

@@ -7,6 +7,7 @@
 //
 
 #import "OrderController.h"
+
 #import "QDXOrderInfoModel.h"
 #import "QDXOrdermodel.h"
 #import "QDXTicketInfoModel.h"
@@ -16,9 +17,14 @@
 #import "QDXOrderDetailTableViewController.h"
 #import "OrderService.h"
 #import "QDXIsConnect.h"
+
 #import "QDXLoginViewController.h"
 #import "QDXNavigationController.h"
+
 #import "MCLeftSliderManager.h"
+
+#import "QDXSlideView.h"
+#import "QDXSlideCollectionViewCell.h"
 
 @interface OrderController ()<UIAlertViewDelegate,UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate>
 {
@@ -65,7 +71,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.navigationItem.title = @"我的订单";
+    self.navigationItem.title = @"订单";
     
     self.view.backgroundColor = QDXBGColor;
 
@@ -77,8 +83,11 @@
     
     self.automaticallyAdjustsScrollViewInsets = NO;
     
-    [self setupUI];
+//    [self setupUI];
     
+    QDXSlideView *qdxslideView = [[QDXSlideView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight - FitRealValue(80)) titleAry:@[@"全部订单",@"待支付",@"已支付",@"已完成"]];
+    
+    [self.view addSubview:qdxslideView];
 }
 
 - (void)setupUI {
@@ -407,10 +416,6 @@
         [self.tableview reloadData];
         [self.tableview.mj_footer endRefreshing];
     } FailBlock:^(NSMutableArray *array) {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"加载失败,请检查网络！" message:nil preferredStyle:UIAlertControllerStyleAlert];
-        [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-        }] ];
-        [self presentViewController:alert animated:YES completion:nil];
 
     } andWithToken:save andWithCurr:[NSString stringWithFormat:@"%d",curr]];
     }

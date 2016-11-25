@@ -313,14 +313,7 @@
         });
         
     } failure:^(NSError *error) {
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"加载失败，请检查网络！" message:nil preferredStyle:UIAlertControllerStyleAlert];
-        [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction *action) {
-            [self hideProgess];
-        }]
-         ];
-        [self presentViewController:alert animated:YES completion:^{
-            
-        }];
+
     } WithToken:save];
     });
 }

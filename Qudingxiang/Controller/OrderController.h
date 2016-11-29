@@ -8,6 +8,8 @@
 
 #import <UIKit/UIKit.h>
 
-@interface OrderController : BaseViewController
+#import "XBScrollPageController.h"
+
+@interface OrderController : XBScrollPageController
 
 @end

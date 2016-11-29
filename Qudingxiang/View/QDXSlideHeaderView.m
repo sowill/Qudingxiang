@@ -9,9 +9,9 @@
 #import "QDXSlideHeaderView.h"
 #import "QDXSlideHeaderCell.h"
 
-@interface QDXSlideHeaderView ()<UICollectionViewDelegate,UICollectionViewDataSource>
+#import "QDXSlideView.h"
 
-@property (nonatomic,strong) UICollectionView *collectionView;
+@interface QDXSlideHeaderView ()<UICollectionViewDelegate,UICollectionViewDataSource>
 
 @property (nonatomic,strong)UICollectionViewFlowLayout *flowLayout;
 
@@ -62,7 +62,9 @@ static NSString *QDXSlideHeaderCellIdentifier = @"QDXSlideHeaderCell";
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
         _collectionView.showsHorizontalScrollIndicator = NO;
+//        [_collectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:2 inSection:0] animated:NO scrollPosition:UICollectionViewScrollPositionNone];
         [self registHelperCell];
+        
     }
     return _collectionView;
 }
@@ -76,8 +78,12 @@ static NSString *QDXSlideHeaderCellIdentifier = @"QDXSlideHeaderCell";
     return self.titleAry.count;
 }
 
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     QDXSlideHeaderCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:QDXSlideHeaderCellIdentifier forIndexPath:indexPath];
+    if (indexPath.row == 0) {
+        [self updateCellStatus:cell selected:YES];
+    }
     cell.label.text = self.titleAry[indexPath.row];
     return cell;
 }
@@ -105,6 +111,26 @@ static NSString *QDXSlideHeaderCellIdentifier = @"QDXSlideHeaderCell";
 -(void)updateCellStatus:(QDXSlideHeaderCell *)cell selected:(BOOL)selected
 {
     cell.label.textColor = selected ? QDXBlue:QDXBlack;
+    cell.line.backgroundColor = selected ? QDXBlue:[UIColor whiteColor];
+    [UIView animateWithDuration:0.5f animations:^{
+        // 1. 用一个临时变量保存返回值。
+        CGRect temp = cell.line.frame;
+        
+        // 2. 给这个变量赋值。因为变量都是L-Value，可以被赋值
+        temp.size.width = QdxWidth/4;
+        
+        // 3. 修改frame的值
+        cell.line.frame = temp;
+    } completion:^(BOOL finished){
+        
+    }];
+}
+
+-(void)updateHeaderStateWithIndex:(NSIndexPath *)index withCollection:(UICollectionView *)collectionView withSelected:(BOOL)select
+{
+    QDXSlideHeaderCell *cell = (QDXSlideHeaderCell *)[collectionView cellForItemAtIndexPath:index];
+    
+    [self updateCellStatus:cell selected:select];
 }
 
 // 设置cell点击回调block

@@ -9,6 +9,7 @@
 #import "QDXSlideView.h"
 #import "QDXSlideCollectionViewCell.h"
 #import "QDXSlideHeaderView.h"
+#import "QDXOrdermodel.h"
 
 @interface QDXSlideView()<UICollectionViewDelegate,UICollectionViewDataSource>
 
@@ -47,7 +48,7 @@ static NSString *identifier = @"UICollectionCell";
 - (UICollectionViewFlowLayout *)flowLayout{
     if (!_flowLayout) {
         self.flowLayout = [[UICollectionViewFlowLayout alloc] init];
-        _flowLayout.itemSize = CGSizeMake(QdxWidth, QdxHeight - FitRealValue(80));
+        _flowLayout.itemSize = CGSizeMake(QdxWidth, QdxHeight);
         _flowLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
         _flowLayout.minimumLineSpacing = 0;
         _flowLayout.minimumLineSpacing = 0;
@@ -69,6 +70,7 @@ static NSString *identifier = @"UICollectionCell";
     }
     return _collectionView;
 }
+
 
 // 注册相关cell
 - (void)registHelperCell{
@@ -98,11 +100,50 @@ static NSString *identifier = @"UICollectionCell";
     return self.titleAry.count;
 }
 
+
+-(void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
+{
+//    [UIView animateWithDuration:0.1f animations:^{
+    [self.headerView updateHeaderStateWithIndex:indexPath withCollection:self.headerView.collectionView withSelected:YES];
+//    }];
+}
+
+-(void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
+{
+//    [UIView animateWithDuration:0.1f animations:^{
+    [self.headerView updateHeaderStateWithIndex:indexPath withCollection:self.headerView.collectionView withSelected:NO];
+//    }];
+}
+
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    
     QDXSlideCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:identifier forIndexPath:indexPath];
     cell.backgroundColor = QDXBGColor;
+
+    cell.flag = indexPath.row;
+    
+    [cell coustomSignInClick:^(){
+        if (self.passBlock) {
+            self.passBlock();
+        }
+    }];
+    
+    [cell coustomTableViewCellClick:^(QDXOrdermodel *order){
+        if (self.passWithValueBlock) {
+            self.passWithValueBlock(order);
+        }
+    }];
+    
+//    if (self.tableViewWillAppear) {
+//        self.tableViewWillAppear();
+//    }
     
     return cell;
 }
+
+//- (void)customTableViewWillAppear:(TableViewWillAppear)tableViewWillAppear
+//{
+//    self.tableViewWillAppear = tableViewWillAppear;
+//}
 
 @end

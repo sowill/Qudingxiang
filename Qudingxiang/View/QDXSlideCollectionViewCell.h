@@ -7,7 +7,23 @@
 //
 
 #import <UIKit/UIKit.h>
+@class QDXOrdermodel;
+
+typedef void(^SignInClick)();
+
+typedef void(^TableViewCellClick)(QDXOrdermodel *order);
+
 
 @interface QDXSlideCollectionViewCell : UICollectionViewCell
+
+@property (nonatomic,assign)NSInteger flag;
+
+@property (nonatomic,strong)UITableView *tableView;
+
+- (void)tableViewWillAppear;
+
+- (void) coustomSignInClick:(SignInClick)signinClick;
+
+- (void) coustomTableViewCellClick:(TableViewCellClick)tableViewCellClick;
 
 @end

@@ -28,6 +28,9 @@
 //    _label.layer.borderWidth = 1;
 //    _label.layer.borderColor = [UIColor lightGrayColor].CGColor;
     [self.contentView addSubview:_label];
+    
+    self.line = [[UIView alloc] initWithFrame:CGRectMake(0, FitRealValue(80) - 3, QdxWidth/4, 3)];
+    [self.contentView addSubview:_line];
 }
 
 @end

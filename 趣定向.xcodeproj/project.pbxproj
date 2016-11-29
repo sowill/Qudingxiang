@@ -174,6 +174,13 @@
 		459BB4A41DDAEFFD00DBEC39 /* MCLeftSliderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 459BB49E1DDAEFFC00DBEC39 /* MCLeftSliderManager.m */; };
 		459BB4A51DDAEFFD00DBEC39 /* MCLeftSlideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 459BB4A01DDAEFFC00DBEC39 /* MCLeftSlideViewController.m */; };
 		459BB4A61DDAEFFD00DBEC39 /* UIView_extra.m in Sources */ = {isa = PBXBuildFile; fileRef = 459BB4A21DDAEFFC00DBEC39 /* UIView_extra.m */; };
+		459C432B1DED72B000437712 /* XBScrollPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 459C431F1DED72B000437712 /* XBScrollPageController.m */; };
+		459C432C1DED72B000437712 /* XBTagTitleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 459C43221DED72B000437712 /* XBTagTitleModel.m */; };
+		459C432D1DED72B000437712 /* XBPageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 459C43251DED72B000437712 /* XBPageCell.m */; };
+		459C432E1DED72B000437712 /* XBTagTitleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 459C43271DED72B000437712 /* XBTagTitleCell.m */; };
+		459C432F1DED72B000437712 /* XBConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 459C432A1DED72B000437712 /* XBConst.m */; };
+		459C43331DED749100437712 /* UIView+XBExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 459C43321DED749100437712 /* UIView+XBExtension.m */; };
+		459C43361DED75AE00437712 /* XBTestTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 459C43351DED75AE00437712 /* XBTestTableViewController.m */; };
 		45AEE2B71D13E4F800116AD0 /* UIControl+UIControl_buttonCon.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AEE2B61D13E4F800116AD0 /* UIControl+UIControl_buttonCon.m */; };
 		45C6F55F1C929FD000C5AA31 /* HomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F55A1C929FD000C5AA31 /* HomeModel.m */; };
 		45C6F5601C929FD000C5AA31 /* ImageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F55C1C929FD000C5AA31 /* ImageModel.m */; };
@@ -647,6 +654,20 @@
 		459BB4A01DDAEFFC00DBEC39 /* MCLeftSlideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCLeftSlideViewController.m; sourceTree = "<group>"; };
 		459BB4A11DDAEFFC00DBEC39 /* UIView_extra.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIView_extra.h; sourceTree = "<group>"; };
 		459BB4A21DDAEFFC00DBEC39 /* UIView_extra.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIView_extra.m; sourceTree = "<group>"; };
+		459C431E1DED72B000437712 /* XBScrollPageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBScrollPageController.h; sourceTree = "<group>"; };
+		459C431F1DED72B000437712 /* XBScrollPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBScrollPageController.m; sourceTree = "<group>"; };
+		459C43211DED72B000437712 /* XBTagTitleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBTagTitleModel.h; sourceTree = "<group>"; };
+		459C43221DED72B000437712 /* XBTagTitleModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBTagTitleModel.m; sourceTree = "<group>"; };
+		459C43241DED72B000437712 /* XBPageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBPageCell.h; sourceTree = "<group>"; };
+		459C43251DED72B000437712 /* XBPageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBPageCell.m; sourceTree = "<group>"; };
+		459C43261DED72B000437712 /* XBTagTitleCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBTagTitleCell.h; sourceTree = "<group>"; };
+		459C43271DED72B000437712 /* XBTagTitleCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBTagTitleCell.m; sourceTree = "<group>"; };
+		459C43291DED72B000437712 /* XBConst.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBConst.h; sourceTree = "<group>"; };
+		459C432A1DED72B000437712 /* XBConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBConst.m; sourceTree = "<group>"; };
+		459C43311DED749100437712 /* UIView+XBExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+XBExtension.h"; sourceTree = "<group>"; };
+		459C43321DED749100437712 /* UIView+XBExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+XBExtension.m"; sourceTree = "<group>"; };
+		459C43341DED75AE00437712 /* XBTestTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBTestTableViewController.h; sourceTree = "<group>"; };
+		459C43351DED75AE00437712 /* XBTestTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBTestTableViewController.m; sourceTree = "<group>"; };
 		459C6E281BD89D2300743FEC /* JTSAnimatedGIFUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JTSAnimatedGIFUtility.h; sourceTree = "<group>"; };
 		459C6E291BD89D2300743FEC /* JTSAnimatedGIFUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JTSAnimatedGIFUtility.m; sourceTree = "<group>"; };
 		459C6E2A1BD89D2300743FEC /* JTSImageInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JTSImageInfo.h; sourceTree = "<group>"; };
@@ -1471,6 +1492,67 @@
 			path = LeftSlideViewController;
 			sourceTree = "<group>";
 		};
+		459C431C1DED72B000437712 /* XBScrollPageController */ = {
+			isa = PBXGroup;
+			children = (
+				459C43341DED75AE00437712 /* XBTestTableViewController.h */,
+				459C43351DED75AE00437712 /* XBTestTableViewController.m */,
+				459C43301DED749100437712 /* Category */,
+				459C431D1DED72B000437712 /* Controller */,
+				459C43201DED72B000437712 /* Model */,
+				459C43231DED72B000437712 /* View */,
+				459C43281DED72B000437712 /* XBConst */,
+			);
+			path = XBScrollPageController;
+			sourceTree = "<group>";
+		};
+		459C431D1DED72B000437712 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				459C431E1DED72B000437712 /* XBScrollPageController.h */,
+				459C431F1DED72B000437712 /* XBScrollPageController.m */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		459C43201DED72B000437712 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				459C43211DED72B000437712 /* XBTagTitleModel.h */,
+				459C43221DED72B000437712 /* XBTagTitleModel.m */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		459C43231DED72B000437712 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				459C43241DED72B000437712 /* XBPageCell.h */,
+				459C43251DED72B000437712 /* XBPageCell.m */,
+				459C43261DED72B000437712 /* XBTagTitleCell.h */,
+				459C43271DED72B000437712 /* XBTagTitleCell.m */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		459C43281DED72B000437712 /* XBConst */ = {
+			isa = PBXGroup;
+			children = (
+				459C43291DED72B000437712 /* XBConst.h */,
+				459C432A1DED72B000437712 /* XBConst.m */,
+			);
+			path = XBConst;
+			sourceTree = "<group>";
+		};
+		459C43301DED749100437712 /* Category */ = {
+			isa = PBXGroup;
+			children = (
+				459C43311DED749100437712 /* UIView+XBExtension.h */,
+				459C43321DED749100437712 /* UIView+XBExtension.m */,
+			);
+			path = Category;
+			sourceTree = "<group>";
+		};
 		459C6E271BD89D2300743FEC /* JTSImage */ = {
 			isa = PBXGroup;
 			children = (
@@ -1919,6 +2001,7 @@
 		45DF765A1BA6AB150024A6B4 /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				459C431C1DED72B000437712 /* XBScrollPageController */,
 				45CA51F21DE452270025A376 /* MJRefresh */,
 				459BB49A1DDAEFFC00DBEC39 /* LeftSlideViewController */,
 				4549C7601DBE103800180FB5 /* Category */,
@@ -2188,12 +2271,14 @@
 				45CA52341DE452270025A376 /* UIView+MJExtension.m in Sources */,
 				451828B01D40C87A00D5FC85 /* UIView+EAFeatureGuideView.m in Sources */,
 				45C6F5861C92A10300C5AA31 /* AlipayModel.m in Sources */,
+				459C432E1DED72B000437712 /* XBTagTitleCell.m in Sources */,
 				A35DAC761CCF5B9B00D01CF0 /* MineViewController.m in Sources */,
 				45CA52261DE452270025A376 /* MJRefreshAutoGifFooter.m in Sources */,
 				A3442D211C9B946A0092363A /* AboutUsViewController.m in Sources */,
 				4557C6161D18E3ED0092CC56 /* CheckDataTool.m in Sources */,
 				453395241CF6F50B00B5A825 /* FeHourGlass.m in Sources */,
 				A31287A31CCF0DA200CB887E /* line_pointModel.m in Sources */,
+				459C43361DED75AE00437712 /* XBTestTableViewController.m in Sources */,
 				45C6F5661C92A07900C5AA31 /* QDXAccount.m in Sources */,
 				45C6F5A21C92A20400C5AA31 /* QDXOrderTableViewCell.m in Sources */,
 				45C6F6021C92A42400C5AA31 /* MainController.m in Sources */,
@@ -2208,6 +2293,7 @@
 				455C8AA01CCF7827001F5FC5 /* RSADataVerifier.m in Sources */,
 				455C8A9E1CCF7827001F5FC5 /* openssl_wrapper.m in Sources */,
 				45CA522A1DE452270025A376 /* MJRefreshBackNormalFooter.m in Sources */,
+				459C432C1DED72B000437712 /* XBTagTitleModel.m in Sources */,
 				45CA522C1DE452270025A376 /* MJRefreshGifHeader.m in Sources */,
 				4556117A1D543E75006DF063 /* CustomAnimateTransitionPush.m in Sources */,
 				4569E5581C4CB64B00FF4E8B /* ToolView.m in Sources */,
@@ -2249,8 +2335,11 @@
 				4569E5701C4CB64B00FF4E8B /* bitstream.c in Sources */,
 				455611801D543E75006DF063 /* ZBFallenBricksAnimator.m in Sources */,
 				4571CDF31CE05B00002ED784 /* CYAlertPresentSlideDown.m in Sources */,
+				459C432B1DED72B000437712 /* XBScrollPageController.m in Sources */,
 				4569E5711C4CB64B00FF4E8B /* mask.c in Sources */,
+				459C432F1DED72B000437712 /* XBConst.m in Sources */,
 				4556CD711CEDC5CF00577A61 /* SignViewController.m in Sources */,
+				459C432D1DED72B000437712 /* XBPageCell.m in Sources */,
 				A35DAC361CCF184000D01CF0 /* AFURLResponseSerialization.m in Sources */,
 				45C6F5891C92A10300C5AA31 /* QDXDetailsModel.m in Sources */,
 				45DBF72D1DE80DF4008FDA7D /* QDXSlideCollectionViewCell.m in Sources */,
@@ -2284,6 +2373,7 @@
 				45EE61371CEAC074007302E3 /* PointView.m in Sources */,
 				45C6F6091C92A43A00C5AA31 /* QDXChangeNameViewController.m in Sources */,
 				455A95B61C97E3EB0039FA88 /* MJFoundation.m in Sources */,
+				459C43331DED749100437712 /* UIView+XBExtension.m in Sources */,
 				4571CDF11CE05B00002ED784 /* CYAlertPresentExpandVertical.m in Sources */,
 				4571CDED1CE05B00002ED784 /* CYAlertDismissSlideRight.m in Sources */,
 				455A95BA1C97E3EB0039FA88 /* NSObject+MJClass.m in Sources */,

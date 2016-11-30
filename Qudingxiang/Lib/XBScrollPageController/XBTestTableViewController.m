@@ -89,12 +89,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
     [self createTableView];
 }
 
 - (void) createTableView
 {
-    self.tableview = [[UITableView alloc] initWithFrame:CGRectMake(0,0, QdxWidth, QdxHeight - FitRealValue(80)-64) style:UITableViewStyleGrouped];
+    self.tableview = [[UITableView alloc] initWithFrame:CGRectMake(0,0, QdxWidth, QdxHeight - FitRealValue(80)-64) style:UITableViewStylePlain];
     self.tableview.delegate = self;
     self.tableview.dataSource = self;
     self.tableview.showsVerticalScrollIndicator = NO;
@@ -193,8 +194,6 @@
                     for(NSDictionary *dict in dataDict){
                         [self.orders addObject:[QDXOrdermodel OrderWithDict:dict]];
                         
-                        NSLog(@"lallala  %@",dict);
-                        
                         switch ([dict[@"Orders_st"] intValue]) {
                             case 1:
                                 [self.willPayOrders addObject:[QDXOrdermodel OrderWithDict:dict]];
@@ -251,17 +250,17 @@
 }
 
 #pragma mark - Table view data source
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, FitRealValue(20))];
-    headerView.backgroundColor = QDXBGColor;
-    return headerView;
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return FitRealValue(20);
-}
+//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+//{
+//    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, FitRealValue(20))];
+//    headerView.backgroundColor = QDXBGColor;
+//    return headerView;
+//}
+//
+//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+//{
+//    return FitRealValue(20);
+//}
 
 - (void)createLoginView
 {
@@ -377,7 +376,19 @@
 #pragma mark - 代理方法
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 100;
+    if ([_XBParam intValue] == 0) {
+        QDXOrdermodel *orderModel  = self.orders[indexPath.row];
+        
+        if (orderModel.Orders_st == 2 || orderModel.Orders_st == 3) {
+            return FitRealValue(324 + 20);
+        }else{
+            return FitRealValue(412 + 20);
+        }
+    }else if([_XBParam intValue] == 1) {
+        return FitRealValue(412 + 20);
+    }else{
+        return FitRealValue(324 + 20);
+    }
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{

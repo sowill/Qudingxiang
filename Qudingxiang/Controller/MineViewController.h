@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 @class MineModel;
-@interface MineViewController : UIViewController
+@interface MineViewController : BaseViewController
 @property (nonatomic, strong) MineModel *model;
 @end

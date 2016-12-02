@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QDXChangeNameViewController : UIViewController
+@interface QDXChangeNameViewController : BaseViewController
 @property (nonatomic, strong)NSString *cusName;
 @end

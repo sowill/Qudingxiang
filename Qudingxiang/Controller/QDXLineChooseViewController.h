@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 @class LineModel;
-@interface QDXLineChooseViewController : UIViewController
+@interface QDXLineChooseViewController : BaseViewController
 @property (nonatomic, strong) LineModel *model;
 @end

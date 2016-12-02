@@ -26,22 +26,13 @@
     isLoad = NO;
 }
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (void)showProgessMsg:(NSString *)msg
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-    }
-    return self;
-}
-
-- (void)showProgessMsg:(NSString *)msg{
     if (isLoad) {
         return;
     }
     isLoad =YES;
-    
-    
+
     self.BGView                 = [[UIView alloc] init];
     self.BGView.frame           = [[UIScreen mainScreen] bounds];
     [self.view addSubview:self.BGView];
@@ -50,31 +41,38 @@
     [_hourGlass show];
 }
 
-- (void)hideProgess{
+- (void)hideProgess
+{
     [self.BGView removeFromSuperview];
     [_hourGlass dismiss];
     isLoad = NO;
 }
 
-- (void)showProgessOK:(NSString *)msg{
+- (void)showProgessOK:(NSString *)msg
+{
     [self.BGView removeFromSuperview];
     [_hourGlass dismiss];
     isLoad = NO;
 }
-- (void)showProgessError:(NSString *)msg{
+
+- (void)showProgessError:(NSString *)msg
+{
     [self.BGView removeFromSuperview];
     [_hourGlass dismiss];
     isLoad = NO;
 }
-- (void)hideNotData{
+
+- (void)hideNotData
+{
     _vi_notData.hidden =YES;
 }
-- (void)showNotData:(NSString *)msg{
+
+- (void)showNotData:(NSString *)msg
+{
     isLoad = NO;
     
     _vi_notData =[[UIView alloc] init];
     _vi_notData.frame =CGRectMake(0,74,QdxWidth,QdxWidth*2);
-    
     
     NSString *sg =@"无相关数据";
     if ( msg!= nil){
@@ -92,8 +90,6 @@
     [vi setFrame:CGRectMake((QdxWidth-44)/2,QdxHeight/2-200,44, 60)];
     [_vi_notData addSubview:vi];
     [self.view addSubview:_vi_notData];
-    
-    
 }
 
 - (void)didReceiveMemoryWarning {
@@ -101,14 +97,5 @@
     // Dispose of any resources that can be recreated.
 }
 
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

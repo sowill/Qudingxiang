@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface XBTestTableViewController : UIViewController
+@interface XBTestTableViewController : BaseViewController
 //XBScrollPageController 传参
 @property (nonatomic,copy) NSString *XBParam;
 @end

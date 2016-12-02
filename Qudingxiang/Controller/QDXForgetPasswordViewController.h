@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QDXForgetPasswordViewController : UIViewController
+@interface QDXForgetPasswordViewController : BaseViewController
 
 @end

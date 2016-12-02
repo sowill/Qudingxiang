@@ -663,8 +663,8 @@
 		459C432A1DED72B000437712 /* XBConst.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBConst.m; sourceTree = "<group>"; };
 		459C43311DED749100437712 /* UIView+XBExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+XBExtension.h"; sourceTree = "<group>"; };
 		459C43321DED749100437712 /* UIView+XBExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+XBExtension.m"; sourceTree = "<group>"; };
-		459C43341DED75AE00437712 /* XBTestTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBTestTableViewController.h; sourceTree = "<group>"; };
-		459C43351DED75AE00437712 /* XBTestTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBTestTableViewController.m; sourceTree = "<group>"; };
+		459C43341DED75AE00437712 /* XBTestTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XBTestTableViewController.h; path = ../Lib/XBScrollPageController/XBTestTableViewController.h; sourceTree = "<group>"; };
+		459C43351DED75AE00437712 /* XBTestTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XBTestTableViewController.m; path = ../Lib/XBScrollPageController/XBTestTableViewController.m; sourceTree = "<group>"; };
 		459C6E281BD89D2300743FEC /* JTSAnimatedGIFUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JTSAnimatedGIFUtility.h; sourceTree = "<group>"; };
 		459C6E291BD89D2300743FEC /* JTSAnimatedGIFUtility.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JTSAnimatedGIFUtility.m; sourceTree = "<group>"; };
 		459C6E2A1BD89D2300743FEC /* JTSImageInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JTSImageInfo.h; sourceTree = "<group>"; };
@@ -1489,8 +1489,6 @@
 		459C431C1DED72B000437712 /* XBScrollPageController */ = {
 			isa = PBXGroup;
 			children = (
-				459C43341DED75AE00437712 /* XBTestTableViewController.h */,
-				459C43351DED75AE00437712 /* XBTestTableViewController.m */,
 				459C43301DED749100437712 /* Category */,
 				459C431D1DED72B000437712 /* Controller */,
 				459C43201DED72B000437712 /* Model */,
@@ -1660,6 +1658,8 @@
 				45C6F5CB1C92A38600C5AA31 /* QDXNavigationController.m */,
 				45C6F5C41C92A36200C5AA31 /* OrderController.h */,
 				45C6F5C51C92A36200C5AA31 /* OrderController.m */,
+				459C43341DED75AE00437712 /* XBTestTableViewController.h */,
+				459C43351DED75AE00437712 /* XBTestTableViewController.m */,
 				45C6F5C61C92A36200C5AA31 /* QDXOrderDetailTableViewController.h */,
 				45C6F5C71C92A36200C5AA31 /* QDXOrderDetailTableViewController.m */,
 				45C6F5BE1C92A32C00C5AA31 /* MineLineController.h */,

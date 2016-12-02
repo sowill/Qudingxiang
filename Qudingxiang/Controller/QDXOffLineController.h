@@ -11,5 +11,5 @@
 #import <CoreBluetooth/CoreBluetooth.h>
 #import <AudioToolbox/AudioToolbox.h>
 
-@interface QDXOffLineController : UIViewController<CBCentralManagerDelegate,CBPeripheralDelegate,UIAlertViewDelegate>
+@interface QDXOffLineController : BaseViewController<CBCentralManagerDelegate,CBPeripheralDelegate,UIAlertViewDelegate>
 @end

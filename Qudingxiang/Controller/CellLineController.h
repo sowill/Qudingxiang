@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 @class HomeModel;
-@interface CellLineController : UIViewController
+@interface CellLineController : BaseViewController
 @property (nonatomic, strong) HomeModel *model;
 @end

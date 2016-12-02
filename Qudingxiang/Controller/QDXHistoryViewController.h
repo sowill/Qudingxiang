@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 @class QDXGameModel;
-@interface QDXHistoryViewController : UIViewController
+@interface QDXHistoryViewController : BaseViewController
 @property(nonatomic,retain) QDXGameModel *Game;
 @end

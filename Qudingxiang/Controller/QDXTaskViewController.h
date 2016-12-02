@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 @class QDXGameModel;
-@interface QDXTaskViewController : UIViewController
+@interface QDXTaskViewController : BaseViewController
 @property (nonatomic, strong) QDXGameModel *GameInfo;
 
 @end

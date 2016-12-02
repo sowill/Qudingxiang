@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface GuideViewController : UIViewController
+@interface GuideViewController : BaseViewController
 
 @end

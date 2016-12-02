@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 @class HomeModel;
 @class ActModel;
-@interface QDXLineDetailViewController : UIViewController
+@interface QDXLineDetailViewController : BaseViewController
 @property (nonatomic, strong) HomeModel *homeModel;
 @property (nonatomic, strong) ActModel *actModel;
 @end

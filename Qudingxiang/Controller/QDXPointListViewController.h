@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QDXPointListViewController : UIViewController
+@interface QDXPointListViewController : BaseViewController
 
 @end

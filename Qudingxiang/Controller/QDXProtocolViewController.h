@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QDXProtocolViewController : UIViewController
+@interface QDXProtocolViewController : BaseViewController
 
 @end

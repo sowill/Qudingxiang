@@ -54,23 +54,27 @@
     [self.BGView addSubview:lineView];
     
     self.order_img = [[UIImageView alloc] initWithFrame:CGRectMake(FitRealValue(24), FitRealValue(100 + 40), FitRealValue(140), FitRealValue(140))];
-    self.order_img.image = [UIImage imageNamed:@"1"];
     [self.BGView addSubview:self.order_img];
     
-    self.order_name = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(24 + 140 + 30), FitRealValue(100 + 44), FitRealValue(200), FitRealValue(28))];
+    self.order_name = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(24 + 140 + 30), FitRealValue(100 + 44), QdxWidth - FitRealValue(24 + 140 + 30 + 24), FitRealValue(28))];
     self.order_name.textColor = QDXBlack;
     self.order_name.font = [UIFont systemFontOfSize:16];
     self.order_name.textAlignment = NSTextAlignmentLeft;
-    self.order_name.text = @"活动名称";
     [self.BGView addSubview:self.order_name];
     
-    self.ticket_ct = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(24 + 140 + 30), FitRealValue(100 + 44 + 28 + 26), FitRealValue(400), FitRealValue(28))];
+    self.ticket_ct = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(24 + 140 + 30), FitRealValue(100 + 44 + 28 + 26), FitRealValue(300), FitRealValue(28))];
     self.ticket_ct.textColor = QDXGray;
     self.ticket_ct.font = [UIFont systemFontOfSize:14];
     self.ticket_ct.textAlignment = NSTextAlignmentLeft;
     [self.BGView addSubview:self.ticket_ct];
     
-    self.orders_am = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(24 + 140 + 30 + 240), FitRealValue(100 + 44 + 28 + 24), FitRealValue(200), FitRealValue(28))];
+    CGFloat ticket_ctMaxX = CGRectGetMaxX(self.ticket_ct.frame);
+    
+    if (QdxWidth < 375) {
+        self.orders_am = [[UILabel alloc] initWithFrame:CGRectMake(ticket_ctMaxX - FitRealValue(30), FitRealValue(100 + 44 + 28 + 24), FitRealValue(200), FitRealValue(32))];
+    }else{
+        self.orders_am = [[UILabel alloc] initWithFrame:CGRectMake(ticket_ctMaxX - FitRealValue(60), FitRealValue(100 + 44 + 28 + 24), FitRealValue(200), FitRealValue(32))];
+    }
     self.orders_am.textColor = QDXOrange;
     self.orders_am.font = [UIFont systemFontOfSize:18];
     self.orders_am.textAlignment = NSTextAlignmentLeft;
@@ -110,11 +114,15 @@
     self.orders_name.text =[@"订单号：" stringByAppendingString:  order.Orders_name];
     self.orders_ct.text = [@"下单时间：" stringByAppendingString:  order.Orders_ct];
     
+    [self.order_img setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,order.img]] placeholderImage:[UIImage imageNamed:@"banner_cell"]];
+    
     QDXostatus *ostatus = order.ostatus;
     self.ostatus_name.text = ostatus.ostatus_name;
     
-    self.ticket_ct.text = [NSString stringWithFormat:@"数量：%d张 | 总价：",0];
+    self.ticket_ct.text = [NSString stringWithFormat:@"数量：%d张 | 总价：",order.quantity];
     self.orders_am.text = [@"¥" stringByAppendingString:order.Orders_am];
+    
+    self.order_name.text = order.name;
     
     if (order.Orders_st == 2 || order.Orders_st == 3) {
         self.BGView.frame = CGRectMake(0, FitRealValue(20), QdxWidth, FitRealValue(324));
@@ -132,12 +140,16 @@
 
 -(void)payButtonClick
 {
-    
+    if (self.payBtnBlock) {
+        self.payBtnBlock();
+    }
 }
 
 -(void)deleteButtonClick
 {
-    
+    if (self.deleteBtnBlock) {
+        self.deleteBtnBlock();
+    }
 }
 
 @end

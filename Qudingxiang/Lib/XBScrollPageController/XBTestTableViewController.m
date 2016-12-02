@@ -18,6 +18,7 @@
 #import "QDXOrderDetailTableViewController.h"
 #import "OrderService.h"
 #import "QDXIsConnect.h"
+#import "QDXPayTableViewController.h"
 
 #import "QDXLoginViewController.h"
 #import "QDXNavigationController.h"
@@ -95,7 +96,7 @@
 
 - (void) createTableView
 {
-    self.tableview = [[UITableView alloc] initWithFrame:CGRectMake(0,0, QdxWidth, QdxHeight - FitRealValue(80)-64) style:UITableViewStylePlain];
+    self.tableview = [[UITableView alloc] initWithFrame:CGRectMake(0,0, QdxWidth, QdxHeight - FitRealValue(120)-64) style:UITableViewStylePlain];
     self.tableview.delegate = self;
     self.tableview.dataSource = self;
     self.tableview.showsVerticalScrollIndicator = NO;
@@ -126,7 +127,7 @@
     }];
     
     // 马上进入刷新状态
-    [self.tableview.mj_header beginRefreshing];
+//    [self.tableview.mj_header beginRefreshing];
     
     // 2.上拉刷新(上拉加载更多数据)
     self.tableview.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
@@ -211,6 +212,7 @@
                                 break;
                         }
                     }
+                    
                 }else{
                     self.orders = [[NSMutableArray alloc] init];
                     self.willPayOrders = [[NSMutableArray alloc] init];
@@ -220,7 +222,7 @@
                 }
                 [self performSelectorOnMainThread:@selector(sussRes) withObject:nil waitUntilDone:YES];
             }else{
-                //            [self createLoginView];
+
             }
             // 刷新表格
             [self.tableview reloadData];
@@ -249,24 +251,11 @@
 
 }
 
-#pragma mark - Table view data source
-//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-//{
-//    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, FitRealValue(20))];
-//    headerView.backgroundColor = QDXBGColor;
-//    return headerView;
-//}
-//
-//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-//{
-//    return FitRealValue(20);
-//}
-
 - (void)createLoginView
 {
-    loginView = [[UIView alloc] initWithFrame:self.tableview.frame];
+    loginView = [[UIView alloc] initWithFrame:self.view.frame];
     loginView.backgroundColor = QDXBGColor;
-    [self.tableview addSubview:loginView];
+    [self.view addSubview:loginView];
     
     UIImageView *sad = [[UIImageView alloc] init];
     CGFloat sadCenterX = QdxWidth * 0.5;
@@ -306,7 +295,7 @@
     sad_1.center = CGPointMake(sad_1CenterX, sad_1CenterY);
     sad_1.bounds = CGRectMake(0, 0,40,43);
     sad_1.image = [UIImage imageNamed:@"order_nothing"];
-    [self.tableview addSubview:sad_1];
+    [self.view addSubview:sad_1];
     
     sadButton_1 = [[UILabel alloc] init];
     sadButton_1.center = CGPointMake(sad_1CenterX, sad_1CenterY + 43/2 + 20);
@@ -315,7 +304,7 @@
     sadButton_1.font = [UIFont systemFontOfSize:12];
     sadButton_1.textAlignment = NSTextAlignmentCenter;
     sadButton_1.textColor = QDXGray;
-    [self.tableview addSubview:sadButton_1];
+    [self.view addSubview:sadButton_1];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -348,6 +337,49 @@
 {
     // 1.创建cell
     QDXOrderTableViewCell *cell = [QDXOrderTableViewCell cellWithTableView:tableView];
+    
+    __weak __typeof(self) weakSelf = self;
+    
+    cell.deleteBtnBlock= ^(){
+        QDXOrdermodel *order = [[QDXOrdermodel alloc] init];
+        if ([_XBParam intValue] == 0) {
+            order = weakSelf.orders[indexPath.row];
+        }else if([_XBParam intValue] == 1){
+            order = weakSelf.willPayOrders[indexPath.row];
+        }else{
+            order = weakSelf.orders[indexPath.row];
+        }
+        
+        UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"删除" message:@"是否删除当前订单" preferredStyle:UIAlertControllerStyleAlert];
+        UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
+        UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
+            [self deleteOrder:order.Orders_id];
+            
+            if ([_XBParam intValue] == 0) {
+                [weakSelf.orders removeObjectAtIndex:indexPath.row];
+            }else if([_XBParam intValue] == 1){
+                [weakSelf.willPayOrders removeObjectAtIndex:indexPath.row];
+            }else{
+                [weakSelf.orders removeObjectAtIndex:indexPath.row];
+            }
+
+            [weakSelf.tableview deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationMiddle];
+            [weakSelf.tableview reloadData];
+        }];
+        [alertController addAction:cancelAction];
+        [alertController addAction:okAction];
+        [weakSelf presentViewController:alertController animated:YES completion:nil];
+    };
+    
+    cell.payBtnBlock= ^(){
+        QDXPayTableViewController *payVC=[[QDXPayTableViewController alloc]init];
+        QDXOrdermodel *order = weakSelf.orders[indexPath.row];
+        payVC.Order = weakSelf.orders[indexPath.row];
+        payVC.ticketInfo = order.TicketInfo[indexPath.row];
+        payVC.hidesBottomBarWhenPushed = YES;
+        [weakSelf.navigationController pushViewController:payVC animated:YES];
+    };
+    
     // 2.给cell传递模型数据
     switch ([_XBParam intValue]) {
         case 0:
@@ -371,6 +403,29 @@
             break;
     }
     return cell;
+}
+
+- (void)deleteOrder:(int)withOID
+{
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"TokenKey"] = save;
+    params[@"orders_id"] =[NSString stringWithFormat:@"%d",withOID];
+    NSString *url = [hostUrl stringByAppendingString:@"Home/Orders/delOrder"];
+    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+        if ([dict[@"Code"] intValue] == 1) {
+            NSLog(@"成功删除");
+        }else{
+            NSLog(@"%@",dict);
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
 }
 
 #pragma mark - 代理方法

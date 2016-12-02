@@ -203,10 +203,8 @@
 		45C6F5911C92A13A00C5AA31 /* ActModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F5901C92A13A00C5AA31 /* ActModel.m */; };
 		45C6F5991C92A1D500C5AA31 /* MineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F5951C92A1D500C5AA31 /* MineCell.m */; };
 		45C6F59A1C92A1D500C5AA31 /* myViewCellTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F5971C92A1D500C5AA31 /* myViewCellTableViewCell.m */; };
-		45C6F59B1C92A1D500C5AA31 /* myViewCellTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45C6F5981C92A1D500C5AA31 /* myViewCellTableViewCell.xib */; };
 		45C6F5A21C92A20400C5AA31 /* QDXOrderTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F59D1C92A20400C5AA31 /* QDXOrderTableViewCell.m */; };
 		45C6F5A41C92A20400C5AA31 /* QDXTicketTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F5A01C92A20400C5AA31 /* QDXTicketTableViewCell.m */; };
-		45C6F5A51C92A20400C5AA31 /* QDXTicketTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 45C6F5A11C92A20400C5AA31 /* QDXTicketTableViewCell.xib */; };
 		45C6F5A81C92A25600C5AA31 /* ActCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F5A71C92A25600C5AA31 /* ActCell.m */; };
 		45C6F5AE1C92A27100C5AA31 /* ScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F5AC1C92A27100C5AA31 /* ScrollView.m */; };
 		45C6F5B31C92A2D500C5AA31 /* QDXBindViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F5B01C92A2D500C5AA31 /* QDXBindViewController.m */; };
@@ -724,12 +722,10 @@
 		45C6F5951C92A1D500C5AA31 /* MineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineCell.m; sourceTree = "<group>"; };
 		45C6F5961C92A1D500C5AA31 /* myViewCellTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myViewCellTableViewCell.h; sourceTree = "<group>"; };
 		45C6F5971C92A1D500C5AA31 /* myViewCellTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = myViewCellTableViewCell.m; sourceTree = "<group>"; };
-		45C6F5981C92A1D500C5AA31 /* myViewCellTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = myViewCellTableViewCell.xib; sourceTree = "<group>"; };
 		45C6F59C1C92A20400C5AA31 /* QDXOrderTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXOrderTableViewCell.h; sourceTree = "<group>"; };
 		45C6F59D1C92A20400C5AA31 /* QDXOrderTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXOrderTableViewCell.m; sourceTree = "<group>"; };
 		45C6F59F1C92A20400C5AA31 /* QDXTicketTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXTicketTableViewCell.h; sourceTree = "<group>"; };
 		45C6F5A01C92A20400C5AA31 /* QDXTicketTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXTicketTableViewCell.m; sourceTree = "<group>"; };
-		45C6F5A11C92A20400C5AA31 /* QDXTicketTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = QDXTicketTableViewCell.xib; sourceTree = "<group>"; };
 		45C6F5A61C92A25600C5AA31 /* ActCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ActCell.h; sourceTree = "<group>"; };
 		45C6F5A71C92A25600C5AA31 /* ActCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActCell.m; sourceTree = "<group>"; };
 		45C6F5A91C92A27100C5AA31 /* BaseCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseCell.h; sourceTree = "<group>"; };
@@ -1742,12 +1738,10 @@
 				45C6F59D1C92A20400C5AA31 /* QDXOrderTableViewCell.m */,
 				45C6F59F1C92A20400C5AA31 /* QDXTicketTableViewCell.h */,
 				45C6F5A01C92A20400C5AA31 /* QDXTicketTableViewCell.m */,
-				45C6F5A11C92A20400C5AA31 /* QDXTicketTableViewCell.xib */,
 				45C6F5941C92A1D500C5AA31 /* MineCell.h */,
 				45C6F5951C92A1D500C5AA31 /* MineCell.m */,
 				45C6F5961C92A1D500C5AA31 /* myViewCellTableViewCell.h */,
 				45C6F5971C92A1D500C5AA31 /* myViewCellTableViewCell.m */,
-				45C6F5981C92A1D500C5AA31 /* myViewCellTableViewCell.xib */,
 				45F547801CDB423E0050B12F /* QDXHistoryTableViewCell.h */,
 				45F547811CDB423E0050B12F /* QDXHistoryTableViewCell.m */,
 				A3311D9A1CD3490300114FC0 /* TabbarView.h */,
@@ -2199,7 +2193,6 @@
 				45C6F6171C92A62700C5AA31 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				451828AD1D40C87A00D5FC85 /* icon_ea_background@3x.png in Resources */,
 				451828AC1D40C87A00D5FC85 /* icon_ea_background@2x.png in Resources */,
-				45C6F5A51C92A20400C5AA31 /* QDXTicketTableViewCell.xib in Resources */,
 				453395121CF6E06100B5A825 /* WifiMan_Sign_3@2x.png in Resources */,
 				451A143F1DC7375A003B8805 /* down_blue@2x.png in Resources */,
 				45DF76381BA6AAC20024A6B4 /* Main.storyboard in Resources */,
@@ -2212,7 +2205,6 @@
 				45CA522F1DE452270025A376 /* MJRefresh.bundle in Resources */,
 				45DD34DA1C33D5F500E24250 /* read_me.txt in Resources */,
 				4544EA571D5C55A8008314B1 /* AMap.bundle in Resources */,
-				45C6F59B1C92A1D500C5AA31 /* myViewCellTableViewCell.xib in Resources */,
 				453E44D91D252A3100BED603 /* btn1@2x.png in Resources */,
 				4571CDFA1CE05B00002ED784 /* CYAlertViewController.bundle in Resources */,
 			);

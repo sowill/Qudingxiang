@@ -21,5 +21,9 @@
 @property (nonatomic, strong) UIView *BGView;
 @property (nonatomic, strong) QDXOrdermodel *order;
 
+@property (nonatomic, strong)void (^deleteBtnBlock)();
+
+@property (nonatomic, strong)void (^payBtnBlock)();
+
 + (instancetype)cellWithTableView:(UITableView *)tableView;
 @end

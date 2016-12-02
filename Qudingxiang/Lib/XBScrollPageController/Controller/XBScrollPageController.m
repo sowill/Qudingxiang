@@ -104,7 +104,7 @@
     //初始化标签View
     UICollectionView *tagCollectionView = [[UICollectionView alloc]initWithFrame:CGRectZero collectionViewLayout:tagFlowLayout];
     [tagCollectionView registerClass:[XBTagTitleCell class] forCellWithReuseIdentifier:kTagCollectionViewCellIdentifier];
-    tagCollectionView.backgroundColor = [UIColor whiteColor];
+    tagCollectionView.backgroundColor = QDXBGColor;
     tagCollectionView.showsHorizontalScrollIndicator = NO;
     tagCollectionView.dataSource = self;
     tagCollectionView.delegate = self;
@@ -121,7 +121,7 @@
     //初始化页面View
     UICollectionView *pageCollectionView = [[UICollectionView alloc]initWithFrame:CGRectZero collectionViewLayout:pageFlowLayout];
     [pageCollectionView registerClass:[XBPageCell class] forCellWithReuseIdentifier:kPageCollectionViewCellIdentifier];
-    pageCollectionView.backgroundColor = [UIColor whiteColor];
+    pageCollectionView.backgroundColor = QDXBGColor;
     pageCollectionView.showsHorizontalScrollIndicator = NO;
     pageCollectionView.dataSource = self;
     pageCollectionView.delegate = self;
@@ -135,10 +135,10 @@
 {
     return 1;
 }
+
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section
 {
     return self.tagTitleModelArray.count != 0?self.tagTitleModelArray.count:0;
-    
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
@@ -225,18 +225,18 @@
         }
         else if(self.selectionIndicator.centerX != cell.centerX) {
             
-            // [UIView animateKeyframesWithDuration:0.2 delay:0 options:UIViewKeyframeAnimationOptionLayoutSubviews animations:^{
-            //     [UIView addKeyframeWithRelativeStartTime:0 relativeDuration:0.5 animations:^{
-            //         self.selectionIndicator.x = cell.x;
-            //     }];
-                
-            //     [UIView addKeyframeWithRelativeStartTime:0.5 relativeDuration:0.5 animations:^{
-            //         self.selectionIndicator.width = cell.width;
-            //     }];
-                
-            // } completion:^(BOOL finished) {
-                
-            // }];
+//             [UIView animateKeyframesWithDuration:0.2 delay:0 options:UIViewKeyframeAnimationOptionLayoutSubviews animations:^{
+//                 [UIView addKeyframeWithRelativeStartTime:0 relativeDuration:0.5 animations:^{
+//                     self.selectionIndicator.x = cell.x;
+//                 }];
+//                
+//                 [UIView addKeyframeWithRelativeStartTime:0.5 relativeDuration:0.5 animations:^{
+//                     self.selectionIndicator.width = cell.width;
+//                 }];
+//                
+//             } completion:^(BOOL finished) {
+//                
+//             }];
             
         }
         
@@ -247,6 +247,7 @@
         
     }
 }
+
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([self isTagView:collectionView]) {          //tag
@@ -269,7 +270,6 @@
     }
 }
 
-
 #pragma - mark UIScrollerViewDelegate
 - (void)scrollViewDidEndDecelerating:(UICollectionView *)scrollView
 {
@@ -286,7 +286,6 @@
         if (![self isZeroSize:self.tagItemSize]) {
             self.selectionIndicator.x = scrollView.contentOffset.x/XBScreenWidth * self.tagItemSize.width;
         }
-        
     }
 }
 #pragma - mark publicMethod

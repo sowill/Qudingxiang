@@ -9,9 +9,12 @@
 #import <UIKit/UIKit.h>
 
 @interface myViewCellTableViewCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UILabel *_name;
 
-@property (weak, nonatomic) IBOutlet UILabel *_id;
+@property (nonatomic,strong) UILabel *_name;
 
-@property (weak, nonatomic) IBOutlet UIImageView *imageV;
+//@property (nonatomic,strong) UILabel *_id;
+
+@property (nonatomic,strong) UIImageView *imageV;
+
++ (instancetype)cellWithTableView:(UITableView *)tableView;
 @end

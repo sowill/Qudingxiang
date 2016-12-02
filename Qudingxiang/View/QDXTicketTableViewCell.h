@@ -10,13 +10,13 @@
 @class QDXTicketInfoModel;
 
 @interface QDXTicketTableViewCell : UITableViewCell
-@property (weak, nonatomic) IBOutlet UILabel *linePrice;
-@property (weak, nonatomic) IBOutlet UIImageView *ticketinfo_code;
-@property (weak, nonatomic) IBOutlet UILabel *ticketinfo_name;
+@property (nonatomic,strong) UILabel *linePrice;
+@property (nonatomic,strong) UIImageView *ticketinfo_code;
+@property (nonatomic,strong) UILabel *ticketinfo_name;
 @property (nonatomic, strong) QDXTicketInfoModel *TicketInfo;
 //@property (weak, nonatomic) IBOutlet UILabel *tstatus_id;
-@property (weak, nonatomic) IBOutlet UIButton *deleteButton;
-@property (weak, nonatomic) IBOutlet UILabel *lineName;
+@property (nonatomic,strong) UIButton *deleteButton;
+@property (nonatomic,strong) UILabel *lineName;
 
 @property (nonatomic, strong)void (^btnBlock)();
 

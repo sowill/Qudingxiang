@@ -26,6 +26,8 @@
     UIView *bottom;
 //    int _code;
     int _line;
+    
+    UIView *headerView;
 }
 @property (nonatomic, strong) NSMutableArray *ticket;
 @property (nonatomic, strong) NSMutableArray *orderInfo;
@@ -71,7 +73,7 @@
 
 -(void)createButtom
 {
-    bottom = [[UIView alloc] initWithFrame:CGRectMake(0, QdxHeight- 50-1-64, QdxWidth, 1)];
+    bottom = [[UIView alloc] initWithFrame:CGRectMake(0, QdxHeight- 50-1-64, QdxWidth, 0.5)];
     bottom.backgroundColor = [UIColor colorWithWhite:0.875 alpha:1.000];
     [self.view addSubview:bottom];
     // 添加底部按钮
@@ -104,7 +106,7 @@
 
 -(void)createTableView
 {
-    self.tableview = [[UITableView alloc] initWithFrame:CGRectMake(0,10, QdxWidth, QdxHeight-64-60) style:UITableViewStylePlain];
+    self.tableview = [[UITableView alloc] initWithFrame:CGRectMake(0,0, QdxWidth, QdxHeight - 64 - 50) style:UITableViewStylePlain];
     self.tableview.delegate = self;
     self.tableview.dataSource = self;
     self.tableview.showsVerticalScrollIndicator = NO;
@@ -114,46 +116,111 @@
     [self.view addSubview:self.tableview];
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+-(void)setHeaderView
 {
-    UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, 45)];
-    headerView.backgroundColor = [UIColor whiteColor];
-    UILabel *header = [[UILabel alloc] initWithFrame:CGRectMake(10, 15, QdxWidth *  0.7 , 20)];
-    if (self.orderId) {
-        header.text = [@"订单号: " stringByAppendingString:self.ordersName];
-    }else{
-        header.text = [@"订单号: " stringByAppendingString:self.Order.Orders_name];
-    }
-    header.textColor = [UIColor colorWithWhite:0.067 alpha:1.000];
-    header.font = [UIFont fontWithName:@"Arial" size:14];
-    [headerView addSubview:header];
-    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, QdxWidth, 1)];
-    lineView.backgroundColor = [UIColor colorWithWhite:0.875 alpha:1.000];
-    [headerView addSubview:lineView];
-    UILabel *headerStatus = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth - 55, 15, 45, 20)];
+    headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, FitRealValue(220))];
+    headerView.backgroundColor = QDXBGColor;
     
+    UIView *headerContantView = [[UIView alloc] initWithFrame:CGRectMake(0, FitRealValue(20), QdxWidth, FitRealValue(200))];
+    headerContantView.backgroundColor =[UIColor whiteColor];
+    [headerView addSubview:headerContantView];
+    
+    UILabel *header = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(24), FitRealValue(30), FitRealValue(500) , FitRealValue(40))];
+    if (self.orderId) {
+        header.text = [@"订单号：" stringByAppendingString:self.ordersName];
+    }else{
+        header.text = [@"订单号：" stringByAppendingString:self.Order.Orders_name];
+    }
+    header.textColor = QDXBlack;
+    header.textAlignment = NSTextAlignmentLeft;
+    header.font = [UIFont fontWithName:@"Arial" size:17];
+    [headerContantView addSubview:header];
+    
+    UILabel *headerStatus = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth - FitRealValue(24 + 200), FitRealValue(30), FitRealValue(200), FitRealValue(40))];
     if (self.orderId) {
         headerStatus.text = self.ostatusName;
     }else{
         headerStatus.text = self.Order.ostatus.ostatus_name;
     }
-    headerStatus.textColor = [UIColor colorWithRed:1.000 green:0.318 blue:0.000 alpha:1.000];
-    headerStatus.font = [UIFont fontWithName:@"Arial" size:15];
-    [headerView addSubview:headerStatus];
-    return headerView;
+    headerStatus.textColor = QDXBlue;
+    headerStatus.textAlignment = NSTextAlignmentRight;
+    headerStatus.font = [UIFont fontWithName:@"Arial" size:17];
+    [headerContantView addSubview:headerStatus];
+    
+    UILabel *headerTime = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(24), FitRealValue(30 + 40 + 20), FitRealValue(500), FitRealValue(30))];
+    if (self.orderId) {
+        headerTime.text = [@"活动时间：" stringByAppendingString:@"2016.11.5"];
+    }else{
+        headerTime.text = [@"活动时间：" stringByAppendingString:@"2016.11.5"];
+    }
+    headerTime.textColor = QDXGray;
+    headerTime.textAlignment = NSTextAlignmentLeft;
+    headerTime.font = [UIFont fontWithName:@"Arial" size:14];
+    [headerContantView addSubview:headerTime];
+    
+    UILabel *headerPlaceName = [[UILabel alloc] init];
+    if (QdxWidth < 375) {
+        headerPlaceName.frame = CGRectMake(FitRealValue(24), FitRealValue(30 + 40 + 20 + 30 + 20),FitRealValue(165),FitRealValue(30));
+    }else{
+        headerPlaceName.frame = CGRectMake(FitRealValue(24), FitRealValue(30 + 40 + 20 + 30 + 20),FitRealValue(140),FitRealValue(30));
+    }
+    headerPlaceName.textColor = QDXGray;
+    headerPlaceName.textAlignment = NSTextAlignmentLeft;
+    headerPlaceName.text = @"活动地点：";
+    headerPlaceName.font = [UIFont fontWithName:@"Arial" size:14];
+    [headerContantView addSubview:headerPlaceName];
+    
+    UILabel *headerPlace = [[UILabel alloc] initWithFrame:CGRectMake(0,0,0,0)];
+    headerPlace.textColor = QDXGray;
+    headerPlace.numberOfLines = 0;
+    headerPlace.lineBreakMode = NSLineBreakByWordWrapping;//换行方式
+    headerPlace.textAlignment = NSTextAlignmentLeft;
+    
+    NSString *strPlace = @"上海市徐汇区斜土路2601弄嘉汇广场T2栋";
+    
+    UIFont *font = [UIFont fontWithName:@"Arial" size:14];
+    
+    headerPlace.font = font;
+    
+    CGFloat headerPlaceNameX = CGRectGetMaxX(headerPlaceName.frame);
+    
+    CGSize size = CGSizeMake(QdxWidth - headerPlaceNameX -FitRealValue(24),CGFLOAT_MAX);//LableWight标签宽度，固定的
+    //计算实际frame大小，并将label的frame变成实际大小
+    
+    CGSize labelsize = [strPlace sizeWithFont:font constrainedToSize:size lineBreakMode:headerPlace.lineBreakMode];
+    headerPlace.frame = CGRectMake(headerPlaceNameX, FitRealValue(30 + 40 + 20 + 30 + 20), labelsize.width, labelsize.height);
+    headerPlace.text = strPlace;
+    [headerContantView addSubview:headerPlace];
+    
+    UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(FitRealValue(24), FitRealValue(170) + labelsize.height, QdxWidth - FitRealValue(24 + 24), 0.5)];
+    lineView.backgroundColor = QDXLineColor;
+    [headerContantView addSubview:lineView];
+    
+    headerContantView.frame = CGRectMake(0, FitRealValue(20), QdxWidth, FitRealValue(170) + labelsize.height);
+    headerView.frame = CGRectMake(0, 0, QdxWidth, FitRealValue(190) + labelsize.height);
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+//- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+//{
+//    return headerView;
+//}
+//
+//- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+//{
+//    return FitRealValue(200);
+//}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 45;
+    return FitRealValue(312);
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
-        [cell setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+        [cell setSeparatorInset:UIEdgeInsetsMake(0, FitRealValue(24), 0, FitRealValue(24))];
     }
     if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
-        [cell setLayoutMargins:UIEdgeInsetsMake(0, 0, 0, 00)];
+        [cell setLayoutMargins:UIEdgeInsetsMake(0, FitRealValue(24), 0, FitRealValue(24))];
     }
 }
 
@@ -207,6 +274,7 @@
         if (dict) {
             NSMutableArray *orderInfoArray = [NSMutableArray array];
             NSDictionary *dataInfoDict = dict;
+            
             [orderInfoArray addObject:[QDXOrdermodel OrderWithDict:dataInfoDict]];
             self.orderInfo = orderInfoArray;
             QDXOrdermodel *OrderInfo = self.orderInfo[0];
@@ -224,10 +292,15 @@
                 }
                 self.ticket = ticketArray;
             }
+            
+            [self setHeaderView];
+            
         }else
         {
             [self createSadView];
         }
+        [self.tableview setTableHeaderView:headerView];
+        
         [self.tableview reloadData];
 
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
@@ -284,7 +357,7 @@
             
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"删除" message:@"是否删除当前活动券" preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
+            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
                 [self deleteTicket:ticketInfo.ticket_id];
                 [self.ticket removeObjectAtIndex:indexPath.row];
                 [self.tableview deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationMiddle];
@@ -314,7 +387,6 @@
 }
 
 -(void)dealloc
-
 {
     //移除观察者，Observer不能为nil
     [[NSNotificationCenter defaultCenter] removeObserver:self];

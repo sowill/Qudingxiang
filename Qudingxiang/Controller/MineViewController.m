@@ -94,10 +94,15 @@
         NSDictionary* _dic = [[NSDictionary alloc] initWithDictionary:dict];
         _peopleDict=[NSDictionary dictionaryWithDictionary:_dic];
         NSLog(@"%@",_peopleDict[@"Msg"]);
-//            NSFileManager * fileManager = [[NSFileManager alloc]init];
-//            NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-//            documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
-//            [fileManager removeItemAtPath:documentDir error:nil];
+        
+        if ([_peopleDict[@"Code"] intValue] == 0) {
+            NSFileManager * fileManager = [[NSFileManager alloc]init];
+            NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+            documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
+            [fileManager removeItemAtPath:documentDir error:nil];
+        }else{
+            
+        }
         [_tableView reloadData];
         
     } FailBlock:^(NSMutableArray *array) {
@@ -110,7 +115,7 @@
     if (section == 0) {
         UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth,QdxWidth/4)];
         view.userInteractionEnabled = YES;
-        _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(20,64,47,47)];
+        _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(FitRealValue(40),64 + FitRealValue(20),FitRealValue(100),FitRealValue(100))];
         _imageView.clipsToBounds = YES;
         _imageView.layer.cornerRadius = CGRectGetHeight(_imageView.bounds)/2;
         _imageView.userInteractionEnabled = YES;
@@ -131,7 +136,7 @@
         
         [view addSubview:_imageView];
         _picBtn = [[UIButton alloc] init];
-        _picBtn.frame = CGRectMake(20,64,85,47);
+        _picBtn.frame = CGRectMake(FitRealValue(40),64 + FitRealValue(20),FitRealValue(100 + 80),FitRealValue(100));
 //        _picBtn.imageView.clipsToBounds = YES;
 //        _picBtn.imageView.layer.cornerRadius = CGRectGetHeight(_picBtn.bounds)/2;
         
@@ -148,12 +153,12 @@
         [view addSubview:_picBtn];
         
         CGFloat headBtnMaxY = CGRectGetMaxY(_picBtn.frame);
-        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(20, headBtnMaxY+30, QdxWidth,1)];
-        lineView.backgroundColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.4];
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(FitRealValue(40), headBtnMaxY+FitRealValue(40), QdxWidth,0.5)];
+        lineView.backgroundColor = [UIColor whiteColor];
         [view addSubview:lineView];
         
         UIButton *signBtn = [[UIButton alloc] init];
-        signBtn.frame = CGRectMake(20,headBtnMaxY+35,QdxWidth*4/5,42);
+        signBtn.frame = CGRectMake(FitRealValue(40),headBtnMaxY+FitRealValue(45),QdxWidth*4/5,FitRealValue(90));
         if ([_peopleDict[@"Code"] intValue] == 0) {
             [signBtn setTitle:@"登录后显示个性签名" forState:UIControlStateNormal];
         }else{
@@ -166,8 +171,8 @@
         [signBtn addTarget:self action:@selector(signbtn) forControlEvents:UIControlEventTouchUpInside];
         [view addSubview:signBtn];
         
-        UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(20, headBtnMaxY+80, QdxWidth,1)];
-        lineView1.backgroundColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.4];
+        UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(FitRealValue(40), headBtnMaxY+FitRealValue(130), QdxWidth,0.5)];
+        lineView1.backgroundColor = [UIColor whiteColor];
         [view addSubview:lineView1];
         return view;
     }
@@ -181,7 +186,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 200;
+    return FitRealValue(430);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
@@ -191,13 +196,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *reuseIdetify = @"SvTableViewCell";
-    myViewCellTableViewCell* cell=(myViewCellTableViewCell*)[tableView dequeueReusableCellWithIdentifier:reuseIdetify];
-    if (cell==nil) {
-        cell=[[[NSBundle mainBundle]loadNibNamed:@"myViewCellTableViewCell" owner:self options:nil]lastObject];
-        cell.backgroundColor = [UIColor clearColor];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    }
+    myViewCellTableViewCell* cell = [myViewCellTableViewCell cellWithTableView:tableView];
     
     if(indexPath.row == 0){
         if ([_peopleDict[@"Code"] intValue] == 0) {
@@ -205,7 +204,6 @@
         }else{
             cell._name.text = _peopleDict[@"Msg"][@"customer_name"];
         }
-        cell._id.text= nil;
         cell.imageV.image = [UIImage imageNamed:@"my_name"];
     }else if(indexPath.row == 1){
         if ([_peopleDict[@"Code"] intValue] == 0) {
@@ -213,28 +211,22 @@
         }else{
             cell._name.text =_peopleDict[@"Msg"][@"code"];
         }
-        cell._id.text= nil;
         cell.userInteractionEnabled = NO;
         cell.imageV.image = [UIImage imageNamed:@"my_account"];
     }else if(indexPath.row == 2){
         cell._name.text = @"我的路线";
-        cell._id.text= nil;
         cell.imageV.image = [UIImage imageNamed:@"my_line"];
     }else if(indexPath.row == 3){
         cell._name.text = @"团队线路";
-        cell._id.text= nil;
         cell.imageV.image = [UIImage imageNamed:@"my_line"];
     }else if(indexPath.row == 4){
         cell._name.text = @"设置";
-        cell._id.text= nil;
         cell.imageV.image = [UIImage imageNamed:@"my_setup"];
     }else if(indexPath.row == 5){
         cell._name.text = @"关于趣定向";
-        cell._id.text= nil;
         cell.imageV.image = [UIImage imageNamed:@"my_about"];
     }else if(indexPath.row == 6){
         cell._name.text = @"联系客服";
-        cell._id.text= nil;
         cell.imageV.image = [UIImage imageNamed:@"my_service"];
     }
     

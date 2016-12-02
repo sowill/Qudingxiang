@@ -26,6 +26,12 @@
 @property (nonatomic,strong) QDXpaytype *paytype;
 /*  门票信息*/
 @property (nonatomic,strong) NSMutableArray *TicketInfo;
+/*  订单图片*/
+@property (nonatomic,copy) NSString *img;
+/*  订单数量*/
+@property (nonatomic,assign) int quantity;
+/*  活动名称*/
+@property (nonatomic,copy) NSString *name;
 
 +(instancetype)OrderWithDict:(NSDictionary *)dict;
 -(instancetype)initWithDict:(NSDictionary *)dict;

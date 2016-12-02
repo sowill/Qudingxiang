@@ -23,6 +23,9 @@
         self.Orders_id = [dict[@"Orders_id"] intValue];
         self.Orders_name = dict[@"Orders_name"];
         self.Orders_st = [dict[@"Orders_st"] intValue];
+        self.img = dict[@"img"];
+        self.quantity = [dict[@"quantity"] intValue];
+        self.name = dict[@"name"];
         
         if (dict[@"TicketInfo"]) {
             self.TicketInfo = [[NSMutableArray alloc] init];

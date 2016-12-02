@@ -138,41 +138,31 @@
 }
     if (indexPath.section==0&&indexPath.row==0) {
         cell._name.text=@"账号";
-        cell._id.text=peopleDict[@"Msg"][@"code"];
-        cell._id.textColor = [UIColor colorWithRed:58/255.0 green:58/255.0 blue:58/255.0 alpha:1.0];
         cell._name.textColor = [UIColor grayColor];
         cell.imageV.image = [UIImage imageNamed:@"zhanghao"];
         cell.imageV.contentMode = UIViewContentModeScaleAspectFit;
     }else if (indexPath.section==0&&indexPath.row==1){
         cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
         cell._name.text=@"昵称";
-        cell._id.text=peopleDict[@"Msg"][@"customer_name"];
         cell._name.textColor = [UIColor grayColor];
-        cell._id.textColor = [UIColor colorWithRed:58/255.0 green:58/255.0 blue:58/255.0 alpha:1.0];
         cell.imageV.image = [UIImage imageNamed:@"nic"];
          cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
         cell.imageV.contentMode = UIViewContentModeScaleAspectFit;
     }else if (indexPath.section==0&&indexPath.row==2){
         cell._name.text=@"我的线路";
-        cell._id.text=nil;
         cell._name.textColor = [UIColor grayColor];
-        cell._id.textColor = [UIColor colorWithRed:58/255.0 green:58/255.0 blue:58/255.0 alpha:1.0];
         cell.imageV.image = [UIImage imageNamed:@"myline_lux"];
         cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
         cell.imageV.contentMode = UIViewContentModeScaleAspectFit;
        }else if (indexPath.section==1&&indexPath.row==0){
         cell._name.text=@"修改密码";
-        cell._id.text=nil;
         cell._name.textColor = [UIColor grayColor];
-        cell._id.textColor = [UIColor colorWithRed:58/255.0 green:58/255.0 blue:58/255.0 alpha:1.0];
         cell.imageV.image = [UIImage imageNamed:@"xiu"];
         cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
         cell.imageV.contentMode = UIViewContentModeScaleAspectFit;
        }else if(indexPath.section==0&&indexPath.row==3){
            cell._name.text=@"团队线路";
-           cell._id.text=nil;
            cell._name.textColor = [UIColor grayColor];
-           cell._id.textColor = [UIColor colorWithRed:58/255.0 green:58/255.0 blue:58/255.0 alpha:1.0];
            cell.imageV.image = [UIImage imageNamed:@"myline_lux"];
            cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
            cell.imageV.contentMode = UIViewContentModeScaleAspectFit;

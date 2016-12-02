@@ -41,6 +41,11 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:menuBtn];
     
     self.automaticallyAdjustsScrollViewInsets = NO;
+}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
     
     //设置自定义属性
     self.tagItemSize = CGSizeMake(QdxWidth/4, FitRealValue(80));
@@ -50,8 +55,8 @@
     self.selectedIndicatorSize = CGSizeMake(QdxWidth/4, FitRealValue(4));
     self.normalTitleColor = QDXBlack;
     self.normalTitleFont = [UIFont systemFontOfSize:14];
-//    self.graceTime = 15;
-//    self.gapAnimated = YES;
+    //    self.graceTime = 15;
+    //    self.gapAnimated = YES;
     self.backgroundColor = [UIColor whiteColor];
     
     NSArray *titleArray = @[
@@ -72,12 +77,8 @@
                         @"2",
                         @"3"
                         ];
-     [self reloadDataWith:titleArray andSubViewdisplayClasses:classNames withParams:params];
-}
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
+    [self reloadDataWith:titleArray andSubViewdisplayClasses:classNames withParams:params];
+    
     [self selectTagByIndex:0 animated:YES];
 }
 

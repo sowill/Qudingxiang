@@ -130,7 +130,7 @@
 -(void)setupTaskView
 {
     lock = YES;
-    NSLog(@"%@",qkey);
+//    NSLog(@"%@",qkey);
     CYAlertController *alert = [CYAlertController offlineAlertWithTitle:@"问题" message:question];
     alert.alertViewCornerRadius = 10;
     CYAlertAction *cancelAction_A = [CYAlertAction actionWithTitle:[@"A. " stringByAppendingString:qa] style:CYAlertActionStyleCancel handler:^{
@@ -203,7 +203,7 @@
             [labelArray addObject:string3];
         }
         mac_Label = labelArray;
-        NSLog(@"%@",mac_Label);
+//        NSLog(@"%@",mac_Label);
         point_name.text = @"神秘点标";
     }else{
         //依次
@@ -215,7 +215,7 @@
         NSArray *array3 = [macLabel componentsSeparatedByString:@":"];
         NSString *string3 = [array3 componentsJoinedByString:@""];
         mac_Label = [string3 componentsSeparatedByString:@","];
-        NSLog(@"%@",mac_Label);
+//        NSLog(@"%@",mac_Label);
         point_name.text = point.point_name;
         pointmap_id =line_point.pointmap_id;
     }
@@ -413,12 +413,12 @@
     switch (central.state) {
         case CBCentralManagerStatePoweredOn:
         {
-            NSLog(@"蓝牙已打开,请扫描外设");
+//            NSLog(@"蓝牙已打开,请扫描外设");
             [self.MyCentralManager scanForPeripheralsWithServices:nil  options:nil];
         }
             break;
         case CBCentralManagerStatePoweredOff:
-            NSLog(@"蓝牙没有打开,请先打开蓝牙");
+//            NSLog(@"蓝牙没有打开,请先打开蓝牙");
             break;
         default:
             break;
@@ -448,7 +448,7 @@
                     if ([macStr isEqualToString:str] && ![macStr isEqualToString:rmoveMacStr])
                     {
                         lock = YES;
-                        NSLog(@"macStr: %@ 距离:%.1fm",macStr,pow(10,ci));
+//                        NSLog(@"macStr: %@ 距离:%.1fm",macStr,pow(10,ci));
                         AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
                         if(mstate == 1)
                         {
@@ -580,7 +580,7 @@
 - (void)details_click
 {
     for (NSString *point in self.temp_Point) {
-        NSLog(@"%@",point);
+//        NSLog(@"%@",point);
     }
 }
 

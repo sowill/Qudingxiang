@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface SignViewController : BaseViewController
+@interface SignViewController : UIViewController
 
 @end

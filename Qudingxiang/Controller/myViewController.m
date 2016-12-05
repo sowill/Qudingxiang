@@ -55,7 +55,6 @@
 
 - (void)loadData
 {
-    [self showProgessMsg:@"正在加载"];
     [self performSelectorInBackground:@selector(zoomInAction) withObject:nil];
 }
 
@@ -108,12 +107,12 @@
 
 - (void)sussRes
 {
-    [self showProgessOK:@"加载成功"];
+
 }
 
 - (void)failRes
 {
-    [self showProgessOK:@"加载失败"];
+
 }
 
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{

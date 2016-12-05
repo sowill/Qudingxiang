@@ -50,7 +50,7 @@ static sqlite3 *db = nil;
     //打开数据库(如果该数据库存在则直接打开,否则自动创建一个再打开)
     int result = sqlite3_open([path UTF8String], &db);
     if (result == SQLITE_OK) {
-        NSLog(@"数据库打开成功");
+//        NSLog(@"数据库打开成功");
         //建表
         const char *sql1 = "CREATE TABLE IF NOT EXISTS qdx_question (q_id integer PRIMARY KEY AUTOINCREMENT,question_name text NOT NULL,qa text,qb text,qc text,qd text,qkey text NOT NULL,question_id NOT NULL)";
         
@@ -74,7 +74,7 @@ static sqlite3 *db = nil;
     }else
     {
         //如果失败,打印失败原因
-        NSLog(@"%d",result);
+//        NSLog(@"%d",result);
     }
 }
 
@@ -83,7 +83,7 @@ static sqlite3 *db = nil;
 {
     int result = sqlite3_close(db);
     if (result == SQLITE_OK) {
-        NSLog(@"数据库关闭成功");
+//        NSLog(@"数据库关闭成功");
         //当关闭数据库的时候将db置为空,是因为打开数据库的时候,我们需要使用nil作判断
         db = nil;
         
@@ -103,7 +103,7 @@ static sqlite3 *db = nil;
     }else
     {
         //如果失败,打印失败原因
-        NSLog(@"%d",result);
+//        NSLog(@"%d",result);
     }
 }
 
@@ -171,7 +171,7 @@ static sqlite3 *db = nil;
         sqlite3_step(stmt);
     }else
     {
-        NSLog(@"修改失败");
+//        NSLog(@"修改失败");
     }
     sqlite3_finalize(stmt);
 }
@@ -333,7 +333,7 @@ static sqlite3 *db = nil;
         return array;
     }else
     {
-        NSLog(@"查询失败");
+//        NSLog(@"查询失败");
         sqlite3_finalize(stmt);
         return nil;
     }
@@ -355,7 +355,7 @@ static sqlite3 *db = nil;
         sqlite3_step(stmt);
     }else
     {
-        NSLog(@"存入失败%d",result);
+//        NSLog(@"存入失败%d",result);
     }
     sqlite3_finalize(stmt);
 }
@@ -375,7 +375,7 @@ static sqlite3 *db = nil;
         sqlite3_step(stmt);
     }else
     {
-        NSLog(@"存入失败%d",result);
+//        NSLog(@"存入失败%d",result);
     }
     sqlite3_finalize(stmt);
 }
@@ -393,7 +393,7 @@ static sqlite3 *db = nil;
         sqlite3_step(stmt);
     }else
     {
-        NSLog(@"存入失败%d",result);
+//        NSLog(@"存入失败%d",result);
     }
     sqlite3_finalize(stmt);
 }
@@ -409,7 +409,7 @@ static sqlite3 *db = nil;
         sqlite3_step(stmt);
     }else
     {
-        NSLog(@"存入失败%d",result);
+//        NSLog(@"存入失败%d",result);
     }
     sqlite3_finalize(stmt);
 }
@@ -431,7 +431,7 @@ static sqlite3 *db = nil;
         sqlite3_step(stmt);
     }else
     {
-        NSLog(@"存入失败%d",result);
+//        NSLog(@"存入失败%d",result);
     }
     sqlite3_finalize(stmt);
 }
@@ -452,7 +452,7 @@ static sqlite3 *db = nil;
         sqlite3_step(stmt);
     }else
     {
-        NSLog(@"存入失败%d",result);
+//        NSLog(@"存入失败%d",result);
     }
     sqlite3_finalize(stmt);
 }

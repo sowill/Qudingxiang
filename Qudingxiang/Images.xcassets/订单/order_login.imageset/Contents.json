@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "order_logo.png",
+      "filename" : "order_login.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "order_logo@2x.png",
+      "filename" : "order_login@2x.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "order_logo@3x.png",
+      "filename" : "order_login@3x.png",
       "scale" : "3x"
     }
   ],

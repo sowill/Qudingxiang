@@ -83,19 +83,15 @@
 {
     if (teamNumber1.text.length == 11  && ![teamNumber1.text isEqualToString:masterNmae.text]) {
         manId = teamNumber1.text;
-        [self showProgessMsg:@"请求中"];
         [self setupgetCusByCode:teamNumber1];
     }else if (teamNumber2.text.length == 11  && ![teamNumber1.text isEqualToString:masterNmae.text]){
         manId = teamNumber2.text;
-        [self showProgessMsg:@"请求中"];
         [self setupgetCusByCode:teamNumber2];
     }else if (teamNumber3.text.length == 11  && ![teamNumber1.text isEqualToString:masterNmae.text]){
         manId = teamNumber3.text;
-        [self showProgessMsg:@"请求中"];
         [self setupgetCusByCode:teamNumber3];
     }else if (teamNumber4.text.length == 11 && ![teamNumber1.text isEqualToString:masterNmae.text]){
         manId = teamNumber4.text;
-        [self showProgessMsg:@"请求中"];
         [self setupgetCusByCode:teamNumber4];
     }
 }
@@ -381,7 +377,6 @@
                 [MBProgressHUD hideHUD];
             });
         }
-        [self showProgessOK:@"请求完成"];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
     }];

@@ -99,7 +99,7 @@
     //2.用captureDevice创建输入流
     AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:captureDevice error:&error];
     if (!input) {
-        NSLog(@"%@", [error localizedDescription]);
+//        NSLog(@"%@", [error localizedDescription]);
         return NO;
     }
     
@@ -232,7 +232,7 @@
     if (metadataObjects != nil && [metadataObjects count] > 0) {
         AVMetadataMachineReadableCodeObject * metadataObject = [metadataObjects objectAtIndex:0];
         _result = metadataObject.stringValue;
-        NSLog(@"%@",_result);
+//        NSLog(@"%@",_result);
         if([self.from intValue] == 0){
             self.ScanResult(metadataObject.stringValue,YES,@"0");
         }else if([self.from intValue] == 1){
@@ -274,7 +274,7 @@
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSDictionary * dict = [[NSDictionary alloc] initWithDictionary:responseObject];
         NSDictionary *dictMsg = dict[@"Msg"];
-        NSLog(@"%@",dictMsg);
+//        NSLog(@"%@",dictMsg);
         StartModel *model = [[StartModel alloc] init];
         [model setCode:dict[@"Code"] ];
         [model setMsg:dict[@"Msg"]];

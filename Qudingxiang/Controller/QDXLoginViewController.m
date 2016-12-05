@@ -262,7 +262,7 @@
 //非网络错误导致登录失败：
 -(void)tencentDidNotLogin:(BOOL)cancelled
 {
-    NSLog(@"tencentDidNotLogin");
+//    NSLog(@"tencentDidNotLogin");
     if (cancelled)
     {
         [MBProgressHUD showError:@"用户取消登录"];
@@ -315,7 +315,7 @@
             
             
             id jsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:Nil];
-            NSLog(@"123%@",jsonData);
+//            NSLog(@"123%@",jsonData);
             wxAccessToken =[jsonData objectForKey:@"access_token"];
             wxOpenID =[jsonData objectForKey:@"openid"];
             [self WeiXinAccess];

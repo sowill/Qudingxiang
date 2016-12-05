@@ -174,7 +174,7 @@
     NSArray *array3 = [macLabel componentsSeparatedByString:@":"];
     NSString *string3 = [array3 componentsJoinedByString:@""];
     mac_Label = [string3 componentsSeparatedByString:@","];
-    NSLog(@"%@   %@",mac_Label,self.gameInfo.point.point_name);
+//    NSLog(@"%@   %@",mac_Label,self.gameInfo.point.point_name);
     sdateStr = self.gameInfo.sdate;
     [self intervalSinceNow];
     point.text = self.gameInfo.point.point_name;
@@ -221,6 +221,7 @@
                 NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
                 documentDir= [documentDir stringByAppendingPathComponent:@"QDXMyLine.data"];
                 [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"stateRefresh" object:nil];
             }
             self.navigationItem.title = @"活动结束";
             [self.mapView removeFromSuperview];
@@ -241,6 +242,7 @@
                 NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
                 documentDir= [documentDir stringByAppendingPathComponent:@"QDXMyLine.data"];
                 [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"stateRefresh" object:nil];
             }
             [self removeFromSuperViewController];
             [self.mapView removeFromSuperview];
@@ -329,12 +331,12 @@
     switch (central.state) {
         case CBCentralManagerStatePoweredOn:
         {
-            NSLog(@"蓝牙已打开,请扫描外设");
+//            NSLog(@"蓝牙已打开,请扫描外设");
             [self.MyCentralManager scanForPeripheralsWithServices:nil  options:nil];
         }
             break;
         case CBCentralManagerStatePoweredOff:
-            NSLog(@"蓝牙没有打开,请先打开蓝牙");
+//            NSLog(@"蓝牙没有打开,请先打开蓝牙");
             break;
         default:
             break;
@@ -630,6 +632,11 @@ toViewController:(UIViewController *)toVC {
     }
     
     return nil;
+}
+
+- (void)reloadData
+{
+    [self setupgetMylineInfo:0];
 }
 
 //将上级页面的mylineid传入
@@ -980,7 +987,7 @@ toViewController:(UIViewController *)toVC {
             }
             point_questionModel *p_questionModel = [point_questionModel mj_objectWithKeyValues:dic[@"Msg"]];
             self.questionInfo = p_questionModel;
-            NSLog(@"%@    ",self.questionInfo.question.qkey);
+//            NSLog(@"%@    ",self.questionInfo.question.qkey);
             [self  setupTaskView];
             
             AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
@@ -1011,7 +1018,7 @@ toViewController:(UIViewController *)toVC {
             }
             point_questionModel *p_questionModel = [point_questionModel mj_objectWithKeyValues:infoDict[@"Msg"]];
             self.questionInfo = p_questionModel;
-            NSLog(@"%@    %@",self.questionInfo.question.question_name,self.questionInfo.question.qkey);
+//            NSLog(@"%@    %@",self.questionInfo.question.question_name,self.questionInfo.question.qkey);
             
             [self setupTaskView];
             
@@ -1520,7 +1527,7 @@ toViewController:(UIViewController *)toVC {
 
 - (void)didClickOnCancelButton
 {
-    NSLog(@"didClickOnCancelButton");
+//    NSLog(@"didClickOnCancelButton");
 }
 
 -(void)codeClick

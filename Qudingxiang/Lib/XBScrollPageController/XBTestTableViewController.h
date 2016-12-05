@@ -7,8 +7,9 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QDXStateView.h"
 
-@interface XBTestTableViewController : BaseViewController
+@interface XBTestTableViewController : BaseViewController<StateDelegate>
 //XBScrollPageController 传参
 @property (nonatomic,copy) NSString *XBParam;
 @end

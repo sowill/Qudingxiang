@@ -49,18 +49,18 @@
 - (void)viewWillAppear:(BOOL)animated
 {
     [super viewWillAppear:animated];
-//    if (save) {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stateRefresh) name:@"stateRefresh" object:nil];
+    
     [self netData];
-//    }
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self createTableView];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stateRefresh) name:@"stateRefresh" object:nil];
+    [self createTableView];
 }
 
 -(void)stateRefresh
@@ -93,9 +93,9 @@
     [MineService cellDataBlock:^(NSDictionary *dict) {
         NSDictionary* _dic = [[NSDictionary alloc] initWithDictionary:dict];
         _peopleDict=[NSDictionary dictionaryWithDictionary:_dic];
-        NSLog(@"%@",_peopleDict[@"Msg"]);
+//        NSLog(@"%@",_peopleDict[@"Msg"]);
         
-        if ([_peopleDict[@"Code"] intValue] == 0) {
+        if ([save length] == 0) {
             NSFileManager * fileManager = [[NSFileManager alloc]init];
             NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
             documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
@@ -126,7 +126,7 @@
 //        if(_im){
 //            _imageView.image = imgFromUrl3;
 //        }else{
-            if([_peopleDict[@"Code"] intValue] != 0){
+            if([save length] != 0){
                 NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,_peopleDict[@"Msg"][@"headurl"]]];
                 [_imageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"my_head"]];
             }else{
@@ -140,7 +140,7 @@
 //        _picBtn.imageView.clipsToBounds = YES;
 //        _picBtn.imageView.layer.cornerRadius = CGRectGetHeight(_picBtn.bounds)/2;
         
-        if ([_peopleDict[@"Code"] intValue] == 0) {
+        if ([save length] == 0) {
             [_picBtn setTitle:@"登录" forState:UIControlStateNormal];
         }else{
             [_picBtn setTitle:@"" forState:UIControlStateNormal];
@@ -159,7 +159,7 @@
         
         UIButton *signBtn = [[UIButton alloc] init];
         signBtn.frame = CGRectMake(FitRealValue(40),headBtnMaxY+FitRealValue(45),QdxWidth*4/5,FitRealValue(90));
-        if ([_peopleDict[@"Code"] intValue] == 0) {
+        if ([save length] == 0) {
             [signBtn setTitle:@"登录后显示个性签名" forState:UIControlStateNormal];
         }else{
             [signBtn setTitle:_peopleDict[@"Msg"][@"signature"] forState:UIControlStateNormal];
@@ -199,7 +199,7 @@
     myViewCellTableViewCell* cell = [myViewCellTableViewCell cellWithTableView:tableView];
     
     if(indexPath.row == 0){
-        if ([_peopleDict[@"Code"] intValue] == 0) {
+        if ([save length] == 0) {
             cell._name.text = @"昵称";
         }else{
             cell._name.text = _peopleDict[@"Msg"][@"customer_name"];
@@ -237,7 +237,7 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
-    if ([_peopleDict[@"Code"] intValue] == 0) {
+    if ([save length] == 0) {
         [self login];
     }else{
         if(indexPath.row == 0){
@@ -295,7 +295,7 @@
 
 - (void)updatahead
 {
-    if ([_peopleDict[@"Code"] intValue] == 0) {
+    if ([save length] == 0) {
         [self login];
     }else{
         //创建UIAlertController是为了让用户去选择照片来源,拍照或者相册.
@@ -394,7 +394,7 @@
     } progress:^(NSProgress * _Nonnull uploadProgress) {
         
         //打印下上传进度
-        NSLog(@"%lf",1.0 *uploadProgress.completedUnitCount / uploadProgress.totalUnitCount);
+//        NSLog(@"%lf",1.0 *uploadProgress.completedUnitCount / uploadProgress.totalUnitCount);
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSString *result = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
@@ -426,7 +426,7 @@
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
         //请求失败
-        NSLog(@"请求失败：%@",error);
+//        NSLog(@"请求失败：%@",error);
     }];
     
 }
@@ -454,7 +454,7 @@
 
 - (void)signbtn
 {
-    if ([_peopleDict[@"Code"] intValue] == 0) {
+    if ([save length] == 0) {
         [self login];
     }else{
         SignViewController *sign = [[SignViewController alloc] init];

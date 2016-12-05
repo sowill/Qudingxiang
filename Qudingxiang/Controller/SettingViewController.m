@@ -263,7 +263,8 @@
         for (NSString * fileName in fileArray){
             //可以过滤掉特殊格式的文件
             if ([fileName hasSuffix:@".png"]){
-                NSLog(@"不删除");}
+//                NSLog(@"不删除");
+            }
             else{
                 //获取每个子文件的路径
                 NSString * filePath = [path stringByAppendingPathComponent:fileName];

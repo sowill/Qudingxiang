@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AboutUsViewController : BaseViewController
+@interface AboutUsViewController : UIViewController
 
 @property(nonatomic,retain) NSString *level;
 

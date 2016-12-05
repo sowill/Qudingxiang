@@ -8,22 +8,62 @@
 
 #import "BaseViewController.h"
 #import "FeHourGlass.h"
+#import "SGNetObserver.h"
 
 @interface BaseViewController ()
-//@property MBProgressHUD *HUD;
+
 @property (nonatomic ,strong) UIView *BGView; //遮罩
 @property (strong, nonatomic) FeHourGlass *hourGlass;
 @property BOOL isLoad;
 @property UIView *vi_notData;
+
+@property (nonatomic,strong) SGNetObserver *observer;
 @end
 
 @implementation BaseViewController
-//@synthesize HUD =HUD;
+
 @synthesize isLoad = isLoad;
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     isLoad = NO;
+    
+    self.observer = [SGNetObserver defultObsever];
+    [self.observer startNotifier];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkStatusChanged:) name:SGReachabilityChangedNotification object:nil];
+}
+
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:SGReachabilityChangedNotification object:nil];
+}
+
+- (void)networkStatusChanged:(NSNotification *)notify{
+//    NSLog(@"notify-------%@",notify.userInfo[@"status"]);
+    
+    if ([notify.userInfo[@"status"] intValue] == 0) {
+        [self showNoNetworkView];
+    }else{
+        // 有网移除所有无网展位图
+        for (QDXNoNetWorkView *view in self.view.subviews) {
+            if ([view isMemberOfClass:[QDXNoNetWorkView class]]) {
+                [view removeFromSuperview];
+            }
+        }
+    }
+}
+
+-(void)reloadData
+{
+    
+}
+
+/** 显示无网络view */
+- (void)showNoNetworkView{
+    // 将导航栏和tabbar留出来
+    QDXNoNetWorkView *noNetworkView = [[QDXNoNetWorkView alloc]initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight - 49)];
+    noNetworkView.delegate = self;
+    [self.view addSubview:noNetworkView];
 }
 
 - (void)showProgessMsg:(NSString *)msg

@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QDXCreateCodeViewController : BaseViewController
+@interface QDXCreateCodeViewController : UIViewController
 
 @end

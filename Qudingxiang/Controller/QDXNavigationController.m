@@ -80,7 +80,7 @@
 
 -(UIViewController *)popViewControllerAnimated:(BOOL)animated{
     
-    NSLog(@"%@-----%@",self.viewControllers.firstObject,self.viewControllers.lastObject);
+//    NSLog(@"%@-----%@",self.viewControllers.firstObject,self.viewControllers.lastObject);
 //    self.tabBarController.tabBar.hidden = NO;
     
     if (self.viewControllers.count == 2) {

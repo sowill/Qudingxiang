@@ -31,6 +31,11 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noti3) name:@"noti3" object:nil];
 }
 
+-(void)reloadData
+{
+    [self setupCurrentLine];
+}
+
 -(void)noti3
 {
     [self dismissViewControllerAnimated:YES completion:^{}];

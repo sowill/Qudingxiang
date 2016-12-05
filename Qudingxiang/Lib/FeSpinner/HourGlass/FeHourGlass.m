@@ -287,7 +287,7 @@
 }
 -(void) cleanUp
 {
-    NSLog(@"Clean up");
+//    NSLog(@"Clean up");
     if (objectForExecuting)
         objectForExecuting = nil;
     if (methodForExecuting)

@@ -55,7 +55,7 @@
 
 - (void)speechSynthesizer:(AVSpeechSynthesizer *)synthesizer didFinishSpeechUtterance:(AVSpeechUtterance *)utterance;{
 
-    NSLog(@"阅读完毕");
+//    NSLog(@"阅读完毕");
 
 }
 

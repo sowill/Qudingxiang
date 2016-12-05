@@ -26,13 +26,17 @@
 
 @implementation MineLineController
 
-//- (void)viewDidAppear:(BOOL)animated
-//{
-//    [super viewDidAppear:animated];
-//    if(save){
-//    [self netData];
-//    }
-//}
+- (void)viewDidAppear:(BOOL)animated
+{
+    [super viewDidAppear:animated];
+    
+    [self netData];
+}
+
+-(void)reloadData
+{
+    [self netData];
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];

@@ -210,9 +210,9 @@
             NSDictionary *dic = @{@"code":code};
             [[NSNotificationCenter defaultCenter] postNotificationName:@"WECHAT" object:nil userInfo:dic];
         }else if (aresp.errCode == -2) {
-            NSLog(@"用户取消登录");
+//            NSLog(@"用户取消登录");
         } else if (aresp.errCode == -4) {
-            NSLog(@"用户拒绝登录");
+//            NSLog(@"用户拒绝登录");
         } else {
             
         }

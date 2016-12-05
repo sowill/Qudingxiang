@@ -47,7 +47,7 @@
     NSUInteger i = 0;
     // 设置tabBarButton的frame
     for (UIView *tabBarButton in self.subviews) {
-        NSLog(@"%@",NSStringFromClass([tabBarButton class]));
+//        NSLog(@"%@",NSStringFromClass([tabBarButton class]));
         if ([tabBarButton isKindOfClass:NSClassFromString(@"UITabBarButton")]) {
             // 将加号按钮的位置腾出来
             if (i == 2) {

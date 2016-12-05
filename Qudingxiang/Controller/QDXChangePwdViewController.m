@@ -185,26 +185,17 @@
         QDXIsConnect *isConnect = [QDXIsConnect mj_objectWithKeyValues:dict];
         int ret = [isConnect.Code intValue];
         if (ret==1) {
-            [self showProgessMsg:@"修改中"];
             NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
             documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
             [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
             [NSKeyedArchiver archiveRootObject:isConnect.Msg[@"token"] toFile:XWLAccountFile];
             
-            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{ // 2.0s后执行block里面的代码
-                [self hideProgess];
-//                //切换窗口控制器
-//                [self.sideMenuViewController setContentViewController:[[TabbarController alloc] init]
-//                                                             animated:YES];
-//                [self.sideMenuViewController hideMenuViewController];
-                [self dismissViewControllerAnimated:YES completion:^{
+            [self dismissViewControllerAnimated:YES completion:^{
                     
-                }];
-            });
+            }];
         }
         else{
-            //            NSString *showerror = [infoDict objectForKey:@"Msg"];
-            //            [MBProgressHUD showError:showerror];
+
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         

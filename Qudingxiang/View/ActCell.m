@@ -37,20 +37,18 @@
     UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth,10)];
     view.backgroundColor = QDXBGColor;
     [self.contentView addSubview:view];
-//    UIView *view1 = [[UIView alloc] initWithFrame:CGRectMake(0, 10, QdxWidth, QdxWidth+32)];
-//    view1.backgroundColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1];
-//    [self.contentView addSubview:view1];
+
     _imageView = [ToolView createImageWithFrame:CGRectMake(0, 10, QdxWidth, QdxWidth*0.59)];
     CALayer *layer = _imageView.layer;
     [layer setMasksToBounds:NO];
     [self.contentView addSubview:_imageView];
+    
     CGFloat imageViewY = CGRectGetMaxY(_imageView.frame);
     _nameLabel = [ToolView createLabelWithFrame:CGRectMake(10, imageViewY+5, QdxWidth*3/4, 20) text:@"地点" font:14 superView:self.contentView];
     _nameLabel.textColor = QDXBlack;
+    
     _detailLabel = [ToolView createLabelWithFrame:CGRectMake(QdxWidth*3/4-10, imageViewY+5, QdxWidth/4, 20) text:@"地址" font:14 superView:self.contentView];
     _detailLabel.textColor = QDXGray;
-    
-    
 }
 
 - (void)setModel:(ActModel *)model

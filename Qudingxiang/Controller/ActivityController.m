@@ -73,6 +73,11 @@
     }
 }
 
+-(void)reloadData
+{
+    [self loadData];
+}
+
 - (void)loadData
 {
     [self performSelectorInBackground:@selector(loadDataWith:isRemoveAll:) withObject:nil];
@@ -81,7 +86,7 @@
 - (void)createTableView
 {
     _dataArr = [NSMutableArray arrayWithCapacity:0];
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight-60)];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight-64)];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.showsVerticalScrollIndicator = NO;
@@ -181,7 +186,6 @@
 
 - (void)loadDataWith:(NSString *)cur isRemoveAll:(BOOL)isRemoveAll
 {
-    [self showProgessMsg:@"正在加载"];
     [ActivityService cellDataBlock:^(NSDictionary *dict) {
         NSDictionary *dataDict = dict[@"Msg"][@"data"];
         _currNum = [dict[@"Msg"][@"curr"] integerValue];
@@ -206,7 +210,7 @@
 
 - (void)sussRes
 {
-    [self hideProgess];
+
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section

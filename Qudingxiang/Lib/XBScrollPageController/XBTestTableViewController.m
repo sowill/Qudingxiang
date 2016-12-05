@@ -28,10 +28,6 @@
     int curr;
     int page;
     int count;
-    UIButton *_button;
-    UIImageView *sad_1;
-    UILabel *sadButton_1;
-    UIView *loginView;
 }
 @property (nonatomic, strong) NSMutableArray *orders;
 
@@ -42,6 +38,11 @@
 @property (nonatomic,strong) NSMutableArray *didCompleted;
 
 @property (nonatomic, strong) UITableView *tableview;
+
+@property (nonatomic,strong) QDXStateView *loginView;
+
+@property (nonatomic,strong) QDXStateView *noThingView;
+
 @end
 
 @implementation XBTestTableViewController
@@ -82,16 +83,23 @@
 {
     [super viewWillAppear:animated];
     curr = 1;
-    [loginView removeFromSuperview];
-    [sad_1 removeFromSuperview];
-    [sadButton_1 removeFromSuperview];
     [self loadData];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+
     [self createTableView];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stateRefresh) name:@"stateRefresh" object:nil];
+}
+
+-(void)stateRefresh
+{
+    curr = 1;
+    [_loginView removeFromSuperview];
+    [_noThingView removeFromSuperview];
+    [self loadData];
 }
 
 - (void) createTableView
@@ -107,6 +115,11 @@
     [self.view addSubview:self.tableview];
     
     [self setupRefreshView];
+}
+
+-(void)reloadData
+{
+    [self loadData];
 }
 
 - (void)loadData
@@ -238,7 +251,6 @@
     
 }
 
-
 - (void)setXBParam:(NSString *)XBParam
 {
     _XBParam = XBParam;
@@ -248,34 +260,27 @@
 - (void)dealloc
 {
     XBLog(@"XBTestTableViewController delloc");
-
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"stateRefresh" object:nil];
 }
 
 - (void)createLoginView
 {
-    loginView = [[UIView alloc] initWithFrame:self.view.frame];
-    loginView.backgroundColor = QDXBGColor;
-    [self.view addSubview:loginView];
-    
-    UIImageView *sad = [[UIImageView alloc] init];
-    CGFloat sadCenterX = QdxWidth * 0.5;
-    CGFloat sadCenterY = QdxHeight * 0.22;
-    sad.center = CGPointMake(sadCenterX, sadCenterY);
-    sad.bounds = CGRectMake(0, 0, 40, 43);
-    sad.image = [UIImage imageNamed:@"order_logo"];
-    [loginView addSubview:sad];
-    
-    UIButton *sadButton = [[UIButton alloc] init];
-    sadButton.center = CGPointMake(sadCenterX, sadCenterY + 30 + 25);
-    sadButton.bounds = CGRectMake(0, 0, 135, 30);
-    [sadButton setTitle:@"登录查看订单" forState:UIControlStateNormal];
-    [sadButton addTarget:self action:@selector(sign_in) forControlEvents:UIControlEventTouchUpInside];
-    [sadButton setTitleColor:QDXBlue forState:UIControlStateNormal];
-    sadButton.layer.borderColor = QDXBlue.CGColor;
-    sadButton.layer.borderWidth = 0.5;
-    sadButton.layer.cornerRadius = 4;
-    sadButton.titleLabel.font = [UIFont systemFontOfSize:14];
-    [loginView addSubview:sadButton];
+    _loginView = [[QDXStateView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight - 49)];
+    _loginView.tag = 1;
+    _loginView.delegate = self;
+    _loginView.stateImg.image = [UIImage imageNamed:@"order_login"];
+    _loginView.stateDetail.text = @"您还没有登录，请登录后查看订单";
+    [_loginView.stateButton setTitle:@"立即登录" forState:UIControlStateNormal];
+    [self.view addSubview:_loginView];
+}
+
+-(void)changeState
+{
+    if (_loginView.tag == 1) {
+        [self sign_in];
+    }else{
+        self.tabBarController.selectedIndex = 0;
+    }
 }
 
 -(void)sign_in
@@ -289,22 +294,13 @@
 
 - (void)createSadView
 {
-    sad_1 = [[UIImageView alloc] init];
-    CGFloat sad_1CenterX = QdxWidth * 0.5;
-    CGFloat sad_1CenterY = QdxHeight * 0.22;
-    sad_1.center = CGPointMake(sad_1CenterX, sad_1CenterY);
-    sad_1.bounds = CGRectMake(0, 0,40,43);
-    sad_1.image = [UIImage imageNamed:@"order_nothing"];
-    [self.view addSubview:sad_1];
-    
-    sadButton_1 = [[UILabel alloc] init];
-    sadButton_1.center = CGPointMake(sad_1CenterX, sad_1CenterY + 43/2 + 20);
-    sadButton_1.bounds = CGRectMake(0, 0, 120, 100);
-    sadButton_1.text = @"您当前没有订单";
-    sadButton_1.font = [UIFont systemFontOfSize:12];
-    sadButton_1.textAlignment = NSTextAlignmentCenter;
-    sadButton_1.textColor = QDXGray;
-    [self.view addSubview:sadButton_1];
+    _noThingView = [[QDXStateView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight - 49)];
+    _noThingView.tag = 2;
+    _noThingView.delegate = self;
+    _noThingView.stateImg.image = [UIImage imageNamed:@"order_nothing"];
+    _noThingView.stateDetail.text = @"您暂时还没有订单哦~";
+    [_noThingView.stateButton setTitle:@"立即下单" forState:UIControlStateNormal];
+    [self.view addSubview:_noThingView];
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -419,9 +415,9 @@
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
         if ([dict[@"Code"] intValue] == 1) {
-            NSLog(@"成功删除");
+//            NSLog(@"成功删除");
         }else{
-            NSLog(@"%@",dict);
+//            NSLog(@"%@",dict);
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         

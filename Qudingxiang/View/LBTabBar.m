@@ -44,8 +44,8 @@
 //        [self setShadowImage:[UIImage imageWithColor:[UIColor whiteColor]]];
         
         UIButton *plusBtn = [[UIButton alloc] init];
-        [plusBtn setBackgroundImage:[UIImage imageNamed:@"index_go"] forState:UIControlStateNormal];
-        [plusBtn setBackgroundImage:[UIImage imageNamed:@"index_go"] forState:UIControlStateHighlighted];
+        [plusBtn setBackgroundImage:[UIImage imageNamed:@"go-常态"] forState:UIControlStateNormal];
+        [plusBtn setBackgroundImage:[UIImage imageNamed:@"go-按下"] forState:UIControlStateHighlighted];
         
         self.plusBtn = plusBtn;
         

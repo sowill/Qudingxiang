@@ -418,7 +418,7 @@
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
         NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
         QDXDetailsModel *model = [[QDXDetailsModel alloc] init];
-        [model setUrl:infoDict[@"Msg"][@"area"][@"url"]];
+        [model setUrl:infoDict[@"Msg"][@"area"][@"map"]];
         [model setArea_name:infoDict[@"Msg"][@"line_sub"]];
         [model setDescript:infoDict[@"Msg"][@"description"]];
         [model setVdate:infoDict[@"Msg"][@"area"][@"vdate"]];

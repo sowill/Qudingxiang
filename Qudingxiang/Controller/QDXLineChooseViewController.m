@@ -41,6 +41,11 @@
 
 }
 
+-(void)reloadData
+{
+    [self setupData];
+}
+
 - (void)noti2
 {
     [self dismissViewControllerAnimated:YES completion:^{
@@ -191,7 +196,7 @@
                     QDXProtocolViewController *viewController = [[QDXProtocolViewController alloc] init];
                     [self.navigationController pushViewController:viewController animated:YES];
             }else{
-                NSLog(@"qdxMsg= %@",infoDict[@"Msg"]);
+//                NSLog(@"qdxMsg= %@",infoDict[@"Msg"]);
             }
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             
@@ -199,7 +204,7 @@
     }
     else
         if (buttonIndex ==0) {
-            NSLog(@"点击了取消");
+//            NSLog(@"点击了取消");
         }
 }
 

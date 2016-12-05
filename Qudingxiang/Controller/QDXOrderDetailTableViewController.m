@@ -329,7 +329,7 @@
 //        
 //    }
     cell.btnBlock = ^(){
-        NSLog(@"%ld",(long)indexPath.row);
+//        NSLog(@"%ld",(long)indexPath.row);
         QDXTicketInfoModel *ticketInfo = self.ticket[indexPath.row];
         QDXOrdermodel *OrderInfo = self.orderInfo[0];
         if (OrderInfo.Orders_st == 2 && ![ticketInfo.tstatus_name isEqualToString:@"已使用"]) {
@@ -425,7 +425,7 @@
             [self performSelectorOnMainThread:@selector(sussRes) withObject:nil waitUntilDone:YES];
         }else
         {
-            [self showProgessOK:@"加载失败"];
+
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
@@ -434,7 +434,7 @@
 
 -(void)pay
 {
-    [self showProgessMsg:@"正在加载"];
+
     [self performSelectorInBackground:@selector(getOrders) withObject:nil];
 }
 
@@ -444,7 +444,6 @@
     payVC.Order = self.orderInfo[0];
     payVC.ticketInfo = self.ticket[0];
     [self.navigationController pushViewController:payVC animated:YES];
-    [self showProgessOK:@"加载成功"];
 }
 
 - (void)bindSelf:(NSString *)withTID

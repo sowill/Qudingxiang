@@ -57,6 +57,8 @@
 
 #define QDXBGColor UIColorFromRGB(0xf5f5f5)
 
+#define QDXDarkBlue UIColorFromRGB(0x007aca)
+
 //是否提示
 #define     QDXPromptFile [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"prompt.data"]
 

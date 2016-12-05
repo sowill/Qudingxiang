@@ -19,6 +19,12 @@
 		451828B01D40C87A00D5FC85 /* UIView+EAFeatureGuideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 451828AA1D40C87A00D5FC85 /* UIView+EAFeatureGuideView.m */; };
 		451A143F1DC7375A003B8805 /* down_blue@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 451A143C1DC7375A003B8805 /* down_blue@2x.png */; };
 		451A14401DC7375A003B8805 /* XDMultTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 451A143E1DC7375A003B8805 /* XDMultTableView.m */; };
+		451BDEBD1DF54F1C00008959 /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = 451BDEB61DF54F1C00008959 /* Reachability.m */; };
+		451BDEBE1DF54F1C00008959 /* SGNetObserver.m in Sources */ = {isa = PBXBuildFile; fileRef = 451BDEB81DF54F1C00008959 /* SGNetObserver.m */; };
+		451BDEBF1DF54F1C00008959 /* SimplePing.m in Sources */ = {isa = PBXBuildFile; fileRef = 451BDEBA1DF54F1C00008959 /* SimplePing.m */; };
+		451BDEC01DF54F1C00008959 /* SimplePinger.m in Sources */ = {isa = PBXBuildFile; fileRef = 451BDEBC1DF54F1C00008959 /* SimplePinger.m */; };
+		451BDEC31DF551B000008959 /* QDXNoNetWorkView.m in Sources */ = {isa = PBXBuildFile; fileRef = 451BDEC21DF551B000008959 /* QDXNoNetWorkView.m */; };
+		451BDEC61DF56A3B00008959 /* QDXStateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 451BDEC51DF56A3B00008959 /* QDXStateView.m */; };
 		4525944D1D50D31A002BF84B /* LocalDBService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4525944C1D50D31A002BF84B /* LocalDBService.m */; };
 		452594501D51A0D1002BF84B /* LocalSqlliteService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4525944F1D51A0D1002BF84B /* LocalSqlliteService.m */; };
 		453395071CF6D8C800B5A825 /* FeHandwriting.m in Sources */ = {isa = PBXBuildFile; fileRef = 453394FF1CF6D8C800B5A825 /* FeHandwriting.m */; };
@@ -337,6 +343,18 @@
 		451A143C1DC7375A003B8805 /* down_blue@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "down_blue@2x.png"; sourceTree = "<group>"; };
 		451A143D1DC7375A003B8805 /* XDMultTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XDMultTableView.h; sourceTree = "<group>"; };
 		451A143E1DC7375A003B8805 /* XDMultTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XDMultTableView.m; sourceTree = "<group>"; };
+		451BDEB51DF54F1C00008959 /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
+		451BDEB61DF54F1C00008959 /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
+		451BDEB71DF54F1C00008959 /* SGNetObserver.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SGNetObserver.h; sourceTree = "<group>"; };
+		451BDEB81DF54F1C00008959 /* SGNetObserver.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SGNetObserver.m; sourceTree = "<group>"; };
+		451BDEB91DF54F1C00008959 /* SimplePing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimplePing.h; sourceTree = "<group>"; };
+		451BDEBA1DF54F1C00008959 /* SimplePing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimplePing.m; sourceTree = "<group>"; };
+		451BDEBB1DF54F1C00008959 /* SimplePinger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SimplePinger.h; sourceTree = "<group>"; };
+		451BDEBC1DF54F1C00008959 /* SimplePinger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SimplePinger.m; sourceTree = "<group>"; };
+		451BDEC11DF551B000008959 /* QDXNoNetWorkView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXNoNetWorkView.h; sourceTree = "<group>"; };
+		451BDEC21DF551B000008959 /* QDXNoNetWorkView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXNoNetWorkView.m; sourceTree = "<group>"; };
+		451BDEC41DF56A3B00008959 /* QDXStateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXStateView.h; sourceTree = "<group>"; };
+		451BDEC51DF56A3B00008959 /* QDXStateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXStateView.m; sourceTree = "<group>"; };
 		452523941BAABD6E0058A8BE /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		4525944B1D50D31A002BF84B /* LocalDBService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalDBService.h; sourceTree = "<group>"; };
 		4525944C1D50D31A002BF84B /* LocalDBService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalDBService.m; sourceTree = "<group>"; };
@@ -1052,6 +1070,21 @@
 			path = XDMultTableView;
 			sourceTree = "<group>";
 		};
+		451BDEB41DF54F1C00008959 /* SGNetObserver */ = {
+			isa = PBXGroup;
+			children = (
+				451BDEB51DF54F1C00008959 /* Reachability.h */,
+				451BDEB61DF54F1C00008959 /* Reachability.m */,
+				451BDEB71DF54F1C00008959 /* SGNetObserver.h */,
+				451BDEB81DF54F1C00008959 /* SGNetObserver.m */,
+				451BDEB91DF54F1C00008959 /* SimplePing.h */,
+				451BDEBA1DF54F1C00008959 /* SimplePing.m */,
+				451BDEBB1DF54F1C00008959 /* SimplePinger.h */,
+				451BDEBC1DF54F1C00008959 /* SimplePinger.m */,
+			);
+			path = SGNetObserver;
+			sourceTree = "<group>";
+		};
 		453394FC1CF6D8C800B5A825 /* FeSpinner */ = {
 			isa = PBXGroup;
 			children = (
@@ -1764,6 +1797,10 @@
 				45DBF72C1DE80DF4008FDA7D /* QDXSlideCollectionViewCell.m */,
 				45DBF72E1DE80F66008FDA7D /* QDXSlideTableViewCell.h */,
 				45DBF72F1DE80F66008FDA7D /* QDXSlideTableViewCell.m */,
+				451BDEC11DF551B000008959 /* QDXNoNetWorkView.h */,
+				451BDEC21DF551B000008959 /* QDXNoNetWorkView.m */,
+				451BDEC41DF56A3B00008959 /* QDXStateView.h */,
+				451BDEC51DF56A3B00008959 /* QDXStateView.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1992,6 +2029,7 @@
 		45DF765A1BA6AB150024A6B4 /* Lib */ = {
 			isa = PBXGroup;
 			children = (
+				451BDEB41DF54F1C00008959 /* SGNetObserver */,
 				459C431C1DED72B000437712 /* XBScrollPageController */,
 				45CA51F21DE452270025A376 /* MJRefresh */,
 				459BB49A1DDAEFFC00DBEC39 /* LeftSlideViewController */,
@@ -2263,6 +2301,7 @@
 				A35DAC761CCF5B9B00D01CF0 /* MineViewController.m in Sources */,
 				45CA52261DE452270025A376 /* MJRefreshAutoGifFooter.m in Sources */,
 				A3442D211C9B946A0092363A /* AboutUsViewController.m in Sources */,
+				451BDEBF1DF54F1C00008959 /* SimplePing.m in Sources */,
 				4557C6161D18E3ED0092CC56 /* CheckDataTool.m in Sources */,
 				453395241CF6F50B00B5A825 /* FeHourGlass.m in Sources */,
 				A31287A31CCF0DA200CB887E /* line_pointModel.m in Sources */,
@@ -2302,9 +2341,11 @@
 				459BB4991DDAE49A00DBEC39 /* TipsManager.m in Sources */,
 				45C6F5F91C92A3DF00C5AA31 /* QDXTeamsViewController.m in Sources */,
 				4556117D1D543E75006DF063 /* HUTransitionHorizontalLinesAnimator.m in Sources */,
+				451BDEC61DF56A3B00008959 /* QDXStateView.m in Sources */,
 				455A95BB1C97E3EB0039FA88 /* NSObject+MJCoding.m in Sources */,
 				453395091CF6D8C800B5A825 /* UIColor+flat.m in Sources */,
 				459BB4A61DDAEFFD00DBEC39 /* UIView_extra.m in Sources */,
+				451BDEBE1DF54F1C00008959 /* SGNetObserver.m in Sources */,
 				4569E56C1C4CB64B00FF4E8B /* JTSImageViewController.m in Sources */,
 				45C6F5911C92A13A00C5AA31 /* ActModel.m in Sources */,
 				4569E56D1C4CB64B00FF4E8B /* JTSSimpleImageDownloader.m in Sources */,
@@ -2334,6 +2375,7 @@
 				4556CD6E1CED672600577A61 /* QDXMap.m in Sources */,
 				4569E5721C4CB64B00FF4E8B /* QRCodeGenerator.m in Sources */,
 				4569E5731C4CB64B00FF4E8B /* qrencode.c in Sources */,
+				451BDEBD1DF54F1C00008959 /* Reachability.m in Sources */,
 				4569E5741C4CB64B00FF4E8B /* qrinput.c in Sources */,
 				45DBF72A1DE80B53008FDA7D /* QDXSlideHeaderCell.m in Sources */,
 				A35DAC331CCF184000D01CF0 /* AFNetworkReachabilityManager.m in Sources */,
@@ -2401,11 +2443,13 @@
 				4582B7D91C98F3680002F5B1 /* point_questionModel.m in Sources */,
 				45C6F5B31C92A2D500C5AA31 /* QDXBindViewController.m in Sources */,
 				455C8A951CCF7827001F5FC5 /* APWebViewController.m in Sources */,
+				451BDEC31DF551B000008959 /* QDXNoNetWorkView.m in Sources */,
 				45FAC8A21DD0571B004A6531 /* QDXPointSettingViewController.m in Sources */,
 				4569E5861C4CB64B00FF4E8B /* UIImage+GIF.m in Sources */,
 				A35DAC321CCF184000D01CF0 /* AFHTTPSessionManager.m in Sources */,
 				4571CDEE1CE05B00002ED784 /* CYAlertDismissSlideUp.m in Sources */,
 				A340BE171C96ACB4009F40FD /* BaseViewController.m in Sources */,
+				451BDEC01DF54F1C00008959 /* SimplePinger.m in Sources */,
 				4569E5871C4CB64B00FF4E8B /* UIImage+MultiFormat.m in Sources */,
 				45CA52301DE452270025A376 /* MJRefreshConst.m in Sources */,
 				45C6F5F71C92A3DF00C5AA31 /* QDXLineChooseViewController.m in Sources */,

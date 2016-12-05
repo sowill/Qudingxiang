@@ -66,7 +66,11 @@
     [super viewWillAppear:animated];
     [self loadData];
      appdelegate = [[UIApplication sharedApplication] delegate];
-    
+}
+
+-(void)reloadData
+{
+    [self loadData];
 }
 
 - (void)viewDidDisappear:(BOOL)animated
@@ -104,6 +108,10 @@
     //    }
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stateRefresh) name:@"stateRefresh" object:nil];
+}
+
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"stateRefresh" object:nil];
 }
 
 - (void)stateRefresh
@@ -245,12 +253,12 @@
 
 - (void)sussRes
 {
-    [self hideProgess];
+    
 }
 
 - (void)failRes
 {
-    [self showProgessOK:@"加载失败"];
+   
 }
 
 - (void)topViewData
@@ -294,7 +302,6 @@
 
 - (void)state
 {
-    [self showProgessMsg:@"加载中"];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     appdelegate.loading = YES;
     [homehttp statesucceed:^(id data) {
@@ -309,7 +316,7 @@
         appdelegate.loading = NO;
         dispatch_async(dispatch_get_main_queue(), ^{
             [self changeScanBtn];
-            [self hideProgess];
+
         });
         
     } failure:^(NSError *error) {
@@ -325,17 +332,16 @@
 
 - (void)dbversion
 {
-    [self showProgessMsg:@"加载中"];
     [homehttp dbversionsucceed:^(id data) {
-        [self hideProgess];
+        
     } failure:^(NSError *error) {
-        [self hideProgess];
+        
     }];
 }
 
 - (void)cellDataWith:(NSString *)cur isRemoveAll:(BOOL)isRemoveAll andWithType:(NSString *)type
 {
-        [self showProgessMsg:@"加载中"];
+
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [homehttp loadCellsucceed:^(id data) {
             NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments | NSJSONReadingMutableLeaves error:nil];
@@ -354,7 +360,6 @@
             dispatch_async(dispatch_get_main_queue(), ^{
                 [_tableView reloadData];
 
-                [self hideProgess];
             });
             
             //[self performSelectorOnMainThread:@selector(sussRes) withObject:nil waitUntilDone:YES];
@@ -469,7 +474,7 @@
     ImagePickerController *imageVC = [[ImagePickerController alloc] initWithBlock:^(NSString *result, BOOL flag, NSString *from) {
         imageVC.from = from;
         _result = result;
-        NSLog(@"%@",_result);
+//        NSLog(@"%@",_result);
         [self netWorking];
     }];
     imageVC.hidesBottomBarWhenPushed =YES;

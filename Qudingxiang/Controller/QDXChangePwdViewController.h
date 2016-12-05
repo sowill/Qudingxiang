@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QDXChangePwdViewController : BaseViewController
+@interface QDXChangePwdViewController : UIViewController
 
 @end

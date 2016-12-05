@@ -7,12 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QDXNoNetWorkView.h"
 
-@interface BaseViewController : UIViewController
-- (void)hideProgess;
-- (void)showProgessMsg:(NSString *)msg;
-- (void)showProgessOK:(NSString *)msg;
-- (void)showProgessError:(NSString *)msg;
-- (void)showNotData:(NSString *)msg;
+@interface BaseViewController : UIViewController<CheckNetworkDelegate>
+//- (void)hideProgess;
+//- (void)showProgessMsg:(NSString *)msg;
+//- (void)showProgessOK:(NSString *)msg;
+//- (void)showProgessError:(NSString *)msg;
+//- (void)showNotData:(NSString *)msg;
 
+- (void)reloadData;
 @end

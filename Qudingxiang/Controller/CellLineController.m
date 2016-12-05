@@ -40,8 +40,11 @@
     {
         [_tableView setLayoutMargins:UIEdgeInsetsZero];
     }
+}
 
-    
+-(void)reloadData
+{
+    [self netData];
 }
 
 - (void)createTableView

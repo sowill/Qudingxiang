@@ -126,6 +126,8 @@
             //每一个按钮的宽度==tabbar的五分之一
             btn.width = self.width / 5;
             
+            btn.y = -3;
+            
             btn.x = btn.width * btnIndex;
             
             btnIndex++;
@@ -133,7 +135,6 @@
             if (btnIndex == 2) {
                 btnIndex++;
             }
-            
         }
     }
     

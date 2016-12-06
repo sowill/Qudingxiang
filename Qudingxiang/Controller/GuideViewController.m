@@ -91,7 +91,7 @@
         [_pageControl removeFromSuperview];
         
         LBTabBarController *tabVC = [[LBTabBarController alloc] init];
-        
+        tabVC.selectedIndex = 0;
         MineViewController *leftVC = [[MineViewController alloc] init];
         MCLeftSlideViewController *rootVC = [[MCLeftSlideViewController alloc] initWithLeftView:leftVC andMainView:tabVC];
         UIApplication *app = [UIApplication sharedApplication];

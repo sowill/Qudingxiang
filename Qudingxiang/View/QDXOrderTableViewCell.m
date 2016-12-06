@@ -105,6 +105,16 @@
     [self.payButton setTitle:@"去支付" forState:UIControlStateNormal];
     self.payButton.titleLabel.font = [UIFont systemFontOfSize:16];
     [self.payButton addTarget:self action:@selector(payButtonClick) forControlEvents:UIControlEventTouchUpInside];
+    
+//    UIView *view2 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, 80)];
+//    view2.backgroundColor = [UIColor redColor];
+//    [self.BGView addSubview:view2];
+//    
+//    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:view2.bounds byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii:CGSizeMake(10, 10)];
+//    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+//    maskLayer.frame = view2.bounds;
+//    maskLayer.path = maskPath.CGPath;
+//    view2.layer.mask = maskLayer;
 
 }
 

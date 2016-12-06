@@ -40,7 +40,7 @@
 
 - (void)networkStatusChanged:(NSNotification *)notify{
 //    NSLog(@"notify-------%@",notify.userInfo[@"status"]);
-    
+
     if ([notify.userInfo[@"status"] intValue] == 0) {
         [self showNoNetworkView];
     }else{

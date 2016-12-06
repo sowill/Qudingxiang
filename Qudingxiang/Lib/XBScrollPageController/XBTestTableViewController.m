@@ -97,12 +97,10 @@
 -(void)stateRefresh
 {
     curr = 1;
-    [_loginView removeFromSuperview];
-    [_noThingView removeFromSuperview];
-    [self loadData];
+    [self getOrdersListAjax];
 }
 
-- (void) createTableView
+- (void)createTableView
 {
     self.tableview = [[UITableView alloc] initWithFrame:CGRectMake(0,0, QdxWidth, QdxHeight - FitRealValue(120)-64) style:UITableViewStylePlain];
     self.tableview.delegate = self;
@@ -184,6 +182,7 @@
 {
     if(save == nil){
         [self createLoginView];
+        return;
     }else{
         [OrderService cellDataBlock:^(NSMutableDictionary *dict) {
             QDXIsConnect *isConnect = [QDXIsConnect mj_objectWithKeyValues:dict];
@@ -225,21 +224,39 @@
                                 break;
                         }
                     }
-                    
+
                 }else{
                     self.orders = [[NSMutableArray alloc] init];
                     self.willPayOrders = [[NSMutableArray alloc] init];
                     self.didCompleted = [[NSMutableArray alloc] init];
                     self.didPayOrders = [[NSMutableArray alloc] init];
-                    [self createSadView];
+                    [self createSadViewWithDetail: @"您暂时还没有订单哦~"];
                 }
+                
+                if (self.didCompleted.count == 0 && [_XBParam intValue] == 3) {
+                    [self.tableview removeFromSuperview];
+                    [self createSadViewWithDetail: @"您暂时还没有已完成的订单哦~"];
+                }else if (self.didPayOrders.count == 0 && [_XBParam intValue] == 2){
+                    [self.tableview removeFromSuperview];
+                    [self createSadViewWithDetail: @"您暂时还没有已支付的订单哦~"];
+                }else if (self.willPayOrders.count == 0 && [_XBParam intValue] == 1){
+                    [self.tableview removeFromSuperview];
+                    [self createSadViewWithDetail: @"您暂时还没有待支付的订单哦~"];
+                }else if (self.orders.count == 0 && [_XBParam intValue] == 0){
+                    [self.tableview removeFromSuperview];
+                    [self createSadViewWithDetail: @"您暂时还没有订单哦~"];
+                }else{
+                    [_loginView removeFromSuperview];
+                    [_noThingView removeFromSuperview];
+                }
+                
                 [self performSelectorOnMainThread:@selector(sussRes) withObject:nil waitUntilDone:YES];
             }else{
 
             }
+            [self.tableview.mj_footer endRefreshing];
             // 刷新表格
             [self.tableview reloadData];
-            [self.tableview.mj_footer endRefreshing];
         } FailBlock:^(NSMutableArray *array) {
             
         } andWithToken:save andWithCurr:[NSString stringWithFormat:@"%d",curr]];
@@ -248,7 +265,7 @@
 
 -(void)sussRes
 {
-    
+
 }
 
 - (void)setXBParam:(NSString *)XBParam
@@ -292,13 +309,17 @@
     }];
 }
 
-- (void)createSadView
+- (void)createSadViewWithDetail :(NSString *)detail
 {
     _noThingView = [[QDXStateView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight - 49)];
     _noThingView.tag = 2;
     _noThingView.delegate = self;
     _noThingView.stateImg.image = [UIImage imageNamed:@"order_nothing"];
-    _noThingView.stateDetail.text = @"您暂时还没有订单哦~";
+    if ([detail length] == 0) {
+        _noThingView.stateDetail.text = @"您暂时还没有订单哦~";
+    }else{
+        _noThingView.stateDetail.text = detail;
+    }
     [_noThingView.stateButton setTitle:@"立即下单" forState:UIControlStateNormal];
     [self.view addSubview:_noThingView];
 }
@@ -337,13 +358,15 @@
     __weak __typeof(self) weakSelf = self;
     
     cell.deleteBtnBlock= ^(){
+        __strong __typeof(self) strongSelf = weakSelf;
+        
         QDXOrdermodel *order = [[QDXOrdermodel alloc] init];
         if ([_XBParam intValue] == 0) {
-            order = weakSelf.orders[indexPath.row];
+            order = strongSelf.orders[indexPath.row];
         }else if([_XBParam intValue] == 1){
-            order = weakSelf.willPayOrders[indexPath.row];
+            order = strongSelf.willPayOrders[indexPath.row];
         }else{
-            order = weakSelf.orders[indexPath.row];
+            order = strongSelf.orders[indexPath.row];
         }
         
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"删除" message:@"是否删除当前订单" preferredStyle:UIAlertControllerStyleAlert];
@@ -352,28 +375,32 @@
             [self deleteOrder:order.Orders_id];
             
             if ([_XBParam intValue] == 0) {
-                [weakSelf.orders removeObjectAtIndex:indexPath.row];
+                [strongSelf.orders removeObjectAtIndex:indexPath.row];
             }else if([_XBParam intValue] == 1){
-                [weakSelf.willPayOrders removeObjectAtIndex:indexPath.row];
+                [strongSelf.willPayOrders removeObjectAtIndex:indexPath.row];
             }else{
-                [weakSelf.orders removeObjectAtIndex:indexPath.row];
+                [strongSelf.orders removeObjectAtIndex:indexPath.row];
             }
 
-            [weakSelf.tableview deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationMiddle];
-            [weakSelf.tableview reloadData];
+            [strongSelf.tableview deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationMiddle];
+            [strongSelf.tableview reloadData];
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"stateRefresh" object:nil];
         }];
         [alertController addAction:cancelAction];
         [alertController addAction:okAction];
-        [weakSelf presentViewController:alertController animated:YES completion:nil];
+        [strongSelf presentViewController:alertController animated:YES completion:nil];
     };
     
     cell.payBtnBlock= ^(){
+        __strong __typeof(self) strongSelf = weakSelf;
+        
         QDXPayTableViewController *payVC=[[QDXPayTableViewController alloc]init];
-        QDXOrdermodel *order = weakSelf.orders[indexPath.row];
-        payVC.Order = weakSelf.orders[indexPath.row];
+        QDXOrdermodel *order = strongSelf.orders[indexPath.row];
+        payVC.Order = strongSelf.orders[indexPath.row];
         payVC.ticketInfo = order.TicketInfo[indexPath.row];
         payVC.hidesBottomBarWhenPushed = YES;
-        [weakSelf.navigationController pushViewController:payVC animated:YES];
+        [strongSelf.navigationController pushViewController:payVC animated:YES];
     };
     
     // 2.给cell传递模型数据

@@ -338,7 +338,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             
             
-            id jsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:Nil];
+//            id jsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:Nil];
             
             [self QQandWXLogin];
             

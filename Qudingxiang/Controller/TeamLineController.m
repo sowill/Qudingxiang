@@ -10,9 +10,9 @@
 #import "QDXGameViewController.h"
 #import "MineModel.h"
 #import "MineCell.h"
-#import "LBTabBarController.h"
 #import "QDXNavigationController.h"
 #import "MineCellService.h"
+
 @interface TeamLineController ()<UITableViewDataSource,UITableViewDelegate>
 {
     UITableView *_tableView;

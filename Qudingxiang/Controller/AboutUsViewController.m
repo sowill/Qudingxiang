@@ -8,7 +8,6 @@
 
 #import "AboutUsViewController.h"
 #import "NoticeViewController.h"
-#import "LBTabBarController.h"
 #import "QDXPointListViewController.h"
 
 @interface AboutUsViewController ()<UIAlertViewDelegate,UITableViewDelegate,UITableViewDataSource>
@@ -54,28 +53,6 @@
         [cell setLayoutMargins:UIEdgeInsetsZero];
     }
 }
-
-//-(void)createButtonBack
-//{
-//    UIButton *buttonBack = [UIButton buttonWithType:UIButtonTypeSystem];
-//    buttonBack.frame = CGRectMake(0, 0, 18, 14);
-//    [buttonBack addTarget:self action:@selector(buttonBackSetting) forControlEvents:UIControlEventTouchUpInside];
-//    [buttonBack setTitle:nil forState:UIControlStateNormal];
-//    [buttonBack setBackgroundImage:[UIImage imageNamed:@"sign_return"] forState:UIControlStateNormal];
-//    buttonBack.backgroundColor = [UIColor clearColor];
-//    
-//    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:buttonBack];
-//    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-//    negativeSpacer.width = -10;
-//    self.navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
-//}
-
-//-(void)buttonBackSetting
-//{
-//    [self.sideMenuViewController setContentViewController:[[LBTabBarController alloc] init]
-//                                                 animated:YES];
-//    [self.sideMenuViewController hideMenuViewController];
-//}
 
 - (void)createTableView
 {

@@ -56,7 +56,7 @@
     //设置线路详情
     [self setupDetail];
 
-    UIButton *share = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 17, 16)];
+    UIButton *share = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, FitRealValue(53), FitRealValue(52))];
     [share addTarget:self action:@selector(shareClick) forControlEvents:UIControlEventTouchUpInside];
     [share setImage:[UIImage imageNamed:@"Share"] forState:UIControlStateNormal];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:share];
@@ -141,18 +141,28 @@
     self.navigationItem.title = @"详情";
     
     // 进度条
-    UIProgressView *progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth,6)];
-    progressView.tintColor = [UIColor colorWithRed:0.000 green:0.600 blue:0.992 alpha:1.000];
+//    UIProgressView *progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth,6)];
+//    progressView.tintColor = QDXLightBlue;
+//    progressView.trackTintColor = [UIColor whiteColor];
+//    [self.view addSubview:progressView];
+    
+    CGFloat progressBarHeight = FitRealValue(10);
+    CGRect navigationBarBounds = self.navigationController.navigationBar.bounds;
+    CGRect barFrame = CGRectMake(0, navigationBarBounds.size.height, navigationBarBounds.size.width, progressBarHeight);
+    UIProgressView *progressView = [[UIProgressView alloc] initWithFrame:barFrame];
+    progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
     progressView.trackTintColor = [UIColor whiteColor];
-    [self.view addSubview:progressView];
+    progressView.tintColor = QDXBlue;
+    [self.navigationController.navigationBar addSubview:progressView];
+    
     self.progressView = progressView;
     
     _webView = [[WKWebView alloc] initWithFrame:self.view.bounds];
     _webView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     _webView.backgroundColor = [UIColor whiteColor];
     _webView.navigationDelegate = self;
-    
-    [self.view insertSubview:_webView belowSubview:progressView];
+    [self.view addSubview:_webView];
+//    [self.view insertSubview:_webView belowSubview:progressView];
     
     [_webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:nil];
     
@@ -462,13 +472,16 @@
 {
     if(_indexNum == 99){
         return;
+    }else{
+        _indexNum++;
+        _numberLabel.text = [NSString stringWithFormat:@"%i",_indexNum];
+        [self payDataWithNumber:@"1" PassNum:NO];
+        _priceStr = [_homeModel.goods_price intValue];
+        _totalPrice += _priceStr;
+        _price.text = [NSString stringWithFormat:@"¥%.2f",_totalPrice];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"stateRefresh" object:nil];
     }
-    ++_indexNum;
-    _numberLabel.text = [NSString stringWithFormat:@"%i",_indexNum];
-    [self payDataWithNumber:@"1" PassNum:NO];
-    _priceStr = [_homeModel.goods_price intValue];
-    _totalPrice += _priceStr;
-    _price.text = [NSString stringWithFormat:@"¥%.2f",_totalPrice];
 }
 
 - (void)minClick
@@ -476,12 +489,14 @@
     if(_indexNum == 0){
         return;
     }else{
-    --_indexNum;
+    _indexNum--;
     _numberLabel.text = [NSString stringWithFormat:@"%i",_indexNum];
     [self payDataWithNumber:@"2" PassNum:NO];
         _priceStr = [_homeModel.goods_price intValue];
         _totalPrice -= _priceStr;
         _price.text = [NSString stringWithFormat:@"¥%.2f",_totalPrice];
+        
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"stateRefresh" object:nil];
     }
     
 }

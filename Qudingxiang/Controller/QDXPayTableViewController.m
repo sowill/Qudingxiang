@@ -32,27 +32,27 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.title = @"支付";
-    self.view.backgroundColor=[UIColor colorWithWhite:0.949 alpha:1.000];
+    self.title = @"订单支付";
+    self.view.backgroundColor = QDXBGColor;
     [self createTableView];
     aliOrWX = 2;
 }
 
 -(void)createTableView
 {
-    self.tableview = [[UITableView alloc] initWithFrame:CGRectMake(0, 10, QdxWidth, 245) style:UITableViewStylePlain];
+    self.tableview = [[UITableView alloc] initWithFrame:CGRectMake(0, FitRealValue(20), QdxWidth, FitRealValue(580)) style:UITableViewStylePlain];
     self.tableview.delegate = self;
     self.tableview.dataSource = self;
     self.tableview.showsVerticalScrollIndicator = NO;
-    self.tableview.backgroundColor = [UIColor colorWithWhite:0.949 alpha:1.000];
+    self.tableview.backgroundColor = QDXBGColor;
     self.tableview.scrollEnabled =NO;
     self.tableview.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.view addSubview:self.tableview];
     
-    pay = [[UIButton alloc] initWithFrame:CGRectMake(10, 245, QdxWidth-20, 40)];
+    pay = [[UIButton alloc] initWithFrame:CGRectMake(FitRealValue(24), FitRealValue(580), QdxWidth - FitRealValue(24 + 24), FitRealValue(80))];
     [pay setTitle:@"确认支付" forState:UIControlStateNormal];
     pay.userInteractionEnabled = NO;
-    [pay setBackgroundImage:[ToolView createImageWithColor:[UIColor colorWithWhite:0.773 alpha:1.000]] forState:UIControlStateNormal];
+    [pay setBackgroundImage:[ToolView createImageWithColor:QDXLightGray] forState:UIControlStateNormal];
     [pay setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [pay setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
     [pay addTarget:self action:@selector(pay) forControlEvents:UIControlEventTouchUpInside];
@@ -61,7 +61,6 @@
 }
 -(void)pay
 {
-    pay.userInteractionEnabled = NO;
     if (aliOrWX == 1) {
         [self AlipayClicked];
         pay.userInteractionEnabled = YES;
@@ -75,7 +74,8 @@
 
 #pragma mark - Table view data source
 
--(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView{
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
     return 2;
 }
 
@@ -99,47 +99,31 @@
                 initWithStyle:UITableViewCellStyleDefault
                 reuseIdentifier:CellIdentifier];
     }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     if (indexPath.section == 1&&indexPath.row == 0) {
-//        UILabel *wxText = [[UILabel alloc] initWithFrame:CGRectMake(40 + 10 + 10, 21, 100, 18)];
-//        wxText.text = @"微信支付";
-//        wxText.font = [UIFont systemFontOfSize:14];
-//        wxText.textColor = [UIColor colorWithWhite:0.067 alpha:1.000];
-//        UIImageView *wxImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 40, 40)];
-//        wxImage.image = [UIImage imageNamed:@"微信"];
-//        [cell addSubview:wxText];
-//        [cell addSubview:wxImage];
         cell.textLabel.text = @"微信支付";
-        cell.imageView.image = [UIImage imageNamed:@"微信"];
-        WXselect = [[UIImageView alloc] initWithFrame:CGRectMake(QdxWidth - 35, 21, 18, 18)];
+        cell.imageView.image = [UIImage imageNamed:@"微信支付"];
+        WXselect = [[UIImageView alloc] initWithFrame:CGRectMake(QdxWidth - FitRealValue(24 + 43), FitRealValue(48), FitRealValue(43), FitRealValue(43))];
         WXselect.image = [UIImage imageNamed:@"勾选默认"];
         [cell addSubview:WXselect];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }else if (indexPath.section == 1&&indexPath.row == 1){
-//        UILabel *aliText = [[UILabel alloc] initWithFrame:CGRectMake(40 + 10 + 10, 21, 100, 18)];
-//        aliText.text = @"支付宝支付";
-//        aliText.font = [UIFont systemFontOfSize:14];
-//        aliText.textColor = [UIColor colorWithWhite:0.067 alpha:1.000];
-//        UIImageView *aliImage = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, 40, 40)];
-//        aliImage.image = [UIImage imageNamed:@"支付宝"];
-//        [cell addSubview:aliText];
-//        [cell addSubview:aliImage];
         cell.textLabel.text = @"支付宝支付";
-        cell.imageView.image = [UIImage imageNamed:@"支付宝"];
-        Aliselect = [[UIImageView alloc] initWithFrame:CGRectMake(QdxWidth - 35, 21, 18, 18)];
+        cell.imageView.image = [UIImage imageNamed:@"支付宝支付"];
+        Aliselect = [[UIImageView alloc] initWithFrame:CGRectMake(QdxWidth - FitRealValue(24 + 43), FitRealValue(48), FitRealValue(43), FitRealValue(43))];
         Aliselect.image = [UIImage imageNamed:@"勾选默认"];
         [cell addSubview:Aliselect];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }else if (indexPath.section == 0&&indexPath.row == 0){
         cell.textLabel.text = @"总额";
-        cell.textLabel.font = [UIFont systemFontOfSize:14];
-        cell.textLabel.textColor = [UIColor colorWithWhite:0.400 alpha:1.000];
-        UILabel *cost = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth - 65, 5, 100, 30)];
-        cost.textColor = [UIColor colorWithRed:1.000 green:0.318 blue:0.000 alpha:1.000];
-        cost.font = [UIFont systemFontOfSize:16];
+        cell.textLabel.font = [UIFont systemFontOfSize:16];
+        cell.textLabel.textColor = QDXGray;
+        UILabel *cost = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth/2 - FitRealValue(24), 0, QdxWidth/2, FitRealValue(100))];
+        cost.textColor = QDXOrange;
+        cost.textAlignment = NSTextAlignmentRight;
+        cost.font = [UIFont systemFontOfSize:20];
         cost.text =[@"¥" stringByAppendingString: self.Order.Orders_am];
         [cell addSubview:cost];
         cell.backgroundColor = [UIColor colorWithRed:0.996 green:0.957 blue:0.800 alpha:1.000];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
     return cell;
 }
@@ -148,15 +132,15 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) {
-        return 40;
+        return FitRealValue(100);
     }else{
-        return 60;
+        return FitRealValue(140);
     }
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
     
-    CGFloat sectionHeaderHeight = 40;
+    CGFloat sectionHeaderHeight = FitRealValue(60);
     
     if (scrollView.contentOffset.y<=sectionHeaderHeight&&scrollView.contentOffset.y>=0) {
         
@@ -167,21 +151,21 @@
         scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
         
     }
-    
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if(section == 1){
-        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, 40)];
+        UIView *headerView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, FitRealValue(100))];
         headerView.backgroundColor = [UIColor whiteColor];
-        UILabel *header = [[UILabel alloc] initWithFrame:CGRectMake(10, 15, QdxWidth *  0.7 , 20)];
+        UILabel *header = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(24), 0, QdxWidth *  0.7 , FitRealValue(100))];
         header.text = @"选择支付方式";
-        header.textColor = [UIColor colorWithWhite:0.067 alpha:1.000];
-        header.font = [UIFont fontWithName:@"Arial" size:14];
+        header.textColor = QDXBlack;
+        header.font = [UIFont fontWithName:@"Arial" size:17];
+        header.textAlignment = NSTextAlignmentLeft;
         [headerView addSubview:header];
-        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 44, QdxWidth, 1)];
-        lineView.backgroundColor = [UIColor colorWithWhite:0.875 alpha:1.000];
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(FitRealValue(24), FitRealValue(100), QdxWidth - FitRealValue(24 + 24), 0.5)];
+        lineView.backgroundColor = QDXLineColor;
         [headerView addSubview:lineView];
         return headerView;
     }
@@ -191,7 +175,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
 {
     if (section == 0) {
-        return 10;
+        return FitRealValue(20);
     }else{
         return 0;
     }
@@ -200,7 +184,7 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     if (section == 1) {
-        return 40;
+        return FitRealValue(80 + 20);
     }else{
         return 0;
     }
@@ -208,10 +192,10 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
-        [cell setSeparatorInset:UIEdgeInsetsMake(0,0, 0, 0)];
+        [cell setSeparatorInset:UIEdgeInsetsMake(0,FitRealValue(24), 0,FitRealValue(24))];
     }
     if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
-        [cell setLayoutMargins:UIEdgeInsetsMake(0,0, 0, 0)];
+        [cell setLayoutMargins:UIEdgeInsetsMake(0,FitRealValue(24), 0, FitRealValue(24))];
     }
 }
 
@@ -220,14 +204,21 @@
         WXselect.image = [UIImage imageNamed:@"勾选选中"];
         Aliselect.image = [UIImage imageNamed:@"勾选默认"];
         aliOrWX = 0;
+        
+        pay.userInteractionEnabled = NO;
+        [pay setBackgroundImage:[ToolView createImageWithColor:QDXLightGray] forState:UIControlStateNormal];
+        
         [self getWeixinpay];
     }else if (indexPath.section == 1&&indexPath.row==1){
         Aliselect.image = [UIImage imageNamed:@"勾选选中"];
         WXselect.image = [UIImage imageNamed:@"勾选默认"];
         aliOrWX = 1;
+        
+        pay.userInteractionEnabled = NO;
+        [pay setBackgroundImage:[ToolView createImageWithColor:QDXLightGray] forState:UIControlStateNormal];
+        
         [self getAlipayapp];
     }
-    
 }
 
 -(void)getAlipayapp

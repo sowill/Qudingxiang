@@ -79,15 +79,14 @@
     
     //    tabbar.backgroundColor = [UIColor whiteColor];
     
+    
     self.publishButton = [[UIButton alloc] init];
     [self.publishButton setBackgroundImage:[UIImage imageNamed:@"post_normal"] forState:UIControlStateNormal];
     [self.publishButton setBackgroundImage:[UIImage imageNamed:@"post_normal"] forState:UIControlStateHighlighted];
     
-//    [self.publishButton addTarget:self action:@selector(cancelButtonClicked) forControlEvents:UIControlEventTouchUpInside];
     self.publishButton.size = CGSizeMake(self.publishButton.currentBackgroundImage.size.width, self.publishButton.currentBackgroundImage.size.height);
     self.publishButton.centerX = self.view.centerX;
     self.publishButton.centerY = tabbar.height * 0.5 - 2 * LBMagin + CGRectGetMinY(tabbar.frame);
-    
 }
 
 - (void)viewDidLoad {
@@ -95,11 +94,6 @@
     
     [self setUpAllChildVc];
     
-//    //创建自己的tabbar，然后用kvc将自己的tabbar和系统的tabBar替换下
-//    LBTabBar *tabbar = [[LBTabBar alloc] init];
-//    tabbar.myDelegate = self;
-//    //kvc实质是修改了系统的_tabBar
-//    [self setValue:tabbar forKeyPath:@"tabBar"];
 }
 
 
@@ -108,7 +102,6 @@
 
 - (void)setUpAllChildVc
 {
-
     HomeController *homeVC = [[HomeController alloc] init];
     [self setUpOneChildVcWithVc:homeVC Image:@"index_home_nomal" selectedImage:@"index_home_click" title:@"首页"];
     ActivityController *activityVC = [[ActivityController alloc] init];

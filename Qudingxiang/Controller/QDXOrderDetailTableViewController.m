@@ -328,10 +328,14 @@
 //    }else{
 //        
 //    }
+    __weak __typeof(self) weakSelf = self;
+    
     cell.btnBlock = ^(){
-//        NSLog(@"%ld",(long)indexPath.row);
-        QDXTicketInfoModel *ticketInfo = self.ticket[indexPath.row];
-        QDXOrdermodel *OrderInfo = self.orderInfo[0];
+        
+        __strong __typeof(self) strongSelf = weakSelf;
+        
+        QDXTicketInfoModel *ticketInfo = strongSelf.ticket[indexPath.row];
+        QDXOrdermodel *OrderInfo = strongSelf.orderInfo[0];
         if (OrderInfo.Orders_st == 2 && ![ticketInfo.tstatus_name isEqualToString:@"已使用"]) {
             NSString *message = @"是否使用当前活动券";
             if(_line == 1){
@@ -340,46 +344,46 @@
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"使用" message:message preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
             UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
-                [self bindSelf:ticketInfo.ticketinfo_name];
-                [self.ticket removeObjectAtIndex:indexPath.row];
-                [self.tableview deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationMiddle];
-                [self.tableview reloadData];
+                [strongSelf bindSelf:ticketInfo.ticketinfo_name];
+                [strongSelf.ticket removeObjectAtIndex:indexPath.row];
+                [strongSelf.tableview deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationMiddle];
+                [strongSelf.tableview reloadData];
                 [[NSNotificationCenter defaultCenter] postNotificationName:@"stateRefresh" object:nil];
-                [self state];
+                [strongSelf state];
             }];
             [alertController addAction:cancelAction];
             if(_line != 1){
                 [alertController addAction:okAction];
             }
-            [self presentViewController:alertController animated:YES completion:nil];
+            [strongSelf presentViewController:alertController animated:YES completion:nil];
 
         }else if (OrderInfo.Orders_st == 1){
             
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"删除" message:@"是否删除当前活动券" preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
             UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
-                [self deleteTicket:ticketInfo.ticket_id];
-                [self.ticket removeObjectAtIndex:indexPath.row];
-                [self.tableview deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationMiddle];
-                [self.tableview reloadData];
+                [strongSelf deleteTicket:ticketInfo.ticket_id];
+                [strongSelf.ticket removeObjectAtIndex:indexPath.row];
+                [strongSelf.tableview deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationMiddle];
+                [strongSelf.tableview reloadData];
             }];
             [alertController addAction:cancelAction];
             [alertController addAction:okAction];
-            [self presentViewController:alertController animated:YES completion:nil];
+            [strongSelf presentViewController:alertController animated:YES completion:nil];
             
         }else{
             
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"添加" message:@"是否添加当前活动券" preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
             UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
-                [self addTicket:ticketInfo.ticket_id];
-                [self.ticket removeObjectAtIndex:indexPath.row];
-                [self.tableview deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationMiddle];
-                [self.tableview reloadData];
+                [strongSelf addTicket:ticketInfo.ticket_id];
+                [strongSelf.ticket removeObjectAtIndex:indexPath.row];
+                [strongSelf.tableview deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationMiddle];
+                [strongSelf.tableview reloadData];
             }];
             [alertController addAction:cancelAction];
             [alertController addAction:okAction];
-            [self presentViewController:alertController animated:YES completion:nil];
+            [strongSelf presentViewController:alertController animated:YES completion:nil];
             
         }
     };

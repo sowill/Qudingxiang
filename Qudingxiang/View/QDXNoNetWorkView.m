@@ -7,6 +7,7 @@
 //
 
 #import "QDXNoNetWorkView.h"
+#import "Reachability.h"
 
 @implementation QDXNoNetWorkView
 
@@ -58,7 +59,7 @@
 
 /** 重新查看按钮点击 */
 - (void)checkNetworkButtonClicked{
-//    if (1) {
+    if ([self isNetWorkRunning]) {
         // 如果有网，view消失，并且让代理方执行代理方法
         for (QDXNoNetWorkView *view in [self getCurrentViewController].view.subviews) {
             if ([view isMemberOfClass:[QDXNoNetWorkView class]]) {
@@ -70,10 +71,29 @@
         if ([self.delegate respondsToSelector:@selector(reloadData)]) {
             [self.delegate reloadData];
         }
-//    }else{
-//        // 如果没网，toast提示
-//        [MBProgressHUD showError:@"请检查你的网络连接"];
-//    }
+    }else{
+        // 如果没网，toast提示
+        [MBProgressHUD showError:@"请检查你的网络连接"];
+    }
+}
+
+- (BOOL)isNetWorkRunning{
+    BOOL isExistenceNetwork=YES;
+    Reachability *r = [Reachability reachabilityWithHostName:@"www.qudingxiang.cn"];//auto-view.cn/iphone
+    switch ([r currentReachabilityStatus]) {
+        case NotReachable:
+            isExistenceNetwork=NO;
+            break;
+        case ReachableViaWWAN:
+            //使用3G/GPRS网络
+            isExistenceNetwork=YES;
+            break;
+        case ReachableViaWiFi:
+            //使用WiFi网络
+            isExistenceNetwork=YES;
+            break;
+    }
+    return isExistenceNetwork;
 }
 
 /** 获取当前View的控制器对象 */

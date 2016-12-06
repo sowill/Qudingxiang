@@ -100,13 +100,6 @@
         [_tableView setLayoutMargins:UIEdgeInsetsZero];
     }
     
-    //    if(![[NSUserDefaults standardUserDefaults] boolForKey:@"firstStart"]){
-    //        [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"firstStart"];
-    //        NSLog(@"第一次启动");
-    //    }else{
-    //        NSLog(@"不是第一次启动");
-    //    }
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stateRefresh) name:@"stateRefresh" object:nil];
 }
 
@@ -395,7 +388,7 @@
         view.frame = CGRectMake(0, 0, QdxWidth, 10);
         view.backgroundColor = [UIColor colorWithRed:239/255.0 green:239/255.0 blue:244/255.0 alpha:1];
         UIView *view1 = [[UIView alloc] init];
-        view1.frame = CGRectMake(0, 10, QdxWidth, 29);
+        view1.frame = CGRectMake(0, 10, QdxWidth, 30);
         view1.backgroundColor = [UIColor whiteColor];
         [view addSubview:view1];
         UIView *haedView = [[UIView alloc] initWithFrame:CGRectMake(10, 15, 3, 18)];
@@ -407,8 +400,8 @@
         titleLabel.textAlignment = NSTextAlignmentLeft;
         titleLabel.font = [UIFont systemFontOfSize:14];
         [view1 addSubview:titleLabel];
-        UIView *viewLine = [[UIView alloc] initWithFrame:CGRectMake(0, 39, QdxWidth, 1)];
-        viewLine.backgroundColor = [UIColor colorWithRed:200/255.0 green:199/255.0 blue:204/255.0 alpha:0.1];
+        UIView *viewLine = [[UIView alloc] initWithFrame:CGRectMake(0, 40, QdxWidth, 0.5)];
+        viewLine.backgroundColor = QDXLineColor;
         [view addSubview:viewLine];
         return view;
     }
@@ -427,6 +420,16 @@
     lineVC.homeModel = _dataArr[indexPath.row];
     lineVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:lineVC animated:YES];
+}
+
+-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+        [cell setSeparatorInset:UIEdgeInsetsMake(0,FitRealValue(24), 0,FitRealValue(24))];
+    }
+    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+        [cell setLayoutMargins:UIEdgeInsetsMake(0,FitRealValue(24), 0, FitRealValue(24))];
+    }
 }
 
 - (void)btnClick:(UIButton *)btn
@@ -565,7 +568,6 @@
         viewController.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:viewController animated:YES];
     }
-    
 }
 
 - (void)didReceiveMemoryWarning {

@@ -16,6 +16,8 @@
 #import "QDXPayTableViewController.h"
 #import "StartModel.h"
 #import "HomeService.h"
+#import "QDXTicketSuccessViewController.h"
+#import "QDXNavigationController.h"
 
 @interface QDXOrderDetailTableViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
@@ -32,6 +34,7 @@
 @property (nonatomic, strong) NSMutableArray *ticket;
 @property (nonatomic, strong) NSMutableArray *orderInfo;
 @property (nonatomic, strong) UITableView *tableview;
+@property (nonatomic,strong) QDXStateView *noThingView;
 @end
 
 @implementation QDXOrderDetailTableViewController
@@ -73,33 +76,33 @@
 
 -(void)createButtom
 {
-    bottom = [[UIView alloc] initWithFrame:CGRectMake(0, QdxHeight- 50-1-64, QdxWidth, 0.5)];
-    bottom.backgroundColor = [UIColor colorWithWhite:0.875 alpha:1.000];
+    bottom = [[UIView alloc] initWithFrame:CGRectMake(0, QdxHeight-64 - FitRealValue(110), QdxWidth, 0.5)];
+    bottom.backgroundColor = QDXLineColor;
     [self.view addSubview:bottom];
     // 添加底部按钮
-    pay = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth/2, QdxHeight- 50-64, QdxWidth/2, 50)];
+    pay = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth/2, QdxHeight- FitRealValue(110)-64, QdxWidth/2, FitRealValue(110))];
     [pay setTitle:@"去支付" forState:UIControlStateNormal];
-    [pay setBackgroundColor:[UIColor colorWithRed:0.157 green:0.518 blue:0.980 alpha:1.000]];
-    pay.titleLabel.font = [UIFont systemFontOfSize:14.0];
+    [pay setBackgroundImage:[ToolView createImageWithColor:QDXBlue] forState:UIControlStateNormal];
+    [pay setBackgroundImage:[ToolView createImageWithColor:QDXDarkBlue] forState:UIControlStateHighlighted];
+    pay.titleLabel.font = [UIFont systemFontOfSize:16.0];
     pay.titleLabel.textAlignment = NSTextAlignmentCenter;
     [pay setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [pay setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
-    
     [pay addTarget:self action:@selector(pay) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:pay];
     
-    cost = [[UIButton alloc] initWithFrame:CGRectMake(0, QdxHeight- 50-64, QdxWidth/2, 50)];
+    cost = [[UIButton alloc] initWithFrame:CGRectMake(0, QdxHeight- FitRealValue(110)-64, QdxWidth/2, FitRealValue(110))];
     [cost setBackgroundColor:[UIColor whiteColor]];
     cost.userInteractionEnabled = NO;
     [self.view addSubview:cost];
-    UILabel *sum = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth/4 - 90/2 - 25/2, 50/2-25/2, 25, 25)];
+    UILabel *sum = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth/4 - 90/2 - 30/2, FitRealValue(110)/2-25/2, 30, 25)];
     sum.text = @"总计";
-    sum.textColor = [UIColor colorWithWhite:0.400 alpha:1.000];
-    sum.font = [UIFont systemFontOfSize:12];
+    sum.textColor = QDXGray;
+    sum.font = [UIFont systemFontOfSize:14];
     [cost addSubview:sum];
-    sum_cost = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth/4 - 90/2 + 20, 50/2-40/2, 90, 40)];
-    sum_cost.textColor = [UIColor colorWithRed:1.000 green:0.318 blue:0.000 alpha:1.000];
-    sum_cost.font = [UIFont fontWithName:@"Helvetica-Bold" size:16];
+    sum_cost = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth/4 - 90/2 + 20, FitRealValue(110)/2-40/2, 90, 40)];
+    sum_cost.textColor = QDXOrange;
+    sum_cost.font = [UIFont systemFontOfSize:20];
     [cost addSubview:sum_cost];
     
 }
@@ -216,42 +219,43 @@
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
-        [cell setSeparatorInset:UIEdgeInsetsMake(0, FitRealValue(24), 0, FitRealValue(24))];
-    }
-    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
-        [cell setLayoutMargins:UIEdgeInsetsMake(0, FitRealValue(24), 0, FitRealValue(24))];
+
+    if (indexPath.row == self.ticket.count - 1) {
+        if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+            [cell setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
+        }
+        if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+            [cell setLayoutMargins:UIEdgeInsetsMake(0, 0, 0, 0)];
+        }
+    }else{
+        if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+            [cell setSeparatorInset:UIEdgeInsetsMake(0, FitRealValue(24), 0, FitRealValue(24))];
+        }
+        if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+            [cell setLayoutMargins:UIEdgeInsetsMake(0, FitRealValue(24), 0, FitRealValue(24))];
+        }
     }
 }
 
 -(void)createComplete
 {
-    complete = [[UIButton alloc] initWithFrame:CGRectMake(6, QdxHeight- 50*2 - 5, QdxWidth, 50)];
-    [complete setTitle:@"温馨提示：二维码点击可放大" forState:UIControlStateNormal];
-    complete.titleLabel.font = [UIFont systemFontOfSize:12];
-    [complete setBackgroundColor:[UIColor colorWithWhite:0.949 alpha:1.000]];
-    [complete setTitleColor:[UIColor colorWithWhite:0.400 alpha:1.000] forState:UIControlStateNormal];
+    complete = [[UIButton alloc] initWithFrame:CGRectMake(0, QdxHeight- FitRealValue(110)*2 - 5, QdxWidth, FitRealValue(110))];
+    [complete setTitle:@"订单已完成支付，请尽快使用" forState:UIControlStateNormal];
+    complete.titleLabel.font = [UIFont systemFontOfSize:14];
+    [complete setBackgroundColor:QDXBGColor];
+    [complete setTitleColor:QDXGray forState:UIControlStateNormal];
     [self.view addSubview:complete];
 }
 
 - (void)createSadView
 {
-    UIImageView *sad = [[UIImageView alloc] init];
-    CGFloat sadCenterX = QdxWidth * 0.5;
-    CGFloat sadCenterY = QdxHeight * 0.22;
-    sad.center = CGPointMake(sadCenterX, sadCenterY);
-    sad.bounds = CGRectMake(0, 0,40,43);
-    sad.image = [UIImage imageNamed:@"order_nothing"];
-    [self.view addSubview:sad];
-    
-    UILabel *sadButton = [[UILabel alloc] init];
-    sadButton.center = CGPointMake(sadCenterX, sadCenterY + 43/2 + 20);
-    sadButton.bounds = CGRectMake(0, 0, 120, 100);
-    sadButton.text = @"您当前没有订单";
-    sadButton.font = [UIFont systemFontOfSize:12];
-    sadButton.textAlignment = NSTextAlignmentCenter;
-    sadButton.textColor = [UIColor colorWithWhite:0.400 alpha:1.000];
-    [self.view addSubview:sadButton];
+    _noThingView = [[QDXStateView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight - 49)];
+    _noThingView.tag = 2;
+    _noThingView.delegate = self;
+    _noThingView.stateImg.image = [UIImage imageNamed:@"order_nothing"];
+    _noThingView.stateDetail.text = @"您暂时还没有订单哦~";
+    [_noThingView.stateButton setTitle:@"立即下单" forState:UIControlStateNormal];
+    [self.view addSubview:_noThingView];
 }
 
 -(void)getOrdersListAjax
@@ -468,7 +472,11 @@
         [model setMsg:dict[@"Msg"]];
         int temp = [model.Code intValue];
         if (temp == 1) {
-            [MBProgressHUD showSuccess:@"成功绑定!"];
+            QDXTicketSuccessViewController *successView=[[QDXTicketSuccessViewController alloc]init];
+            QDXNavigationController *navController = [[QDXNavigationController alloc] initWithRootViewController:successView];
+            [self presentViewController:navController animated:YES completion:^{
+                
+            }];
         }else{
             [MBProgressHUD showError:dict[@"Msg"]];
         }

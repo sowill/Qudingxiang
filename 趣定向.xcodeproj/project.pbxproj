@@ -187,6 +187,7 @@
 		459C432F1DED72B000437712 /* XBConst.m in Sources */ = {isa = PBXBuildFile; fileRef = 459C432A1DED72B000437712 /* XBConst.m */; };
 		459C43331DED749100437712 /* UIView+XBExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 459C43321DED749100437712 /* UIView+XBExtension.m */; };
 		459C43361DED75AE00437712 /* XBTestTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 459C43351DED75AE00437712 /* XBTestTableViewController.m */; };
+		459E69F61DF7BC6700D5C9F9 /* QDXTicketSuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 459E69F51DF7BC6700D5C9F9 /* QDXTicketSuccessViewController.m */; };
 		45AEE2B71D13E4F800116AD0 /* UIControl+UIControl_buttonCon.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AEE2B61D13E4F800116AD0 /* UIControl+UIControl_buttonCon.m */; };
 		45C6F55F1C929FD000C5AA31 /* HomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F55A1C929FD000C5AA31 /* HomeModel.m */; };
 		45C6F5601C929FD000C5AA31 /* ImageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F55C1C929FD000C5AA31 /* ImageModel.m */; };
@@ -301,9 +302,6 @@
 		A35DAC361CCF184000D01CF0 /* AFURLResponseSerialization.m in Sources */ = {isa = PBXBuildFile; fileRef = A35DAC2D1CCF184000D01CF0 /* AFURLResponseSerialization.m */; };
 		A35DAC371CCF184000D01CF0 /* AFURLSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A35DAC2F1CCF184000D01CF0 /* AFURLSessionManager.m */; };
 		A35DAC381CCF184000D01CF0 /* NullSafe.m in Sources */ = {isa = PBXBuildFile; fileRef = A35DAC311CCF184000D01CF0 /* NullSafe.m */; };
-		A35DAC401CCF184B00D01CF0 /* RECommonFunctions.m in Sources */ = {isa = PBXBuildFile; fileRef = A35DAC3B1CCF184B00D01CF0 /* RECommonFunctions.m */; };
-		A35DAC411CCF184B00D01CF0 /* RESideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = A35DAC3D1CCF184B00D01CF0 /* RESideMenu.m */; };
-		A35DAC421CCF184B00D01CF0 /* UIViewController+RESideMenu.m in Sources */ = {isa = PBXBuildFile; fileRef = A35DAC3F1CCF184B00D01CF0 /* UIViewController+RESideMenu.m */; };
 		A35DAC701CCF59C700D01CF0 /* ImagePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = A35DAC6F1CCF59C700D01CF0 /* ImagePickerController.m */; };
 		A35DAC731CCF5A1500D01CF0 /* GuideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A35DAC721CCF5A1500D01CF0 /* GuideViewController.m */; };
 		A35DAC761CCF5B9B00D01CF0 /* MineViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A35DAC751CCF5B9B00D01CF0 /* MineViewController.m */; };
@@ -695,6 +693,8 @@
 		459C6E311BD89D2300743FEC /* UIApplication+JTSImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIApplication+JTSImageViewController.m"; sourceTree = "<group>"; };
 		459C6E321BD89D2300743FEC /* UIImage+JTSImageEffects.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+JTSImageEffects.h"; sourceTree = "<group>"; };
 		459C6E331BD89D2300743FEC /* UIImage+JTSImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+JTSImageEffects.m"; sourceTree = "<group>"; };
+		459E69F41DF7BC6700D5C9F9 /* QDXTicketSuccessViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXTicketSuccessViewController.h; sourceTree = "<group>"; };
+		459E69F51DF7BC6700D5C9F9 /* QDXTicketSuccessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXTicketSuccessViewController.m; sourceTree = "<group>"; };
 		45A0547F1DD5AF0B0076E06E /* 趣定向.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "趣定向.entitlements"; sourceTree = "<group>"; };
 		45AEE2B51D13E4F800116AD0 /* UIControl+UIControl_buttonCon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIControl+UIControl_buttonCon.h"; sourceTree = "<group>"; };
 		45AEE2B61D13E4F800116AD0 /* UIControl+UIControl_buttonCon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+UIControl_buttonCon.m"; sourceTree = "<group>"; };
@@ -946,12 +946,6 @@
 		A35DAC2E1CCF184000D01CF0 /* AFURLSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AFURLSessionManager.h; sourceTree = "<group>"; };
 		A35DAC2F1CCF184000D01CF0 /* AFURLSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AFURLSessionManager.m; sourceTree = "<group>"; };
 		A35DAC311CCF184000D01CF0 /* NullSafe.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NullSafe.m; sourceTree = "<group>"; };
-		A35DAC3A1CCF184B00D01CF0 /* RECommonFunctions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RECommonFunctions.h; sourceTree = "<group>"; };
-		A35DAC3B1CCF184B00D01CF0 /* RECommonFunctions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RECommonFunctions.m; sourceTree = "<group>"; };
-		A35DAC3C1CCF184B00D01CF0 /* RESideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RESideMenu.h; sourceTree = "<group>"; };
-		A35DAC3D1CCF184B00D01CF0 /* RESideMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RESideMenu.m; sourceTree = "<group>"; };
-		A35DAC3E1CCF184B00D01CF0 /* UIViewController+RESideMenu.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIViewController+RESideMenu.h"; sourceTree = "<group>"; };
-		A35DAC3F1CCF184B00D01CF0 /* UIViewController+RESideMenu.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIViewController+RESideMenu.m"; sourceTree = "<group>"; };
 		A35DAC6F1CCF59C700D01CF0 /* ImagePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagePickerController.m; sourceTree = "<group>"; };
 		A35DAC711CCF5A1500D01CF0 /* GuideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GuideViewController.h; sourceTree = "<group>"; };
 		A35DAC721CCF5A1500D01CF0 /* GuideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GuideViewController.m; sourceTree = "<group>"; };
@@ -1745,6 +1739,8 @@
 				45FAC8A11DD0571B004A6531 /* QDXPointSettingViewController.m */,
 				45FAC8A31DD08EA9004A6531 /* QDXPointListViewController.h */,
 				45FAC8A41DD08EA9004A6531 /* QDXPointListViewController.m */,
+				459E69F41DF7BC6700D5C9F9 /* QDXTicketSuccessViewController.h */,
+				459E69F51DF7BC6700D5C9F9 /* QDXTicketSuccessViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2046,7 +2042,6 @@
 				4571CDBC1CE05B00002ED784 /* CYAlertController */,
 				453679D81CD3036700828EF9 /* PopMenuView */,
 				455C8A291CCF7827001F5FC5 /* AlipaySDK */,
-				A35DAC391CCF184B00D01CF0 /* RESideMenu */,
 				A35DAC221CCF184000D01CF0 /* AFNetworking */,
 				455A959F1C97E3EB0039FA88 /* MJExtension */,
 				45C6F6191C92A92C00C5AA31 /* TencentOpenAPI.framework */,
@@ -2120,19 +2115,6 @@
 				A35DAC311CCF184000D01CF0 /* NullSafe.m */,
 			);
 			path = NullSafe;
-			sourceTree = "<group>";
-		};
-		A35DAC391CCF184B00D01CF0 /* RESideMenu */ = {
-			isa = PBXGroup;
-			children = (
-				A35DAC3A1CCF184B00D01CF0 /* RECommonFunctions.h */,
-				A35DAC3B1CCF184B00D01CF0 /* RECommonFunctions.m */,
-				A35DAC3C1CCF184B00D01CF0 /* RESideMenu.h */,
-				A35DAC3D1CCF184B00D01CF0 /* RESideMenu.m */,
-				A35DAC3E1CCF184B00D01CF0 /* UIViewController+RESideMenu.h */,
-				A35DAC3F1CCF184B00D01CF0 /* UIViewController+RESideMenu.m */,
-			);
-			path = RESideMenu;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2292,7 +2274,6 @@
 				456FE0241DBF5E630025AFEE /* TabbarController.m in Sources */,
 				453679F01CD30D0200828EF9 /* LrdOutputView.m in Sources */,
 				4571CDF81CE05B00002ED784 /* CYAlertAction.m in Sources */,
-				A35DAC421CCF184B00D01CF0 /* UIViewController+RESideMenu.m in Sources */,
 				4571CDF61CE05B00002ED784 /* CYAlertPresentSlideUp.m in Sources */,
 				45CA52341DE452270025A376 /* UIView+MJExtension.m in Sources */,
 				451828B01D40C87A00D5FC85 /* UIView+EAFeatureGuideView.m in Sources */,
@@ -2485,9 +2466,9 @@
 				4582B7D61C98EEC00002F5B1 /* QDXQuestionModel.m in Sources */,
 				45C6F60B1C92A43A00C5AA31 /* QDXForgetPasswordViewController.m in Sources */,
 				4549C76C1DBE108300180FB5 /* LBTabBar.m in Sources */,
-				A35DAC401CCF184B00D01CF0 /* RECommonFunctions.m in Sources */,
 				4571CDF41CE05B00002ED784 /* CYAlertPresentSlideLeft.m in Sources */,
 				45C6F5E11C92A39300C5AA31 /* QDXPayTableViewController.m in Sources */,
+				459E69F61DF7BC6700D5C9F9 /* QDXTicketSuccessViewController.m in Sources */,
 				45C6F5C91C92A36200C5AA31 /* QDXOrderDetailTableViewController.m in Sources */,
 				4557D1561CD9D51900CA76BD /* QDXTaskViewController.m in Sources */,
 				A35DAC791CCF5EB500D01CF0 /* NoticeViewController.m in Sources */,
@@ -2497,7 +2478,6 @@
 				4556117C1D543E75006DF063 /* HUTransitionGhostAnimator.m in Sources */,
 				455C8A9B1CCF7827001F5FC5 /* DataVerifier.m in Sources */,
 				455A95B91C97E3EB0039FA88 /* MJPropertyType.m in Sources */,
-				A35DAC411CCF184B00D01CF0 /* RESideMenu.m in Sources */,
 				45EE613D1CEAD4FC007302E3 /* UIImage+watermark.m in Sources */,
 				4557D1531CD9A33300CA76BD /* QDXHistoryViewController.m in Sources */,
 				45C6F5B41C92A2D500C5AA31 /* QDXLoginViewController.m in Sources */,

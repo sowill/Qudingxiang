@@ -56,9 +56,9 @@
     //设置线路详情
     [self setupDetail];
 
-    UIButton *share = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, FitRealValue(53), FitRealValue(52))];
+    UIButton *share = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 18)];
     [share addTarget:self action:@selector(shareClick) forControlEvents:UIControlEventTouchUpInside];
-    [share setImage:[UIImage imageNamed:@"Share"] forState:UIControlStateNormal];
+    [share setBackgroundImage:[UIImage imageNamed:@"Share"] forState:UIControlStateNormal];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:share];
 //    if (![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"weixin://"]]) {
 //        share.hidden = YES;
@@ -75,7 +75,6 @@
     shareButtonImageNameArray = @[@"qq好友",@"qq空间",@"微信好友",@"朋友圈"];
     LXActivity *lxActivity = [[LXActivity alloc] initWithTitle:@"分享到" delegate:self cancelButtonTitle:@"取消分享" ShareButtonTitles:shareButtonTitleArray withShareButtonImagesName:shareButtonImageNameArray];
     [lxActivity showInView:self.view];
-    
 }
 
 #pragma mark - LXActivityDelegate
@@ -227,8 +226,8 @@
 - (void)createPayUI
 {
     // 添加底部按钮
-    _bottom = [[UIView alloc] initWithFrame:CGRectMake(0, QdxHeight- 50-1-64, QdxWidth, 1)];
-    _bottom.backgroundColor = [UIColor colorWithWhite:0.898 alpha:0.500];
+    _bottom = [[UIView alloc] initWithFrame:CGRectMake(0, QdxHeight- 50-64, QdxWidth, 0.5)];
+    _bottom.backgroundColor = QDXLineColor;
     [self.view addSubview:_bottom];
     
     sign_up = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth/2, QdxHeight- 50-64, QdxWidth/2, 50)];
@@ -239,18 +238,6 @@
     sign_up.titleLabel.font = [UIFont systemFontOfSize:14.0];
     [sign_up addTarget:self action:@selector(sign_up) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:sign_up];
-
-//    if ([save length] == 0) {
-//        [sign_up setTitle:@"请先登录" forState:UIControlStateNormal];
-//    }
-    
-//    hadSignUp = [[UIButton alloc] initWithFrame:CGRectMake(0, QdxHeight- 50-64, QdxWidth/2, 50)];
-//    [hadSignUp setTitle:@"剩余名额" forState:UIControlStateNormal];
-//    [hadSignUp setBackgroundColor:[UIColor whiteColor]];
-//    [hadSignUp setTitleColor:[UIColor colorWithRed:1.000 green:0.318 blue:0.000 alpha:1.000] forState:UIControlStateNormal];
-//    hadSignUp.titleLabel.font = [UIFont systemFontOfSize:16];
-//    hadSignUp.userInteractionEnabled = NO;
-//    [self.view addSubview:hadSignUp];
     
     UIButton *cost = [[UIButton alloc] initWithFrame:CGRectMake(0, QdxHeight- 50-64, QdxWidth/2, 50)];
     [cost setBackgroundColor:[UIColor whiteColor]];
@@ -258,12 +245,12 @@
     [self.view addSubview:cost];
     UILabel *sum = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth/4 - 90/2 , 50/2-25/2, 25, 25)];
     sum.text = @"¥";
-    sum.textColor = [UIColor colorWithRed:1.000 green:0.318 blue:0.000 alpha:1.000];
-    sum.font = [UIFont systemFontOfSize:16];
+    sum.textColor = QDXOrange;
+    sum.font = [UIFont systemFontOfSize:20];
     [cost addSubview:sum];
     UILabel * price_1 = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth/4 - 90/2 + 20, 50/2-40/2, 90, 40)];
-    price_1.textColor = [UIColor colorWithRed:1.000 green:0.318 blue:0.000 alpha:1.000];
-    price_1.font = [UIFont fontWithName:@"Helvetica-Bold" size:16];
+    price_1.textColor = QDXOrange;
+    price_1.font = [UIFont systemFontOfSize:20];
     price_1.text = self.homeModel.goods_price;
     [cost addSubview:price_1];
 }
@@ -321,12 +308,12 @@
         self.deliverView.layer.shadowRadius = 5;
         [appWindow addSubview:self.deliverView];
         
-        UIView *bottom = [[UIView alloc] initWithFrame:CGRectMake(0, QdxHeight*0.45- 50-1 , QdxWidth, 1)];
-        bottom.backgroundColor = [UIColor colorWithWhite:0.875 alpha:1.000];
+        UIView *bottom = [[UIView alloc] initWithFrame:CGRectMake(0, QdxHeight*0.45- 50 , QdxWidth, 0.5)];
+        bottom.backgroundColor = QDXLineColor;
         [self.deliverView addSubview:bottom];
         // 添加底部按钮
         pay = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth/2, QdxHeight*0.45- 50, QdxWidth/2, 50)];
-        pay.titleLabel.font = [UIFont systemFontOfSize:14.0];
+        pay.titleLabel.font = [UIFont systemFontOfSize:16.0];
         pay.titleLabel.textAlignment = NSTextAlignmentCenter;
         [pay setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [pay addTarget:self action:@selector(pay) forControlEvents:UIControlEventTouchUpInside];
@@ -336,14 +323,14 @@
         [cost setBackgroundColor:[UIColor whiteColor]];
         cost.userInteractionEnabled = NO;
         [self.deliverView addSubview:cost];
-        UILabel *sum = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth/4 - 90/2 - 25/2, 50/2-25/2, 25, 25)];
+        UILabel *sum = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth/4 - 90/2 - 30/2, 50/2-25/2, 30, 25)];
         sum.text = @"总计";
-        sum.textColor = [UIColor colorWithWhite:0.400 alpha:1.000];
-        sum.font = [UIFont systemFontOfSize:12];
+        sum.textColor =QDXGray;
+        sum.font = [UIFont systemFontOfSize:14];
         [cost addSubview:sum];
         _price = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth/4 - 90/2 + 20, 50/2-40/2, 90, 40)];
-        _price.textColor = [UIColor colorWithRed:1.000 green:0.318 blue:0.000 alpha:1.000];
-        _price.font = [UIFont fontWithName:@"Helvetica-Bold" size:16];
+        _price.textColor = QDXOrange;
+        _price.font = [UIFont systemFontOfSize:20];
         [cost addSubview:_price];
         
         float viewHeight = QdxHeight*0.45 - 50;
@@ -518,12 +505,12 @@
 
         if([dict[@"Code"] intValue] == 0){
             [pay setTitle:@"不能付" forState:UIControlStateNormal];
-            [pay setBackgroundColor:[UIColor grayColor]];
+            [pay setBackgroundImage:[ToolView createImageWithColor:QDXLightGray] forState:UIControlStateNormal];
             pay.userInteractionEnabled = NO;
 
         }else{
             pay.userInteractionEnabled = YES;
-            [pay setBackgroundImage:[UIImage imageNamed:@"navigation"] forState:UIControlStateNormal];
+            [pay setBackgroundImage:[ToolView createImageWithColor:QDXBlue] forState:UIControlStateNormal];
             [pay setTitle:@"去支付" forState:UIControlStateNormal];
             
             NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict[@"Msg"]];

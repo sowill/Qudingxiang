@@ -62,7 +62,11 @@
     self.order_name.textAlignment = NSTextAlignmentLeft;
     [self.BGView addSubview:self.order_name];
     
-    self.ticket_ct = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(24 + 140 + 30), FitRealValue(100 + 44 + 28 + 26), FitRealValue(300), FitRealValue(28))];
+    if (QdxWidth < 375) {
+        self.ticket_ct = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(24 + 140 + 30), FitRealValue(100 + 44 + 28 + 26), FitRealValue(300), FitRealValue(28))];
+    }else{
+        self.ticket_ct = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(24 + 140 + 30), FitRealValue(100 + 44 + 28 + 26), FitRealValue(255), FitRealValue(28))];
+    }
     self.ticket_ct.textColor = QDXGray;
     self.ticket_ct.font = [UIFont systemFontOfSize:14];
     self.ticket_ct.textAlignment = NSTextAlignmentLeft;
@@ -70,11 +74,12 @@
     
     CGFloat ticket_ctMaxX = CGRectGetMaxX(self.ticket_ct.frame);
     
-    if (QdxWidth < 375) {
+    if (QdxWidth >= 414) {
         self.orders_am = [[UILabel alloc] initWithFrame:CGRectMake(ticket_ctMaxX - FitRealValue(30), FitRealValue(100 + 44 + 28 + 24), FitRealValue(200), FitRealValue(32))];
     }else{
-        self.orders_am = [[UILabel alloc] initWithFrame:CGRectMake(ticket_ctMaxX - FitRealValue(60), FitRealValue(100 + 44 + 28 + 24), FitRealValue(200), FitRealValue(32))];
+        self.orders_am = [[UILabel alloc] initWithFrame:CGRectMake(ticket_ctMaxX, FitRealValue(100 + 44 + 28 + 24), FitRealValue(200), FitRealValue(32))];
     }
+
     self.orders_am.textColor = QDXOrange;
     self.orders_am.font = [UIFont systemFontOfSize:18];
     self.orders_am.textAlignment = NSTextAlignmentLeft;

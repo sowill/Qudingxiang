@@ -88,8 +88,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    [self createTableView];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stateRefresh) name:@"stateRefresh" object:nil];
 }
@@ -248,6 +246,7 @@
                 }else{
                     [_loginView removeFromSuperview];
                     [_noThingView removeFromSuperview];
+                    [self createTableView];
                 }
                 
                 [self performSelectorOnMainThread:@selector(sussRes) withObject:nil waitUntilDone:YES];
@@ -302,11 +301,9 @@
 
 -(void)sign_in
 {
-    QDXLoginViewController* regi=[[QDXLoginViewController alloc]init];
-    QDXNavigationController* navController = [[QDXNavigationController alloc] initWithRootViewController:regi];
-    [self presentViewController:navController animated:YES completion:^{
-        
-    }];
+    QDXLoginViewController *login=[[QDXLoginViewController alloc]init];
+    login.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:login animated:YES];
 }
 
 - (void)createSadViewWithDetail :(NSString *)detail

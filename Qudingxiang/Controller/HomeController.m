@@ -192,8 +192,8 @@
         btn.titleEdgeInsets = UIEdgeInsetsMake(QdxWidth/5, 0, 0, 0);
         btn.titleLabel.textAlignment = NSTextAlignmentCenter;
         btn.imageView.contentMode = UIViewContentModeCenter;
-        btn.titleLabel.textColor = [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1];
-        btn.titleLabel.font = [UIFont systemFontOfSize:14];
+        btn.titleLabel.textColor = QDXGray;
+        btn.titleLabel.font = [UIFont systemFontOfSize:12];
         btn.tag = 1+i;
     }
 }
@@ -386,17 +386,17 @@
     if (section == 0) {
         UIView *view = [[UIView alloc] init];
         view.frame = CGRectMake(0, 0, QdxWidth, 10);
-        view.backgroundColor = [UIColor colorWithRed:239/255.0 green:239/255.0 blue:244/255.0 alpha:1];
+        view.backgroundColor = QDXBGColor;
         UIView *view1 = [[UIView alloc] init];
         view1.frame = CGRectMake(0, 10, QdxWidth, 30);
         view1.backgroundColor = [UIColor whiteColor];
         [view addSubview:view1];
         UIView *haedView = [[UIView alloc] initWithFrame:CGRectMake(10, 15, 3, 18)];
-        haedView.backgroundColor = [UIColor colorWithRed:13/255.0 green:131/255.0 blue:252/255.0 alpha:1];
+        haedView.backgroundColor = QDXBlue;
         [view addSubview:haedView];
         UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(18, 0, 200, 30)];
         titleLabel.text = @"经典推荐";
-        titleLabel.textColor = [UIColor colorWithRed:17/255.0 green:17/255.0 blue:17/255.0 alpha:1];
+        titleLabel.textColor = QDXBlack;
         titleLabel.textAlignment = NSTextAlignmentLeft;
         titleLabel.font = [UIFont systemFontOfSize:14];
         [view1 addSubview:titleLabel];

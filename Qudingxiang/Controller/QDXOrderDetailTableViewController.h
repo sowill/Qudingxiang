@@ -7,8 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "QDXStateView.h"
+
 @class QDXOrdermodel;
-@interface QDXOrderDetailTableViewController : BaseViewController
+@interface QDXOrderDetailTableViewController : BaseViewController<StateDelegate>
 @property(nonatomic,retain) QDXOrdermodel *Order;
 @property(nonatomic) NSString *orderId;
 @property(nonatomic) NSString *ordersName;

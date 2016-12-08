@@ -91,6 +91,7 @@
 
         NSString *imgPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Icon-76@2x.png"];
         NSData *imgData = [NSData dataWithContentsOfFile:imgPath];
+        
         QQApiNewsObject *newsObj = [QQApiNewsObject
                                     objectWithURL:imgurl title:title description:description previewImageData:imgData];
         SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:newsObj];
@@ -232,10 +233,11 @@
     
     sign_up = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth/2, QdxHeight- 50-64, QdxWidth/2, 50)];
     [sign_up setTitle:@"立即报名" forState:UIControlStateNormal];
-    [sign_up setBackgroundColor:[UIColor colorWithRed:0.157 green:0.518 blue:0.980 alpha:1.000]];
+    [sign_up setBackgroundImage:[ToolView createImageWithColor:QDXBlue] forState:UIControlStateNormal];
     [sign_up setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [sign_up setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
-    sign_up.titleLabel.font = [UIFont systemFontOfSize:14.0];
+    [sign_up setBackgroundImage:[ToolView createImageWithColor:QDXDarkBlue] forState:UIControlStateHighlighted];
+    sign_up.titleLabel.font = [UIFont systemFontOfSize:16.0];
     [sign_up addTarget:self action:@selector(sign_up) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:sign_up];
     
@@ -373,6 +375,7 @@
         [activity addSubview:closeBtn];
         
         activitypic = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, activityHeight-20, activityHeight- 20)];
+        activitypic.contentMode = UIViewContentModeScaleAspectFit;
         [activity addSubview:activitypic];
         
         place = [[UILabel alloc] initWithFrame:CGRectMake(activityHeight, 15, 150, 20)];
@@ -550,8 +553,8 @@
 //    UIGraphicsBeginImageContext(rect.size);
 //    CGContextRef context = UIGraphicsGetCurrentContext();
 ////        要导航栏的话把[view.layer renderInContext:context]改成
-////    [self.navigationController.view.layer renderInContext:context]
-//    [view.layer renderInContext:context];
+//    [self.navigationController.view.layer renderInContext:context];
+////    [view.layer renderInContext:context];
 //    UIImage *img = UIGraphicsGetImageFromCurrentImageContext();
 //    UIGraphicsEndImageContext();
 //    return img;

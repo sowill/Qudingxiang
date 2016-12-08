@@ -59,8 +59,7 @@
     NSString *oldMyLineid;
     
     BOOL lock;
-    BOOL lockContinue;
-    int offlinei;
+
     int errorCount;
     
     //准备开始view
@@ -349,7 +348,6 @@
     //    int b = abs([RSSI.description intValue]);
     //    CGFloat ci = (b - abs([self.gameInfo.point.rssi intValue])) / (10 * 4.);
     //    NSLog(@"%f",pow(10, ci));
-    //    if (pow(10,ci) < 0.9 )
     if (abs([RSSI.description intValue]) < abs([self.gameInfo.point.rssi intValue]))
     {
         NSMutableArray *macArr = [[NSMutableArray alloc] init];

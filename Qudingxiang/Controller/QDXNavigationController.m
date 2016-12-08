@@ -18,25 +18,23 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+
 }
 
 +(void)initialize
 {
     // 1.设置导航栏主题
     UINavigationBar *navBar = [UINavigationBar appearance];
-    
 
     [navBar setBackgroundImage:[UIImage imageNamed:@"navigation"] forBarMetrics:UIBarMetricsDefault];
     
     // 设置标题文字颜色
-//    NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
-//    attrs[NSForegroundColorAttributeName] = [UIColor whiteColor];
-//    attrs[NSFontAttributeName] = [UIFont systemFontOfSize:18];
-//    [navBar setTitleTextAttributes:attrs];
+    NSMutableDictionary *attrs = [NSMutableDictionary dictionary];
+    attrs[NSForegroundColorAttributeName] = [UIColor whiteColor];
+    attrs[NSFontAttributeName] = [UIFont systemFontOfSize:18];
+    [navBar setTitleTextAttributes:attrs];
     
     navBar.tintColor = [UIColor whiteColor];
-    
-    [navBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
 }
 
 //- (void)presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)flag completion:(void (^)(void))completion

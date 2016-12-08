@@ -12,8 +12,8 @@
 + (UIImageView *)createImageWithFrame:(CGRect)frame
 {
     UIImageView *iv = [[UIImageView alloc] initWithFrame:frame];
-    iv.backgroundColor = [UIColor grayColor];
-    iv.layer.cornerRadius = 10;
+    iv.backgroundColor = [UIColor clearColor];
+//    iv.layer.cornerRadius = 10;
     iv.layer.masksToBounds = YES;
     
     return iv;
@@ -32,7 +32,7 @@
 {
     UIButton *btn = [[UIButton alloc] initWithFrame:frame];
     [btn setTitle:title forState:UIControlStateNormal];
-    [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    [btn setTitleColor:QDXGray forState:UIControlStateNormal];
     [btn setBackgroundImage:[UIImage imageNamed:image] forState:UIControlStateNormal];
     [btn addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
     [superView addSubview:btn];

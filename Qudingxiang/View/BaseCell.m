@@ -57,6 +57,7 @@
     _imageViewN = [ToolView createImageWithFrame:CGRectMake(10, 10, 70, 70)];
     CALayer *layer = _imageViewN.layer;
     [layer setMasksToBounds:NO];
+    _imageViewN.contentMode = UIViewContentModeScaleAspectFit;
     [self.contentView  addSubview:_imageViewN];
     CGFloat imageViewX = CGRectGetMaxX(_imageViewN.frame);
     _parkNamelabel = [ToolView createLabelWithFrame:CGRectMake(imageViewX+10, 10, QdxWidth - 70, 20) text:@"公园名称" font:15 superView:self.contentView];

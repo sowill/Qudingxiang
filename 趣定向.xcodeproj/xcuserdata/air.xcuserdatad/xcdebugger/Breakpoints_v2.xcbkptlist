@@ -13,53 +13,5 @@
             stopOnStyle = "0">
          </BreakpointContent>
       </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "Qudingxiang/View/QDXNoNetWorkView.m"
-            timestampString = "502683965.944471"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
-            landmarkName = "-checkNetworkButtonClicked"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[QDXNoNetWorkView checkNetworkButtonClicked]"
-                  moduleName = "&#x8da3;&#x5b9a;&#x5411;"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/air/Desktop/Qudingxiang/Qudingxiang/View/QDXNoNetWorkView.m"
-                  timestampString = "502786111.504846"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "64"
-                  endingLineNumber = "64"
-                  offsetFromSymbolStart = "68">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "-[QDXNoNetWorkView checkNetworkButtonClicked]"
-                  moduleName = "&#x8da3;&#x5b9a;&#x5411;"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/air/Desktop/Qudingxiang/Qudingxiang/View/QDXNoNetWorkView.m"
-                  timestampString = "502786111.506786"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "64"
-                  endingLineNumber = "64"
-                  offsetFromSymbolStart = "84">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

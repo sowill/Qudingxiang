@@ -100,7 +100,7 @@
 
 - (void)createTableView
 {
-    self.tableview = [[UITableView alloc] initWithFrame:CGRectMake(0,0, QdxWidth, QdxHeight - FitRealValue(120)-64) style:UITableViewStylePlain];
+    self.tableview = [[UITableView alloc] initWithFrame:CGRectMake(0,0, QdxWidth, QdxHeight - 49-64 - FitRealValue(80)) style:UITableViewStylePlain];
     self.tableview.delegate = self;
     self.tableview.dataSource = self;
     self.tableview.showsVerticalScrollIndicator = NO;
@@ -140,10 +140,10 @@
     
     // 2.上拉刷新(上拉加载更多数据)
     self.tableview.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-    // 设置了底部inset
-    self.tableview.contentInset = UIEdgeInsetsMake(0, 0, 30, 0);
-    // 忽略掉底部inset
-    self.tableview.mj_footer.ignoredScrollViewContentInsetBottom = 30;
+//    // 设置了底部inset
+//    self.tableview.contentInset = UIEdgeInsetsMake(0, 0, 30, 0);
+//    // 忽略掉底部inset
+//    self.tableview.mj_footer.ignoredScrollViewContentInsetBottom = 30;
     
 }
 

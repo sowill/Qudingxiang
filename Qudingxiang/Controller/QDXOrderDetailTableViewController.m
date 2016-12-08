@@ -42,9 +42,8 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.view.backgroundColor = [UIColor colorWithWhite:0.949 alpha:1.000];
+    self.view.backgroundColor = QDXBGColor;
     self.title = @"订单详情";
-    [self createTableView];
 }
 
 - (void)state
@@ -299,8 +298,8 @@
             
             [self setHeaderView];
             
-        }else
-        {
+            [self createTableView];
+        }else{
             [self createSadView];
         }
         [self.tableview setTableHeaderView:headerView];

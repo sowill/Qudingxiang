@@ -102,6 +102,8 @@
     //系统自带的按钮类型是UITabBarButton，找出这些类型的按钮，然后重新排布位置，空出中间的位置
     Class class = NSClassFromString(@"UITabBarButton");
     
+    self.translucent = NO;
+    
     self.plusBtn.centerX = self.centerX;
     //调整发布按钮的中线点Y值
     self.plusBtn.centerY = self.height * 0.7 - 2*LBMagin ;

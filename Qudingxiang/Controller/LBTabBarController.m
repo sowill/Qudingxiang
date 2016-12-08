@@ -74,6 +74,7 @@
     LBTabBar *tabbar = [[LBTabBar alloc] init];
     //设置代理，响应发布按钮点击事件
     tabbar.myDelegate = self;
+    
     //kvc实质是修改了系统的_tabBar
     [self setValue:tabbar forKeyPath:@"tabBar"];
     

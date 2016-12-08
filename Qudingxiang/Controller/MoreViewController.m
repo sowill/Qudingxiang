@@ -53,14 +53,13 @@
 //    layout.move_x = - FitRealValue(60);
     [layout setPagingEnabled:YES];
     
-    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight - 64) collectionViewLayout:layout];
+    _collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight - 64 - 49) collectionViewLayout:layout];
     [_collectionView registerClass:[DWViewCell class] forCellWithReuseIdentifier:@"DWViewCell"];
-    _collectionView.backgroundColor = [UIColor colorWithWhite:0.961 alpha:1.000];
+    _collectionView.backgroundColor = QDXBGColor;
     _collectionView.showsHorizontalScrollIndicator = NO;
     _collectionView.delegate = self;
     _collectionView.dataSource = self;
     [self.view addSubview:_collectionView];
-    
     
     data = @[@"01",@"02",@"03"];
     [_collectionView reloadData];
@@ -116,7 +115,7 @@
 #pragma mark cell的点击事件
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath
 {
-    NSLog(@"点击图片%ld",indexPath.row);
+//    NSLog(@"点击图片%ld",indexPath.row);
 }
 
 

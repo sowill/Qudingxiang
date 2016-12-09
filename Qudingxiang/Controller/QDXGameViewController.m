@@ -24,16 +24,16 @@
 #import "LrdOutputView.h"
 #import "QDXHistoryViewController.h"
 #import "QDXHistoryTableViewCell.h"
-#import "CYAlertController.h"
+#import "CYAlertViewManager.h"
 #import "PointAnnotationView.h"
 #import "QDXMap.h"
 //#import "TTSExample.h"
 #import "QDXIsConnect.h"
 //#import "QDXOffLineController.h"
 #import "HelpViewController.h"
-#import "YLPopViewController.h"
+#import "YLPopViewManager.h"
 #import "UIView+EAFeatureGuideView.h"
-#import "LocalDBService.h"
+
 #import <WebKit/WebKit.h>
 
 #define READYVIEWHEIGHT                    QdxHeight * 0.05
@@ -57,8 +57,6 @@
     NSString *answer;
     
     NSString *oldMyLineid;
-    
-    BOOL lock;
 
     int errorCount;
     
@@ -85,7 +83,6 @@
     UIImageView *successView;
     UIButton *showOK_button;
     UIButton *showTitle_button;
-    UIButton *cancel_button;
     UIView *buttom_line;
     //游戏完成
     UIImageView *certificate;
@@ -94,20 +91,20 @@
     MAPointAnnotation *annotation_target;
     MAGroundOverlay *groundOverlay;
 }
-@property (nonatomic,retain) WKWebView *webView;
-@property (nonatomic, strong) QDXGameModel *gameInfo;
-@property (nonatomic, strong) point_questionModel *questionInfo;
-@property (nonatomic, strong) QDXIsConnect *resultInfo;
-@property (nonatomic, strong) NSArray *dataArr;
-@property (nonatomic, strong) LrdOutputView *outputView;
-@property (nonatomic ,strong) UIView *BGView; //遮罩
-@property (nonatomic ,strong) UIView *deliverView; //底部View
-@property (nonatomic, strong) UITableView *tableview;
-@property (nonatomic,strong) UIScrollView *QDXScrollView;
-@property (nonatomic,strong) MAMapView *mapView;
-@property (nonatomic,strong) CBCentralManager *MyCentralManager;
-@property (nonatomic,strong) NSTimer *timer;
-@property (nonatomic, strong) UITapGestureRecognizer *doubleTap;
+@property (nonatomic, retain) WKWebView* webView;
+@property (nonatomic, strong) QDXGameModel* gameInfo;
+@property (nonatomic, strong) point_questionModel* questionInfo;
+@property (nonatomic, strong) QDXIsConnect* resultInfo;
+@property (nonatomic, strong) NSArray* dataArr;
+@property (nonatomic, strong) LrdOutputView* outputView;
+@property (nonatomic, strong) UIView* BGView; //遮罩
+@property (nonatomic, strong) UIView* deliverView; //底部View
+@property (nonatomic, strong) UITableView* tableview;
+@property (nonatomic, strong) UIScrollView* QDXScrollView;
+@property (nonatomic, strong) MAMapView* mapView;
+@property (nonatomic, strong) CBCentralManager* MyCentralManager;
+@property (nonatomic, strong) NSTimer* timer;
+@property (nonatomic, strong) UITapGestureRecognizer* doubleTap;
 @end
 
 @implementation QDXGameViewController
@@ -165,116 +162,6 @@
     return YES;
 }
 
--(void)setMylineInfo:(NSDictionary *) infoDict code:(int)code
-{
-    QDXGameModel *game = [QDXGameModel mj_objectWithKeyValues:infoDict];
-    self.gameInfo = game;
-    NSString *macLabel =self.gameInfo.point.label;
-    NSArray *array3 = [macLabel componentsSeparatedByString:@":"];
-    NSString *string3 = [array3 componentsJoinedByString:@""];
-    mac_Label = [string3 componentsSeparatedByString:@","];
-//    NSLog(@"%@   %@",mac_Label,self.gameInfo.point.point_name);
-    sdateStr = self.gameInfo.sdate;
-    [self intervalSinceNow];
-    point.text = self.gameInfo.point.point_name;
-    score_sum.text = [ToolView scoreTransfer:self.gameInfo.score];
-    
-    if (code == 1) {
-        lock = NO;
-        if([self.gameInfo.pointmap.pindex intValue]<999){
-            [self setupCompleteView:0];
-        }
-    }
-    
-    switch ([self.gameInfo.mstatus_id intValue]) {
-        case 1:
-            self.navigationItem.title = @"准备活动";
-            if ([self.gameInfo.isLeader intValue] == 1) {
-                self.MyCentralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
-            }
-            [self.mapView removeFromSuperview];
-            [self.QDXScrollView addSubview:readyView];
-            [self.QDXScrollView addSubview:_webView];
-            break;
-            
-        case 2:
-            [self.navigationItem setTitle:[self.gameInfo.line.line_sub stringByAppendingString:@"-活动中"]];
-            if ([self.gameInfo.isLeader intValue] == 1) {
-                self.MyCentralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
-            }
-            if([self.gameInfo.line.linetype_id isEqualToString:@"3"])
-            {
-                currentTime.text = @"倒计时";
-            }
-            [readyView removeFromSuperview];
-            [_webView removeFromSuperview];
-            [self.QDXScrollView addSubview:self.mapView];
-            [self.QDXScrollView addSubview:playView];
-            [self.QDXScrollView addSubview:self.task_button];
-            [self.QDXScrollView addSubview:self.history_button];
-            break;
-            
-        case 3:
-            lock = YES;
-            if (![mylineid isEqualToString:self.model.myline_id]){
-                NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-                documentDir= [documentDir stringByAppendingPathComponent:@"QDXMyLine.data"];
-                [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"stateRefresh" object:nil];
-            }
-            self.navigationItem.title = @"活动结束";
-            [self.mapView removeFromSuperview];
-            [readyView removeFromSuperview];
-            [_webView removeFromSuperview];
-            [playView removeFromSuperview];
-            [self.task_button removeFromSuperview];
-            [self.history_button removeFromSuperview];
-            [self removeFromSuperViewController];
-            [self createTableView];
-            [self.QDXScrollView addSubview:certificate];
-            [self refreshScrollView];
-            break;
-            
-        case 4:
-            lock = YES;
-            if (![mylineid isEqualToString:self.model.myline_id]){
-                NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-                documentDir= [documentDir stringByAppendingPathComponent:@"QDXMyLine.data"];
-                [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"stateRefresh" object:nil];
-            }
-            [self removeFromSuperViewController];
-            [self.mapView removeFromSuperview];
-            [readyView removeFromSuperview];
-            [_webView removeFromSuperview];
-            [playView removeFromSuperview];
-            [self.task_button removeFromSuperview];
-            [self.history_button removeFromSuperview];
-            self.navigationItem.title = @"强制结束";
-            [self createSadView];
-            break;
-            
-        default:
-            lock = YES;
-            if (![mylineid isEqualToString:self.model.myline_id]){
-                NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-                documentDir= [documentDir stringByAppendingPathComponent:@"QDXMyLine.data"];
-                [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
-            }
-            [self removeFromSuperViewController];
-            [self.mapView removeFromSuperview];
-            [readyView removeFromSuperview];
-            [_webView removeFromSuperview];
-            [playView removeFromSuperview];
-            [self.task_button removeFromSuperview];
-            [self.history_button removeFromSuperview];
-            self.navigationItem.title = @"超时结束";
-            [self createSadView];
-            break;
-    }
-    
-}
-
 //请求当前线路1）准备 2）活动中 3）活动完成 4）强制结束
 -(void)setupgetMylineInfo:(int) code
 {
@@ -285,18 +172,6 @@
     params[@"myline_id"] = oldMyLineid;
     NSString *url = [hostUrl stringByAppendingString:@"Home/Myline/getMyline"];
     
-    //使用离线数据
-    NSDictionary *res=[LocalDBService ReadMyline:oldMyLineid];
-    if (res !=nil) {
-        if ([res[@"mstatus_id"] intValue] == 2 &&  [res[@"online"] intValue]== 2 ) {
-            
-            [self setMylineInfo:res code:code];
-            
-            return ;
-        }
-        
-    }
-    
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
@@ -306,15 +181,109 @@
         int ret = [infoDict[@"Code"] intValue];
         if (ret==1) {
             
-            [self setMylineInfo:infoDict[@"Msg"] code:code];
+            QDXGameModel *game = [QDXGameModel mj_objectWithKeyValues:infoDict[@"Msg"]];
+            self.gameInfo = game;
+            NSString *macLabel =self.gameInfo.point.label;
+            NSArray *array3 = [macLabel componentsSeparatedByString:@":"];
+            NSString *string3 = [array3 componentsJoinedByString:@""];
+            mac_Label = [string3 componentsSeparatedByString:@","];
+            //    NSLog(@"%@   %@",mac_Label,self.gameInfo.point.point_name);
+            sdateStr = self.gameInfo.sdate;
+            [self intervalSinceNow];
+            point.text = self.gameInfo.point.point_name;
+            score_sum.text = [ToolView scoreTransfer:self.gameInfo.score];
             
-            [LocalDBService LoadDb:^(NSDictionary *dict) {
-                
-            } FailBlock:^(NSMutableArray *array) {
-                
-            } andWithLine:self.gameInfo.line_id andWithMyline:oldMyLineid];
-            //保存离线数据
-            [LocalDBService WriteMyline:infoDict[@"Msg"]];
+            if (code == 1) {
+                if([self.gameInfo.pointmap.pindex intValue]<999){
+                    [self setupCompleteView:0];
+                }
+            }
+            
+            switch ([self.gameInfo.mstatus_id intValue]) {
+                case 1:
+                    self.navigationItem.title = @"准备活动";
+                    if ([self.gameInfo.isLeader intValue] == 1) {
+                        self.MyCentralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+                    }
+                    [self.mapView removeFromSuperview];
+                    [self.QDXScrollView addSubview:readyView];
+                    [self.QDXScrollView addSubview:_webView];
+                    break;
+                    
+                case 2:
+                    [self.navigationItem setTitle:[self.gameInfo.line.line_sub stringByAppendingString:@"-活动中"]];
+                    if ([self.gameInfo.isLeader intValue] == 1) {
+                        self.MyCentralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
+                    }
+                    if([self.gameInfo.line.linetype_id isEqualToString:@"3"])
+                    {
+                        currentTime.text = @"倒计时";
+                    }
+                    [readyView removeFromSuperview];
+                    [_webView removeFromSuperview];
+                    [self.QDXScrollView addSubview:self.mapView];
+                    [self.QDXScrollView addSubview:playView];
+                    [self.QDXScrollView addSubview:self.task_button];
+                    [self.QDXScrollView addSubview:self.history_button];
+                    break;
+                    
+                case 3:
+                    if (![mylineid isEqualToString:self.model.myline_id]){
+                        NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+                        documentDir= [documentDir stringByAppendingPathComponent:@"QDXMyLine.data"];
+                        [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
+                        [[NSNotificationCenter defaultCenter] postNotificationName:@"stateRefresh" object:nil];
+                    }
+                    self.navigationItem.title = @"活动结束";
+                    [self.mapView removeFromSuperview];
+                    [readyView removeFromSuperview];
+                    [_webView removeFromSuperview];
+                    [playView removeFromSuperview];
+                    [self.task_button removeFromSuperview];
+                    [self.history_button removeFromSuperview];
+                    [self removeFromSuperViewController];
+                    [self createTableView];
+                    [self.QDXScrollView addSubview:certificate];
+                    [self refreshScrollView];
+                    break;
+                    
+                case 4:
+                    if (![mylineid isEqualToString:self.model.myline_id]){
+                        NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+                        documentDir= [documentDir stringByAppendingPathComponent:@"QDXMyLine.data"];
+                        [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
+                        [[NSNotificationCenter defaultCenter] postNotificationName:@"stateRefresh" object:nil];
+                    }
+                    [self removeFromSuperViewController];
+                    [self.mapView removeFromSuperview];
+                    [readyView removeFromSuperview];
+                    [_webView removeFromSuperview];
+                    [playView removeFromSuperview];
+                    [self.task_button removeFromSuperview];
+                    [self.history_button removeFromSuperview];
+                    self.navigationItem.title = @"强制结束";
+                    [self createSadView];
+                    break;
+                    
+                default:
+                    if (![mylineid isEqualToString:self.model.myline_id]){
+                        NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+                        documentDir= [documentDir stringByAppendingPathComponent:@"QDXMyLine.data"];
+                        [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
+                        [[NSNotificationCenter defaultCenter] postNotificationName:@"stateRefresh" object:nil];
+                    }
+                    [self removeFromSuperViewController];
+                    [self.mapView removeFromSuperview];
+                    [readyView removeFromSuperview];
+                    [_webView removeFromSuperview];
+                    [playView removeFromSuperview];
+                    [self.task_button removeFromSuperview];
+                    [self.history_button removeFromSuperview];
+                    self.navigationItem.title = @"超时结束";
+                    [self createSadView];
+                    break;
+            }
+            
         }
         else{
             
@@ -350,41 +319,48 @@
     //    NSLog(@"%f",pow(10, ci));
     if (abs([RSSI.description intValue]) < abs([self.gameInfo.point.rssi intValue]))
     {
-        NSMutableArray *macArr = [[NSMutableArray alloc] init];
+        NSMutableArray* macArr = [[NSMutableArray alloc] init];
         [macArr addObjectsFromArray:advertisementData[@"kCBAdvDataServiceUUIDs"]];
+        NSLog(@"%@",advertisementData);
         NSString *string1 = [macArr componentsJoinedByString:@""];
         NSArray *array1 = [string1 componentsSeparatedByString:@"Unknown (<"];
         NSString *string2 = [array1 componentsJoinedByString:@""];
         NSArray *array2 = [string2 componentsSeparatedByString:@">)"];
         NSString *string3 = [array2 componentsJoinedByString:@""];
-        //        NSLog(@"lock %@",lock?@"YES":@"NO");
         if (string3.length > 8) {
-            if (lock == NO) {
                 macStr = [string3 substringFromIndex:8];
                 macStr = [macStr substringToIndex:12];
                 for (NSString * str in mac_Label) {
                     if ([macStr isEqualToString:str] && ![macStr isEqualToString:rmoveMacStr])
                     {
-                        lock = YES;
+                        [self.MyCentralManager stopScan];
+                        
                         rmoveMacStr = macStr;
                         errorCount = 0;
                         if([self.gameInfo.mstatus_id intValue] == 1)
                         {
-                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"是否确定开始本次活动？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-                            alert.tag =2;
-                            [alert show];
+                            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"是否确定开始本次活动？" preferredStyle:UIAlertControllerStyleAlert];
+                            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action){
+                                rmoveMacStr = @"0";
+                                [self.MyCentralManager scanForPeripheralsWithServices:nil  options:nil];
+                            }];
+                            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
+                                [self setupCheckTask];
+                            }];
+                            [alertController addAction:cancelAction];
+                            [alertController addAction:okAction];
+                            [self presentViewController:alertController animated:YES completion:nil];
+                            
                         }else{
                             [self setupCheckTask];
                         }
                         
-                    }
                     
+                    }
                 }
-                
-            }
         }
     }
-    [self.MyCentralManager scanForPeripheralsWithServices:nil  options:nil];
+    
 }
 
 //地图覆盖物
@@ -648,11 +624,9 @@ toViewController:(UIViewController *)toVC {
         oldMyLineid = mylineid;
     }
     
-    lock = NO;
     [self setupFrame];
     [self showGuideView];
     [self setupgetMylineInfo:0];
-    [self updatadd];
     
     self.navigationController.delegate = self;
     self.mapView.showsUserLocation = YES;
@@ -682,7 +656,6 @@ toViewController:(UIViewController *)toVC {
     [self.task_button removeFromSuperview];
     
     [countDownTimer setFireDate:[NSDate distantFuture]];
-    [self updatadd];
 }
 
 //请求点标位置 地图位置
@@ -741,15 +714,6 @@ toViewController:(UIViewController *)toVC {
                 annotation_target.subtitle = line_point.pointmap_des;
                 [self.mapView addAnnotation:annotation_target];
             }
-            //            for (line_pointModel *line_point in self.resultInfo.History) {
-            //                annotation_history = [[MAPointAnnotation alloc]init];
-            //                coor.latitude = [line_point.point.LAT floatValue];
-            //                coor.longitude = [line_point.point.LON floatValue];
-            //                annotation_history.coordinate = coor;
-            //                annotation_history.title = line_point.point.point_name;
-            //                annotation_history.subtitle = line_point.pointmap_des;
-            //                [self.mapView addAnnotation:annotation_history];
-            //            }
         }
         else{
             
@@ -871,14 +835,12 @@ toViewController:(UIViewController *)toVC {
     [self.navigationController setNavigationBarHidden:NO animated:YES];
     QDXHistoryViewController *viewController = [[QDXHistoryViewController alloc] init];
     viewController.Game = self.gameInfo;
-    //    NSLog(@"count  %ld",(long)self.gameInfo.history.count);
     [self.navigationController pushViewController:viewController animated:YES];
 }
 
 -(void)task_buttonClick
 {
     [self setupCompleteView:1];
-    //    [self setupCheckTask];
 }
 
 -(void)mapClick
@@ -971,34 +933,6 @@ toViewController:(UIViewController *)toVC {
     if(![macStr isEqualToString:@""] && macStr != nil){
         params[@"mac"] = macStr;
     }
-    
-    //离线验证
-    if ([self.gameInfo.mstatus_id intValue] == 2 && [self.gameInfo.online intValue] == 2 ) {
-        NSDictionary *dic = [LocalDBService CheckTask:params];
-        int ret = [dic[@"Code"] intValue];
-        if (ret==1) {
-            if (errorCount != 0) {
-                [MBProgressHUD showMessage:@"回答错误!"];
-                dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{ // 3.0s后执行block里面的代码
-                    [MBProgressHUD hideHUD];
-                });
-            }
-            point_questionModel *p_questionModel = [point_questionModel mj_objectWithKeyValues:dic[@"Msg"]];
-            self.questionInfo = p_questionModel;
-//            NSLog(@"%@    ",self.questionInfo.question.qkey);
-            [self  setupTaskView];
-            
-            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-            errorCount++;
-        }else if (ret == 2){
-            AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
-            [self setupgetMylineInfo:1];
-            [self updatadd];
-        }
-        return ;
-    }
-    
-    
     NSString *url = [hostUrl stringByAppendingString:@"Home/Myline/checkTaskv2"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
@@ -1027,60 +961,46 @@ toViewController:(UIViewController *)toVC {
             [self setupgetMylineInfo:1];
 //            answer = @"";
 //            macStr = @"";
+            [self.MyCentralManager scanForPeripheralsWithServices:nil  options:nil];
         }else{
-//            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"请稍候再试" preferredStyle:UIAlertControllerStyleAlert];
-//            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"重试" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
-                lock = NO;
-                rmoveMacStr = @"";
-//            }];
-//            [alertController addAction:okAction];
-//            [self presentViewController:alertController animated:YES completion:nil];
+            rmoveMacStr = @"";
+            [self.MyCentralManager scanForPeripheralsWithServices:nil  options:nil];
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error){
-        lock = NO;
         rmoveMacStr = @"";
+        [self.MyCentralManager scanForPeripheralsWithServices:nil  options:nil];
     }];
-}
-
--(void)updatadd
-{
-    [LocalDBService UploadHistory:oldMyLineid];
 }
 
 //任务的frame
 -(void)setupTaskView
 {
     [self removeFromSuperViewController];
-    lock = YES;
     
     NSString *stringurl = [NSString stringWithFormat:@"http://www.qudingxiang.cn/home/Myline/getQuestionWeb/myline_id/%@/tmp/%@",oldMyLineid,save]; //默认是在线
-    if ([self.gameInfo.online intValue] ==2) { //离线题
-        stringurl = [accountFile stringByAppendingString:@"/question.html"];
-    }
     
     if ([self.questionInfo.question.ischoice intValue] == 2) {
-        YLPopViewController *popView = [[YLPopViewController alloc] init];
-        popView.webStr = stringurl;
-        popView.contentViewSize = CGSizeMake(TASKWEIGHT, TASKHEIGHT);
-        popView.Title = self.gameInfo.line.line_sub;
-        popView.placeHolder = @"请输入答案";
-//        popView.wordCount = 6 + self.questionInfo.question.qkey.length;//不设置则没有
-        [popView addContentView];//最后调用
-        __typeof(popView)weakPopView = popView;
-        popView.confirmBlock = ^(NSString *text) {
+        [YLPopViewManager sharedInstance].YLPopVC= [[YLPopViewController alloc] init];
+        [YLPopViewManager sharedInstance].YLPopVC.webStr = stringurl;
+        [YLPopViewManager sharedInstance].YLPopVC.contentViewSize = CGSizeMake(TASKWEIGHT, TASKHEIGHT);
+        [YLPopViewManager sharedInstance].YLPopVC.Title = self.gameInfo.line.line_sub;
+        [YLPopViewManager sharedInstance].YLPopVC.placeHolder = @"请输入答案";
+        [[YLPopViewManager sharedInstance].YLPopVC addContentView];//最后调用
+        __typeof([YLPopViewManager sharedInstance].YLPopVC)weakPopView = [YLPopViewManager sharedInstance].YLPopVC;
+        [YLPopViewManager sharedInstance].YLPopVC.confirmBlock = ^(NSString *text) {
             answer = text;
             [self setupCheckTask];
             [weakPopView hidden];
         };
-        popView.cancelBlock = ^(){
-            lock = NO;
+        [YLPopViewManager sharedInstance].YLPopVC.cancelBlock = ^(){
             rmoveMacStr = @"0";
+            [self.MyCentralManager scanForPeripheralsWithServices:nil  options:nil];
         };
     }else if ([self.questionInfo.question.ischoice intValue] == 1){
         
-        CYAlertController *alert = [CYAlertController alertWithTitle:self.gameInfo.line.line_sub message:stringurl];
+        [CYAlertViewManager sharedInstance].CYAlertVC = [CYAlertController alertWithTitle:self.gameInfo.line.line_sub message:stringurl];
         
-        alert.alertViewCornerRadius = 10;
+        [CYAlertViewManager sharedInstance].CYAlertVC.alertViewCornerRadius = 10;
         
         CYAlertAction *cancelAction_A = [CYAlertAction actionWithTitle:[@"A. " stringByAppendingString:self.questionInfo.question.qa] style:CYAlertActionStyleCancel handler:^{
             answer = @"A";
@@ -1098,10 +1018,10 @@ toViewController:(UIViewController *)toVC {
             answer = @"D";
             [self setupCheckTask];
         }];
-        [alert addActions:@[cancelAction_A, cancelAction_B, cancelAction_C ,cancelAction_D]];
+        [[CYAlertViewManager sharedInstance].CYAlertVC addActions:@[cancelAction_A, cancelAction_B, cancelAction_C ,cancelAction_D]];
         
-        alert.presentStyle = CYAlertPresentStyleBounce;
-        [self presentViewController:alert animated:YES completion:nil];
+        [CYAlertViewManager sharedInstance].CYAlertVC.presentStyle = CYAlertPresentStyleBounce;
+        [self presentViewController:[CYAlertViewManager sharedInstance].CYAlertVC animated:YES completion:nil];
     }
 }
 
@@ -1140,7 +1060,6 @@ toViewController:(UIViewController *)toVC {
         
         [successView setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,self.gameInfo.img_url]] placeholderImage:[UIImage imageNamed:@"加载中"] options:SDWebImageRefreshCached];
         
-        //        [successView setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,self.gameInfo.img_url]] placeholderImage:[UIImage imageNamed:@"banner_cell"]];
         [self.deliverView addSubview:successView];
         
         showMsg_button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0,TASKWEIGHT, TASKHEIGHT)];
@@ -1154,7 +1073,6 @@ toViewController:(UIViewController *)toVC {
         self.deliverView.layer.borderWidth = 1;
         self.deliverView.layer.cornerRadius = 12;
         self.deliverView.layer.borderColor = [[UIColor clearColor]CGColor];
-        
         
         CGPoint finalPoint;
         
@@ -1185,7 +1103,6 @@ toViewController:(UIViewController *)toVC {
 {
     [showMsg_button removeFromSuperview];
     [successView removeFromSuperview];
-    lock = NO;
     
     showOK_button = [[UIButton alloc] initWithFrame:CGRectMake(0, TASKHEIGHT - SHOWTASKHEIGHT,TASKWEIGHT, SHOWTASKHEIGHT)];
     [showOK_button addTarget:self action:@selector(showOK_buttonClick) forControlEvents:UIControlEventTouchUpInside];
@@ -1207,11 +1124,6 @@ toViewController:(UIViewController *)toVC {
     [showTitle_button setTitleColor:[UIColor colorWithWhite:0.067 alpha:1.000] forState:UIControlStateNormal];
     showTitle_button.titleLabel.font = [UIFont systemFontOfSize:20];
     [self.deliverView addSubview:showTitle_button];
-    
-    //    cancel_button = [[UIButton alloc] initWithFrame:CGRectMake(TASKWEIGHT - 30, 15,15, 15)];
-    //    [cancel_button addTarget:self action:@selector(cancel_buttonClick) forControlEvents:UIControlEventTouchUpInside];
-    //    [cancel_button setBackgroundImage:[UIImage imageNamed:@"任务卡－取消"]  forState:UIControlStateNormal];
-    //    [self.deliverView addSubview:cancel_button];
     
     self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0,SHOWTASKHEIGHT, TASKWEIGHT, TASKHEIGHT - 2 * SHOWTASKHEIGHT)];
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/Myline/getTaskWeb/myline_id/%@/tmp/%@",oldMyLineid,save]]]];
@@ -1249,14 +1161,8 @@ toViewController:(UIViewController *)toVC {
     });
 }
 
-//-(void)cancel_buttonClick
-//{
-//    [self removeFromSuperViewController];
-//}
-
 -(void)removeFromSuperViewController
 {
-    lock = NO;
     [self.BGView removeFromSuperview];
     [self.deliverView removeFromSuperview];
 }
@@ -1330,14 +1236,11 @@ toViewController:(UIViewController *)toVC {
 //放弃比赛
 -(void)giveUp
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"真的要结束活动吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-    alert.tag = 1;
-    [alert show];
-}
-
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex ==1 && alertView.tag == 1) {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"真的要结束活动吗？" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action){
+        
+    }];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
         
         AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
         mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
@@ -1353,33 +1256,18 @@ toViewController:(UIViewController *)toVC {
             NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
             int ret = [infoDict[@"Code"] intValue];
             if (ret==1) {
-                NSDictionary *res=[LocalDBService ReadMyline:oldMyLineid];
-                [res setValue:@"4" forKey:@"mstatus_id"];
-                [LocalDBService WriteMyline:res];
                 [self setupgetMylineInfo:0];
-                lock = YES;
             }else{
                 
             }
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             
         }];
-    }else if (buttonIndex ==1 && alertView.tag == 2){
-        //        TTSExample * example = [[TTSExample alloc] init];
-        //        [example read:@" 活动开始!"];
-        [self setupCheckTask];
-    }else if (buttonIndex ==1 && alertView.tag == 3){
         
-    }else if (buttonIndex ==0 && alertView.tag == 1) {
-        
-    }else if (buttonIndex ==0 && alertView.tag == 2){
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{ // 1.0s后执行block里面的代码
-            lock = NO;
-            rmoveMacStr = @"0";
-        });
-    }else if (buttonIndex ==0 && alertView.tag == 3){
-        
-    }
+    }];
+    [alertController addAction:cancelAction];
+    [alertController addAction:okAction];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 //组队按钮
@@ -1412,9 +1300,6 @@ toViewController:(UIViewController *)toVC {
     int sNow = [[locationString substringWithRange:NSMakeRange(17,2)] intValue];
     int sOld = [[sdateStr substringWithRange:NSMakeRange(17,2)] intValue];
     
-    //    int SNow = [[locationString substringWithRange:NSMakeRange(20,2)] intValue];
-    //    int SOld = [[sdateStr substringWithRange:NSMakeRange(20,2)] intValue];
-    
     if((mNow - mOld) == 0 ){
         int a = sNow + MNow * 60 + HNow * 60 * 60 + dNow * 24 * 60 * 60;
         int b = sOld + MOld * 60 + HOld * 60 * 60 + dOld * 24 * 60 * 60;
@@ -1434,11 +1319,7 @@ toViewController:(UIViewController *)toVC {
         if([self.gameInfo.line.countdown intValue] -secondsCountDown <= 900){
             useTime.textColor = [UIColor redColor];
             if ([self.gameInfo.line.countdown intValue] -secondsCountDown <= 0) {
-                lock = YES;
                 [countDownTimer setFireDate:[NSDate distantFuture]];
-                NSDictionary *res=[LocalDBService ReadMyline:oldMyLineid];
-                [res setValue:@"4" forKey:@"mstatus_id"];
-                [LocalDBService WriteMyline:res];
                 [self setupgetMylineInfo:0];
             }
         }
@@ -1525,7 +1406,7 @@ toViewController:(UIViewController *)toVC {
 
 - (void)didClickOnCancelButton
 {
-//    NSLog(@"didClickOnCancelButton");
+
 }
 
 -(void)codeClick
@@ -1533,21 +1414,25 @@ toViewController:(UIViewController *)toVC {
     ImagePickerController *gameVC = [[ImagePickerController alloc] initWithBlock:^(NSString *result, BOOL flag,NSString *from) {
         gameVC.from = from;
         macStr = result;
-        if (lock == NO) {
-            
             for (NSString * str in mac_Label) {
                 if ([macStr isEqualToString:str] && ![macStr isEqualToString:rmoveMacStr])
                 {
-                    lock = YES;
                     rmoveMacStr = macStr;
                     errorCount = 0;
                     AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
                     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{ // 3.0s后执行block里面的代码
                         if([self.gameInfo.mstatus_id intValue] == 1)
                         {
-                            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"是否确定开始本次活动？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-                            alert.tag =2;
-                            [alert show];
+                            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"是否确定开始本次活动？" preferredStyle:UIAlertControllerStyleAlert];
+                            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action){
+                                rmoveMacStr = @"0";
+                            }];
+                            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
+                                [self setupCheckTask];
+                            }];
+                            [alertController addAction:cancelAction];
+                            [alertController addAction:okAction];
+                            [self presentViewController:alertController animated:YES completion:nil];
                         }else{
                             dispatch_queue_t queue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
                             dispatch_sync(queue, ^{
@@ -1556,9 +1441,7 @@ toViewController:(UIViewController *)toVC {
                         }
                     });
                 }
-            }
         }
-        
     }];
     gameVC.hidesBottomBarWhenPushed =YES;
     [self.navigationController pushViewController:gameVC animated:YES];
@@ -1582,7 +1465,6 @@ toViewController:(UIViewController *)toVC {
 
 - (void)buttonBackSetting
 {
-    //    [[NSNotificationCenter defaultCenter] postNotificationName:@"noti3" object:nil];
     [self dismissViewControllerAnimated:YES completion:^{}];
     [self.navigationController popViewControllerAnimated:YES];
 }

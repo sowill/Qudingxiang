@@ -11,6 +11,8 @@
 		04664F061D1CCE82008D50C7 /* UITextView+YLTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 04664F021D1CCE82008D50C7 /* UITextView+YLTextView.m */; };
 		04664F071D1CCE82008D50C7 /* YLPopViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 04664F041D1CCE82008D50C7 /* YLPopViewController.m */; };
 		04666F8D1D5DAC7700CBB6AF /* MineCellService.m in Sources */ = {isa = PBXBuildFile; fileRef = 04666F8C1D5DAC7700CBB6AF /* MineCellService.m */; };
+		450A56881DFAAD1D00D40FC1 /* YLPopViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 450A56871DFAAD1D00D40FC1 /* YLPopViewManager.m */; };
+		450A568B1DFAB08D00D40FC1 /* CYAlertViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 450A568A1DFAB08D00D40FC1 /* CYAlertViewManager.m */; };
 		451828AB1D40C87A00D5FC85 /* EAFeatureItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 451828A31D40C87A00D5FC85 /* EAFeatureItem.m */; };
 		451828AC1D40C87A00D5FC85 /* icon_ea_background@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 451828A51D40C87A00D5FC85 /* icon_ea_background@2x.png */; };
 		451828AD1D40C87A00D5FC85 /* icon_ea_background@3x.png in Resources */ = {isa = PBXBuildFile; fileRef = 451828A61D40C87A00D5FC85 /* icon_ea_background@3x.png */; };
@@ -328,6 +330,10 @@
 		04664F041D1CCE82008D50C7 /* YLPopViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLPopViewController.m; sourceTree = "<group>"; };
 		04666F8B1D5DAC7700CBB6AF /* MineCellService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineCellService.h; sourceTree = "<group>"; };
 		04666F8C1D5DAC7700CBB6AF /* MineCellService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineCellService.m; sourceTree = "<group>"; };
+		450A56861DFAAD1D00D40FC1 /* YLPopViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = YLPopViewManager.h; sourceTree = "<group>"; };
+		450A56871DFAAD1D00D40FC1 /* YLPopViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = YLPopViewManager.m; sourceTree = "<group>"; };
+		450A56891DFAB08D00D40FC1 /* CYAlertViewManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYAlertViewManager.h; sourceTree = "<group>"; };
+		450A568A1DFAB08D00D40FC1 /* CYAlertViewManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYAlertViewManager.m; sourceTree = "<group>"; };
 		451828A21D40C87A00D5FC85 /* EAFeatureItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EAFeatureItem.h; sourceTree = "<group>"; };
 		451828A31D40C87A00D5FC85 /* EAFeatureItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EAFeatureItem.m; sourceTree = "<group>"; };
 		451828A51D40C87A00D5FC85 /* icon_ea_background@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon_ea_background@2x.png"; sourceTree = "<group>"; };
@@ -1014,6 +1020,8 @@
 				04664F021D1CCE82008D50C7 /* UITextView+YLTextView.m */,
 				04664F031D1CCE82008D50C7 /* YLPopViewController.h */,
 				04664F041D1CCE82008D50C7 /* YLPopViewController.m */,
+				450A56861DFAAD1D00D40FC1 /* YLPopViewManager.h */,
+				450A56871DFAAD1D00D40FC1 /* YLPopViewManager.m */,
 			);
 			path = YLPopView;
 			sourceTree = "<group>";
@@ -1436,6 +1444,8 @@
 				4571CDBF1CE05B00002ED784 /* CYAlertDismissAnimator */,
 				4571CDCE1CE05B00002ED784 /* CYAlertPresentAnimator */,
 				4571CDE11CE05B00002ED784 /* CYAlertView */,
+				450A56891DFAB08D00D40FC1 /* CYAlertViewManager.h */,
+				450A568A1DFAB08D00D40FC1 /* CYAlertViewManager.m */,
 			);
 			path = CYAlertController;
 			sourceTree = "<group>";
@@ -2363,6 +2373,7 @@
 				A3442D221C9B946A0092363A /* SettingViewController.m in Sources */,
 				4549C7651DBE103800180FB5 /* UIImage+Image.m in Sources */,
 				453395071CF6D8C800B5A825 /* FeHandwriting.m in Sources */,
+				450A56881DFAAD1D00D40FC1 /* YLPopViewManager.m in Sources */,
 				45C6F59A1C92A1D500C5AA31 /* myViewCellTableViewCell.m in Sources */,
 				A31287A61CCF0DD700CB887E /* QDXOfflineDB.m in Sources */,
 				45CA52271DE452270025A376 /* MJRefreshAutoNormalFooter.m in Sources */,
@@ -2479,6 +2490,7 @@
 				455C8A9B1CCF7827001F5FC5 /* DataVerifier.m in Sources */,
 				455A95B91C97E3EB0039FA88 /* MJPropertyType.m in Sources */,
 				45EE613D1CEAD4FC007302E3 /* UIImage+watermark.m in Sources */,
+				450A568B1DFAB08D00D40FC1 /* CYAlertViewManager.m in Sources */,
 				4557D1531CD9A33300CA76BD /* QDXHistoryViewController.m in Sources */,
 				45C6F5B41C92A2D500C5AA31 /* QDXLoginViewController.m in Sources */,
 				45C6F5BB1C92A30600C5AA31 /* DetailCell.m in Sources */,

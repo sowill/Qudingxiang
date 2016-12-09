@@ -109,7 +109,6 @@
 
 - (void)stateRefresh
 {
-    [self state];
     [self loadData];
 }
 
@@ -133,13 +132,8 @@
 
 - (void)loadData
 {
-    if (save) {
-        [self state];
-        //[self performSelectorInBackground:@selector(state) withObject:nil];
-    }else{
-        _scanBtn.hidden = NO;
-        [self state1];
-    }
+    [self state];
+    _scanBtn.hidden = NO;
 }
 
 - (void)createTableView
@@ -176,9 +170,9 @@
     [self createButtonWithView:view];
     [self.view addSubview:_tableView];
     
-    
     _scanBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 18)];
     [_scanBtn setBackgroundImage:[UIImage imageNamed:@"index_sweep"] forState:UIControlStateNormal];
+    [_scanBtn addTarget:self action:@selector(scanClick) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_scanBtn];
 }
 
@@ -300,6 +294,7 @@
     [homehttp statesucceed:^(id data) {
          NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments | NSJSONReadingMutableLeaves error:nil];
         _code = [dict[@"Code"] intValue];
+        
         appdelegate.code = [NSString stringWithFormat:@"%d",(int)_code];
         if(_code == 2){
             appdelegate.ticket = dict[@"Msg"][@"ticket"][@"ticket_id"];
@@ -308,19 +303,16 @@
         }
         appdelegate.loading = NO;
         dispatch_async(dispatch_get_main_queue(), ^{
-            [self changeScanBtn];
-
+            if(_code == 0){
+                _scanBtn.hidden = NO;
+            }else{
+                _scanBtn.hidden = YES;
+            }
         });
-        
     } failure:^(NSError *error) {
 
     } WithToken:save];
     });
-}
-
-- (void)state1
-{
-    [_scanBtn addTarget:self action:@selector(scanClick) forControlEvents:UIControlEventTouchUpInside];
 }
 
 - (void)dbversion
@@ -334,7 +326,6 @@
 
 - (void)cellDataWith:(NSString *)cur isRemoveAll:(BOOL)isRemoveAll andWithType:(NSString *)type
 {
-
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [homehttp loadCellsucceed:^(id data) {
             NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments | NSJSONReadingMutableLeaves error:nil];
@@ -354,8 +345,6 @@
                 [_tableView reloadData];
 
             });
-            
-            //[self performSelectorOnMainThread:@selector(sussRes) withObject:nil waitUntilDone:YES];
             [_tableView.mj_footer endRefreshing];
         } failure:^(NSError *error) {
 
@@ -438,20 +427,16 @@
     [self cellDataWith:@"1" isRemoveAll:YES andWithType:type];
 }
 
-- (void)changeScanBtn
-{
-    if(_code == 0){
-        _scanBtn.hidden = NO;
-        [_scanBtn addTarget:self action:@selector(scanClick) forControlEvents:UIControlEventTouchUpInside];
-    }else{
-        _scanBtn.hidden = YES;
-    }
-}
-
 - (void)scanClick
 {
     if ([save length] != 0) {
-        [self scanClick1];
+        ImagePickerController *imageVC = [[ImagePickerController alloc] initWithBlock:^(NSString *result, BOOL flag, NSString *from) {
+            imageVC.from = from;
+            _result = result;
+            [self netWorking];
+        }];
+        imageVC.hidesBottomBarWhenPushed =YES;
+        [self.navigationController pushViewController:imageVC animated:YES];
     }else{
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"登陆后才可使用此功能" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"立即登录" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
@@ -472,21 +457,9 @@
         [self presentViewController:alertController animated:YES completion:nil];
     }
 }
-- (void)scanClick1
-{
-    ImagePickerController *imageVC = [[ImagePickerController alloc] initWithBlock:^(NSString *result, BOOL flag, NSString *from) {
-        imageVC.from = from;
-        _result = result;
-//        NSLog(@"%@",_result);
-        [self netWorking];
-    }];
-    imageVC.hidesBottomBarWhenPushed =YES;
-    [self.navigationController pushViewController:imageVC animated:YES];
-}
 
 - (void)netWorking
 {
-    
     //创建请求管理对象
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     //说明服务器返回的事JSON数据
@@ -510,9 +483,6 @@
             UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:[NSString stringWithFormat:@"%@",model.Msg] delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
             alert.tag = 1;
             [alert show];
-            
-            
-            
         }else{
             [model setTicket_id:dictMsg[@"ticket_id"]];
             if([model.ticket_id longLongValue] <100000000000){
@@ -525,49 +495,12 @@
                     
                 }];
             }else{
+                
             }
-            
         }
-        
-        
-        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
     }];
-}
-
-- (void)choiceBtnClicked
-{
-    LineController *lineVC = [[LineController alloc] init];
-    lineVC.click = @"1";
-    lineVC.ticketID = saveTicket_id;
-    lineVC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:lineVC animated:YES];
-    
-}
-
-
-- (void)topBtnClicked:(UIButton *)btn
-{
-    QDXLineDetailViewController *detailLine = [[QDXLineDetailViewController alloc] init];
-    btn.tag = _currentIndex;
-    detailLine.homeModel = [_modelArr objectAtIndex:btn.tag];
-    detailLine.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:detailLine animated:YES];
-}
-
-- (void)startGame
-{
-    NSString *isHave = [NSKeyedUnarchiver unarchiveObjectWithFile:QDXMyLineFile];
-    if (isHave) {
-        QDXGameViewController *viewController = [[QDXGameViewController alloc] init];
-        viewController.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:viewController animated:YES];
-    }else{
-        QDXProtocolViewController *viewController = [[QDXProtocolViewController alloc] init];
-        viewController.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:viewController animated:YES];
-    }
 }
 
 - (void)didReceiveMemoryWarning {

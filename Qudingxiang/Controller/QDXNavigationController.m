@@ -26,7 +26,10 @@
     // 1.设置导航栏主题
     UINavigationBar *navBar = [UINavigationBar appearance];
 
-    [navBar setBackgroundImage:[UIImage imageNamed:@"navigation"] forBarMetrics:UIBarMetricsDefault];
+//    [navBar setBackgroundImage:[UIImage imageNamed:@"navigation"] forBarMetrics:UIBarMetricsDefault];
+    
+    [navBar setBarTintColor:QDXBlue];
+    navBar.translucent = NO;
     
     // 设置标题文字颜色
     NSMutableDictionary *attrs = [NSMutableDictionary dictionary];

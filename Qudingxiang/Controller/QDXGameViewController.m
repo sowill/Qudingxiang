@@ -162,6 +162,7 @@
     return YES;
 }
 
+
 //请求当前线路1）准备 2）活动中 3）活动完成 4）强制结束
 -(void)setupgetMylineInfo:(int) code
 {
@@ -317,11 +318,12 @@
     //    int b = abs([RSSI.description intValue]);
     //    CGFloat ci = (b - abs([self.gameInfo.point.rssi intValue])) / (10 * 4.);
     //    NSLog(@"%f",pow(10, ci));
+    [self.MyCentralManager scanForPeripheralsWithServices:nil  options:nil];
+    
     if (abs([RSSI.description intValue]) < abs([self.gameInfo.point.rssi intValue]))
     {
         NSMutableArray* macArr = [[NSMutableArray alloc] init];
         [macArr addObjectsFromArray:advertisementData[@"kCBAdvDataServiceUUIDs"]];
-        NSLog(@"%@",advertisementData);
         NSString *string1 = [macArr componentsJoinedByString:@""];
         NSArray *array1 = [string1 componentsSeparatedByString:@"Unknown (<"];
         NSString *string2 = [array1 componentsJoinedByString:@""];
@@ -339,6 +341,7 @@
                         errorCount = 0;
                         if([self.gameInfo.mstatus_id intValue] == 1)
                         {
+                            [self.MyCentralManager stopScan];
                             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"是否确定开始本次活动？" preferredStyle:UIAlertControllerStyleAlert];
                             UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action){
                                 rmoveMacStr = @"0";
@@ -354,8 +357,7 @@
                         }else{
                             [self setupCheckTask];
                         }
-                        
-                    
+
                     }
                 }
         }
@@ -640,6 +642,9 @@ toViewController:(UIViewController *)toVC {
 
 //将计时器 地图内存释放
 -(void)viewWillDisappear:(BOOL)animated {
+    [self.MyCentralManager stopScan];
+    [countDownTimer setFireDate:[NSDate distantFuture]];
+    
     self.mapView.showsUserLocation = NO;
     self.mapView.userTrackingMode  = MAUserTrackingModeFollow;
     [self.mapView.layer removeAllAnimations];
@@ -648,14 +653,14 @@ toViewController:(UIViewController *)toVC {
     [self.mapView removeFromSuperview];
     self.mapView.delegate = nil;
     self.mapView = nil;
+    
+    
     [self removeFromSuperViewController];
     [readyView removeFromSuperview];
     [_webView removeFromSuperview];
     [playView removeFromSuperview];
     [self.history_button removeFromSuperview];
     [self.task_button removeFromSuperview];
-    
-    [countDownTimer setFireDate:[NSDate distantFuture]];
 }
 
 //请求点标位置 地图位置

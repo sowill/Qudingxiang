@@ -50,14 +50,14 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:menuBtn];
     
     [self createTableView];
-    if ([_tableView respondsToSelector:@selector(setSeparatorInset:)])
-    {
-        [_tableView setSeparatorInset:UIEdgeInsetsZero];
-    }
-    if ([_tableView respondsToSelector:@selector(setLayoutMargins:)])
-    {
-        [_tableView setLayoutMargins:UIEdgeInsetsZero];
-    }
+//    if ([_tableView respondsToSelector:@selector(setSeparatorInset:)])
+//    {
+//        [_tableView setSeparatorInset:UIEdgeInsetsZero];
+//    }
+//    if ([_tableView respondsToSelector:@selector(setLayoutMargins:)])
+//    {
+//        [_tableView setLayoutMargins:UIEdgeInsetsZero];
+//    }
 }
 
 - (void) openOrCloseLeftList
@@ -86,7 +86,7 @@
 - (void)createTableView
 {
     _dataArr = [NSMutableArray arrayWithCapacity:0];
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight - 49)];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight - 49 - 64)];
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.showsVerticalScrollIndicator = NO;

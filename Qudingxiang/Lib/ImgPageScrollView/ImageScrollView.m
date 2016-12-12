@@ -40,10 +40,12 @@
         _imgScrollView.bounces = YES;
         _imgScrollView.showsHorizontalScrollIndicator = NO;
         _imgScrollView.showsVerticalScrollIndicator = NO;
+        [self addSubview:_imgScrollView];
+        
         _pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, frame.size.height - 25, frame.size.width, 25)];
         _pageControl.pageIndicatorTintColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.5];
         _pageControl.currentPageIndicatorTintColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1];
-        [self addSubview:_imgScrollView];
+        
         [self addSubview:_pageControl];
         _curIndex = 0;
     }
@@ -163,8 +165,8 @@
 }
 #pragma mark 下载图片
 - (void) loadImage:(NSString *)urlStr imageView:(UIImageView *)imgView {
-    imgView.layer.borderWidth = 0.3;
-    imgView.layer.borderColor = [UIColor groupTableViewBackgroundColor].CGColor;
+//    imgView.layer.borderWidth = 0.3;
+//    imgView.layer.borderColor = [UIColor groupTableViewBackgroundColor].CGColor;
     NSURL *url = [NSURL URLWithString:urlStr];
     if (url == nil) {
         return;

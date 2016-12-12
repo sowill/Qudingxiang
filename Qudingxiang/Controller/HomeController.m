@@ -89,16 +89,12 @@
     _curNumber = 1;
     [self createTableView];
     [self loadDataCell];
-    [self createUI];
+    [self createHeaderView];
     
-    if ([_tableView respondsToSelector:@selector(setSeparatorInset:)])
-    {
-        [_tableView setSeparatorInset:UIEdgeInsetsZero];
-    }
-    if ([_tableView respondsToSelector:@selector(setLayoutMargins:)])
-    {
-        [_tableView setLayoutMargins:UIEdgeInsetsZero];
-    }
+    _scanBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 18)];
+    [_scanBtn setBackgroundImage:[UIImage imageNamed:@"index_sweep"] forState:UIControlStateNormal];
+    [_scanBtn addTarget:self action:@selector(scanClick) forControlEvents:UIControlEventTouchUpInside];
+    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_scanBtn];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stateRefresh) name:@"stateRefresh" object:nil];
 }
@@ -117,17 +113,16 @@
     _scrollArr = [NSMutableArray arrayWithCapacity:0];
     dispatch_queue_t queue = dispatch_queue_create("gcdtest.rongfzh.yc", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(queue, ^{
-        [self dbversion];
+        [homehttp dbversionsucceed:^(id data) {
+            
+        } failure:^(NSError *error) {
+            
+        }];
     });
     dispatch_barrier_async(queue, ^{
-        [self cell1];
+        [self cellDataWith:@"1" isRemoveAll:YES andWithType:@"0"];
         [self topViewData];
     });
-}
-
-- (void)cell1
-{
-   [self cellDataWith:@"1" isRemoveAll:YES andWithType:@"0"];
 }
 
 - (void)loadData
@@ -148,36 +143,19 @@
     [self refreshView];
 }
 
-- (void)createUI
+- (void)createHeaderView
 {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxWidth*0.59+QdxWidth/5)];
-    CGFloat viewMaxY = CGRectGetMaxY(view.frame);
-    [view setBackgroundColor:[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1]];
-    UIView *viewFoot = [[UIView alloc] initWithFrame:CGRectMake(0, viewMaxY, QdxWidth,30)];
-    viewFoot.backgroundColor = [UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:1];
-    [view addSubview:viewFoot];
-    view.frame = CGRectMake(0, 0, QdxWidth, viewMaxY+30);
-    
-    _tableView.tableHeaderView = view;
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxWidth*0.59+QdxWidth/5 + 30)];
+    [view setBackgroundColor:[UIColor whiteColor]];
     
     //创建
     imgScrollView = [[ImageScrollView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxWidth*0.59)];
     [view addSubview:imgScrollView];
+    
     UIImageView *mask = [[UIImageView alloc] initWithFrame:CGRectMake(0, QdxWidth*0.59-QdxWidth*0.1, QdxWidth, QdxWidth*0.1)];
     mask.image = [UIImage imageNamed:@"index_mask"];
     [imgScrollView addSubview:mask];
     
-    [self createButtonWithView:view];
-    [self.view addSubview:_tableView];
-    
-    _scanBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 18)];
-    [_scanBtn setBackgroundImage:[UIImage imageNamed:@"index_sweep"] forState:UIControlStateNormal];
-    [_scanBtn addTarget:self action:@selector(scanClick) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_scanBtn];
-}
-
-- (void)createButtonWithView:(UIView *)view
-{
     NSArray *titleArr = @[@"亲子",@"交友",@"拓展",@"挑战"];
     NSArray *imageArr = @[@"index_parenting",@"index_makefriends",@"index_expand",@"index_dekaron"];
     CGFloat scrollViewMaxY = CGRectGetMaxY(imgScrollView.frame);
@@ -190,6 +168,8 @@
         btn.titleLabel.font = [UIFont systemFontOfSize:12];
         btn.tag = 1+i;
     }
+    
+    _tableView.tableHeaderView = view;
 }
 
 - (void)refreshView
@@ -235,17 +215,6 @@
     }else{
         [self cellDataWith:[NSString stringWithFormat:@"%li", (long)_curNumber] isRemoveAll:NO andWithType:@"0"];
     }
-}
-
-
-- (void)sussRes
-{
-    
-}
-
-- (void)failRes
-{
-   
 }
 
 - (void)topViewData
@@ -313,15 +282,6 @@
 
     } WithToken:save];
     });
-}
-
-- (void)dbversion
-{
-    [homehttp dbversionsucceed:^(id data) {
-        
-    } failure:^(NSError *error) {
-        
-    }];
 }
 
 - (void)cellDataWith:(NSString *)cur isRemoveAll:(BOOL)isRemoveAll andWithType:(NSString *)type

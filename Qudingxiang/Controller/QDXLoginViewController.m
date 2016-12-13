@@ -11,7 +11,6 @@
 #import "QDXCreateCodeViewController.h"
 #import "QDXForgetPasswordViewController.h"
 #import "QDXIsConnect.h"
-#import "TabbarController.h"
 #import "QDXBindViewController.h"
 #import "LoginService.h"
 #import "MineViewController.h"

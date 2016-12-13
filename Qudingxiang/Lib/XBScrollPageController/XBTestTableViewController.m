@@ -169,7 +169,6 @@
         [self.tableview reloadData];
         
         // 拿到当前的上拉刷新控件，结束刷新状态
-        
         [self.tableview.mj_footer endRefreshingWithNoMoreData];
     }else{
         [self getOrdersListAjax];

@@ -31,8 +31,6 @@
     NSInteger _code;
     NSString *_line_id;
     NSString *_ticket;
-    
-
 }
 @property (nonatomic, strong) UIButton *publishButton;
 @property (nonatomic, assign) long indexFlag;
@@ -46,29 +44,20 @@
     UITabBarItem *tabBarItem = [UITabBarItem appearanceWhenContainedInInstancesOfClasses:@[self]];
     
     NSMutableDictionary *dictNormal = [NSMutableDictionary dictionary];
-    dictNormal[NSForegroundColorAttributeName] = [UIColor colorWithRed:11/255.0 green:11/255.0 blue:11/255.0 alpha:1];
-    dictNormal[NSFontAttributeName] = [UIFont systemFontOfSize:11];
+    dictNormal[NSForegroundColorAttributeName] = QDXGray;
+    dictNormal[NSFontAttributeName] = [UIFont systemFontOfSize:12];
     
     NSMutableDictionary *dictSelected = [NSMutableDictionary dictionary];
-    dictSelected[NSForegroundColorAttributeName] = [UIColor colorWithRed:0/255.0 green:153/255.0 blue:253/255.0 alpha:1];
-    dictSelected[NSFontAttributeName] = [UIFont systemFontOfSize:11];
+    dictSelected[NSForegroundColorAttributeName] = QDXBlue;
+    dictSelected[NSFontAttributeName] = [UIFont systemFontOfSize:12];
     
     [tabBarItem setTitleTextAttributes:dictNormal forState:UIControlStateNormal];
     [tabBarItem setTitleTextAttributes:dictSelected forState:UIControlStateSelected];
     
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    // 删除系统自动生成的UITabBarButton
-    
-    //    for (UIView *child in self.tabBar.subviews) {
-    //
-    //        if ([child isKindOfClass:[UIControl class]]) {
-    //            [child removeFromSuperview];
-    //        }
-    //    }
+- (void)viewDidLoad {
+    [super viewDidLoad];
     
     //新建自定义TabBar
     LBTabBar *tabbar = [[LBTabBar alloc] init];
@@ -78,25 +67,8 @@
     //kvc实质是修改了系统的_tabBar
     [self setValue:tabbar forKeyPath:@"tabBar"];
     
-    //    tabbar.backgroundColor = [UIColor whiteColor];
-    
-    
-    self.publishButton = [[UIButton alloc] init];
-    [self.publishButton setBackgroundImage:[UIImage imageNamed:@"post_normal"] forState:UIControlStateNormal];
-    [self.publishButton setBackgroundImage:[UIImage imageNamed:@"post_normal"] forState:UIControlStateHighlighted];
-    
-    self.publishButton.size = CGSizeMake(self.publishButton.currentBackgroundImage.size.width, self.publishButton.currentBackgroundImage.size.height);
-    self.publishButton.centerX = self.view.centerX;
-    self.publishButton.centerY = tabbar.height * 0.5 - 2 * LBMagin + CGRectGetMinY(tabbar.frame);
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
     [self setUpAllChildVc];
-    
 }
-
 
 #pragma mark - ------------------------------------------------------------------
 #pragma mark - 初始化tabBar上除了中间按钮之外所有的按钮
@@ -129,9 +101,6 @@
 {
     QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:Vc];
     
-    
-    //Vc.view.backgroundColor = [self randomColor];
-    
     UIImage *myImage = [UIImage imageNamed:image];
     myImage = [myImage imageWithRenderingMode:UIImageRenderingModeAlwaysOriginal];
     
@@ -148,7 +117,6 @@
     Vc.navigationItem.title = title;
     
     [self addChildViewController:nav];
-    
 }
 
 
@@ -214,7 +182,7 @@
 //    }
 //
 //}
-//// 动画
+// 动画
 //- (void)animationWithIndex:(NSInteger) index {
 //    NSMutableArray * tabbarbuttonArray = [NSMutableArray array];
 //    for (UIView *tabBarButton in self.tabBar.subviews) {
@@ -244,18 +212,7 @@
         [self presentViewController:navController animated:YES completion:^{
             
         }];
-        
     }
-}
-
-
-- (UIColor *)randomColor
-{
-    CGFloat r = arc4random_uniform(256);
-    CGFloat g = arc4random_uniform(256);
-    CGFloat b = arc4random_uniform(256);
-    return [UIColor colorWithRed:r/255.0 green:g/255.0 blue:b/255.0 alpha:1.0];
-    
 }
 
 @end

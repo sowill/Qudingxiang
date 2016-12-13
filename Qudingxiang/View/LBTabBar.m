@@ -128,7 +128,7 @@
             //每一个按钮的宽度==tabbar的五分之一
             btn.width = self.width / 5;
             
-            btn.y = -3;
+            btn.y = -2;
             
             btn.x = btn.width * btnIndex;
             
@@ -151,7 +151,6 @@
     if ([self.delegate respondsToSelector:@selector(tabBarPlusBtnClick:)]) {
         [self.myDelegate tabBarPlusBtnClick:self];
     }
-    
 }
 
 //重写hitTest方法，去监听发布按钮的点击，目的是为了让凸出的部分点击也有反应

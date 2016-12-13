@@ -132,7 +132,6 @@
 		4569E5941C4CB64B00FF4E8B /* MBProgressHUD.m in Sources */ = {isa = PBXBuildFile; fileRef = 455672291BA936ED0016D26F /* MBProgressHUD.m */; };
 		4569E59E1C4CB64B00FF4E8B /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DF76311BA6AAC20024A6B4 /* AppDelegate.m */; };
 		4569E5A01C4CB64B00FF4E8B /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DF762E1BA6AAC20024A6B4 /* main.m */; };
-		456FE0241DBF5E630025AFEE /* TabbarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 456FE0231DBF5E630025AFEE /* TabbarController.m */; };
 		4571CDE71CE05B00002ED784 /* CYAlertController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4571CDBE1CE05B00002ED784 /* CYAlertController.m */; };
 		4571CDE81CE05B00002ED784 /* CYAlertDismissContractHorizontal.m in Sources */ = {isa = PBXBuildFile; fileRef = 4571CDC11CE05B00002ED784 /* CYAlertDismissContractHorizontal.m */; };
 		4571CDE91CE05B00002ED784 /* CYAlertDismissContractVertical.m in Sources */ = {isa = PBXBuildFile; fileRef = 4571CDC31CE05B00002ED784 /* CYAlertDismissContractVertical.m */; };
@@ -597,8 +596,6 @@
 		455C8AA31CD063C7001F5FC5 /* libstdc++.6.0.9.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libstdc++.6.0.9.tbd"; path = "usr/lib/libstdc++.6.0.9.tbd"; sourceTree = SDKROOT; };
 		455C8AB61CD064B5001F5FC5 /* QDXOffLineController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXOffLineController.h; sourceTree = "<group>"; };
 		455C8AB71CD064B5001F5FC5 /* QDXOffLineController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXOffLineController.m; sourceTree = "<group>"; };
-		456FE0221DBF5E630025AFEE /* TabbarController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TabbarController.h; sourceTree = "<group>"; };
-		456FE0231DBF5E630025AFEE /* TabbarController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TabbarController.m; sourceTree = "<group>"; };
 		4571CDBD1CE05B00002ED784 /* CYAlertController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYAlertController.h; sourceTree = "<group>"; };
 		4571CDBE1CE05B00002ED784 /* CYAlertController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CYAlertController.m; sourceTree = "<group>"; };
 		4571CDC01CE05B00002ED784 /* CYAlertDismissContractHorizontal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CYAlertDismissContractHorizontal.h; sourceTree = "<group>"; };
@@ -1743,8 +1740,6 @@
 				455C8AB71CD064B5001F5FC5 /* QDXOffLineController.m */,
 				043A59E51D18F22600E5E1BB /* HelpViewController.h */,
 				043A59E61D18F22600E5E1BB /* HelpViewController.m */,
-				456FE0221DBF5E630025AFEE /* TabbarController.h */,
-				456FE0231DBF5E630025AFEE /* TabbarController.m */,
 				45FAC8A01DD0571B004A6531 /* QDXPointSettingViewController.h */,
 				45FAC8A11DD0571B004A6531 /* QDXPointSettingViewController.m */,
 				45FAC8A31DD08EA9004A6531 /* QDXPointListViewController.h */,
@@ -2281,7 +2276,6 @@
 				455A95CA1C97F5400039FA88 /* QDXAreaModel.m in Sources */,
 				45DBF7271DE804DB008FDA7D /* QDXSlideHeaderView.m in Sources */,
 				45C6F5BD1C92A30600C5AA31 /* LineCell.m in Sources */,
-				456FE0241DBF5E630025AFEE /* TabbarController.m in Sources */,
 				453679F01CD30D0200828EF9 /* LrdOutputView.m in Sources */,
 				4571CDF81CE05B00002ED784 /* CYAlertAction.m in Sources */,
 				4571CDF61CE05B00002ED784 /* CYAlertPresentSlideUp.m in Sources */,

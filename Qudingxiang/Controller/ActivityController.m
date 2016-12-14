@@ -50,14 +50,6 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:menuBtn];
     
     [self createTableView];
-//    if ([_tableView respondsToSelector:@selector(setSeparatorInset:)])
-//    {
-//        [_tableView setSeparatorInset:UIEdgeInsetsZero];
-//    }
-//    if ([_tableView respondsToSelector:@selector(setLayoutMargins:)])
-//    {
-//        [_tableView setLayoutMargins:UIEdgeInsetsZero];
-//    }
 }
 
 - (void) openOrCloseLeftList

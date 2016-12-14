@@ -35,25 +35,16 @@
 {
     static NSString *cellID = @"ID";
     BaseCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
-        //cell = [[BaseCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
         if(!cell){
             cell = [[BaseCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
         //添加cell的子控件
         [cell addSubViewsNew];
-        
     }
     return cell;
-
 }
-
 
 - (void)addSubViewsNew
 {
-//    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, 10)];
-//    view.backgroundColor = [UIColor colorWithRed:232/255.0 green:236/255.0 blue:241/255.0 alpha:0.5];
-//    [self.contentView addSubview:view];
-//    UIImageView *bgView = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, QdxWidth*2/3, QdxWidth/2)];
-//    bgView.backgroundColor = [UIColor colorWithRed:120/255.0 green:214/255.0 blue:252/255.0 alpha:1];
     _imageViewN = [ToolView createImageWithFrame:CGRectMake(10, 10, 70, 70)];
     CALayer *layer = _imageViewN.layer;
     [layer setMasksToBounds:NO];
@@ -63,24 +54,22 @@
     _parkNamelabel = [ToolView createLabelWithFrame:CGRectMake(imageViewX+10, 10, QdxWidth - 70, 20) text:@"公园名称" font:15 superView:self.contentView];
     CGFloat parkLabelMaxY = CGRectGetMaxY(_parkNamelabel.frame);
     _parkNamelabel.textAlignment = NSTextAlignmentLeft;
-    _parkNamelabel.backgroundColor = [UIColor whiteColor];
     _parkNamelabel.font = [UIFont systemFontOfSize:15];
     _parkNamelabel.textColor = QDXBlack;
     
     _priceLabel = [ToolView createLabelWithFrame:CGRectMake(imageViewX+10, parkLabelMaxY+5, QdxWidth - 70, 20) text:@"¥" font:18 superView:self.contentView];
     _priceLabel.textAlignment = NSTextAlignmentLeft;
     _priceLabel.font = [UIFont systemFontOfSize:15];
-    _priceLabel.backgroundColor = [UIColor whiteColor];
     _priceLabel.textColor = QDXOrange;
     CGFloat priceLabelMaxY = CGRectGetMaxY(_priceLabel.frame);
     
-    _nameLabel = [ToolView createLabelWithFrame:CGRectMake(imageViewX+10, priceLabelMaxY+5, QdxWidth/4, 20) text:@"项目名称" font:15 superView:self.contentView];
+    _nameLabel = [ToolView createLabelWithFrame:CGRectMake(imageViewX+10, priceLabelMaxY+5, QdxWidth - 100, 20) text:@"项目名称" font:15 superView:self.contentView];
     _nameLabel.textAlignment = NSTextAlignmentLeft;
     _nameLabel.font = [UIFont systemFontOfSize:13];
-    _nameLabel.backgroundColor = [UIColor whiteColor];
     _nameLabel.textColor = QDXGray;
     
 }
+
 - (void)setHomeModel:(HomeModel *)homeModel
 {
     _homeModel = homeModel;
@@ -97,7 +86,6 @@
         [layerStar setMasksToBounds:NO];
         [self.contentView  addSubview:_starView];
     }
-
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {

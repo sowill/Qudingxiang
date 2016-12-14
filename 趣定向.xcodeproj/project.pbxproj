@@ -263,6 +263,8 @@
 		45CA52321DE452270025A376 /* UIScrollView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CA521C1DE452270025A376 /* UIScrollView+MJExtension.m */; };
 		45CA52331DE452270025A376 /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CA521E1DE452270025A376 /* UIScrollView+MJRefresh.m */; };
 		45CA52341DE452270025A376 /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CA52201DE452270025A376 /* UIView+MJExtension.m */; };
+		45D6E6CB1E0115A2004EFF15 /* QDXActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D6E6CA1E0115A2004EFF15 /* QDXActivityViewController.m */; };
+		45D6E6CE1E011FD8004EFF15 /* QDXActTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D6E6CD1E011FD8004EFF15 /* QDXActTableViewCell.m */; };
 		45DBF7241DE7E84B008FDA7D /* QDXSlideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DBF7231DE7E84B008FDA7D /* QDXSlideView.m */; };
 		45DBF7271DE804DB008FDA7D /* QDXSlideHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DBF7261DE804DB008FDA7D /* QDXSlideHeaderView.m */; };
 		45DBF72A1DE80B53008FDA7D /* QDXSlideHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DBF7291DE80B53008FDA7D /* QDXSlideHeaderCell.m */; };
@@ -846,6 +848,10 @@
 		45CA521E1DE452270025A376 /* UIScrollView+MJRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+MJRefresh.m"; sourceTree = "<group>"; };
 		45CA521F1DE452270025A376 /* UIView+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MJExtension.h"; sourceTree = "<group>"; };
 		45CA52201DE452270025A376 /* UIView+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MJExtension.m"; sourceTree = "<group>"; };
+		45D6E6C91E0115A2004EFF15 /* QDXActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXActivityViewController.h; sourceTree = "<group>"; };
+		45D6E6CA1E0115A2004EFF15 /* QDXActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXActivityViewController.m; sourceTree = "<group>"; };
+		45D6E6CC1E011FD8004EFF15 /* QDXActTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXActTableViewCell.h; sourceTree = "<group>"; };
+		45D6E6CD1E011FD8004EFF15 /* QDXActTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXActTableViewCell.m; sourceTree = "<group>"; };
 		45DBF7221DE7E84B008FDA7D /* QDXSlideView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXSlideView.h; sourceTree = "<group>"; };
 		45DBF7231DE7E84B008FDA7D /* QDXSlideView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXSlideView.m; sourceTree = "<group>"; };
 		45DBF7251DE804DB008FDA7D /* QDXSlideHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXSlideHeaderView.h; sourceTree = "<group>"; };
@@ -1746,6 +1752,8 @@
 				45FAC8A41DD08EA9004A6531 /* QDXPointListViewController.m */,
 				459E69F41DF7BC6700D5C9F9 /* QDXTicketSuccessViewController.h */,
 				459E69F51DF7BC6700D5C9F9 /* QDXTicketSuccessViewController.m */,
+				45D6E6C91E0115A2004EFF15 /* QDXActivityViewController.h */,
+				45D6E6CA1E0115A2004EFF15 /* QDXActivityViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1802,6 +1810,8 @@
 				451BDEC21DF551B000008959 /* QDXNoNetWorkView.m */,
 				451BDEC41DF56A3B00008959 /* QDXStateView.h */,
 				451BDEC51DF56A3B00008959 /* QDXStateView.m */,
+				45D6E6CC1E011FD8004EFF15 /* QDXActTableViewCell.h */,
+				45D6E6CD1E011FD8004EFF15 /* QDXActTableViewCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2327,6 +2337,7 @@
 				45C6F5F91C92A3DF00C5AA31 /* QDXTeamsViewController.m in Sources */,
 				4556117D1D543E75006DF063 /* HUTransitionHorizontalLinesAnimator.m in Sources */,
 				451BDEC61DF56A3B00008959 /* QDXStateView.m in Sources */,
+				45D6E6CB1E0115A2004EFF15 /* QDXActivityViewController.m in Sources */,
 				455A95BB1C97E3EB0039FA88 /* NSObject+MJCoding.m in Sources */,
 				453395091CF6D8C800B5A825 /* UIColor+flat.m in Sources */,
 				459BB4A61DDAEFFD00DBEC39 /* UIView_extra.m in Sources */,
@@ -2358,6 +2369,7 @@
 				45C6F5891C92A10300C5AA31 /* QDXDetailsModel.m in Sources */,
 				45DBF72D1DE80DF4008FDA7D /* QDXSlideCollectionViewCell.m in Sources */,
 				4556CD6E1CED672600577A61 /* QDXMap.m in Sources */,
+				45D6E6CE1E011FD8004EFF15 /* QDXActTableViewCell.m in Sources */,
 				4569E5721C4CB64B00FF4E8B /* QRCodeGenerator.m in Sources */,
 				4569E5731C4CB64B00FF4E8B /* qrencode.c in Sources */,
 				451BDEBD1DF54F1C00008959 /* Reachability.m in Sources */,

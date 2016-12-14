@@ -15,7 +15,6 @@
     iv.backgroundColor = [UIColor clearColor];
 //    iv.layer.cornerRadius = 10;
     iv.layer.masksToBounds = YES;
-    
     return iv;
 }
 + (UILabel *)createLabelWithFrame:(CGRect)frame text:(NSString *)text font:(CGFloat)fontSize superView:(UIView *)superView
@@ -23,7 +22,6 @@
     UILabel *label = [[UILabel alloc] initWithFrame:frame];
     label.text = text;
     label.font = [UIFont systemFontOfSize:fontSize];
-    label.textColor = [UIColor blackColor];
     label.textAlignment = NSTextAlignmentLeft;
     [superView addSubview:label];
     return label;

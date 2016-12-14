@@ -7,13 +7,11 @@
 //
 
 #import "HomeController.h"
-#import "QDXGameViewController.h"
 #import "CellLineController.h"
 #import "LineController.h"
 #import "HomeModel.h"
 #import "ImageModel.h"
 #import "BaseCell.h"
-#import "QDXProtocolViewController.h"
 #import "QDXLineDetailViewController.h"
 #import "HomeService.h"
 #import "ImagePickerController.h"
@@ -22,6 +20,7 @@
 #import "ImageScrollView.h"
 #import "AppDelegate.h"
 #import "BaseService.h"
+#import "QDXActivityViewController.h"
 #define NotificaitonChange @"code"
 
 @interface HomeController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,UINavigationControllerDelegate>
@@ -233,7 +232,7 @@
                     [_modelArr addObject:model];
                 }
             }
-        
+            
             for(int i = 0;i<4;i++){
                 [arr addObject:_scrollArr[i]];
             }
@@ -303,7 +302,6 @@
             }
             dispatch_async(dispatch_get_main_queue(), ^{
                 [_tableView reloadData];
-
             });
             [_tableView.mj_footer endRefreshing];
         } failure:^(NSError *error) {
@@ -315,7 +313,6 @@
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return _dataArr.count;
-    
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
@@ -384,7 +381,11 @@
 - (void)btnClick:(UIButton *)btn
 {
     NSString *type = [NSString stringWithFormat:@"%li",btn.tag];
-    [self cellDataWith:@"1" isRemoveAll:YES andWithType:type];
+    QDXActivityViewController *qdxActVC = [[QDXActivityViewController alloc] init];
+    qdxActVC.type = type;
+    qdxActVC.hidesBottomBarWhenPushed = YES;
+    qdxActVC.navTitle = btn.titleLabel.text;
+    [self.navigationController pushViewController:qdxActVC animated:YES];
 }
 
 - (void)scanClick

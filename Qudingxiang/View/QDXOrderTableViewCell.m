@@ -63,24 +63,13 @@
     self.order_name.textAlignment = NSTextAlignmentLeft;
     [self.BGView addSubview:self.order_name];
     
-    if (QdxWidth < 375) {
-        self.ticket_ct = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(24 + 140 + 30), FitRealValue(100 + 44 + 28 + 26), FitRealValue(300), FitRealValue(28))];
-    }else{
-        self.ticket_ct = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(24 + 140 + 30), FitRealValue(100 + 44 + 28 + 26), FitRealValue(255), FitRealValue(28))];
-    }
+    self.ticket_ct = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(24 + 140 + 30), FitRealValue(100 + 44 + 28 + 26), 0, FitRealValue(28))];
+    self.ticket_ct.font = [UIFont systemFontOfSize:14];  //UILabel的字体大小
+    self.ticket_ct.numberOfLines = 0;  //必须定义这个属性，否则UILabel不会换行
     self.ticket_ct.textColor = QDXGray;
-    self.ticket_ct.font = [UIFont systemFontOfSize:14];
-    self.ticket_ct.textAlignment = NSTextAlignmentLeft;
-    [self.BGView addSubview:self.ticket_ct];
+    self.ticket_ct.textAlignment = NSTextAlignmentLeft;  //文本对齐方式
     
-    CGFloat ticket_ctMaxX = CGRectGetMaxX(self.ticket_ct.frame);
-    
-    if (QdxWidth >= 414) {
-        self.orders_am = [[UILabel alloc] initWithFrame:CGRectMake(ticket_ctMaxX - FitRealValue(30), FitRealValue(100 + 44 + 28 + 24), FitRealValue(200), FitRealValue(32))];
-    }else{
-        self.orders_am = [[UILabel alloc] initWithFrame:CGRectMake(ticket_ctMaxX, FitRealValue(100 + 44 + 28 + 24), FitRealValue(200), FitRealValue(32))];
-    }
-
+    self.orders_am = [[UILabel alloc] init];
     self.orders_am.textColor = QDXOrange;
     self.orders_am.font = [UIFont systemFontOfSize:18];
     self.orders_am.textAlignment = NSTextAlignmentLeft;
@@ -111,17 +100,6 @@
     [self.payButton setTitle:@"去支付" forState:UIControlStateNormal];
     self.payButton.titleLabel.font = [UIFont systemFontOfSize:16];
     [self.payButton addTarget:self action:@selector(payButtonClick) forControlEvents:UIControlEventTouchUpInside];
-    
-//    UIView *view2 = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, 80)];
-//    view2.backgroundColor = [UIColor redColor];
-//    [self.BGView addSubview:view2];
-//    
-//    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:view2.bounds byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii:CGSizeMake(10, 10)];
-//    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
-//    maskLayer.frame = view2.bounds;
-//    maskLayer.path = maskPath.CGPath;
-//    view2.layer.mask = maskLayer;
-
 }
 
 -(void)setOrder:(QDXOrdermodel *)order
@@ -135,8 +113,17 @@
     QDXostatus *ostatus = order.ostatus;
     self.ostatus_name.text = ostatus.ostatus_name;
     
-    self.ticket_ct.text = [NSString stringWithFormat:@"数量：%d张 | 总价：",order.quantity];
+    //高度固定不折行，根据字的多少计算label的宽度
+    NSString *str = [NSString stringWithFormat:@"数量：%d张 | 总价：",order.quantity];
+    CGSize size = [str sizeWithFont:self.ticket_ct.font constrainedToSize:CGSizeMake(MAXFLOAT, FitRealValue(28))];
+    //根据计算结果重新设置UILabel的尺寸
+    [self.ticket_ct setFrame:CGRectMake(FitRealValue(24 + 140 + 30), FitRealValue(100 + 44 + 28 + 26), size.width, FitRealValue(28))];
+    self.ticket_ct.text = str;
+    [self.BGView addSubview:self.ticket_ct];
+    
     self.orders_am.text = [@"¥" stringByAppendingString:order.Orders_am];
+    CGFloat ticket_ctMaxX = CGRectGetMaxX(self.ticket_ct.frame);
+    self.orders_am.frame = CGRectMake(ticket_ctMaxX,FitRealValue(100 + 44 + 28 + 24), FitRealValue(200), FitRealValue(32));
     
     self.order_name.text = order.name;
     

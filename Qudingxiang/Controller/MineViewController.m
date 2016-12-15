@@ -93,15 +93,21 @@
     [MineService cellDataBlock:^(NSDictionary *dict) {
         NSDictionary* _dic = [[NSDictionary alloc] initWithDictionary:dict];
         _peopleDict=[NSDictionary dictionaryWithDictionary:_dic];
-//        NSLog(@"%@",_peopleDict[@"Msg"]);
-        
-        if ([save length] == 0) {
+        if ([_peopleDict[@"Code"] intValue] == 0) {
             NSFileManager * fileManager = [[NSFileManager alloc]init];
             NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+            
             documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
             [fileManager removeItemAtPath:documentDir error:nil];
         }else{
-            
+            if ([save length] == 0 ) {
+                NSFileManager * fileManager = [[NSFileManager alloc]init];
+                NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+                documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
+                [fileManager removeItemAtPath:documentDir error:nil];
+            }else{
+                
+            }
         }
         [_tableView reloadData];
         

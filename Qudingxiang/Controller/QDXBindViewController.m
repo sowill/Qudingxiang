@@ -89,15 +89,15 @@
             [MBProgressHUD showSuccess:@"登录成功"];
             //存储Token信息
             [NSKeyedArchiver archiveRootObject:isConnect.Msg[@"token"] toFile:XWLAccountFile];
-            //切换窗口根控制器
-//            [UIApplication sharedApplication].keyWindow.rootViewController = [[TabbarController alloc] init];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"stateRefresh" object:nil];
+            [self.navigationController popViewControllerAnimated:YES];
             [self dismissViewControllerAnimated:YES completion:^{
                 
             }];
         }
         else{
+            
         }
-
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         [MBProgressHUD showError:@"登录失败"];
     }];

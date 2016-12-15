@@ -451,17 +451,6 @@
     [self.view endEditing:YES];
 }
 
-//-(void)viewWillAppear:(BOOL)animated
-//{
-//    if (![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"weixin://"]]) {
-//        _OAuthWxinBtn.hidden = YES;
-//        WXLabel.hidden = YES;
-//    }else{
-//        _OAuthWxinBtn.hidden = NO;
-//        WXLabel.hidden = NO;
-//    }
-//}
-
 // 返回按钮
 -(void)createButtonBack
 {

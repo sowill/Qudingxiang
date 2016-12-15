@@ -115,12 +115,11 @@
 }
 
 -(void)viewWillAppear:(BOOL)animated{
-    [super viewWillAppear:YES];
-    
+    [super viewWillAppear:animated];
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:YES];
+    [super viewWillDisappear:animated];
     
     self.mapView.showsUserLocation = NO;
     self.mapView.userTrackingMode  = MAUserTrackingModeFollow;

@@ -617,6 +617,8 @@ toViewController:(UIViewController *)toVC {
 
 //将上级页面的mylineid传入
 -(void)viewWillAppear:(BOOL)animated {
+    [super viewWillAppear:animated];
+    
     self.mapView.delegate = self; // 此处记得不用的时候需要置nil，否则影响内存的释放
     [countDownTimer setFireDate:[NSDate distantPast]];
     
@@ -637,11 +639,14 @@ toViewController:(UIViewController *)toVC {
 
 -(void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
     [self getPointLonLat];
 }
 
 //将计时器 地图内存释放
 -(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    
     [self.MyCentralManager stopScan];
     [countDownTimer setFireDate:[NSDate distantFuture]];
     
@@ -1448,7 +1453,6 @@ toViewController:(UIViewController *)toVC {
                 }
         }
     }];
-    gameVC.hidesBottomBarWhenPushed =YES;
     [self.navigationController pushViewController:gameVC animated:YES];
 }
 

@@ -53,7 +53,12 @@
     
     [tabBarItem setTitleTextAttributes:dictNormal forState:UIControlStateNormal];
     [tabBarItem setTitleTextAttributes:dictSelected forState:UIControlStateSelected];
-    
+}
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    self.tabBar.hidden = NO;
 }
 
 - (void)viewDidLoad {

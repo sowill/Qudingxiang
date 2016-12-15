@@ -635,6 +635,7 @@
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
     [countDownTimer setFireDate:[NSDate distantFuture]];
 }
 
@@ -686,7 +687,6 @@
             
         }
     }];
-    gameVC.hidesBottomBarWhenPushed =YES;
     [self.navigationController pushViewController:gameVC animated:YES];
 }
 

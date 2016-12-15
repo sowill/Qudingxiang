@@ -62,6 +62,7 @@
 
 - (void) viewWillAppear:(BOOL)animated
 {
+    [super viewWillAppear:animated];
     [pay removeFromSuperview];
     [cost removeFromSuperview];
     [bottom removeFromSuperview];
@@ -69,6 +70,7 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
+    [super viewDidAppear:animated];
     [self state];
     [self getOrdersListAjax];
 }

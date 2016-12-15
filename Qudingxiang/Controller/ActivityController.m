@@ -88,32 +88,6 @@
     [self refreshView];
 }
 
-- (void)setClick
-{
-    if(save == nil){
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"登陆后才可使用此功能" delegate:self cancelButtonTitle:@"暂不登录" otherButtonTitles:@"立即登录", nil];
-        [alert show];
-    }else{
-//        [self.sideMenuViewController presentLeftMenuViewController];
-    }
-}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex == 0) {
-        
-    }else if(buttonIndex == 1){
-        
-        QDXLoginViewController* regi=[[QDXLoginViewController alloc]init];
-        QDXNavigationController* navController = [[QDXNavigationController alloc] initWithRootViewController:regi];
-        regi.hidesBottomBarWhenPushed = YES;
-        [self presentViewController:navController animated:YES completion:^{
-            
-        }];
-        
-    }
-}
-
 - (void)refreshView
 {
     // 1.下拉刷新

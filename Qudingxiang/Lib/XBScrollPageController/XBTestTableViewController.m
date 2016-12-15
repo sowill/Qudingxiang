@@ -181,6 +181,7 @@
             QDXIsConnect *isConnect = [QDXIsConnect mj_objectWithKeyValues:dict];
             int ret = [isConnect.Code intValue];
             if (ret==1)  {
+                
                 if (![dict[@"Msg"][@"count"] isEqualToString:@"0"]){
                     // 将字典数据转为模型数据
                     curr = [dict[@"Msg"][@"curr"] intValue];
@@ -250,7 +251,7 @@
             // 刷新表格
             [self.tableview reloadData];
         } FailBlock:^(NSMutableArray *array) {
-            
+
         } andWithToken:save andWithCurr:[NSString stringWithFormat:@"%d",curr]];
     }
 }

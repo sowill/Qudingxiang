@@ -83,11 +83,12 @@
 {
     [super viewWillAppear:animated];
     curr = 1;
-    [self loadData];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    [self getOrdersListAjax];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stateRefresh) name:@"stateRefresh" object:nil];
 }
@@ -115,12 +116,7 @@
 
 -(void)reloadData
 {
-    [self loadData];
-}
-
-- (void)loadData
-{
-    [self performSelectorInBackground:@selector(getOrdersListAjax) withObject:nil];
+    [self getOrdersListAjax];
 }
 
 /**
@@ -247,8 +243,6 @@
                     [_noThingView removeFromSuperview];
                     [self createTableView];
                 }
-                
-                [self performSelectorOnMainThread:@selector(sussRes) withObject:nil waitUntilDone:YES];
             }else{
 
             }
@@ -259,11 +253,6 @@
             
         } andWithToken:save andWithCurr:[NSString stringWithFormat:@"%d",curr]];
     }
-}
-
--(void)sussRes
-{
-
 }
 
 - (void)setXBParam:(NSString *)XBParam

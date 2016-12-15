@@ -16,32 +16,55 @@
  */
 @protocol MAAnnotation <NSObject>
 
-/**
- *  标注view中心坐标
+/*!
+ @brief 标注view中心坐标
  */
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
 
 @optional
 
-/**
- *  获取annotation标题
- *
- *  @return 返回annotation的标题信息
+/*!
+ @brief 获取annotation标题
+ @return 返回annotation的标题信息
  */
-- (NSString *)title;
+@property (nonatomic, copy) NSString *title;
+
+/*!
+ @brief 获取annotation副标题
+ @return 返回annotation的副标题信息
+ */
+@property (nonatomic, copy) NSString *subtitle;
 
 /**
- *  获取annotation副标题
- *
- *  @return 返回annotation的副标题信息
- */
-- (NSString *)subtitle;
-
-/**
- *  设置标注的坐标，在拖拽时会被调用
- *
- *  @param newCoordinate 新的坐标值
+ @brief 设置标注的坐标，在拖拽时会被调用.
+ @param newCoordinate 新的坐标值
  */
 - (void)setCoordinate:(CLLocationCoordinate2D)newCoordinate;
+
+@end
+
+/**
+ *  支持动画需要实现的协议. since 4.5.0
+ */
+@protocol MAAnimatableAnnotation <NSObject>
+
+@required
+/**
+ @brief 动画帧更新回调接口，实现者可在内部做更新处理，如更新coordinate. since 4.5.0
+ @param timeDelta 时间步长，单位秒
+ */
+- (void)step:(CGFloat)timeDelta;
+
+/**
+ @brief 动画是否已完成. since 4.5.0
+ */
+- (BOOL)isAnimationFinished;
+
+@optional
+/**
+ @brief 动画更新时调用此接口，获取annotationView的旋转角度，不实现默认为0. since 4.5.0
+ */
+- (CLLocationDirection)rotateDegree;
+
 
 @end

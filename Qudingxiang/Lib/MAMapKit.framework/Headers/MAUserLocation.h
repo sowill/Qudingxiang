@@ -25,12 +25,12 @@
 /**
  *  位置信息，如果MAMapView的showsUserLocation为NO，或者尚未定位成功，则该值为nil
  */
-@property (readonly, nonatomic, retain) CLLocation *location;
+@property (readonly, nonatomic, strong) CLLocation *location;
 
 /**
  *  heading信息
  */
-@property (readonly, nonatomic, retain) CLHeading *heading;
+@property (readonly, nonatomic, strong) CLHeading *heading;
 
 /**
  *  定位标注点要显示的标题信息

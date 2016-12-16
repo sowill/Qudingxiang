@@ -33,6 +33,13 @@
 
 @implementation ActivityController
 
+-(void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    
+    [self loadDataWith:@"1" isRemoveAll:NO];
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     _curNumber = 1;
@@ -84,7 +91,7 @@
     _tableView.showsVerticalScrollIndicator = NO;
     _tableView.backgroundColor = QDXBGColor;
     [self.view addSubview:_tableView];
-    [self loadDataWith:@"1" isRemoveAll:NO];
+    
     [self refreshView];
 }
 
@@ -198,7 +205,6 @@
     cell.model = _dataArr[indexPath.row];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     return cell;
-    
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -224,6 +230,6 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return QdxWidth*0.59+32+10;
+    return FitRealValue(445 + 64 + 20);
 }
 @end

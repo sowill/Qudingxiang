@@ -34,20 +34,21 @@
 
 - (void)addSubViews
 {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth,10)];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth,FitRealValue(20))];
     view.backgroundColor = QDXBGColor;
     [self.contentView addSubview:view];
 
-    _imageView = [ToolView createImageWithFrame:CGRectMake(0, 10, QdxWidth, QdxWidth*0.59)];
+    _imageView = [ToolView createImageWithFrame:CGRectMake(0, FitRealValue(20), QdxWidth, FitRealValue(445))];
     CALayer *layer = _imageView.layer;
     [layer setMasksToBounds:NO];
+//    _imageView.contentMode = UIViewContentModeScaleAspectFit;
     [self.contentView addSubview:_imageView];
     
     CGFloat imageViewY = CGRectGetMaxY(_imageView.frame);
-    _nameLabel = [ToolView createLabelWithFrame:CGRectMake(10, imageViewY+5, QdxWidth*3/4, 20) text:@"地点" font:14 superView:self.contentView];
+    _nameLabel = [ToolView createLabelWithFrame:CGRectMake(FitRealValue(24), imageViewY, QdxWidth*3/4, FitRealValue(64)) text:@"地点" font:14 superView:self.contentView];
     _nameLabel.textColor = QDXBlack;
     
-    _detailLabel = [ToolView createLabelWithFrame:CGRectMake(QdxWidth*3/4-10, imageViewY+5, QdxWidth/4, 20) text:@"地址" font:14 superView:self.contentView];
+    _detailLabel = [ToolView createLabelWithFrame:CGRectMake(QdxWidth*3/4-FitRealValue(24), imageViewY, QdxWidth/4, FitRealValue(64)) text:@"地址" font:14 superView:self.contentView];
     _detailLabel.textColor = QDXGray;
 }
 

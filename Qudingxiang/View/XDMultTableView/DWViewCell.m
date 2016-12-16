@@ -37,8 +37,8 @@
         showView.layer.masksToBounds = YES;
         self.layer.shadowColor = QDXGray.CGColor;
         self.layer.shadowOffset = CGSizeMake(0, 0);
-        self.layer.shadowOpacity = 0.4;
-        self.layer.shadowRadius = 12.0;
+        self.layer.shadowOpacity = 0.2;
+        self.layer.shadowRadius = 4.0;
         [self.contentView addSubview:showView];
         
         self.showImg = [[UIImageView alloc] initWithFrame:CGRectMake(FitRealValue(80), FitRealValue(40), FitRealValue(410), FitRealValue(410))];

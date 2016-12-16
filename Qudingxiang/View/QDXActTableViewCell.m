@@ -47,10 +47,15 @@
     self.BGView.backgroundColor = [UIColor whiteColor];
     self.BGView.layer.cornerRadius = 2;
     self.BGView.layer.borderColor = [[UIColor whiteColor] CGColor];
+    
+    self.BGView.layer.shadowColor = QDXGray.CGColor;
+    self.BGView.layer.shadowOffset = CGSizeMake(0, 0);
+    self.BGView.layer.shadowOpacity = 0.2;
+    self.BGView.layer.shadowRadius = 4.0;
     [self.contentView addSubview:self.BGView];
     
     self.act_img = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.BGView.frame.size.width, FitRealValue(416))];
-    self.act_img.contentMode = UIViewContentModeScaleAspectFit;
+//    self.act_img.contentMode = UIViewContentModeScaleAspectFit;
     [self.BGView addSubview:self.act_img];
     
     UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:self.act_img.bounds byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii:CGSizeMake(2, 2)];

@@ -210,7 +210,7 @@
     if (section==0) {
         UIImageView * imageView=[[UIImageView alloc]initWithFrame:CGRectMake(0, 0, QdxWidth, QdxWidth/2)];
         int value = (arc4random() % 3) + 1;
-        NSString *url= [NSString stringWithFormat:@"http://www.qudingxiang.cn/public/uploads/00%u.jpg",value];
+        NSString *url= [hostUrl stringByAppendingString:[NSString stringWithFormat:@"index.php/public/uploads/00%u.jpg",value]];
         [imageView setImageWithURL:[NSURL URLWithString:url] placeholderImage:[UIImage imageNamed:@"1"]];
         [view addSubview:imageView];
     }

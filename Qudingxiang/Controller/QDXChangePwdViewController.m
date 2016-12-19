@@ -176,7 +176,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"password"] = [NSString stringWithFormat:@"%@", password];
     params[@"TokenKey"] = save;
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Customer/modify"];
+    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Customer/modify"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
         

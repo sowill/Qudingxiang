@@ -82,7 +82,7 @@
 
 + (void)QQandWXlog:(void (^)(NSMutableDictionary *dict))block andWithTXOpenID:(NSString *)txID andWithWXOpenID:(NSString *)wxID
 {
-     NSString *urlString = [hostUrl stringByAppendingString:@"Home/Customer/qvlogin"];
+     NSString *urlString = [hostUrl stringByAppendingString:@"index.php/Home/Customer/qvlogin"];
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     //说明服务器返回的事JSON数据
     mgr.responseSerializer = [AFJSONResponseSerializer serializer];
@@ -126,7 +126,7 @@
 
 + (void)logInBlock:(void (^)(NSMutableDictionary *dict))block andWithUserName:(NSString *)userName andWithPassWord:(NSString *)passWord
 {
-    NSString *urlString = [hostUrl stringByAppendingString:@"Home/Customer/login"];
+    NSString *urlString = [hostUrl stringByAppendingString:@"index.php/Home/Customer/login"];
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     //说明服务器返回的事JSON数据
     mgr.responseSerializer = [AFJSONResponseSerializer serializer];

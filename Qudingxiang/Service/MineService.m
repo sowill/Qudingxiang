@@ -12,7 +12,7 @@
 + (void)cellDataBlock:(void (^)(NSDictionary *dict))block FailBlock:(void (^)(NSMutableArray *))failBlock andWithToken:(NSString *)tokenKey
 {
     __block NSDictionary *dict = [[NSDictionary alloc] init];
-    NSString *urlString = [hostUrl stringByAppendingString:@"Home/Customer/authlogin"];
+    NSString *urlString = [hostUrl stringByAppendingString:@"index.php/Home/Customer/authlogin"];
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     //说明服务器返回的事JSON数据
     mgr.responseSerializer = [AFJSONResponseSerializer serializer];

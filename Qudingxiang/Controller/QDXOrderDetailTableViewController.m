@@ -270,7 +270,7 @@
     }else{
         params[@"Orders_id"] = [NSString stringWithFormat:@"%d",self.Order.Orders_id];
     }
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Orders/getInfoAjax"];
+    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Orders/getInfoAjax"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
@@ -412,7 +412,7 @@
     }else{
         params[@"Orders_id"] = [NSString stringWithFormat:@"%d",self.Order.Orders_id];
     }
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Orders/getInfoAjax"];
+    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Orders/getInfoAjax"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
@@ -494,7 +494,7 @@
     params[@"TokenKey"] = save;
     params[@"goods_id"] =withTID;
     params[@"add"] = @"1";
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Orders/addOrders"];
+    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Orders/addOrders"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
@@ -518,7 +518,7 @@
     params[@"TokenKey"] = save;
     params[@"goods_id"] =withTID;
     params[@"add"] = @"2";
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Orders/addOrders"];
+    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Orders/addOrders"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
         

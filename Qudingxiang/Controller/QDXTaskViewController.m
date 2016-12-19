@@ -95,7 +95,9 @@
     [self.deliverView addSubview:cancel_button];
     
     webView = [[UIWebView alloc] initWithFrame:CGRectMake(0,SHOWTASKHEIGHT, TASKWEIGHT, TASKHEIGHT - 2 * SHOWTASKHEIGHT)];
-    [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/myline/mylineweb/myline_id/%@/tmp/%@",self.GameInfo.myline_id,save]]]];
+    
+    
+    [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[hostUrl stringByAppendingString:[NSString stringWithFormat:@"index.php/home/myline/mylineweb/myline_id/%@/tmp/%@",self.GameInfo.myline_id,save]]]]];
     [self.deliverView addSubview:webView];
 }
 

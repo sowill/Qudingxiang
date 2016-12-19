@@ -421,7 +421,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"TokenKey"] = save;
     params[@"orders_id"] =[NSString stringWithFormat:@"%d",withOID];
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Orders/delOrder"];
+    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Orders/delOrder"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
         

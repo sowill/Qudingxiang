@@ -124,7 +124,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"TokenKey"] = save;
     params[@"signature"] = [NSString stringWithFormat:@"%@", text];
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Customer/modify"];
+    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Customer/modify"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {

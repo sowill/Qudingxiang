@@ -81,8 +81,8 @@
 
 - (void)didClickOnImageIndex:(NSInteger *)imageIndex
 {
-    
-    NSString *urlstr =[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/goods/index/goods_id/%@",_homeModel.goods_id];
+
+    NSString *urlstr = [hostUrl stringByAppendingString:[NSString stringWithFormat:@"index.php/home/goods/index/goods_id/%@",_homeModel.goods_id]];
     NSURL *imgurl = [NSURL URLWithString:urlstr];
     NSString *title = @"趣定向";
     NSString *description = _homeModel.goods_name;
@@ -166,7 +166,7 @@
     
     [_webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:nil];
     
-    NSString *url = [NSString stringWithFormat:@"http://www.qudingxiang.cn/home/goods/index/goods_id/%@",self.homeModel.goods_id];
+    NSString *url = [hostUrl stringByAppendingString:[NSString stringWithFormat:@"index.php/home/goods/index/goods_id/%@",self.homeModel.goods_id]];
     
     if([self.homeModel.good_st isEqualToString:@"1"]){
         [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
@@ -410,7 +410,7 @@
     params[@"TokenKey"] = save;
 
     params[@"line_id"] = _homeModel.line[@"line_id"];
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Line/getInfoAjax"];
+    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Line/getInfoAjax"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
@@ -499,7 +499,7 @@
     params[@"TokenKey"] = save;
     params[@"goods_id"] = _homeModel.goods_id;
     params[@"add"] = number;
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Orders/addOrders"];
+    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Orders/addOrders"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
         

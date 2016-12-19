@@ -13,7 +13,6 @@
 #import "WechatAuthSDK.h"
 #import <AlipaySDK/AlipaySDK.h>
 #import "BaseViewController.h"
-//#import "RESideMenu.h"
 #import "BaseService.h"
 #import <MAMapKit/MAMapKit.h>
 #import <AMapFoundationKit/AMapFoundationKit.h>
@@ -57,7 +56,7 @@
 
 #define QDXBGColor UIColorFromRGB(0xf5f5f5)
 
-#define QDXDarkBlue UIColorFromRGB(0x007aca)
+#define QDXDarkBlue UIColorFromRGB(0x0089e3)
 
 #define QDXLightGray UIColorFromRGB(0xd6d6d6)
 
@@ -100,16 +99,16 @@
 
 //图片上传接口：
 //Upmfile/upfile  参数imgfile  返回：上传图片的存放路径
-#define imageUrl @"Home/Upmfile/upfile"
+#define imageUrl @"index.php/Home/Upmfile/upfile"
 
 //banner
-#define IconUrl @"Home/Util/getPlayimg"
+#define IconUrl @"index.php/Home/Util/getPlayimg"
 
 //获取场地线路列表  参数：TokenKey、areatype_id
-#define detailUrl @"Home/goods/getListAjaxAct"
+#define detailUrl @"index.php/Home/goods/getListAjaxAct"
 
 //获取当前使用中门票 参数：TokenKey
-#define usingTicket @"Home/Ticketinfo/getCurrentTicket"
+#define usingTicket @"index.php/Home/Ticketinfo/getCurrentTicket"
 
 //选择路线  参数: TokenKey、line_id
 #define choiceUrl @"index.php/Home/Myline/selectMyline"
@@ -118,24 +117,24 @@
 #define lineUrl @"index.php/Home/Myline/getCurrentLine"
 
 //门票获取线路  参数：TokenKey、ticket_id
-#define ticketUrl @"Home/Ticketline/getListByTicket"
+#define ticketUrl @"index.php/Home/Ticketline/getListByTicket"
 
 //门票获取线路  参数：TokenKey、ticket_id
-#define uploadHistory @"Home/util/changpoint"
+#define uploadHistory @"index.php/Home/util/changpoint"
 
 //门票获取线路  参数：TokenKey、ticket_id
-#define loadDb @"Home/util/loadDb"
+#define loadDb @"index.php/Home/util/loadDb"
 //获取场地线路列表  参数：TokenKey、area_id
-#define areaUrl @"Home/Line/getListAjax"
+#define areaUrl @"index.php/Home/Line/getListAjax"
 
 //激活验证门票 参数：TokenKey、ticketinfo_name
-#define actUrl @"Home/Ticketinfo/checkTicket"
+#define actUrl @"index.php/Home/Ticketinfo/checkTicket"
 
 //我的线路列表 参数：TokenKey
-#define mineUrl @"Home/Myline/getMyLineList"
+#define mineUrl @"index.php/Home/Myline/getMyLineList"
 
 //获取产品报价列表  参数:TokenKey
-#define goodsUrl @"Home/goods/getListAjax"
+#define goodsUrl @"index.php/Home/goods/getListAjax"
 
 //获取团队线路  参数:TokenKey curr
-#define teamUrl @"Home/Myline/getMyTeamLineList"
+#define teamUrl @"index.php/Home/Myline/getMyTeamLineList"

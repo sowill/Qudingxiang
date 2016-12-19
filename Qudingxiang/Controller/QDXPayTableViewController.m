@@ -236,7 +236,7 @@
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Alipay/app"];
+    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Alipay/app"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
@@ -262,7 +262,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"TokenKey"]= save;
     params[@"Orders_id"] = [NSString stringWithFormat:@"%d",self.Order.Orders_id];
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Weixin/pay"];
+    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Weixin/pay"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
@@ -342,7 +342,7 @@
     order.productName = self.ticketInfo.ticketinfo_name; //商品标题
     order.productDescription = self.ticketInfo.ticketinfo_name; //商品描述
     order.amount = self.Order.Orders_am; //商品价格
-    order.notifyURL =  [hostUrl stringByAppendingString:@"Home/Alipay/notify"]; //回调URL
+    order.notifyURL =  [hostUrl stringByAppendingString:@"index.php/Home/Alipay/notify"]; //回调URL
     order.service = @"mobile.securitypay.pay";
     order.paymentType = @"1";
     order.inputCharset = @"utf-8";

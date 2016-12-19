@@ -182,7 +182,7 @@
     mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"code"] = [NSString stringWithFormat:@"%@", username];
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Customer/getVcode"];
+    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Customer/getVcode"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
@@ -234,7 +234,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"code"] = [NSString stringWithFormat:@"%@", username];
     params[@"vcode"] = [NSString stringWithFormat:@"%@", getcode];
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Customer/vcodeLogin"];
+    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Customer/vcodeLogin"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
         

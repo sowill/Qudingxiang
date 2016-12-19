@@ -296,7 +296,7 @@
     mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"myline_id"] = mylineid;
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Myline/loadPoint"];
+    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Myline/loadPoint"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
 
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -326,7 +326,7 @@
     mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"myline_id"] = mylineid;
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Myline/loadQuestion"];
+    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Myline/loadQuestion"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
@@ -357,7 +357,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"TokenKey"] = save;
     params[@"myline_id"] = mylineid;
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Myline/getMyline"];
+    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Myline/getMyline"];
     
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
 

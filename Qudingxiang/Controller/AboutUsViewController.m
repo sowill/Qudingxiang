@@ -231,7 +231,7 @@
 
 - (void)didClickOnImageIndex:(NSInteger *)imageIndex
 {
-    NSString *utf8String =@"http://a.app.qq.com/o/simple.jsp?pkgname=com.oketion.srt";
+    NSString *utf8String =@"https://a.app.qq.com/o/simple.jsp?pkgname=com.oketion.srt";
     NSString *title = @"趣定向";
     NSString *description = @"趣定向下载";
     if (imageIndex == 0) {
@@ -284,7 +284,7 @@
 {
     UIWebView *webView = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight-64)];
     [self.view addSubview:webView];
-    [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.qudingxiang.cn"]]]];
+    [webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:hostUrl]]]];
     
 }
 - (void)didReceiveMemoryWarning {

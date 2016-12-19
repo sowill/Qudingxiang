@@ -192,7 +192,7 @@
     params[@"point_id"] = self.pointModel.point_id;
     params[@"LON"] = lonStr;
     params[@"LAT"] = latStr;
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Point/modify"];
+    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Point/modify"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
         

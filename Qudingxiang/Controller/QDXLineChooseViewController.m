@@ -140,7 +140,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"TokenKey"] = save;
     params[@"line_id"] = _model.line_id;
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Line/getInfoAjax"];
+    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Line/getInfoAjax"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
         

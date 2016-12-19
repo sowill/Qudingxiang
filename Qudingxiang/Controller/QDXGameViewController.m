@@ -105,6 +105,7 @@
 @property (nonatomic, strong) CBCentralManager* MyCentralManager;
 @property (nonatomic, strong) NSTimer* timer;
 @property (nonatomic, strong) UITapGestureRecognizer* doubleTap;
+@property Boolean isChecking;
 @end
 
 @implementation QDXGameViewController
@@ -119,6 +120,7 @@
     self.QDXScrollView.backgroundColor = QDXBGColor;
     [self.view addSubview:self.QDXScrollView];
     countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeFireMethod) userInfo:nil repeats:YES];
+    _isChecking = NO;
 }
 
 - (void)showGuideView
@@ -171,7 +173,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"TokenKey"] = save;
     params[@"myline_id"] = oldMyLineid;
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Myline/getMyline"];
+    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Myline/getMyline"];
     
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
@@ -318,6 +320,7 @@
     //    int b = abs([RSSI.description intValue]);
     //    CGFloat ci = (b - abs([self.gameInfo.point.rssi intValue])) / (10 * 4.);
     //    NSLog(@"%f",pow(10, ci));
+   
     [self.MyCentralManager scanForPeripheralsWithServices:nil  options:nil];
     
     if (abs([RSSI.description intValue]) < abs([self.gameInfo.point.rssi intValue]))
@@ -335,6 +338,12 @@
                 for (NSString * str in mac_Label) {
                     if ([macStr isEqualToString:str] && ![macStr isEqualToString:rmoveMacStr])
                     {
+                        if(_isChecking){ //避免重复请求
+                            return;
+                        }else{
+                            _isChecking = YES;
+                        }
+                        
                         [self.MyCentralManager stopScan];
                         
                         rmoveMacStr = macStr;
@@ -345,6 +354,7 @@
                             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"是否确定开始本次活动？" preferredStyle:UIAlertControllerStyleAlert];
                             UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action){
                                 rmoveMacStr = @"0";
+                                 _isChecking = NO;
                                 [self.MyCentralManager scanForPeripheralsWithServices:nil  options:nil];
                             }];
                             UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
@@ -491,7 +501,8 @@
     
     self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, READYVIEWHEIGHT, QdxWidth, WEBVIEWHEIGHT)];
     self.webView.backgroundColor = [UIColor whiteColor];
-    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/myline/mylineweb/myline_id/%@/tmp/%@",oldMyLineid,save]]]];
+    
+    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[hostUrl stringByAppendingString:[NSString stringWithFormat:@"index.php/home/myline/mylineweb/myline_id/%@/tmp/%@",oldMyLineid,save]]]]];
     
     playView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, SCOREVIEWHEIGHT)];
     playView.backgroundColor = [UIColor whiteColor];
@@ -676,7 +687,7 @@ toViewController:(UIViewController *)toVC {
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"myline_id"] = oldMyLineid;
     params[@"TokenKey"] = save;
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Pointmap/getpointLonLat"];
+    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Pointmap/getpointLonLat"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
@@ -943,11 +954,13 @@ toViewController:(UIViewController *)toVC {
     if(![macStr isEqualToString:@""] && macStr != nil){
         params[@"mac"] = macStr;
     }
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Myline/checkTaskv2"];
+    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Myline/checkTaskv2"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        
+        _isChecking = NO;//请求返回结果后才能再请求
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
         NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
         int ret = [infoDict[@"Code"] intValue];
@@ -987,7 +1000,7 @@ toViewController:(UIViewController *)toVC {
 {
     [self removeFromSuperViewController];
     
-    NSString *stringurl = [NSString stringWithFormat:@"http://www.qudingxiang.cn/home/Myline/getQuestionWeb/myline_id/%@/tmp/%@",oldMyLineid,save]; //默认是在线
+    NSString *stringurl = [hostUrl stringByAppendingString:[NSString stringWithFormat:@"index.php/home/Myline/getQuestionWeb/myline_id/%@/tmp/%@",oldMyLineid,save]]; //默认是在线
     
     if ([self.questionInfo.question.ischoice intValue] == 2) {
         [YLPopViewManager sharedInstance].YLPopVC= [[YLPopViewController alloc] init];
@@ -1136,7 +1149,11 @@ toViewController:(UIViewController *)toVC {
     [self.deliverView addSubview:showTitle_button];
     
     self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0,SHOWTASKHEIGHT, TASKWEIGHT, TASKHEIGHT - 2 * SHOWTASKHEIGHT)];
-    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://www.qudingxiang.cn/home/Myline/getTaskWeb/myline_id/%@/tmp/%@",oldMyLineid,save]]]];
+    
+    NSString *url = [hostUrl stringByAppendingString:[NSString stringWithFormat:@"index.php/home/Myline/getTaskWeb/myline_id/%@/tmp/%@",oldMyLineid,save]];
+    
+    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
+    
     [self.deliverView addSubview:self.webView];
 }
 
@@ -1257,7 +1274,7 @@ toViewController:(UIViewController *)toVC {
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
         params[@"TokenKey"] = save;
         params[@"myline_id"] = oldMyLineid;
-        NSString *url = [hostUrl stringByAppendingString:@"Home/Myline/gameover"];
+        NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Myline/gameover"];
         [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
             
             
@@ -1360,7 +1377,7 @@ toViewController:(UIViewController *)toVC {
 - (void)didClickOnImageIndex:(NSInteger *)imageIndex
 {
     NSString *shareUrl = [[NSString alloc] init];
-    shareUrl = [NSString stringWithFormat:@"http://www.qudingxiang.cn/home/myline/mylineweb/myline_id/%@/tmp/%@",oldMyLineid,save];
+    shareUrl = [hostUrl stringByAppendingString:[NSString stringWithFormat:@"index.php/home/myline/mylineweb/myline_id/%@/tmp/%@",oldMyLineid,save]];
     if (imageIndex == 0) {
         TencentOAuth *auth = [[TencentOAuth alloc] initWithAppId:@"1104830915"andDelegate:self];
         NSURL *imgurl = [NSURL URLWithString:shareUrl];

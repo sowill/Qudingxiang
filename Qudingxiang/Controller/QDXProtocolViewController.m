@@ -92,7 +92,7 @@
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Myline/getCurrentLine"];
+    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Myline/getCurrentLine"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
         

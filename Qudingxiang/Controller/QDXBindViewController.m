@@ -77,7 +77,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"qid"] = qqOpenid;
     params[@"wxid"] = wxOpenid;
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Customer/qvlogin"];
+    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Customer/qvlogin"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
@@ -220,7 +220,7 @@
     params[@"wxid"] = wxOpenid;
     params[@"code"] = [NSString stringWithFormat:@"%@", customername];
     params[@"password"] = [NSString stringWithFormat:@"%@",password];
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Customer/bind"];
+    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Customer/bind"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
         

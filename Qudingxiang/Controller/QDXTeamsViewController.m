@@ -275,7 +275,7 @@
     mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"TokenKey"] = save;
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Myline/getCurrentLine"];
+    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Myline/getCurrentLine"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
@@ -303,7 +303,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"TokenKey"] = save;
     params[@"myline_id"] = _myLineid;
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Myline/getMyTeam"];
+    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Myline/getMyTeam"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
@@ -334,7 +334,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"TokenKey"] = save;
     params[@"code"] = manId;
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Myline/getCusByCode"];
+    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Myline/getCusByCode"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
         
@@ -422,7 +422,7 @@
     }else{
         params[@"customer_name5"] = customerName5;
     }
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Myline/addTeams"];
+    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Myline/addTeams"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
         

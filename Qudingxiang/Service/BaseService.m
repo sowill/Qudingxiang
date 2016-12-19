@@ -66,14 +66,10 @@ static BaseService *httpRequest = nil;
 
 - (void)POST:(NSString *)URLString dict:(id)dict succeed:(void (^)(id data))succeed failure:(void (^)(NSError *error))failure
 {
-    //创建网络请求管理对象
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    //申明返回的结果是json类型
-    manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    //内容类型
-    manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"text/json",@"text/javascript",@"text/html", nil];    //如果报接受类型不一致请替换一致text/html或别的
-    //manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", nil];
-    //发送网络请求(请求方式为POST)
+    manager.responseSerializer = [AFJSONResponseSerializer serializer];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+
     [manager POST:URLString parameters:dict progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {

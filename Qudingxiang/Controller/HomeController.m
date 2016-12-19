@@ -262,7 +262,6 @@
     [homehttp statesucceed:^(id data) {
          NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments | NSJSONReadingMutableLeaves error:nil];
         _code = [dict[@"Code"] intValue];
-        
         appdelegate.code = [NSString stringWithFormat:@"%d",(int)_code];
         if(_code == 2){
             appdelegate.ticket = dict[@"Msg"][@"ticket"][@"ticket_id"];

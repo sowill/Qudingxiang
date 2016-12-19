@@ -69,7 +69,7 @@
     mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"TokenKey"] = save;
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Point/getPointList"];
+    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Point/getPointList"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
         

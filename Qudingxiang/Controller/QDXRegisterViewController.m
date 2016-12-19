@@ -305,7 +305,7 @@
     params[@"code"] = [NSString stringWithFormat:@"%@", username];
     params[@"password"] = [NSString stringWithFormat:@"%@", password];
     params[@"customer_name"] = [NSString stringWithFormat:@"%@", customername];
-    NSString *url = [hostUrl stringByAppendingString:@"Home/Customer/register"];
+    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Customer/register"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
         

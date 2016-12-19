@@ -877,7 +877,6 @@
 		45DF76311BA6AAC20024A6B4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		45DF76371BA6AAC20024A6B4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		45DF76421BA6AAC20024A6B4 /* 趣定向.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "趣定向.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		45DF76471BA6AAC20024A6B4 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		45EE61351CEAC074007302E3 /* PointView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointView.h; sourceTree = "<group>"; };
 		45EE61361CEAC074007302E3 /* PointView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PointView.m; sourceTree = "<group>"; };
 		45EE61381CEAC641007302E3 /* PointAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointAnnotationView.h; sourceTree = "<group>"; };
@@ -2062,17 +2061,8 @@
 			isa = PBXGroup;
 			children = (
 				452523941BAABD6E0058A8BE /* PrefixHeader.pch */,
-				45DF76461BA6AAC20024A6B4 /* Supporting Files */,
 			);
 			path = QudingxiangTests;
-			sourceTree = "<group>";
-		};
-		45DF76461BA6AAC20024A6B4 /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				45DF76471BA6AAC20024A6B4 /* Info.plist */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		45DF765A1BA6AB150024A6B4 /* Lib */ = {

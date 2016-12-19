@@ -11,7 +11,7 @@
 @implementation OrderService
 + (void)cellDataBlock:(void (^)(NSMutableDictionary *dict))block FailBlock:(void (^)(NSMutableArray *))failBlock andWithToken:(NSString *)tokenKey andWithCurr:(NSString *)curr
 {
-    NSString *urlString = [hostUrl stringByAppendingString:@"Home/Orders/getListAjax"];
+    NSString *urlString = [hostUrl stringByAppendingString:@"index.php/Home/Orders/getListAjax"];
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
     //说明服务器返回的事JSON数据
     mgr.responseSerializer = [AFJSONResponseSerializer serializer];

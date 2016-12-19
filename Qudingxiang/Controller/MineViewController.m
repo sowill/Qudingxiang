@@ -410,7 +410,7 @@
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
         params[@"headurl"] = result;
         params[@"TokenKey"] = save;
-        [manager POST:@"http://www.qudingxiang.cn/Home/Customer/modify" parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
+        [manager POST:[hostUrl stringByAppendingString:@"index.php/Home/Customer/modify"] parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
             
             
         } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {

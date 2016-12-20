@@ -141,19 +141,19 @@
     self.navigationItem.title = @"详情";
     
     // 进度条
-//    UIProgressView *progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth,6)];
-//    progressView.tintColor = QDXLightBlue;
-//    progressView.trackTintColor = [UIColor whiteColor];
-//    [self.view addSubview:progressView];
-    
-    CGFloat progressBarHeight = FitRealValue(10);
-    CGRect navigationBarBounds = self.navigationController.navigationBar.bounds;
-    CGRect barFrame = CGRectMake(0, navigationBarBounds.size.height, navigationBarBounds.size.width, progressBarHeight);
-    UIProgressView *progressView = [[UIProgressView alloc] initWithFrame:barFrame];
-    progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
-    progressView.trackTintColor = [UIColor whiteColor];
+    UIProgressView *progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth,6)];
     progressView.tintColor = QDXBlue;
-    [self.navigationController.navigationBar addSubview:progressView];
+    progressView.trackTintColor = [UIColor whiteColor];
+    [self.view addSubview:progressView];
+    
+//    CGFloat progressBarHeight = FitRealValue(10);
+//    CGRect navigationBarBounds = self.navigationController.navigationBar.bounds;
+//    CGRect barFrame = CGRectMake(0, navigationBarBounds.size.height, navigationBarBounds.size.width, progressBarHeight);
+//    UIProgressView *progressView = [[UIProgressView alloc] initWithFrame:barFrame];
+//    progressView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleTopMargin;
+//    progressView.trackTintColor = [UIColor whiteColor];
+//    progressView.tintColor = QDXBlue;
+//    [self.navigationController.navigationBar addSubview:progressView];
     
     self.progressView = progressView;
     
@@ -161,8 +161,8 @@
     _webView.autoresizingMask = UIViewAutoresizingFlexibleWidth|UIViewAutoresizingFlexibleHeight;
     _webView.backgroundColor = [UIColor whiteColor];
     _webView.navigationDelegate = self;
-    [self.view addSubview:_webView];
-//    [self.view insertSubview:_webView belowSubview:progressView];
+//    [self.view addSubview:_webView];
+    [self.view insertSubview:_webView belowSubview:progressView];
     
     [_webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:nil];
     

@@ -103,7 +103,6 @@
     self.act_state.font = [UIFont systemFontOfSize:14];
     self.act_state.textAlignment = NSTextAlignmentLeft;
     [self.BGView addSubview:self.act_state];
-    
 }
 
 - (void)setHomeModel:(HomeModel *)homeModel

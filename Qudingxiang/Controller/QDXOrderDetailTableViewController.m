@@ -77,11 +77,11 @@
 
 -(void)createButtom
 {
-    bottom = [[UIView alloc] initWithFrame:CGRectMake(0, QdxHeight-64 - FitRealValue(110), QdxWidth, 0.5)];
+    bottom = [[UIView alloc] initWithFrame:CGRectMake(0, QdxHeight-64 - 50, QdxWidth, 0.5)];
     bottom.backgroundColor = QDXLineColor;
     [self.view addSubview:bottom];
     // 添加底部按钮
-    pay = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth/2, QdxHeight- FitRealValue(110)-64, QdxWidth/2, FitRealValue(110))];
+    pay = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth/2, QdxHeight- 50-64, QdxWidth/2, 50)];
     [pay setTitle:@"去支付" forState:UIControlStateNormal];
     [pay setBackgroundImage:[ToolView createImageWithColor:QDXBlue] forState:UIControlStateNormal];
     [pay setBackgroundImage:[ToolView createImageWithColor:QDXDarkBlue] forState:UIControlStateHighlighted];
@@ -92,16 +92,16 @@
     [pay addTarget:self action:@selector(pay) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:pay];
     
-    cost = [[UIButton alloc] initWithFrame:CGRectMake(0, QdxHeight- FitRealValue(110)-64, QdxWidth/2, FitRealValue(110))];
+    cost = [[UIButton alloc] initWithFrame:CGRectMake(0, QdxHeight- 50-64, QdxWidth/2, 50)];
     [cost setBackgroundColor:[UIColor whiteColor]];
     cost.userInteractionEnabled = NO;
     [self.view addSubview:cost];
-    UILabel *sum = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth/4 - 90/2 - 30/2, FitRealValue(110)/2-25/2, 30, 25)];
+    UILabel *sum = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth/4 - 90/2 - 30/2, 50/2-25/2, 30, 25)];
     sum.text = @"总计";
     sum.textColor = QDXGray;
     sum.font = [UIFont systemFontOfSize:14];
     [cost addSubview:sum];
-    sum_cost = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth/4 - 90/2 + 20, FitRealValue(110)/2-40/2, 90, 40)];
+    sum_cost = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth/4 - 90/2 + 20, 50/2-40/2, 90, 40)];
     sum_cost.textColor = QDXOrange;
     sum_cost.font = [UIFont systemFontOfSize:20];
     [cost addSubview:sum_cost];
@@ -153,9 +153,9 @@
     
     UILabel *headerTime = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(24), FitRealValue(30 + 40 + 20), FitRealValue(500), FitRealValue(30))];
     if (self.orderId) {
-        headerTime.text = [@"活动时间：" stringByAppendingString:@"2016.11.5"];
+        headerTime.text = [@"活动时间：" stringByAppendingString:@"2020.09.30"];
     }else{
-        headerTime.text = [@"活动时间：" stringByAppendingString:@"2016.11.5"];
+        headerTime.text = [@"活动时间：" stringByAppendingString:@"2020.09.30"];
     }
     headerTime.textColor = QDXGray;
     headerTime.textAlignment = NSTextAlignmentLeft;
@@ -180,7 +180,7 @@
     headerPlace.lineBreakMode = NSLineBreakByWordWrapping;//换行方式
     headerPlace.textAlignment = NSTextAlignmentLeft;
     
-    NSString *strPlace = @"上海市徐汇区斜土路2601弄嘉汇广场T2栋";
+    NSString *strPlace = @"上海市浦东新区高桥镇凌桥高沙滩3号";
     
     UIFont *font = [UIFont fontWithName:@"Arial" size:14];
     

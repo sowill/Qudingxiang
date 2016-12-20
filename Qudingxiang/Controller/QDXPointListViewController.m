@@ -66,7 +66,7 @@
 -(void)getPointList
 {
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
+    mgr.responseSerializer = [ AFHTTPResponseSerializer serializer ];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"TokenKey"] = save;
     NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Point/getPointList"];

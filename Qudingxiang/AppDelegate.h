@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 @interface AppDelegate : UIResponder <UIApplicationDelegate,WXApiDelegate>
 @property (strong, nonatomic) UIWindow *window;
-//@property (strong, nonatomic) MainController *mianVC;
+
 @property NSString *code;
 @property NSString *ticket;
 @property bool loading;

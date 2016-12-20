@@ -47,24 +47,13 @@ static HomeService *httpRequest = nil;
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"areatype_id"] = @"2";
     params[@"curr"] = @"1";
-//    NSString *cachekey = [NSString stringWithFormat:@"%@21%@%@",urlString,VGoods,VLine];
-//    NSString *str = [ToolView md5:cachekey];
-//    NSString *topViewFile = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-//    NSString *fileName = [topViewFile stringByAppendingPathComponent:str];
-//    NSDictionary *res = [NSKeyedUnarchiver unarchiveObjectWithFile:fileName];
-//    if (res!=nil) {
-//        succeed(res);
-//    }else{
     [manager POST:urlString parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         succeed(responseObject);
-//        [NSKeyedArchiver archiveRootObject:responseObject toFile:fileName];
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         failure(error);
     }];
-//    }
-
 }
 
 - (void)statesucceed:(void (^)(id data))succeed failure:(void (^)(NSError *error))failure WithToken:(NSString *)tokenKey;
@@ -105,14 +94,9 @@ static HomeService *httpRequest = nil;
 
 - (void)dbversionsucceed:(void (^)(id data))succeed failure:(void (^)(NSError *error))failure
 {
-    //创建网络请求管理对象
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-    //申明返回的结果是json类型
     manager.responseSerializer = [AFJSONResponseSerializer serializer];
-    //申明请求的数据是json类型
-    manager.requestSerializer = [AFJSONRequestSerializer serializer];     //如果报接受类型不一致请替换一致text/html或别的
-    //manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", nil nil];
-    //发送网络请求(请求方式为POST)
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
     NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/util/Dbversion"];
     [manager POST:url parameters:nil progress:^(NSProgress * _Nonnull uploadProgress) {
         
@@ -129,16 +113,9 @@ static HomeService *httpRequest = nil;
 {
     NSMutableDictionary *dict = [NSMutableDictionary dictionary];
     dict[@"TokenKey"] = save;
-
-    //创建网络请求管理对象
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
-    //内容类型
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"text/json",@"text/javascript",@"text/html", nil];
-
-    //如果报接受类型不一致请替换一致text/html或别的
-    //manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"text/html", nil nil];
-    //发送网络请求(请求方式为POST)
     [manager POST:URLString parameters:dict progress:^(NSProgress * _Nonnull uploadProgress) {
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {

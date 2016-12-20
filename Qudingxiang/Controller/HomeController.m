@@ -7,10 +7,8 @@
 //
 
 #import "HomeController.h"
-#import "CellLineController.h"
 #import "LineController.h"
 #import "HomeModel.h"
-#import "ImageModel.h"
 #import "BaseCell.h"
 #import "QDXLineDetailViewController.h"
 #import "HomeService.h"
@@ -19,43 +17,27 @@
 #import "QDXNavigationController.h"
 #import "ImageScrollView.h"
 #import "AppDelegate.h"
-#import "BaseService.h"
 #import "QDXActivityViewController.h"
-#define NotificaitonChange @"code"
 
-@interface HomeController ()<UITableViewDataSource,UITableViewDelegate,UIScrollViewDelegate,UINavigationControllerDelegate>
+@interface HomeController ()<UITableViewDataSource,UITableViewDelegate>
 {
-    UITableView *_tableView;
-    UIScrollView *_scrollView;
-    UIPageControl *_pageControl;
-    UIImageView *_scrollImageView;
-    UIImageView *_imageView;
-    UIImageView *_topImageView;
-    UIButton *_leftButton;
-    UIButton *_rightButton;
-
-    NSMutableArray *_dataArr;
-    NSString *_result;
-    NSInteger _currentIndex;
-    NSTimer *_myTimer;
-    NSArray *_topImage;
-    NSMutableArray *_modelArr;
     NSInteger _curNumber;
     NSInteger _countNum;
     NSInteger _currNum;
-    UIButton *_button;
-    BOOL _isLog;
-    NSInteger _line;
     NSInteger _code;
-    NSString *_msg;
-    NSString *_codeMsg;
-    UIButton *_scanBtn;
-    ImageScrollView *imgScrollView;
-    NSMutableArray *arr;
 
     AppDelegate *appdelegate;
     HomeService *homehttp;
 }
+
+@property (nonatomic,strong) UITableView *tableView;
+
+@property (nonatomic,strong) ImageScrollView *imgScrollView;
+
+@property (nonatomic,strong) UIButton *scanBtn;
+
+@property (nonatomic,strong) NSMutableArray *dataArr;
+
 @end
 
 @implementation HomeController
@@ -76,18 +58,16 @@
 {
     [super viewDidDisappear:animated];
     _scrollArr = [NSMutableArray arrayWithCapacity:0];
-    [imgScrollView stopTimer];
+    [_imgScrollView stopTimer];
 }
 
-- (void)viewDidLoad {
+- (void)viewDidLoad
+{
     [super viewDidLoad];
     homehttp = [HomeService sharedInstance];
-    _modelArr  = [NSMutableArray arrayWithCapacity:0];
-    arr = [[NSMutableArray alloc] initWithCapacity:0];
     self.navigationItem.title = @"趣定向";
-    _curNumber = 1;
+    
     [self createTableView];
-    [self loadDataCell];
     [self createHeaderView];
     
     _scanBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 18)];
@@ -98,7 +78,8 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stateRefresh) name:@"stateRefresh" object:nil];
 }
 
-- (void)dealloc{
+- (void)dealloc
+{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"stateRefresh" object:nil];
 }
 
@@ -127,6 +108,7 @@
 - (void)loadData
 {
     [self state];
+    [self loadDataCell];
     _scanBtn.hidden = NO;
 }
 
@@ -148,16 +130,16 @@
     [view setBackgroundColor:[UIColor whiteColor]];
     
     //创建
-    imgScrollView = [[ImageScrollView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxWidth*0.59)];
-    [view addSubview:imgScrollView];
+    _imgScrollView = [[ImageScrollView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxWidth*0.59)];
+    [view addSubview:_imgScrollView];
     
     UIImageView *mask = [[UIImageView alloc] initWithFrame:CGRectMake(0, QdxWidth*0.59-QdxWidth*0.1, QdxWidth, QdxWidth*0.1)];
     mask.image = [UIImage imageNamed:@"index_mask"];
-    [imgScrollView addSubview:mask];
+    [_imgScrollView addSubview:mask];
     
     NSArray *titleArr = @[@"亲子",@"交友",@"拓展",@"挑战"];
     NSArray *imageArr = @[@"index_parenting",@"index_makefriends",@"index_expand",@"index_dekaron"];
-    CGFloat scrollViewMaxY = CGRectGetMaxY(imgScrollView.frame);
+    CGFloat scrollViewMaxY = CGRectGetMaxY(_imgScrollView.frame);
     for(int i=0; i<4; i++){
         UIButton *btn = [ToolView createButtonWithFrame:CGRectMake(i*QdxWidth/4+QdxWidth/17, scrollViewMaxY+20, QdxWidth/8, QdxWidth/8) title:titleArr[i] backGroundImage:imageArr[i] Target:self action:@selector(btnClick:) superView:view];
         btn.titleEdgeInsets = UIEdgeInsetsMake(QdxWidth/5, 0, 0, 0);
@@ -167,28 +149,16 @@
         btn.titleLabel.font = [UIFont systemFontOfSize:12];
         btn.tag = 1+i;
     }
-    
     _tableView.tableHeaderView = view;
 }
 
 - (void)refreshView
 {
     __weak __typeof(self) weakSelf = self;
-    
-    // 设置回调（一旦进入刷新状态就会调用这个refreshingBlock）
     _tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
         [weakSelf loadNewData];
     }];
-    
-    // 马上进入刷新状态
-    [_tableView.mj_header beginRefreshing];
-    
-    // 设置回调（一旦进入刷新状态就会调用这个refreshingBlock）
     _tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-//    // 设置了底部inset
-//    _tableView.contentInset = UIEdgeInsetsMake(0, 0, 30, 0);
-//    // 忽略掉底部inset
-//    _tableView.mj_footer.ignoredScrollViewContentInsetBottom = 30;
 }
 
 #pragma mark - 数据处理相关
@@ -196,10 +166,7 @@
 - (void)loadNewData
 {
     _curNumber = 1;
-    //刷新
-    
     [self cellDataWith:[NSString stringWithFormat:@"%li", (long)_curNumber] isRemoveAll:YES andWithType:@"0"];
-    
     [_tableView.mj_header endRefreshing];
 }
 
@@ -207,7 +174,6 @@
 - (void)loadMoreData
 {
     _curNumber ++;
-    
     if(_countNum/13+1 == _currNum){
         [_tableView reloadData];
         [_tableView.mj_footer endRefreshingWithNoMoreData];
@@ -218,8 +184,8 @@
 
 - (void)topViewData
 {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         [homehttp topViewDatasucceed:^(id data) {
+            NSMutableArray *modelArr  = [NSMutableArray arrayWithCapacity:0];
             NSDictionary *dataDict = data[@"Msg"][@"data"];
             for(NSDictionary *dict in dataDict){
                 int i = [dict[@"goods_index"] intValue];
@@ -229,35 +195,33 @@
                     _model_tmp = model;
                     NSString *str = model.good_url;
                     [_scrollArr addObject:[NSString stringWithFormat:@"%@%@",hostUrl,str]];
-                    [_modelArr addObject:model];
+                    [modelArr addObject:model];
                 }
             }
-            
-            for(int i = 0;i<4;i++){
+            NSMutableArray *arr = [[NSMutableArray alloc] initWithCapacity:0];
+            for(int i = 0;i < 4;i++){
                 [arr addObject:_scrollArr[i]];
             }
             //添加数据
-            imgScrollView.pics = arr;
+            _imgScrollView.pics = arr;
             //点击事件
-            [imgScrollView returnIndex:^(NSInteger index) {
+            [_imgScrollView returnIndex:^(NSInteger index) {
             QDXLineDetailViewController *detailLine = [[QDXLineDetailViewController alloc] init];
-                detailLine.homeModel = [_modelArr objectAtIndex:index];
+                detailLine.homeModel = [modelArr objectAtIndex:index];
                 detailLine.hidesBottomBarWhenPushed = YES;
                 [self.navigationController pushViewController:detailLine animated:YES];
             }];
             //刷新（必需的步骤）
             dispatch_async(dispatch_get_main_queue(), ^(void){
-                [imgScrollView reloadView];
+                [_imgScrollView reloadView];
             });
         } failure:^(NSError *error) {
         
         }];
-    });
 }
 
 - (void)state
 {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
     appdelegate.loading = YES;
     [homehttp statesucceed:^(id data) {
          NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments | NSJSONReadingMutableLeaves error:nil];
@@ -279,7 +243,6 @@
     } failure:^(NSError *error) {
 
     } WithToken:save];
-    });
 }
 
 - (void)cellDataWith:(NSString *)cur isRemoveAll:(BOOL)isRemoveAll andWithType:(NSString *)type
@@ -392,8 +355,7 @@
     if ([save length] != 0) {
         ImagePickerController *imageVC = [[ImagePickerController alloc] initWithBlock:^(NSString *result, BOOL flag, NSString *from) {
             imageVC.from = from;
-            _result = result;
-            [self netWorking];
+            [self netWorkingwith:result];
         }];
         imageVC.hidesBottomBarWhenPushed =YES;
         [self.navigationController pushViewController:imageVC animated:YES];
@@ -418,7 +380,7 @@
     }
 }
 
-- (void)netWorking
+- (void)netWorkingwith:(NSString *)result
 {
     //创建请求管理对象
     AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
@@ -428,7 +390,7 @@
     //封装请求参数
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"TokenKey"] = save;
-    params[@"ticketinfo_name"] = _result;
+    params[@"ticketinfo_name"] = result;
     [mgr POST:[NSString stringWithFormat:@"%@%@",hostUrl,actUrl] parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
         

@@ -350,7 +350,6 @@
                         errorCount = 0;
                         if([self.gameInfo.mstatus_id intValue] == 1)
                         {
-                            [self.MyCentralManager stopScan];
                             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"是否确定开始本次活动？" preferredStyle:UIAlertControllerStyleAlert];
                             UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action){
                                 rmoveMacStr = @"0";

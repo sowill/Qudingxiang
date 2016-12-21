@@ -54,7 +54,7 @@
     [self.BGView addSubview:lineView];
     
     self.order_img = [[UIImageView alloc] initWithFrame:CGRectMake(FitRealValue(24), FitRealValue(100 + 40), FitRealValue(140), FitRealValue(140))];
-    self.order_img.contentMode = UIViewContentModeScaleAspectFit;
+//    self.order_img.contentMode = UIViewContentModeScaleAspectFit;
     [self.BGView addSubview:self.order_img];
     
     self.order_name = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(24 + 140 + 30), FitRealValue(100 + 44), QdxWidth - FitRealValue(24 + 140 + 30 + 24), FitRealValue(28))];

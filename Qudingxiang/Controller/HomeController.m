@@ -118,7 +118,7 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.showsVerticalScrollIndicator = NO;
-    _tableView.backgroundColor = QDXBGColor;
+    _tableView.backgroundColor = [UIColor whiteColor];
     [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     self.automaticallyAdjustsScrollViewInsets = false;
     [self.view addSubview:_tableView];

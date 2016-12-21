@@ -19,15 +19,11 @@
 
 @interface ActivityController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
 {
-    UITableView *_tableView;
-    NSMutableArray *_dataArr;
-    NSInteger _curNumber;
-    NSInteger _currNum;
-    NSInteger _countNum;
-    NSString *_goodsId;
-    NSString *_status_id;
-    UIButton *_button;
+    NSInteger currNum;
+    NSInteger page;
 }
+@property (nonatomic,strong) UITableView *tableView;
+@property (nonatomic,strong) NSMutableArray *dataArr;
 //@property (strong , nonatomic) DTScrollStatusView *scrollTapViw;
 @end
 
@@ -42,7 +38,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    _curNumber = 1;
     self.view.backgroundColor = QDXBGColor;
     self.navigationItem.title = @"活动";
     
@@ -61,7 +56,6 @@
 
 - (void) openOrCloseLeftList
 {
-    
     if ([MCLeftSliderManager sharedInstance].LeftSlideVC.closed)
     {
         [[MCLeftSliderManager sharedInstance].LeftSlideVC openLeftView];
@@ -74,12 +68,7 @@
 
 -(void)reloadData
 {
-    [self loadData];
-}
-
-- (void)loadData
-{
-    [self performSelectorInBackground:@selector(loadDataWith:isRemoveAll:) withObject:nil];
+    [self loadDataWith:@"1" isRemoveAll:NO];
 }
 
 - (void)createTableView
@@ -113,16 +102,15 @@
 //    _tableView.contentInset = UIEdgeInsetsMake(0, 0, 30, 0);
 //    // 忽略掉底部inset
 //    _tableView.mj_footer.ignoredScrollViewContentInsetBottom = 30;
-
 }
 
 #pragma mark - 数据处理相关
 #pragma mark 下拉刷新数据
 - (void)loadNewData
 {
-    _curNumber = 1;
+    currNum = 1;
     //刷新
-    [self loadDataWith:[NSString stringWithFormat:@"%li", (long)_curNumber] isRemoveAll:YES];
+    [self loadDataWith:[NSString stringWithFormat:@"%li", (long)currNum] isRemoveAll:YES];
     // 刷新表格
     [_tableView reloadData];
     // 拿到当前的下拉刷新控件，结束刷新状态
@@ -132,8 +120,8 @@
 #pragma mark 上拉加载更多数据
 - (void)loadMoreData
 {
-    _curNumber ++;
-    if(_countNum/20+1 == _currNum){
+    currNum ++;
+    if(currNum > page){
         // 刷新表格
         [_tableView reloadData];
         
@@ -141,7 +129,7 @@
         [_tableView.mj_footer endRefreshingWithNoMoreData];
        
     }else{
-        [self loadDataWith:[NSString stringWithFormat:@"%li", (long)_curNumber] isRemoveAll:NO];
+        [self loadDataWith:[NSString stringWithFormat:@"%li", (long)currNum] isRemoveAll:NO];
     }
 }
 
@@ -155,43 +143,32 @@
     {
         [cell setLayoutMargins:UIEdgeInsetsZero];
     }
-    
-    //设置Cell的动画效果为3D效果
-    //设置x和y的初始值为0.1；
-//    cell.layer.transform = CATransform3DMakeScale(0.6, 0.6, 1);
-    //x和y的最终值为1
-//    [UIView animateWithDuration:1 animations:^{
-//        cell.layer.transform = CATransform3DMakeScale(1, 1, 1);
-//    }];
 }
 
 - (void)loadDataWith:(NSString *)cur isRemoveAll:(BOOL)isRemoveAll
 {
     [ActivityService cellDataBlock:^(NSDictionary *dict) {
         NSDictionary *dataDict = dict[@"Msg"][@"data"];
-        _currNum = [dict[@"Msg"][@"curr"] integerValue];
-        _countNum = [dict[@"Msg"][@"count"] integerValue];
-        if (isRemoveAll) {
-            [_dataArr removeAllObjects];
+        
+        if (![dict[@"Msg"][@"count"] isEqualToString:@"0"]){
+            currNum = [dict[@"Msg"][@"curr"] integerValue];
+            page = [dict[@"Msg"][@"page"] integerValue];
+            if (isRemoveAll) {
+                [_dataArr removeAllObjects];
+            }
+            for(NSDictionary *dict in dataDict){
+                ActModel *model = [[ActModel alloc] init];
+                [model setValuesForKeysWithDictionary:dict];
+                [_dataArr addObject:model];
+            }
         }
-        for(NSDictionary *dict in dataDict){
-            ActModel *model = [[ActModel alloc] init];
-            [model setValuesForKeysWithDictionary:dict];
-            _goodsId = model.goods_id;
-            _status_id = model.good_st;
-            [_dataArr addObject:model];
-        }
-        [_tableView reloadData];
+        
         [_tableView.mj_footer endRefreshing];
-        [self performSelectorOnMainThread:@selector(sussRes) withObject:nil waitUntilDone:YES];
+        [_tableView reloadData];
+        
     } FailBlock:^(NSMutableArray *array) {
         
     } andWithToken:save andWithCurr:cur];
-}
-
-- (void)sussRes
-{
-
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -223,13 +200,9 @@
     [self.navigationController pushViewController:lineVC animated:YES];
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForFooterInSection:(NSInteger)section
-{
-    return 0;
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return FitRealValue(445 + 64 + 20);
 }
+
 @end

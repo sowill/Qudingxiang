@@ -95,7 +95,7 @@
 
 #define accountFile [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject]
 
-#define hostUrl @"http://www.qudingxiang.cn/"
+#define hostUrl @"https://www.qudingxiang.cn/"
 
 //图片上传接口：
 //Upmfile/upfile  参数imgfile  返回：上传图片的存放路径
@@ -135,6 +135,8 @@
 
 //获取产品报价列表  参数:TokenKey
 #define goodsUrl @"index.php/Home/goods/getListAjax"
+
+#define newGoodsUrl @"index.php/Home/Goods/GetHomeListAjax"
 
 //获取团队线路  参数:TokenKey curr
 #define teamUrl @"index.php/Home/Myline/getMyTeamLineList"

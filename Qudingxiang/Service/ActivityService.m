@@ -22,17 +22,17 @@
     params[@"TokenKey"] = tokenKey;
     params[@"areatype_id"] = @"2";
     params[@"curr"] = curr;
-    NSString *cachekey = [NSString stringWithFormat:@"%@%@2%@%@%@",urlString,tokenKey,curr,VGoods,VLine];
-    NSString *str = [ToolView md5:cachekey];
-    NSString *actFile = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-    NSString *fileName = [actFile stringByAppendingPathComponent:str];
-    NSDictionary *res = [NSKeyedUnarchiver unarchiveObjectWithFile:fileName];
-    if (res!=nil) {
-        dict = res;
-        if(block){
-            block(dict);
-        }
-    }else{
+//    NSString *cachekey = [NSString stringWithFormat:@"%@%@2%@%@%@",urlString,tokenKey,curr,VGoods,VLine];
+//    NSString *str = [ToolView md5:cachekey];
+//    NSString *actFile = [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+//    NSString *fileName = [actFile stringByAppendingPathComponent:str];
+//    NSDictionary *res = [NSKeyedUnarchiver unarchiveObjectWithFile:fileName];
+//    if (res!=nil) {
+//        dict = res;
+//        if(block){
+//            block(dict);
+//        }
+//    }else{
     [mgr POST:urlString parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
 
@@ -40,7 +40,7 @@
         dict = responseObject;
         if (block) {
             block(dict);
-            [NSKeyedArchiver archiveRootObject:dict toFile:fileName];
+//            [NSKeyedArchiver archiveRootObject:dict toFile:fileName];
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         NSMutableArray *failArr = [[NSMutableArray alloc]init];
@@ -50,6 +50,6 @@
         }
 
     }];
-    }
+//    }
 }
 @end

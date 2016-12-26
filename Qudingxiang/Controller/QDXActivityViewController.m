@@ -55,25 +55,60 @@
     [self.view addSubview:self.tableView];
 }
 
-- (void)cellDataWith:(NSString *)cur andWithType:(NSString *)type
+-(void)cellDataWith:(NSString *)cur andWithType:(NSString *)type
 {
-    [homehttp loadCellsucceed:^(id data) {
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    mgr.responseSerializer = [ AFHTTPResponseSerializer serializer ];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"areatype_id"] = @"1";
+    params[@"curr"] = cur;
+    params[@"type"] =type;
+    NSString *url = [hostUrl stringByAppendingString:goodsUrl];
+    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments | NSJSONReadingMutableLeaves error:nil];
-        NSDictionary *dataDict = dict[@"Msg"][@"data"];
-        _actArray = [[NSMutableArray alloc] init];
-        for(NSDictionary *dict in dataDict){
-            HomeModel *model = [[HomeModel alloc] init];
-            [model setValuesForKeysWithDictionary:dict];
-            [_actArray addObject:model];
-        }
         
-        [self createTableView];
-        
-    } failure:^(NSError *error) {
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+        NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
+        int ret = [infoDict[@"Code"] intValue];
+        if (ret == 1) {
+            NSDictionary *dataDict = infoDict[@"Msg"][@"data"];
+            _actArray = [[NSMutableArray alloc] init];
+            for(NSDictionary *dict in dataDict){
+                HomeModel *model = [[HomeModel alloc] init];
+                [model setValuesForKeysWithDictionary:dict];
+                [_actArray addObject:model];
+            }
             
-    } WithCurr:cur WithType:type];
+            [self createTableView];
+        }
+        else{
+            
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
 }
+
+//- (void)cellDataWith:(NSString *)cur andWithType:(NSString *)type
+//{
+//    [homehttp loadCellsucceed:^(id data) {
+//        
+//        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments | NSJSONReadingMutableLeaves error:nil];
+//        NSDictionary *dataDict = dict[@"Msg"][@"data"];
+//        _actArray = [[NSMutableArray alloc] init];
+//        for(NSDictionary *dict in dataDict){
+//            HomeModel *model = [[HomeModel alloc] init];
+//            [model setValuesForKeysWithDictionary:dict];
+//            [_actArray addObject:model];
+//        }
+//        
+//        [self createTableView];
+//        
+//    } failure:^(NSError *error) {
+//            
+//    } WithCurr:cur WithType:type];
+//}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {

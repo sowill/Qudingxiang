@@ -285,7 +285,7 @@
             
         }else if (indexPath.row == 6){
             
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"400-820-3899" message:@"客服工作时间:09:00-18:00" preferredStyle:UIAlertControllerStyleAlert];
+            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"400-820-3899" message:@"客服工作时间:09:30-18:30" preferredStyle:UIAlertControllerStyleAlert];
             [self presentViewController:alertController animated:YES completion:nil];
             
             [alertController addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction * _Nonnull action) {

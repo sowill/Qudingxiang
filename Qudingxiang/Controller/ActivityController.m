@@ -33,7 +33,7 @@
 {
     [super viewWillAppear:animated];
     
-    [self loadDataWith:@"1" isRemoveAll:NO];
+//    [self loadDataWith:@"1" isRemoveAll:NO];
 }
 
 - (void)viewDidLoad {
@@ -78,7 +78,8 @@
     _tableView.delegate = self;
     _tableView.dataSource = self;
     _tableView.showsVerticalScrollIndicator = NO;
-    _tableView.backgroundColor = QDXBGColor;
+    _tableView.backgroundColor = [UIColor whiteColor];
+    [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [self.view addSubview:_tableView];
     
     [self refreshView];
@@ -99,9 +100,9 @@
     // 2.上拉刷新(上拉加载更多数据)
     _tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
     // 设置了底部inset
-//    _tableView.contentInset = UIEdgeInsetsMake(0, 0, 30, 0);
-//    // 忽略掉底部inset
-//    _tableView.mj_footer.ignoredScrollViewContentInsetBottom = 30;
+    _tableView.contentInset = UIEdgeInsetsMake(0, 0, 30, 0);
+    // 忽略掉底部inset
+    _tableView.mj_footer.ignoredScrollViewContentInsetBottom = 30;
 }
 
 #pragma mark - 数据处理相关
@@ -133,17 +134,17 @@
     }
 }
 
-- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if ([cell respondsToSelector:@selector(setSeparatorInset:)])
-    {
-        [cell setSeparatorInset:UIEdgeInsetsZero];
-    }
-    if ([cell respondsToSelector:@selector(setLayoutMargins:)])
-    {
-        [cell setLayoutMargins:UIEdgeInsetsZero];
-    }
-}
+//- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
+//{
+//    if ([cell respondsToSelector:@selector(setSeparatorInset:)])
+//    {
+//        [cell setSeparatorInset:UIEdgeInsetsZero];
+//    }
+//    if ([cell respondsToSelector:@selector(setLayoutMargins:)])
+//    {
+//        [cell setLayoutMargins:UIEdgeInsetsZero];
+//    }
+//}
 
 - (void)loadDataWith:(NSString *)cur isRemoveAll:(BOOL)isRemoveAll
 {
@@ -202,7 +203,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return FitRealValue(445 + 64 + 20);
+    return FitRealValue(528);
 }
 
 @end

@@ -501,7 +501,7 @@
     self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, READYVIEWHEIGHT, QdxWidth, WEBVIEWHEIGHT)];
     self.webView.backgroundColor = [UIColor whiteColor];
     
-    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[hostUrl stringByAppendingString:[NSString stringWithFormat:@"index.php/home/myline/mylineweb/myline_id/%@/tmp/%@",oldMyLineid,save]]]]];
+    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[hostUrl stringByAppendingString:[NSString stringWithFormat:@"/home/myline/mylineweb/tmp/%@/myline_id/%@",save,oldMyLineid]]]]];
     
     playView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, SCOREVIEWHEIGHT)];
     playView.backgroundColor = [UIColor whiteColor];
@@ -705,7 +705,7 @@ toViewController:(UIViewController *)toVC {
                 UIImage *imagea = [UIImage imageWithData: [NSData dataWithContentsOfURL:url]];
                 groundOverlay = [MAGroundOverlay groundOverlayWithBounds:coordinateBounds icon:[ToolView imageByApplyingAlpha:1.0 image:imagea]];
                 [_mapView addOverlay:groundOverlay];
-                [_mapView setVisibleMapRect:groundOverlay.boundingMapRect animated:YES];
+//                [_mapView setVisibleMapRect:groundOverlay.boundingMapRect animated:YES];
             }else{
                 float lat = ([self.resultInfo.MapPoint.top_lat floatValue] + [self.resultInfo.MapPoint.bottom_lat floatValue])/2;
                 float lon = ([self.resultInfo.MapPoint.top_lon floatValue] + [self.resultInfo.MapPoint.bottom_lon floatValue])/2;

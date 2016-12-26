@@ -41,8 +41,7 @@
 #pragma mark - 第一次使用当前类的时候对设置UITabBarItem的主题
 + (void)initialize
 {
-    UITabBarItem *tabBarItem = [UITabBarItem appearanceWhenContainedInInstancesOfClasses:@[self]];
-    
+
     NSMutableDictionary *dictNormal = [NSMutableDictionary dictionary];
     dictNormal[NSForegroundColorAttributeName] = QDXGray;
     dictNormal[NSFontAttributeName] = [UIFont systemFontOfSize:12];
@@ -51,8 +50,18 @@
     dictSelected[NSForegroundColorAttributeName] = QDXBlue;
     dictSelected[NSFontAttributeName] = [UIFont systemFontOfSize:12];
     
-    [tabBarItem setTitleTextAttributes:dictNormal forState:UIControlStateNormal];
-    [tabBarItem setTitleTextAttributes:dictSelected forState:UIControlStateSelected];
+    NSString* phoneVersion = [[UIDevice currentDevice] systemVersion];
+    
+    if ([phoneVersion intValue] > 9.0) {
+        UITabBarItem *tabBarItem = [UITabBarItem appearanceWhenContainedInInstancesOfClasses:@[self]];
+        [tabBarItem setTitleTextAttributes:dictNormal forState:UIControlStateNormal];
+        [tabBarItem setTitleTextAttributes:dictSelected forState:UIControlStateSelected];
+    }else{
+        UITabBarItem *tabBarItem = [UITabBarItem appearanceWhenContainedIn:self, nil];
+        [tabBarItem setTitleTextAttributes:dictNormal forState:UIControlStateNormal];
+        [tabBarItem setTitleTextAttributes:dictSelected forState:UIControlStateSelected];
+    }
+    
 }
 
 -(void)viewWillAppear:(BOOL)animated

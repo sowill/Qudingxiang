@@ -22,5 +22,8 @@
 @property (nonatomic, strong) NSString *code;
 @property (nonatomic, strong) NSString *good_st;
 @property (nonatomic, assign) CGFloat cellHeight;
+
+@property (nonatomic, strong) NSString *act_address;
+@property (nonatomic, strong) NSString *act_time;
 @end
 

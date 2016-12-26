@@ -45,7 +45,9 @@
 {
     [super viewWillAppear:animated];
     [self loadData];
-     appdelegate = [[UIApplication sharedApplication] delegate];
+    [self topViewData];
+    
+    appdelegate = [[UIApplication sharedApplication] delegate];
 }
 
 -(void)reloadData
@@ -56,15 +58,33 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    _scrollArr = [NSMutableArray arrayWithCapacity:0];
     [_imgScrollView stopTimer];
+}
+
+-(void)getTitle
+{
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    mgr.responseSerializer = [ AFHTTPResponseSerializer serializer ];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Util/title"];
+    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+        NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
+        self.navigationItem.title = infoDict[@"title"];
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
 }
 
 - (void)viewDidLoad
 {
+    [self getTitle];
     [super viewDidLoad];
     homehttp = [HomeService sharedInstance];
-    self.navigationItem.title = @"趣定向";
+    
     self.view.backgroundColor = QDXBGColor;
     
     _scanBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 18)];
@@ -90,7 +110,6 @@
 
 - (void)loadDataCell
 {
-    _scrollArr = [NSMutableArray arrayWithCapacity:0];
     dispatch_queue_t queue = dispatch_queue_create("gcdtest.rongfzh.yc", DISPATCH_QUEUE_CONCURRENT);
     dispatch_async(queue, ^{
         [homehttp dbversionsucceed:^(id data) {
@@ -101,7 +120,6 @@
     });
     dispatch_barrier_async(queue, ^{
         [self cellDataWith:@"1" isRemoveAll:YES andWithType:@"0"];
-        [self topViewData];
     });
 }
 
@@ -188,6 +206,7 @@
     [homehttp topViewDatasucceed:^(id data) {
         NSMutableArray *modelArr  = [NSMutableArray arrayWithCapacity:0];
         NSDictionary *dataDict = data[@"Msg"][@"data"];
+        _scrollArr = [NSMutableArray arrayWithCapacity:0];
         for(NSDictionary *dict in dataDict){
             int i = [dict[@"goods_index"] intValue];
             if (i == 1) {

@@ -29,6 +29,14 @@
  *  活动价格
  */
 @property (nonatomic,copy) NSString *goods_price;
+/**
+ *  活动地点
+ */
+@property (nonatomic,copy) NSString *act_address;
+/**
+ *  活动时间
+ */
+@property (nonatomic,copy) NSString *act_time;
 
 +(instancetype)TicketInfoWithDict:(NSDictionary *)dict;
 -(instancetype)initWithDict:(NSDictionary *)dict;

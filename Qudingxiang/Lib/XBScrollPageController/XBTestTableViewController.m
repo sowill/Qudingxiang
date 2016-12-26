@@ -79,15 +79,16 @@
     return _didCompleted;
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    curr = 1;
-}
+//- (void)viewWillAppear:(BOOL)animated
+//{
+//    [super viewWillAppear:animated];
+//    curr = 1;
+//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    curr = 1;
     [self getOrdersListAjax];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stateRefresh) name:@"stateRefresh" object:nil];
@@ -181,7 +182,6 @@
             QDXIsConnect *isConnect = [QDXIsConnect mj_objectWithKeyValues:dict];
             int ret = [isConnect.Code intValue];
             if (ret==1)  {
-                
                 if (![dict[@"Msg"][@"count"] isEqualToString:@"0"]){
                     // 将字典数据转为模型数据
                     curr = [dict[@"Msg"][@"curr"] intValue];

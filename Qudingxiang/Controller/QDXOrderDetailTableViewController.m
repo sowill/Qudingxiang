@@ -151,11 +151,16 @@
     headerStatus.font = [UIFont fontWithName:@"Arial" size:17];
     [headerContantView addSubview:headerStatus];
     
+    QDXTicketInfoModel *getAdressAndTime = [[QDXTicketInfoModel alloc] init];
+    getAdressAndTime = self.ticket[0];
+    
+    
+    
     UILabel *headerTime = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(24), FitRealValue(30 + 40 + 20), FitRealValue(500), FitRealValue(30))];
     if (self.orderId) {
-        headerTime.text = [@"活动时间：" stringByAppendingString:@"2020.09.30"];
+        headerTime.text = [@"活动时间：" stringByAppendingString:getAdressAndTime.act_time];
     }else{
-        headerTime.text = [@"活动时间：" stringByAppendingString:@"2020.09.30"];
+        headerTime.text = [@"活动时间：" stringByAppendingString:getAdressAndTime.act_time];
     }
     headerTime.textColor = QDXGray;
     headerTime.textAlignment = NSTextAlignmentLeft;
@@ -180,7 +185,7 @@
     headerPlace.lineBreakMode = NSLineBreakByWordWrapping;//换行方式
     headerPlace.textAlignment = NSTextAlignmentLeft;
     
-    NSString *strPlace = @"上海市浦东新区高桥镇凌桥高沙滩3号";
+    NSString *strPlace = getAdressAndTime.act_address;
     
     UIFont *font = [UIFont fontWithName:@"Arial" size:14];
     
@@ -279,7 +284,6 @@
         if (dict) {
             NSMutableArray *orderInfoArray = [NSMutableArray array];
             NSDictionary *dataInfoDict = dict;
-            
             [orderInfoArray addObject:[QDXOrdermodel OrderWithDict:dataInfoDict]];
             self.orderInfo = orderInfoArray;
             QDXOrdermodel *OrderInfo = self.orderInfo[0];

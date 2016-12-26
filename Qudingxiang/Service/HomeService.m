@@ -75,7 +75,7 @@ static HomeService *httpRequest = nil;
 
 - (void)loadCellsucceed:(void (^)(id data))succeed failure:(void (^)(NSError *error))failure WithCurr:(NSString *)curr WithType:(NSString *)type ;
 {
-    NSString *urlString = [hostUrl stringByAppendingString:goodsUrl];
+    NSString *urlString = [hostUrl stringByAppendingString:newGoodsUrl];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     manager.responseSerializer.acceptableContentTypes = [NSSet setWithObjects:@"application/json",@"text/json",@"text/javascript",@"text/html", nil];

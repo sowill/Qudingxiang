@@ -25,6 +25,8 @@
         self.goods_price = dict[@"goods_price"];
         self.tstatus_id = [dict[@"tstatus_id"] intValue];
         self.tstatus_name = dict[@"tstatus_name"];
+        self.act_address = dict[@"act_address"];
+        self.act_time = dict[@"act_time"];
     }
     return self;
 }

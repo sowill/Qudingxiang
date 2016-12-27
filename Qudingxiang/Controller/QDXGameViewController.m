@@ -992,7 +992,7 @@ toViewController:(UIViewController *)toVC {
 {
     [self removeFromSuperViewController];
     
-    NSString *stringurl = [hostUrl stringByAppendingString:[NSString stringWithFormat:@"index.php/home/myline/getquestionweb/myline_id/%@/tmp/%@",oldMyLineid,save]]; //默认是在线
+    NSString *stringurl = [@"http://www.qudingxiang.cn/" stringByAppendingString:[NSString stringWithFormat:@"index.php/home/myline/getquestionweb/myline_id/%@/tmp/%@",oldMyLineid,save]]; //默认是在线
     
     if ([self.questionInfo.question.ischoice intValue] == 2) {
         [YLPopViewManager sharedInstance].YLPopVC= [[YLPopViewController alloc] init];
@@ -1142,7 +1142,7 @@ toViewController:(UIViewController *)toVC {
     
     self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0,SHOWTASKHEIGHT, TASKWEIGHT, TASKHEIGHT - 2 * SHOWTASKHEIGHT)];
     
-    NSString *url = [hostUrl stringByAppendingString:[NSString stringWithFormat:@"index.php/home/myline/gettaskweb/myline_id/%@/tmp/%@",oldMyLineid,save]];
+    NSString *url = [@"http://www.qudingxiang.cn/" stringByAppendingString:[NSString stringWithFormat:@"index.php/home/myline/gettaskweb/myline_id/%@/tmp/%@",oldMyLineid,save]];
     
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
     

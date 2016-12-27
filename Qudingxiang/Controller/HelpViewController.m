@@ -24,7 +24,7 @@
     protocol = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight-15)];
     protocol.backgroundColor = [UIColor clearColor];
     protocol.scrollView.showsVerticalScrollIndicator = FALSE;
-    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/help/index.html"];
+    NSString *url = [hostUrl stringByAppendingString:@"index.php/home/help/index.html"];
     [protocol loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
     [self.view addSubview:protocol];
 }

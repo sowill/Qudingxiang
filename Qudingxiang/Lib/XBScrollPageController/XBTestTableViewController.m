@@ -137,10 +137,10 @@
     
     // 2.上拉刷新(上拉加载更多数据)
     self.tableview.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
-//    // 设置了底部inset
-//    self.tableview.contentInset = UIEdgeInsetsMake(0, 0, 30, 0);
-//    // 忽略掉底部inset
-//    self.tableview.mj_footer.ignoredScrollViewContentInsetBottom = 30;
+    // 设置了底部inset
+    self.tableview.contentInset = UIEdgeInsetsMake(0, 0, 30, 0);
+    // 忽略掉底部inset
+    self.tableview.mj_footer.ignoredScrollViewContentInsetBottom = 30;
     
 }
 

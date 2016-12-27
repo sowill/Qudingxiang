@@ -430,19 +430,12 @@
 
 //状态3 页面大小调整
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    
     CGFloat sectionHeaderHeight = 40;
-    
     if (scrollView.contentOffset.y<=sectionHeaderHeight&&scrollView.contentOffset.y>=0) {
-        
         scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
-        
     } else if (scrollView.contentOffset.y>=sectionHeaderHeight) {
-        
         scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
-        
     }
-    
 }
 
 -(void)refreshScrollView
@@ -501,7 +494,7 @@
     self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0, READYVIEWHEIGHT, QdxWidth, WEBVIEWHEIGHT)];
     self.webView.backgroundColor = [UIColor whiteColor];
     
-    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[hostUrl stringByAppendingString:[NSString stringWithFormat:@"/home/myline/mylineweb/tmp/%@/myline_id/%@",save,oldMyLineid]]]]];
+    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:[hostUrl stringByAppendingString:[NSString stringWithFormat:@"index.php/home/myline/mylineweb/tmp/%@/myline_id/%@",save,oldMyLineid]]]]];
     
     playView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, SCOREVIEWHEIGHT)];
     playView.backgroundColor = [UIColor whiteColor];
@@ -705,22 +698,22 @@ toViewController:(UIViewController *)toVC {
                 UIImage *imagea = [UIImage imageWithData: [NSData dataWithContentsOfURL:url]];
                 groundOverlay = [MAGroundOverlay groundOverlayWithBounds:coordinateBounds icon:[ToolView imageByApplyingAlpha:1.0 image:imagea]];
                 [_mapView addOverlay:groundOverlay];
-//                [_mapView setVisibleMapRect:groundOverlay.boundingMapRect animated:YES];
+                [_mapView setVisibleMapRect:groundOverlay.boundingMapRect animated:YES];
             }else{
-                float lat = ([self.resultInfo.MapPoint.top_lat floatValue] + [self.resultInfo.MapPoint.bottom_lat floatValue])/2;
-                float lon = ([self.resultInfo.MapPoint.top_lon floatValue] + [self.resultInfo.MapPoint.bottom_lon floatValue])/2;
-                CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(lat, lon);
+//                float lat = ([self.resultInfo.MapPoint.top_lat floatValue] + [self.resultInfo.MapPoint.bottom_lat floatValue])/2;
+//                float lon = ([self.resultInfo.MapPoint.top_lon floatValue] + [self.resultInfo.MapPoint.bottom_lon floatValue])/2;
+//                CLLocationCoordinate2D coordinate = CLLocationCoordinate2DMake(lat, lon);
                 //缩放比例
                 MACoordinateSpan span = MACoordinateSpanMake(0.008, 0.008);
-                if (lat == 0 && lon == 0) {
+//                if (lat == 0 && lon == 0) {
                     MACoordinateRegion region = MACoordinateRegionMake(self.mapView.userLocation.location.coordinate, span);
                     //设置地图的显示区域
                     [_mapView setRegion:region animated:YES];
-                }else{
-                    MACoordinateRegion region = MACoordinateRegionMake(coordinate, span);
-                    //设置地图的显示区域
-                    [_mapView setRegion:region animated:YES];
-                }
+//                }else{
+//                    MACoordinateRegion region = MACoordinateRegionMake(coordinate, span);
+//                    //设置地图的显示区域
+//                    [_mapView setRegion:region animated:YES];
+//                }
                 
             }
             
@@ -999,7 +992,7 @@ toViewController:(UIViewController *)toVC {
 {
     [self removeFromSuperViewController];
     
-    NSString *stringurl = [hostUrl stringByAppendingString:[NSString stringWithFormat:@"index.php/home/Myline/getQuestionWeb/myline_id/%@/tmp/%@",oldMyLineid,save]]; //默认是在线
+    NSString *stringurl = [hostUrl stringByAppendingString:[NSString stringWithFormat:@"index.php/home/myline/getquestionweb/myline_id/%@/tmp/%@",oldMyLineid,save]]; //默认是在线
     
     if ([self.questionInfo.question.ischoice intValue] == 2) {
         [YLPopViewManager sharedInstance].YLPopVC= [[YLPopViewController alloc] init];
@@ -1149,7 +1142,7 @@ toViewController:(UIViewController *)toVC {
     
     self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0,SHOWTASKHEIGHT, TASKWEIGHT, TASKHEIGHT - 2 * SHOWTASKHEIGHT)];
     
-    NSString *url = [hostUrl stringByAppendingString:[NSString stringWithFormat:@"index.php/home/Myline/getTaskWeb/myline_id/%@/tmp/%@",oldMyLineid,save]];
+    NSString *url = [hostUrl stringByAppendingString:[NSString stringWithFormat:@"index.php/home/myline/gettaskweb/myline_id/%@/tmp/%@",oldMyLineid,save]];
     
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
     

@@ -33,7 +33,7 @@
 {
     [super viewWillAppear:animated];
     
-//    [self loadDataWith:@"1" isRemoveAll:NO];
+    [self loadDataWith:@"1" isRemoveAll:NO];
 }
 
 - (void)viewDidLoad {
@@ -95,7 +95,7 @@
     }];
     
     // 马上进入刷新状态
-    [_tableView.mj_header beginRefreshing];
+//    [_tableView.mj_header beginRefreshing];
     
     // 2.上拉刷新(上拉加载更多数据)
     _tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];

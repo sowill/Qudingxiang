@@ -7,16 +7,11 @@
 //
 
 #import "QDXActivityViewController.h"
-#import "HomeService.h"
 #import "HomeModel.h"
 #import "QDXActTableViewCell.h"
 #import "QDXLineDetailViewController.h"
 
 @interface QDXActivityViewController ()<UITableViewDataSource,UITableViewDelegate>
-{
-    HomeService *homehttp;
-}
-
 @property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic, strong) NSMutableArray *actArray;
@@ -38,19 +33,23 @@
     // Do any additional setup after loading the view.
     self.view.backgroundColor = QDXBGColor;
     self.navigationItem.title = _navTitle;
-    homehttp = [HomeService sharedInstance];
     [self cellDataWith:@"1" andWithType:_type];
 }
 
 - (void)createTableView
 {
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,0, QdxWidth, QdxHeight -64 - 10) style:UITableViewStylePlain];
+    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,0, QdxWidth, QdxHeight -64) style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
     self.tableView.showsVerticalScrollIndicator = NO;
     self.tableView.backgroundColor = QDXBGColor;
     //    self.tableview.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    
+    // 设置了底部inset
+    _tableView.contentInset = UIEdgeInsetsMake(0, 0, 30, 0);
+    // 忽略掉底部inset
+    _tableView.mj_footer.ignoredScrollViewContentInsetBottom = 30;
     
     [self.view addSubview:self.tableView];
 }
@@ -89,26 +88,6 @@
         
     }];
 }
-
-//- (void)cellDataWith:(NSString *)cur andWithType:(NSString *)type
-//{
-//    [homehttp loadCellsucceed:^(id data) {
-//        
-//        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments | NSJSONReadingMutableLeaves error:nil];
-//        NSDictionary *dataDict = dict[@"Msg"][@"data"];
-//        _actArray = [[NSMutableArray alloc] init];
-//        for(NSDictionary *dict in dataDict){
-//            HomeModel *model = [[HomeModel alloc] init];
-//            [model setValuesForKeysWithDictionary:dict];
-//            [_actArray addObject:model];
-//        }
-//        
-//        [self createTableView];
-//        
-//    } failure:^(NSError *error) {
-//            
-//    } WithCurr:cur WithType:type];
-//}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {

@@ -61,6 +61,7 @@
     //添加图片
     for (int i = 0; i <= (self.pics.count == 1 ? self.pics.count - 1 : self.pics.count); i++) {
         UIImageView *imageView = [UIImageView new];
+
         imageView.clipsToBounds = YES;
         NSString *urlStr = @"";
         if (i == 0) {
@@ -171,6 +172,9 @@
     if (url == nil) {
         return;
     }
+    
+//    [imgView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"banner_cell"]];
+    
     dispatch_queue_t queue =dispatch_queue_create("loadImage",NULL);
     dispatch_async(queue, ^{
         if ([self getImageWithName:[self md5:urlStr]] != nil) {

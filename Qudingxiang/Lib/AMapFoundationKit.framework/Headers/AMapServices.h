@@ -18,8 +18,7 @@
 @property (nonatomic, copy) NSString *apiKey;
 
 /**
- *  是否开启HTTPS，默认为NO。
- *  目前已支持服务：key鉴权、云图、搜索。
+ *  是否开启HTTPS，从1.3.3版本开始默认为YES。
  */
 @property (nonatomic, assign) BOOL enableHTTPS;
 

@@ -45,8 +45,6 @@
 {
     [super viewWillAppear:animated];
     [self loadData];
-    [self topViewData];
-    
     appdelegate = [[UIApplication sharedApplication] delegate];
 }
 
@@ -58,7 +56,7 @@
 - (void)viewDidDisappear:(BOOL)animated
 {
     [super viewDidDisappear:animated];
-    [_imgScrollView stopTimer];
+//    [_imgScrollView stopTimer];
 }
 
 -(void)getTitle
@@ -68,7 +66,6 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Util/title"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-        
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
@@ -83,6 +80,7 @@
 {
     [self getTitle];
     [super viewDidLoad];
+    
     homehttp = [HomeService sharedInstance];
     
     self.view.backgroundColor = QDXBGColor;
@@ -93,6 +91,8 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_scanBtn];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stateRefresh) name:@"stateRefresh" object:nil];
+    
+    [self topViewData];
     
     [self createTableView];
     [self createHeaderView];

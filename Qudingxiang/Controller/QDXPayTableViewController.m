@@ -45,7 +45,7 @@
     self.tableview.dataSource = self;
     self.tableview.showsVerticalScrollIndicator = NO;
     self.tableview.backgroundColor = QDXBGColor;
-    self.tableview.scrollEnabled =NO;
+    self.tableview.scrollEnabled = NO;
     self.tableview.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.view addSubview:self.tableview];
     

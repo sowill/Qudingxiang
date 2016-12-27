@@ -135,10 +135,12 @@
     }
 }
 
+
 -(void)setupDetail
 {
     self.view.backgroundColor = [UIColor whiteColor];
-    self.navigationItem.title = @"详情";
+    self.navigationItem.title = self.homeModel.goods_name;
+    
     
     // 进度条
     UIProgressView *progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth,6)];

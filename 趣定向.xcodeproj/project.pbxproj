@@ -44,9 +44,6 @@
 		453AF0901D59756900FCC23E /* MyAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = 453AF08F1D59756900FCC23E /* MyAnnotation.m */; };
 		453BD9411E02421F00AB7D90 /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 453BD9401E02421F00AB7D90 /* AdSupport.framework */; };
 		453BD9431E02422600AB7D90 /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 453BD9421E02422600AB7D90 /* JavaScriptCore.framework */; };
-		453BD9461E02424100AB7D90 /* AMapFoundationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 453BD9441E02424100AB7D90 /* AMapFoundationKit.framework */; };
-		453BD9471E02424100AB7D90 /* MAMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 453BD9451E02424100AB7D90 /* MAMapKit.framework */; };
-		453BD9491E02424B00AB7D90 /* AMap.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 453BD9481E02424B00AB7D90 /* AMap.bundle */; };
 		453E44D91D252A3100BED603 /* btn1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 453E44D71D252A3100BED603 /* btn1@2x.png */; };
 		453E44DA1D252A3100BED603 /* btn2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 453E44D81D252A3100BED603 /* btn2@2x.png */; };
 		4545CF371C80435000B73849 /* zoomImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4545CF361C80435000B73849 /* zoomImage.m */; };
@@ -274,6 +271,9 @@
 		45DBF7301DE80F66008FDA7D /* QDXSlideTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DBF72F1DE80F66008FDA7D /* QDXSlideTableViewCell.m */; };
 		45DD34DA1C33D5F500E24250 /* read_me.txt in Resources */ = {isa = PBXBuildFile; fileRef = 45DD34D51C33D5F500E24250 /* read_me.txt */; };
 		45DF76381BA6AAC20024A6B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45DF76361BA6AAC20024A6B4 /* Main.storyboard */; };
+		45E497F61E11284400F61F05 /* AMapFoundationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45E497F41E11284400F61F05 /* AMapFoundationKit.framework */; };
+		45E497F71E11284400F61F05 /* MAMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45E497F51E11284400F61F05 /* MAMapKit.framework */; };
+		45E497F91E11285000F61F05 /* AMap.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 45E497F81E11285000F61F05 /* AMap.bundle */; };
 		45EE61371CEAC074007302E3 /* PointView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EE61361CEAC074007302E3 /* PointView.m */; };
 		45EE613A1CEAC641007302E3 /* PointAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EE61391CEAC641007302E3 /* PointAnnotationView.m */; };
 		45EE613D1CEAD4FC007302E3 /* UIImage+watermark.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EE613C1CEAD4FC007302E3 /* UIImage+watermark.m */; };
@@ -389,9 +389,6 @@
 		453AF08F1D59756900FCC23E /* MyAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MyAnnotation.m; sourceTree = "<group>"; };
 		453BD9401E02421F00AB7D90 /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
 		453BD9421E02422600AB7D90 /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		453BD9441E02424100AB7D90 /* AMapFoundationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapFoundationKit.framework; sourceTree = "<group>"; };
-		453BD9451E02424100AB7D90 /* MAMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MAMapKit.framework; sourceTree = "<group>"; };
-		453BD9481E02424B00AB7D90 /* AMap.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AMap.bundle; sourceTree = "<group>"; };
 		453E44D71D252A3100BED603 /* btn1@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn1@2x.png"; sourceTree = "<group>"; };
 		453E44D81D252A3100BED603 /* btn2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn2@2x.png"; sourceTree = "<group>"; };
 		4545CF351C80435000B73849 /* zoomImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zoomImage.h; sourceTree = "<group>"; };
@@ -877,6 +874,9 @@
 		45DF76311BA6AAC20024A6B4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		45DF76371BA6AAC20024A6B4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		45DF76421BA6AAC20024A6B4 /* 趣定向.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "趣定向.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		45E497F41E11284400F61F05 /* AMapFoundationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapFoundationKit.framework; sourceTree = "<group>"; };
+		45E497F51E11284400F61F05 /* MAMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MAMapKit.framework; sourceTree = "<group>"; };
+		45E497F81E11285000F61F05 /* AMap.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AMap.bundle; sourceTree = "<group>"; };
 		45EE61351CEAC074007302E3 /* PointView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointView.h; sourceTree = "<group>"; };
 		45EE61361CEAC074007302E3 /* PointView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PointView.m; sourceTree = "<group>"; };
 		45EE61381CEAC641007302E3 /* PointAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointAnnotationView.h; sourceTree = "<group>"; };
@@ -994,10 +994,10 @@
 				458695921C4DD70E009BAA81 /* libiconv.tbd in Frameworks */,
 				458695901C4DD702009BAA81 /* SystemConfiguration.framework in Frameworks */,
 				4586958E1C4DD6E8009BAA81 /* libsqlite3.0.tbd in Frameworks */,
-				453BD9461E02424100AB7D90 /* AMapFoundationKit.framework in Frameworks */,
+				45E497F61E11284400F61F05 /* AMapFoundationKit.framework in Frameworks */,
 				4586958C1C4DD6BB009BAA81 /* CoreTelephony.framework in Frameworks */,
 				4586958A1C4DD6AD009BAA81 /* libWeChatSDK.a in Frameworks */,
-				453BD9471E02424100AB7D90 /* MAMapKit.framework in Frameworks */,
+				45E497F71E11284400F61F05 /* MAMapKit.framework in Frameworks */,
 				458695891C4DD687009BAA81 /* libstdc++.tbd in Frameworks */,
 				455C8A931CCF7827001F5FC5 /* AlipaySDK.framework in Frameworks */,
 				458695851C4DD664009BAA81 /* libc++.tbd in Frameworks */,
@@ -2068,9 +2068,9 @@
 		45DF765A1BA6AB150024A6B4 /* Lib */ = {
 			isa = PBXGroup;
 			children = (
-				453BD9481E02424B00AB7D90 /* AMap.bundle */,
-				453BD9441E02424100AB7D90 /* AMapFoundationKit.framework */,
-				453BD9451E02424100AB7D90 /* MAMapKit.framework */,
+				45E497F81E11285000F61F05 /* AMap.bundle */,
+				45E497F41E11284400F61F05 /* AMapFoundationKit.framework */,
+				45E497F51E11284400F61F05 /* MAMapKit.framework */,
 				451BDEB41DF54F1C00008959 /* SGNetObserver */,
 				45CA51F21DE452270025A376 /* MJRefresh */,
 				4549C7601DBE103800180FB5 /* Category */,
@@ -2241,7 +2241,7 @@
 				459AEBDA1DCC7C11000472F1 /* Images.xcassets in Resources */,
 				451828AF1D40C87A00D5FC85 /* icon_ea_indicator@3x.png in Resources */,
 				451828AE1D40C87A00D5FC85 /* icon_ea_indicator@2x.png in Resources */,
-				453BD9491E02424B00AB7D90 /* AMap.bundle in Resources */,
+				45E497F91E11285000F61F05 /* AMap.bundle in Resources */,
 				453395141CF6E06100B5A825 /* wifimanhub_grayscale@2x.png in Resources */,
 				45C6F6171C92A62700C5AA31 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				451828AD1D40C87A00D5FC85 /* icon_ea_background@3x.png in Resources */,

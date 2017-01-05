@@ -144,19 +144,38 @@
     _code = [_delegate.code intValue];
     _ticket = _delegate.ticket;
     if(_delegate.loading){
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"加载中请稍后" delegate:self cancelButtonTitle:@"好的" otherButtonTitles:nil, nil];
-        [alert show];
-        return;
+        UIAlertController *aalert = [UIAlertController alertControllerWithTitle:@"提示" message:@"加载中请稍后" preferredStyle:UIAlertControllerStyleAlert];
+        [aalert addAction:[UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action) {
+            
+        }]];
+        [self presentViewController:aalert animated:YES completion:nil];
         
+        return;
     }
     if(save == nil){
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请立即登录使用此功能" delegate:self cancelButtonTitle:@"暂不登录" otherButtonTitles:@"立即登录", nil];
-        [alert show];
+        
+        UIAlertController *aalert = [UIAlertController alertControllerWithTitle:@"提示" message:@"请立即登录使用此功能" preferredStyle:UIAlertControllerStyleAlert];
+        [aalert addAction:[UIAlertAction actionWithTitle:@"暂不登录" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action) {
+            
+        }]];
+        [aalert addAction:[UIAlertAction actionWithTitle:@"立即登录" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action) {
+            QDXLoginViewController* regi=[[QDXLoginViewController alloc]init];
+            QDXNavigationController* navController = [[QDXNavigationController alloc] initWithRootViewController:regi];
+            [self presentViewController:navController animated:YES completion:^{
+                
+            }];
+        }]];
+        [self presentViewController:aalert animated:YES completion:nil];
         
     }else{
         if(_code == 0){
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"请购买活动券" delegate:self cancelButtonTitle:@"好的" otherButtonTitles:nil, nil];
-            [alert show];
+            
+            UIAlertController *aalert = [UIAlertController alertControllerWithTitle:@"提示" message:@"请购买活动券" preferredStyle:UIAlertControllerStyleAlert];
+            [aalert addAction:[UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action) {
+                
+            }]];
+            [self presentViewController:aalert animated:YES completion:nil];
+            
         }else if(_code == 2){
             LineController *lineVC = [[LineController alloc] init];
             lineVC.click = @"1";
@@ -185,48 +204,6 @@
         
     }
     
-}
-
-//- (void)tabBar:(UITabBar *)tabBar didSelectItem:(UITabBarItem *)item {
-//    
-//    NSInteger index = [self.tabBar.items indexOfObject:item];
-//    
-//    if (self.indexFlag != index) {
-//        [self animationWithIndex:index];
-//    }
-//
-//}
-// 动画
-//- (void)animationWithIndex:(NSInteger) index {
-//    NSMutableArray * tabbarbuttonArray = [NSMutableArray array];
-//    for (UIView *tabBarButton in self.tabBar.subviews) {
-//        if ([tabBarButton isKindOfClass:NSClassFromString(@"UITabBarButton")]) {
-//            [tabbarbuttonArray addObject:tabBarButton];
-//        }
-//    }
-//    CABasicAnimation*pulse = [CABasicAnimation animationWithKeyPath:@"transform.scale"];
-//    pulse.timingFunction= [CAMediaTimingFunction functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-//    pulse.duration = 0.08;
-//    pulse.repeatCount= 1;
-//    pulse.autoreverses= YES;
-//    pulse.fromValue= [NSNumber numberWithFloat:0.7];
-//    pulse.toValue= [NSNumber numberWithFloat:1.3];
-//    [[tabbarbuttonArray[index] layer]
-//     addAnimation:pulse forKey:nil];
-//    
-//    self.indexFlag = index;
-//    
-//}
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if(buttonIndex == 1){
-        QDXLoginViewController* regi=[[QDXLoginViewController alloc]init];
-        QDXNavigationController* navController = [[QDXNavigationController alloc] initWithRootViewController:regi];
-        [self presentViewController:navController animated:YES completion:^{
-            
-        }];
-    }
 }
 
 @end

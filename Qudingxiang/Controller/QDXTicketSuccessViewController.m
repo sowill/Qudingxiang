@@ -27,7 +27,7 @@
     
     self.view.backgroundColor = QDXBGColor;
     
-    [self creatButtonBack];
+//    [self creatButtonBack];
     
     _successView = [[QDXStateView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight - 49)];
     _successView.delegate = self;
@@ -63,16 +63,19 @@
     NSString *isHave = [NSKeyedUnarchiver unarchiveObjectWithFile:QDXMyLineFile];
     if (isHave) {
         QDXGameViewController *game = [[QDXGameViewController alloc] init];
-        QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:game];
-        [self presentViewController:nav animated:YES completion:^{
-            
-        }];
+        [self.navigationController pushViewController:game animated:YES];
+        
+//        QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:game];
+//        [self presentViewController:nav animated:YES completion:^{
+//            
+//        }];
     }else{
         QDXProtocolViewController *viewController = [[QDXProtocolViewController alloc] init];
-        QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:viewController];
-        [self presentViewController:nav animated:YES completion:^{
-            
-        }];
+        [self.navigationController pushViewController:viewController animated:YES];
+//        QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:viewController];
+//        [self presentViewController:nav animated:YES completion:^{
+//            
+//        }];
     }
 }
 

@@ -138,12 +138,10 @@
             
             [NSKeyedArchiver archiveRootObject:dict[@"Msg"][@"token"] toFile:XWLAccountFile];
             
-            [self dismissViewControllerAnimated:YES completion:^{
-                
-            }];
+            [self.navigationController popViewControllerAnimated:YES];
 
-        }else
-        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"stateRefresh" object:nil];
+        }else{
             
         }
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {

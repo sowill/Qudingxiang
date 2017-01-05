@@ -478,10 +478,11 @@
         int temp = [model.Code intValue];
         if (temp == 1) {
             QDXTicketSuccessViewController *successView=[[QDXTicketSuccessViewController alloc]init];
-            QDXNavigationController *navController = [[QDXNavigationController alloc] initWithRootViewController:successView];
-            [self presentViewController:navController animated:YES completion:^{
-                
-            }];
+            [self.navigationController pushViewController:successView animated:YES];
+//            QDXNavigationController *navController = [[QDXNavigationController alloc] initWithRootViewController:successView];
+//            [self presentViewController:navController animated:YES completion:^{
+//                
+//            }];
         }else{
             [MBProgressHUD showError:dict[@"Msg"]];
         }

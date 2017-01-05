@@ -171,14 +171,14 @@
 
 -(void)ready
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"确定你所选择的比赛线路吗？" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-    [alert show];
     
-}
-
--(void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if (buttonIndex ==1) {
+    UIAlertController *aalert = [UIAlertController alertControllerWithTitle:@"提示" message:@"确定你所选择的比赛线路吗？" preferredStyle:UIAlertControllerStyleAlert];
+    [aalert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action) {
+        
+    }]];
+    
+    [aalert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action) {
+        
         AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
         mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -193,19 +193,18 @@
             NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
             int ret = [infoDict[@"Code"] intValue];
             if (ret == 1) {
-                    QDXProtocolViewController *viewController = [[QDXProtocolViewController alloc] init];
-                    [self.navigationController pushViewController:viewController animated:YES];
+                QDXProtocolViewController *viewController = [[QDXProtocolViewController alloc] init];
+                [self.navigationController pushViewController:viewController animated:YES];
             }else{
-//                NSLog(@"qdxMsg= %@",infoDict[@"Msg"]);
+                //                NSLog(@"qdxMsg= %@",infoDict[@"Msg"]);
             }
         } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
             
         }];
-    }
-    else
-        if (buttonIndex ==0) {
-//            NSLog(@"点击了取消");
-        }
+
+    }]];
+    
+    [self presentViewController:aalert animated:YES completion:nil];
 }
 
 -(void)refreshScrollView

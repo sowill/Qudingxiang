@@ -10,7 +10,7 @@
 #import "NoticeViewController.h"
 #import "QDXPointListViewController.h"
 
-@interface AboutUsViewController ()<UIAlertViewDelegate,UITableViewDelegate,UITableViewDataSource>
+@interface AboutUsViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
     NSString *_strVersion;
     UITableView *_tableView;
@@ -103,9 +103,6 @@
             [version setTitleColor:QDXGray forState:UIControlStateNormal];
             [cell addSubview:version];
             UILabel *desLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 115, QdxWidth-20, 100)];
-            //desLabel.text = @"        趣定向是国内首家定向运动互联网增值服务平台运营商，同时也是国内最大的城市定向系列赛事的发起者和组织者。以‘趣定向，趣生活’为理念，倡导全民户外定向运动。现已覆盖上海多家公园。";
-            //desLabel.textColor = [UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1];
-            //desLabel.font = [UIFont systemFontOfSize:14];
             desLabel.numberOfLines = 0;
             if (QdxWidth>320) {
                 NSDictionary *attributesDic = [self settingAttributesWithLineSpacing:3 FirstLineHeadIndent:2 * 14 Font:[UIFont systemFontOfSize:15] TextColor:QDXGray];

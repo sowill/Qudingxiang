@@ -15,6 +15,7 @@
 #import "WeixinModel.h"
 #import "QDXTicketInfoModel.h"
 #import "QDXOrderDetailTableViewController.h"
+#import "AppDelegate.h"
 
 @interface QDXPayTableViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
@@ -36,6 +37,13 @@
     self.view.backgroundColor = QDXBGColor;
     [self createTableView];
     aliOrWX = 2;
+    
+    AppDelegate *appdelegate = [[UIApplication sharedApplication] delegate];
+    appdelegate.WXPayBlock = ^(){
+        QDXOrderDetailTableViewController* QDetailVC=[[QDXOrderDetailTableViewController alloc]init];
+        QDetailVC.orderId = [NSString stringWithFormat:@"%d",self.Order.Orders_id];
+        [self.navigationController popViewControllerAnimated:YES];
+    };
 }
 
 -(void)createTableView
@@ -323,12 +331,13 @@
         [seller length] == 0 ||
         [privateKey length] == 0)
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示"
-                                                        message:@"缺少partner或者seller或者私钥。"
-                                                       delegate:self
-                                              cancelButtonTitle:@"确定"
-                                              otherButtonTitles:nil];
-        [alert show];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"缺少partner或者seller或者私钥。" preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action) {
+            
+        }]];
+        
+        [self presentViewController:alert animated:YES completion:nil];
+        
         return;
     }
     /*

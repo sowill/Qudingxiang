@@ -125,21 +125,21 @@
         _imageView.clipsToBounds = YES;
         _imageView.layer.cornerRadius = CGRectGetHeight(_imageView.bounds)/2;
         _imageView.userInteractionEnabled = YES;
-//        NSString *aPath3=[NSString stringWithFormat:@"%@/Documents/image/%@.png",NSHomeDirectory(),@"image"];
-//        _path = aPath3;
-//        UIImage *imgFromUrl3=[[UIImage alloc]initWithContentsOfFile:aPath3];
+        NSString *aPath3=[NSString stringWithFormat:@"%@/Documents/image/%@.png",NSHomeDirectory(),@"image"];
+        _path = aPath3;
+        UIImage *imgFromUrl3=[[UIImage alloc]initWithContentsOfFile:aPath3];
         
-//        if(_im){
-//            _imageView.image = imgFromUrl3;
-//        }else{
+        if(_im){
+            _imageView.image = imgFromUrl3;
+        }else{
             if([save length] != 0){
                 NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,_peopleDict[@"Msg"][@"headurl"]]];
                 [_imageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"my_head"]];
             }else{
                 _imageView.image = [UIImage imageNamed:@"my_head"];
             }
-//        }
-        
+        }
+    
         [view addSubview:_imageView];
         _picBtn = [[UIButton alloc] init];
         _picBtn.frame = CGRectMake(FitRealValue(40),64 + FitRealValue(20),FitRealValue(100 + 80),FitRealValue(100));
@@ -314,14 +314,18 @@
             
             imagePickerController.sourceType = UIImagePickerControllerSourceTypeSavedPhotosAlbum;
             
-            [self presentViewController:imagePickerController animated:YES completion:^{}];
+            [self presentViewController:imagePickerController animated:YES completion:^{
+                
+            }];
         }];
         
         UIAlertAction *photoAction = [UIAlertAction actionWithTitle:@"拍照" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction *action) {
             
             imagePickerController.sourceType = UIImagePickerControllerSourceTypeCamera;
             
-            [self presentViewController:imagePickerController animated:YES completion:^{}];
+            [self presentViewController:imagePickerController animated:YES completion:^{
+
+            }];
         }];
         
         UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:(UIAlertActionStyleCancel) handler:^(UIAlertAction *action)

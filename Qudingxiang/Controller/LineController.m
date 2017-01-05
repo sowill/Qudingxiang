@@ -19,7 +19,7 @@
 //#import "TabbarController.h"
 #import "QDXNavigationController.h"
 #import "AppDelegate.h"
-@interface LineController ()<UITableViewDataSource,UITableViewDelegate,PassTicketIDDelegate,UIAlertViewDelegate>
+@interface LineController ()<UITableViewDataSource,UITableViewDelegate,PassTicketIDDelegate>
 {
     UITableView *_tableView;
     NSMutableArray *_dataArr;
@@ -210,8 +210,41 @@
         
         cell.select = 1;
         _str = cell.lineModel.line_id;
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您确定要选择本条线路吗?" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-        [alert show];
+        
+        UIAlertController *aalert = [UIAlertController alertControllerWithTitle:@"提示" message:@"您确定要选择本条线路吗?" preferredStyle:UIAlertControllerStyleAlert];
+        [aalert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action) {
+            
+        }]];
+        [aalert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action) {
+            
+            AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+            mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
+            NSMutableDictionary *params = [NSMutableDictionary dictionary];
+            params[@"TokenKey"] = save;
+            params[@"line_id"] = _str;
+            NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Myline/selectMyline"];
+            [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
+                
+                
+            } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+                NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+                NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
+                int ret = [infoDict[@"Code"] intValue];
+                if (ret == 1) {
+                    QDXProtocolViewController *viewController = [[QDXProtocolViewController alloc] init];
+                    [self.navigationController pushViewController:viewController animated:YES];
+                }else{
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:[NSString stringWithFormat:@"%@",infoDict[@"Msg"]] delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                    [alert show];
+                    [_tableView reloadData];
+                }
+            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+                
+            }];
+            
+        }]];
+        
+        [self presentViewController:aalert animated:YES completion:nil];
         
     };
     return cell;
@@ -229,48 +262,10 @@
     
 }
 
-
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if(buttonIndex == 1){
-        AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-        mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
-        NSMutableDictionary *params = [NSMutableDictionary dictionary];
-        params[@"TokenKey"] = save;
-        params[@"line_id"] = _str;
-        NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Myline/selectMyline"];
-        [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-            
-            
-        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-            NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
-            int ret = [infoDict[@"Code"] intValue];
-            if (ret == 1) {
-                QDXProtocolViewController *viewController = [[QDXProtocolViewController alloc] init];
-                [self.navigationController pushViewController:viewController animated:YES];
-            }else{
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:[NSString stringWithFormat:@"%@",infoDict[@"Msg"]] delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-                [alert show];
-                [_tableView reloadData];
-            }
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-            
-        }];
-        
-    }else
-    {
-        [_tableView reloadData];
-    }
-}
-
-
 - (void)PassTicket:(NSString *)tictet andClick:(NSString *)click
 {
-    
     _ticketID = tictet;
     self.click = click;
-    
 }
 
 - (void)didReceiveMemoryWarning {

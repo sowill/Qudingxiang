@@ -132,6 +132,7 @@
 
 - (void)createTableView
 {
+    _dataArr = [NSMutableArray arrayWithCapacity:0];
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight- 64 - 10 - 25) style:UITableViewStyleGrouped];
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -277,7 +278,6 @@
             if (isRemoveAll) {
                 [_dataArr removeAllObjects];
             }
-            _dataArr = [[NSMutableArray alloc] init];
             for(NSDictionary *dict in dataDict){
                 HomeModel *model = [[HomeModel alloc] init];
                 [model setValuesForKeysWithDictionary:dict];
@@ -423,9 +423,11 @@
         [model setMsg:dict[@"Msg"]];
         int temp = [model.Code intValue];
         if (!temp) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:[NSString stringWithFormat:@"%@",model.Msg] delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-            alert.tag = 1;
-            [alert show];
+            UIAlertController *aalert = [UIAlertController alertControllerWithTitle:@"提示" message:[NSString stringWithFormat:@"%@",model.Msg] preferredStyle:UIAlertControllerStyleAlert];
+            [aalert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action) {
+            }]];
+            [self presentViewController:aalert animated:YES completion:nil];
+
         }else{
             [model setTicket_id:dictMsg[@"ticket_id"]];
             if([model.ticket_id longLongValue] <100000000000){

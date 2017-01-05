@@ -12,7 +12,7 @@
 #import "CheckDataTool.h"
 #import "QDXLoginViewController.h"
 
-@interface QDXRegisterViewController ()<UITextFieldDelegate,UIAlertViewDelegate>
+@interface QDXRegisterViewController ()<UITextFieldDelegate>
 {
     UITextField *telText;
     UITextField *pwdText;

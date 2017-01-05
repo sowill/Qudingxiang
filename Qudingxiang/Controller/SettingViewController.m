@@ -12,7 +12,7 @@
 #import "QDXNavigationController.h"
 //#import "TabbarController.h"
 
-@interface SettingViewController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
+@interface SettingViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
     UITableView *_tableView;
     UILabel *_valueDataLabel;
@@ -172,44 +172,35 @@
             [self.navigationController pushViewController:changePassWord animated:YES];
         }
     }else if(indexPath.section == 1){
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"退出后不会删除任何历史数据,下次登录依然可以使用本账号" delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"退出登录", nil];
-        alert.tag = 1;
-        [alert show];
+
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"退出后不会删除任何历史数据,下次登录依然可以使用本账号" preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action) {
+            
+        }]];
+        
+        [alert addAction:[UIAlertAction actionWithTitle:@"退出登录" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action) {
+            
+            NSFileManager * fileManager = [[NSFileManager alloc]init];
+            NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+            
+            documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
+            [fileManager removeItemAtPath:documentDir error:nil];
+            
+            QDXLoginViewController *login = [[QDXLoginViewController alloc] init];
+            [self.navigationController pushViewController:login animated:YES];
+            
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"stateRefresh" object:nil];
+            
+        }]];
+        
+        [self presentViewController:alert animated:YES completion:nil];
     }
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 44;
 }
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if(buttonIndex == 1 && alertView.tag == 1){
-        
-        NSFileManager * fileManager = [[NSFileManager alloc]init];
-        NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-        
-        documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
-        [fileManager removeItemAtPath:documentDir error:nil];
-        
-        QDXLoginViewController *login = [[QDXLoginViewController alloc] init];
-        [self.navigationController pushViewController:login animated:YES];
-        
-        [[NSNotificationCenter defaultCenter] postNotificationName:@"stateRefresh" object:nil];
-        
-    }else if (buttonIndex == 1 && alertView.tag == 2){
-        //彻底删除文件
-        [self clearCacheWith:[self getPath]];
-        _valueDataLabel.text = [NSString stringWithFormat:@"%.2fMB",[self folderSizeWithPath:[self getPath]]];
-//        NSString *DocumentsPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
-//        NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtPath:DocumentsPath];
-//        for (NSString *fileName in enumerator) {
-//            [[NSFileManager defaultManager] removeItemAtPath:[DocumentsPath stringByAppendingPathComponent:fileName] error:nil];
-//        }
-//        [self dismissViewControllerAnimated:YES completion:^{
-//            
-//        }];
-    }
-}
+
 //首先获取缓存文件的路径
 -(NSString *)getPath{
     //沙盒目录下library文件夹下的cache文件夹就是缓存文件夹
@@ -246,13 +237,38 @@
 
 -(void)deleteFileSize:(CGFloat)folderSize{
     if (folderSize > 0.01){
-        UIAlertView * alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:[NSString stringWithFormat:@"缓存大小:%.2fM,是否清除？",folderSize] delegate:self cancelButtonTitle:@"取消" otherButtonTitles:@"确定", nil];
-        alertView.tag = 2;
-        [alertView show];
-    }else{
-        UIAlertView * alertView = [[UIAlertView alloc]initWithTitle:@"提示" message:@"缓存已全部清理" delegate:nil cancelButtonTitle:nil otherButtonTitles:@"确定", nil];
         
-        [alertView show];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:[NSString stringWithFormat:@"缓存大小:%.2fM,是否清除？",folderSize] preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action) {
+            
+        }]];
+        
+        [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action) {
+            
+            //彻底删除文件
+            [self clearCacheWith:[self getPath]];
+            _valueDataLabel.text = [NSString stringWithFormat:@"%.2fMB",[self folderSizeWithPath:[self getPath]]];
+            //        NSString *DocumentsPath = [NSHomeDirectory() stringByAppendingPathComponent:@"Documents"];
+            //        NSDirectoryEnumerator *enumerator = [[NSFileManager defaultManager] enumeratorAtPath:DocumentsPath];
+            //        for (NSString *fileName in enumerator) {
+            //            [[NSFileManager defaultManager] removeItemAtPath:[DocumentsPath stringByAppendingPathComponent:fileName] error:nil];
+            //        }
+            //        [self dismissViewControllerAnimated:YES completion:^{
+            //            
+            //        }];
+            
+        }]];
+        
+        [self presentViewController:alert animated:YES completion:nil];
+        
+    }else{
+        
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"缓存已全部清理" preferredStyle:UIAlertControllerStyleAlert];
+        [alert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action) {
+            
+        }]];
+        
+        [self presentViewController:alert animated:YES completion:nil];
     }
 }
 

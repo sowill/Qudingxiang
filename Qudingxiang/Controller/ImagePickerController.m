@@ -280,11 +280,16 @@
         [model setMsg:dict[@"Msg"]];
         int temp = [model.Code intValue];
         if (!temp) {
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:[NSString stringWithFormat:@"%@",model.Msg] delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
-            alert.tag = 1;
-            [alert show];
-            
-            
+            UIAlertController *aalert = [UIAlertController alertControllerWithTitle:@"提示" message:[NSString stringWithFormat:@"%@",model.Msg] preferredStyle:UIAlertControllerStyleAlert];
+            [aalert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action) {
+                
+                dispatch_time_t time=dispatch_time(DISPATCH_TIME_NOW, 0.4 *NSEC_PER_SEC);
+                dispatch_after(time, dispatch_get_main_queue(), ^{
+                    [self startReading];
+                });
+                
+            }]];
+            [self presentViewController:aalert animated:YES completion:nil];
             
         }else{
             [model setTicket_id:dictMsg[@"ticket_id"]];
@@ -320,15 +325,6 @@
     }];
 }
 
-- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
-{
-    if(buttonIndex == 0){
-        dispatch_time_t time=dispatch_time(DISPATCH_TIME_NOW, 0.4 *NSEC_PER_SEC);
-        dispatch_after(time, dispatch_get_main_queue(), ^{
-            [self startReading];
-        });
-    }
-}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

@@ -9,23 +9,16 @@
 #import "MoreViewController.h"
 #import "QDXNavigationController.h"
 #import "QDXLoginViewController.h"
-//#import "XDMultTableView.h"
 #import "DWViewCell.h"
 #import "DWFlowLayout.h"
 #import "MCLeftSliderManager.h"
 
-//@interface MoreViewController ()<UIAlertViewDelegate,XDMultTableViewDatasource,XDMultTableViewDelegate>
-//@interface MoreViewController ()<UIAlertViewDelegate,UITableViewDelegate,UITableViewDataSource>
-@interface MoreViewController ()<UIAlertViewDelegate,UICollectionViewDataSource,UICollectionViewDelegate>
+@interface MoreViewController ()<UICollectionViewDataSource,UICollectionViewDelegate>
 {
     UIButton *_button;
-//    UILabel *rowOne;
-//    UILabel *rowTwo;
-//    UILabel *rowThree;
     NSArray *data;
 }
-//@property(nonatomic, readwrite, strong)XDMultTableView *tableView;
-//@property(nonatomic, readwrite, strong)UITableView *tableView;
+
 @property(nonatomic, readwrite, strong)UICollectionView *collectionView;
 @end
 

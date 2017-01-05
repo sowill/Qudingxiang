@@ -70,8 +70,10 @@
         
         if([dictA isEqual:[NSNull null]]){
             
-            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"没有有效信息,敬请期待" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
-            [alert show];
+            UIAlertController *aalert = [UIAlertController alertControllerWithTitle:@"提示" message:@"没有有效信息,敬请期待" preferredStyle:UIAlertControllerStyleAlert];
+            [aalert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action) {
+            }]];
+            [self presentViewController:aalert animated:YES completion:nil];
             
         }else{
             //将字典转模型
@@ -88,31 +90,6 @@
     } failure:^(NSError *error) {
         
     }];
-//    [BaseService netDataBlock:^(NSMutableDictionary *dict) {
-//        NSDictionary *dictArr = dict[@"Msg"][@"data"];
-//        NSString *dictA =dict[@"Msg"][@"data"];
-//        
-//        if([dictA isEqual:[NSNull null]]){
-//            
-//            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"没有有效信息,敬请期待" delegate:self cancelButtonTitle:@"确定" otherButtonTitles:@"取消", nil];
-//            [alert show];
-//            
-//        }else{
-//            //将字典转模型
-//            _dataArr = [NSMutableArray arrayWithCapacity:0];
-//            for(NSDictionary *dict in dictArr){
-//                CellModel *model = [[CellModel alloc] init];
-//                [model setValuesForKeysWithDictionary:dict];
-//                [_dataArr addObject:model];
-//            }
-//            [_tableView reloadData];
-//            
-//        }
-//
-//    } FailBlock:^(NSMutableArray *array) {
-//        
-//    } andWithUrl:url andParams:params];
-    
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath

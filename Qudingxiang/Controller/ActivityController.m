@@ -14,17 +14,15 @@
 #import "ActivityService.h"
 #import "QDXNavigationController.h"
 #import "QDXLoginViewController.h"
-//#import "DTScrollStatusView.h"
 #import "MCLeftSliderManager.h"
 
-@interface ActivityController ()<UITableViewDataSource,UITableViewDelegate,UIAlertViewDelegate>
+@interface ActivityController ()<UITableViewDataSource,UITableViewDelegate>
 {
     NSInteger currNum;
     NSInteger page;
 }
 @property (nonatomic,strong) UITableView *tableView;
 @property (nonatomic,strong) NSMutableArray *dataArr;
-//@property (strong , nonatomic) DTScrollStatusView *scrollTapViw;
 @end
 
 @implementation ActivityController
@@ -40,10 +38,6 @@
     [super viewDidLoad];
     self.view.backgroundColor = QDXBGColor;
     self.navigationItem.title = @"活动";
-    
-//    _scrollTapViw = [[DTScrollStatusView alloc]initWithTitleArr:@[@"进行中",@"已完成"] andType:ScrollTapTypeWithNavigation];
-//    _scrollTapViw.scrollStatusDelegate = self;
-//    [self.view addSubview:_scrollTapViw];
     
     UIButton *menuBtn = [UIButton buttonWithType:UIButtonTypeCustom];
     menuBtn.frame = CGRectMake(0, 0, 20, 18);

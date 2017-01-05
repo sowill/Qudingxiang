@@ -82,7 +82,6 @@
 
 - (void)gotoHomeController
 {
-    
     [UIView animateWithDuration:1.0 animations:^{
         _scrollView.alpha = 0.0;
         
@@ -102,10 +101,16 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    
     CGFloat scrollW = _scrollView.frame.size.width;
     _currentIndex = (scrollView.contentOffset.x + scrollW * 0.5) / scrollW;
     _pageControl.currentPage = _currentIndex;
+}
+
+- (void)scrollViewWillBeginDragging:(UIScrollView *)scrollView
+{
+    if (_scrollView.contentOffset.x >= QdxWidth * 3) {
+        [self gotoHomeController];
+    }
 }
 
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView

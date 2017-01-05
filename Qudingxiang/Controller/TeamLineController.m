@@ -129,8 +129,14 @@
         }else{
             NSArray *dictData = dict[@"Msg"][@"data"];
             if([dictData isEqual:[NSNull null]]){
-                UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:@"您当前没有团队路线" delegate:self cancelButtonTitle:@"好的" otherButtonTitles:nil, nil];
-                [alert show];
+                
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"您当前没有团队路线" preferredStyle:UIAlertControllerStyleAlert];
+                [alert addAction:[UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action) {
+                    
+                }]];
+                
+                [self presentViewController:alert animated:YES completion:nil];
+                
             }else{
                 curr = [dict[@"Msg"][@"curr"] intValue];
                 page = [dict[@"Msg"][@"page"] intValue];

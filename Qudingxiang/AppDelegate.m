@@ -180,7 +180,9 @@
         UIAlertController *aalert = [UIAlertController alertControllerWithTitle:strTitle message:strMsg preferredStyle:UIAlertControllerStyleAlert];
         [aalert addAction:[UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action) {
             if ([strMsg isEqualToString:@"支付结果：成功！"]) {
-                [self gotoHomeController];
+                if (self.WXPayBlock) {
+                    self.WXPayBlock();
+                }
             }
         }]];
         UIViewController *root = self.window.rootViewController;

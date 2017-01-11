@@ -18,8 +18,12 @@
 #import "ImageScrollView.h"
 #import "AppDelegate.h"
 #import "QDXActivityViewController.h"
+#import "QDXHomeTableViewCell.h"
+#import "JPAnimationTool.h"
+#import "QDXLineDetailWithImageViewController.h"
+#import "QDXHomeCollectionView.h"
 
-@interface HomeController ()<UITableViewDataSource,UITableViewDelegate>
+@interface HomeController ()<UITableViewDataSource,UITableViewDelegate,QDXHomeTableViewCellDelegate>
 {
     NSInteger currNum;
     NSInteger page;
@@ -36,6 +40,9 @@
 @property (nonatomic,strong) UIButton *scanBtn;
 
 @property (nonatomic,strong) NSMutableArray *dataArr;
+
+/** animationTool */
+@property(nonatomic, strong)JPAnimationTool *animationTool;
 
 @end
 
@@ -141,6 +148,7 @@
     [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     self.automaticallyAdjustsScrollViewInsets = false;
     [self.view addSubview:_tableView];
+    
     [self refreshView];
 }
 
@@ -305,10 +313,40 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    BaseCell *cell = [BaseCell baseCellWithTableView:_tableView];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.homeModel = _dataArr[indexPath.row];
-    return cell;
+    if (indexPath.row == 0) {
+        QDXHomeTableViewCell *cell = [QDXHomeTableViewCell qdxHomeCellWithTableView:_tableView];
+        cell.items = _dataArr;
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.delegate = self;
+        return cell;
+    }else{
+        BaseCell *cell = [BaseCell baseCellWithTableView:_tableView];
+        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.homeModel = _dataArr[indexPath.row];
+        return cell;
+    }
+}
+
+#pragma mark --------------------------------------------------
+#pragma mark Private
+
+-(JPAnimationTool *)animationTool{
+    if (!_animationTool) {
+        _animationTool = [JPAnimationTool new];
+    }
+    return _animationTool;
+}
+
+#pragma mark --------------------------------------------------
+#pragma mark JPTableViewCellDelegate
+-(void)collectionViewDidSelectedItemIndexPath:(NSIndexPath *)indexPath collcetionView:(UICollectionView *)collectionView forCell:(QDXHomeTableViewCell *)cell{
+    
+    QDXHomeCollectionView *collectionCell = (QDXHomeCollectionView *)[collectionView cellForItemAtIndexPath:indexPath];
+
+    QDXLineDetailWithImageViewController *presentViewController = [QDXLineDetailWithImageViewController new];
+    presentViewController.coverImage = collectionCell.coverImageView.image;
+    
+    presentViewController.closeBlock =  [self.animationTool begainAnimationWithCollectionViewDidSelectedItemIndexPath:indexPath collcetionView:collectionView forViewController:self presentViewController:presentViewController afterPresentedBlock:presentViewController.fadeBlock];
 }
 
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
@@ -339,7 +377,13 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return FitRealValue(584);
+    
+    if (indexPath.row == 0) {
+        return 236;
+    }else{
+        return FitRealValue(584);
+    }
+
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

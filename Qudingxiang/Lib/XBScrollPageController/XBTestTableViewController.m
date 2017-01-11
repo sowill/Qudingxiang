@@ -184,8 +184,7 @@
             if (ret==1)  {
                 if (![dict[@"Msg"][@"count"] isEqualToString:@"0"]){
                     // 将字典数据转为模型数据
-                    curr = [dict[@"Msg"][@"curr"] intValue];
-                    if(curr ==1){
+                    if(curr == 1){
                         self.orders = [[NSMutableArray alloc] init];
                         
                         self.willPayOrders = [[NSMutableArray alloc] init];
@@ -194,6 +193,7 @@
                         
                         self.didCompleted = [[NSMutableArray alloc] init];
                     }
+                    curr = [dict[@"Msg"][@"curr"] intValue];
                     page = [dict[@"Msg"][@"page"] intValue];
                     //将字典转模型
                     NSArray *dataDict = dict[@"Msg"][@"data"];

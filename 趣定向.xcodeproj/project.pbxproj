@@ -274,6 +274,15 @@
 		45E497F61E11284400F61F05 /* AMapFoundationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45E497F41E11284400F61F05 /* AMapFoundationKit.framework */; };
 		45E497F71E11284400F61F05 /* MAMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45E497F51E11284400F61F05 /* MAMapKit.framework */; };
 		45E497F91E11285000F61F05 /* AMap.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 45E497F81E11285000F61F05 /* AMap.bundle */; };
+		45E8F44F1E2609A300902455 /* Airbnb00.png in Resources */ = {isa = PBXBuildFile; fileRef = 45E8F44E1E2609A300902455 /* Airbnb00.png */; };
+		45E8F4511E2609AA00902455 /* Airbnb01.png in Resources */ = {isa = PBXBuildFile; fileRef = 45E8F4501E2609AA00902455 /* Airbnb01.png */; };
+		45E8F4531E2609B100902455 /* Airbnb02.png in Resources */ = {isa = PBXBuildFile; fileRef = 45E8F4521E2609B100902455 /* Airbnb02.png */; };
+		45E8F4551E2609B600902455 /* Airbnb03.png in Resources */ = {isa = PBXBuildFile; fileRef = 45E8F4541E2609B600902455 /* Airbnb03.png */; };
+		45E8F4571E2609BC00902455 /* Airbnb04.png in Resources */ = {isa = PBXBuildFile; fileRef = 45E8F4561E2609BC00902455 /* Airbnb04.png */; };
+		45E8F45A1E2613D600902455 /* QDXLineDetailWithImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45E8F4591E2613D600902455 /* QDXLineDetailWithImageViewController.m */; };
+		45ECA27E1E24DD0500B9D835 /* JPAnimationTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 45ECA27D1E24DD0500B9D835 /* JPAnimationTool.m */; };
+		45ECA2811E24DDD000B9D835 /* QDXHomeCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45ECA2801E24DDD000B9D835 /* QDXHomeCollectionView.m */; };
+		45ECA2841E24E16800B9D835 /* QDXHomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45ECA2831E24E16800B9D835 /* QDXHomeTableViewCell.m */; };
 		45EE61371CEAC074007302E3 /* PointView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EE61361CEAC074007302E3 /* PointView.m */; };
 		45EE613A1CEAC641007302E3 /* PointAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EE61391CEAC641007302E3 /* PointAnnotationView.m */; };
 		45EE613D1CEAD4FC007302E3 /* UIImage+watermark.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EE613C1CEAD4FC007302E3 /* UIImage+watermark.m */; };
@@ -877,6 +886,19 @@
 		45E497F41E11284400F61F05 /* AMapFoundationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapFoundationKit.framework; sourceTree = "<group>"; };
 		45E497F51E11284400F61F05 /* MAMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MAMapKit.framework; sourceTree = "<group>"; };
 		45E497F81E11285000F61F05 /* AMap.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AMap.bundle; sourceTree = "<group>"; };
+		45E8F44E1E2609A300902455 /* Airbnb00.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Airbnb00.png; sourceTree = "<group>"; };
+		45E8F4501E2609AA00902455 /* Airbnb01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Airbnb01.png; sourceTree = "<group>"; };
+		45E8F4521E2609B100902455 /* Airbnb02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Airbnb02.png; sourceTree = "<group>"; };
+		45E8F4541E2609B600902455 /* Airbnb03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Airbnb03.png; sourceTree = "<group>"; };
+		45E8F4561E2609BC00902455 /* Airbnb04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Airbnb04.png; sourceTree = "<group>"; };
+		45E8F4581E2613D600902455 /* QDXLineDetailWithImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXLineDetailWithImageViewController.h; sourceTree = "<group>"; };
+		45E8F4591E2613D600902455 /* QDXLineDetailWithImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXLineDetailWithImageViewController.m; sourceTree = "<group>"; };
+		45ECA27C1E24DD0500B9D835 /* JPAnimationTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPAnimationTool.h; sourceTree = "<group>"; };
+		45ECA27D1E24DD0500B9D835 /* JPAnimationTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPAnimationTool.m; sourceTree = "<group>"; };
+		45ECA27F1E24DDD000B9D835 /* QDXHomeCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXHomeCollectionView.h; sourceTree = "<group>"; };
+		45ECA2801E24DDD000B9D835 /* QDXHomeCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXHomeCollectionView.m; sourceTree = "<group>"; };
+		45ECA2821E24E16800B9D835 /* QDXHomeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXHomeTableViewCell.h; sourceTree = "<group>"; };
+		45ECA2831E24E16800B9D835 /* QDXHomeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXHomeTableViewCell.m; sourceTree = "<group>"; };
 		45EE61351CEAC074007302E3 /* PointView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointView.h; sourceTree = "<group>"; };
 		45EE61361CEAC074007302E3 /* PointView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PointView.m; sourceTree = "<group>"; };
 		45EE61381CEAC641007302E3 /* PointAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointAnnotationView.h; sourceTree = "<group>"; };
@@ -1779,6 +1801,8 @@
 				459E69F51DF7BC6700D5C9F9 /* QDXTicketSuccessViewController.m */,
 				45D6E6C91E0115A2004EFF15 /* QDXActivityViewController.h */,
 				45D6E6CA1E0115A2004EFF15 /* QDXActivityViewController.m */,
+				45E8F4581E2613D600902455 /* QDXLineDetailWithImageViewController.h */,
+				45E8F4591E2613D600902455 /* QDXLineDetailWithImageViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1786,6 +1810,7 @@
 		45C6F5931C92A1A300C5AA31 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				45ECA27B1E24DD0500B9D835 /* JPAnimationTool */,
 				451828A11D40C87A00D5FC85 /* EAFeatureGuideView */,
 				4536EB981D013B25005D3CB5 /* ImgPageScrollView */,
 				459C6E271BD89D2300743FEC /* JTSImage */,
@@ -2088,6 +2113,24 @@
 			path = Lib;
 			sourceTree = "<group>";
 		};
+		45ECA27B1E24DD0500B9D835 /* JPAnimationTool */ = {
+			isa = PBXGroup;
+			children = (
+				45E8F44E1E2609A300902455 /* Airbnb00.png */,
+				45E8F4501E2609AA00902455 /* Airbnb01.png */,
+				45E8F4521E2609B100902455 /* Airbnb02.png */,
+				45E8F4541E2609B600902455 /* Airbnb03.png */,
+				45E8F4561E2609BC00902455 /* Airbnb04.png */,
+				45ECA27C1E24DD0500B9D835 /* JPAnimationTool.h */,
+				45ECA27D1E24DD0500B9D835 /* JPAnimationTool.m */,
+				45ECA27F1E24DDD000B9D835 /* QDXHomeCollectionView.h */,
+				45ECA2801E24DDD000B9D835 /* QDXHomeCollectionView.m */,
+				45ECA2821E24E16800B9D835 /* QDXHomeTableViewCell.h */,
+				45ECA2831E24E16800B9D835 /* QDXHomeTableViewCell.m */,
+			);
+			path = JPAnimationTool;
+			sourceTree = "<group>";
+		};
 		45EE61421CEB182C007302E3 /* TTSExample */ = {
 			isa = PBXGroup;
 			children = (
@@ -2241,14 +2284,17 @@
 				459AEBDA1DCC7C11000472F1 /* Images.xcassets in Resources */,
 				451828AF1D40C87A00D5FC85 /* icon_ea_indicator@3x.png in Resources */,
 				451828AE1D40C87A00D5FC85 /* icon_ea_indicator@2x.png in Resources */,
+				45E8F4551E2609B600902455 /* Airbnb03.png in Resources */,
 				45E497F91E11285000F61F05 /* AMap.bundle in Resources */,
 				453395141CF6E06100B5A825 /* wifimanhub_grayscale@2x.png in Resources */,
 				45C6F6171C92A62700C5AA31 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				451828AD1D40C87A00D5FC85 /* icon_ea_background@3x.png in Resources */,
 				451828AC1D40C87A00D5FC85 /* icon_ea_background@2x.png in Resources */,
 				453395121CF6E06100B5A825 /* WifiMan_Sign_3@2x.png in Resources */,
+				45E8F44F1E2609A300902455 /* Airbnb00.png in Resources */,
 				451A143F1DC7375A003B8805 /* down_blue@2x.png in Resources */,
 				45DF76381BA6AAC20024A6B4 /* Main.storyboard in Resources */,
+				45E8F4531E2609B100902455 /* Airbnb02.png in Resources */,
 				453395101CF6E06100B5A825 /* WifiMan_Sign_1@2x.png in Resources */,
 				453395111CF6E06100B5A825 /* WifiMan_Sign_2@2x.png in Resources */,
 				453E44DA1D252A3100BED603 /* btn2@2x.png in Resources */,
@@ -2258,6 +2304,8 @@
 				45CA522F1DE452270025A376 /* MJRefresh.bundle in Resources */,
 				45DD34DA1C33D5F500E24250 /* read_me.txt in Resources */,
 				453E44D91D252A3100BED603 /* btn1@2x.png in Resources */,
+				45E8F4511E2609AA00902455 /* Airbnb01.png in Resources */,
+				45E8F4571E2609BC00902455 /* Airbnb04.png in Resources */,
 				4571CDFA1CE05B00002ED784 /* CYAlertViewController.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2287,6 +2335,7 @@
 				45C6F5791C92A0D800C5AA31 /* QDXTicketInfoModel.m in Sources */,
 				459BB4A51DDAEFFD00DBEC39 /* MCLeftSlideViewController.m in Sources */,
 				45CA52251DE452270025A376 /* MJRefreshHeader.m in Sources */,
+				45ECA2811E24DDD000B9D835 /* QDXHomeCollectionView.m in Sources */,
 				4525944D1D50D31A002BF84B /* LocalDBService.m in Sources */,
 				455C8A941CCF7827001F5FC5 /* APAuthV2Info.m in Sources */,
 				A3442D2B1C9BAA330092363A /* ActivityService.m in Sources */,
@@ -2360,6 +2409,7 @@
 				459BB4A61DDAEFFD00DBEC39 /* UIView_extra.m in Sources */,
 				451BDEBE1DF54F1C00008959 /* SGNetObserver.m in Sources */,
 				4569E56C1C4CB64B00FF4E8B /* JTSImageViewController.m in Sources */,
+				45ECA27E1E24DD0500B9D835 /* JPAnimationTool.m in Sources */,
 				45C6F5911C92A13A00C5AA31 /* ActModel.m in Sources */,
 				4569E56D1C4CB64B00FF4E8B /* JTSSimpleImageDownloader.m in Sources */,
 				A3442D2C1C9BAA330092363A /* MineService.m in Sources */,
@@ -2403,6 +2453,7 @@
 				45CA52321DE452270025A376 /* UIScrollView+MJExtension.m in Sources */,
 				4569E5751C4CB64B00FF4E8B /* qrspec.c in Sources */,
 				4571CDF91CE05B00002ED784 /* CYAlertView.m in Sources */,
+				45E8F45A1E2613D600902455 /* QDXLineDetailWithImageViewController.m in Sources */,
 				459BB4A31DDAEFFC00DBEC39 /* MCContent.m in Sources */,
 				4569E5761C4CB64B00FF4E8B /* rscode.c in Sources */,
 				4549C7691DBE106800180FB5 /* LBTabBarController.m in Sources */,
@@ -2421,6 +2472,7 @@
 				459C43331DED749100437712 /* UIView+XBExtension.m in Sources */,
 				4571CDF11CE05B00002ED784 /* CYAlertPresentExpandVertical.m in Sources */,
 				4571CDED1CE05B00002ED784 /* CYAlertDismissSlideRight.m in Sources */,
+				45ECA2841E24E16800B9D835 /* QDXHomeTableViewCell.m in Sources */,
 				455A95BA1C97E3EB0039FA88 /* NSObject+MJClass.m in Sources */,
 				4569E57C1C4CB64B00FF4E8B /* MKAnnotationView+WebCache.m in Sources */,
 				04664F061D1CCE82008D50C7 /* UITextView+YLTextView.m in Sources */,

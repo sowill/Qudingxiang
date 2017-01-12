@@ -12,6 +12,7 @@
 #import "ActivityController.h"
 #import "OrderController.h"
 #import "MoreViewController.h"
+#import "MineViewController.h"
 
 #import "QDXNavigationController.h"
 #import "QDXGameViewController.h"
@@ -95,8 +96,8 @@
     [self setUpOneChildVcWithVc:activityVC Image:@"index_location_nomal" selectedImage:@"index_location_click" title:@"活动"];
     OrderController *orderVC = [[OrderController alloc] init];
     [self setUpOneChildVcWithVc:orderVC Image:@"index_order_nomal" selectedImage:@"index_order_click" title:@"订单"];
-    MoreViewController *mineVC = [[MoreViewController alloc] init];
-    [self setUpOneChildVcWithVc:mineVC Image:@"index_more_nomal" selectedImage:@"index_more_click" title:@"玩法"];
+    MineViewController *mineVC = [[MineViewController alloc] init];
+    [self setUpOneChildVcWithVc:mineVC Image:@"index_more_nomal" selectedImage:@"index_more_click" title:@"我的"];
 }
 
 #pragma mark - 初始化设置tabBar上面单个按钮的方法

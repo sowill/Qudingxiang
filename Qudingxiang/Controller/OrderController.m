@@ -9,7 +9,6 @@
 #import "OrderController.h"
 #import "XBTestTableViewController.h"
 
-#import "MCLeftSliderManager.h"
 
 @interface OrderController ()
 
@@ -80,18 +79,6 @@
     [self reloadDataWith:titleArray andSubViewdisplayClasses:classNames withParams:params];
     
     [self selectTagByIndex:0 animated:YES];
-}
-
-- (void) openOrCloseLeftList
-{
-    if ([MCLeftSliderManager sharedInstance].LeftSlideVC.closed)
-    {
-        [[MCLeftSliderManager sharedInstance].LeftSlideVC openLeftView];
-    }
-    else
-    {
-        [[MCLeftSliderManager sharedInstance].LeftSlideVC closeLeftView];
-    }
 }
 
 @end

@@ -18,7 +18,6 @@
 #import "AppDelegate.h"
 
 #import "QDXNavigationController.h"
-#import "MCLeftSlideViewController.h"
 
 @interface GuideViewController ()<UIScrollViewDelegate>
 {
@@ -90,11 +89,8 @@
         [_pageControl removeFromSuperview];
         
         LBTabBarController *tabVC = [[LBTabBarController alloc] init];
-        MineViewController *leftVC = [[MineViewController alloc] init];
-        MCLeftSlideViewController *rootVC = [[MCLeftSlideViewController alloc] initWithLeftView:leftVC andMainView:tabVC];
-        UIApplication *app = [UIApplication sharedApplication];
-        AppDelegate *app2 = app.delegate;
-        app2.window.rootViewController = rootVC;
+        AppDelegate *app = [UIApplication sharedApplication].delegate;
+        app.window.rootViewController = tabVC;
         
     }];
 }

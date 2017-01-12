@@ -176,10 +176,6 @@
 		458695A21C4DD74E009BAA81 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 458695A11C4DD74E009BAA81 /* AVFoundation.framework */; };
 		459AEBDA1DCC7C11000472F1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 459AEBD91DCC7C11000472F1 /* Images.xcassets */; };
 		459BB4991DDAE49A00DBEC39 /* TipsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 459BB4981DDAE49A00DBEC39 /* TipsManager.m */; };
-		459BB4A31DDAEFFC00DBEC39 /* MCContent.m in Sources */ = {isa = PBXBuildFile; fileRef = 459BB49C1DDAEFFC00DBEC39 /* MCContent.m */; };
-		459BB4A41DDAEFFD00DBEC39 /* MCLeftSliderManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 459BB49E1DDAEFFC00DBEC39 /* MCLeftSliderManager.m */; };
-		459BB4A51DDAEFFD00DBEC39 /* MCLeftSlideViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 459BB4A01DDAEFFC00DBEC39 /* MCLeftSlideViewController.m */; };
-		459BB4A61DDAEFFD00DBEC39 /* UIView_extra.m in Sources */ = {isa = PBXBuildFile; fileRef = 459BB4A21DDAEFFC00DBEC39 /* UIView_extra.m */; };
 		459C432B1DED72B000437712 /* XBScrollPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 459C431F1DED72B000437712 /* XBScrollPageController.m */; };
 		459C432C1DED72B000437712 /* XBTagTitleModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 459C43221DED72B000437712 /* XBTagTitleModel.m */; };
 		459C432D1DED72B000437712 /* XBPageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 459C43251DED72B000437712 /* XBPageCell.m */; };
@@ -280,6 +276,7 @@
 		45E8F4551E2609B600902455 /* Airbnb03.png in Resources */ = {isa = PBXBuildFile; fileRef = 45E8F4541E2609B600902455 /* Airbnb03.png */; };
 		45E8F4571E2609BC00902455 /* Airbnb04.png in Resources */ = {isa = PBXBuildFile; fileRef = 45E8F4561E2609BC00902455 /* Airbnb04.png */; };
 		45E8F45A1E2613D600902455 /* QDXLineDetailWithImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45E8F4591E2613D600902455 /* QDXLineDetailWithImageViewController.m */; };
+		45E8F4611E262A9700902455 /* UIImage+RTTint.m in Sources */ = {isa = PBXBuildFile; fileRef = 45E8F4601E262A9700902455 /* UIImage+RTTint.m */; };
 		45ECA27E1E24DD0500B9D835 /* JPAnimationTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 45ECA27D1E24DD0500B9D835 /* JPAnimationTool.m */; };
 		45ECA2811E24DDD000B9D835 /* QDXHomeCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45ECA2801E24DDD000B9D835 /* QDXHomeCollectionView.m */; };
 		45ECA2841E24E16800B9D835 /* QDXHomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45ECA2831E24E16800B9D835 /* QDXHomeTableViewCell.m */; };
@@ -674,14 +671,6 @@
 		459AEBD91DCC7C11000472F1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		459BB4971DDAE49A00DBEC39 /* TipsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TipsManager.h; sourceTree = "<group>"; };
 		459BB4981DDAE49A00DBEC39 /* TipsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TipsManager.m; sourceTree = "<group>"; };
-		459BB49B1DDAEFFC00DBEC39 /* MCContent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCContent.h; sourceTree = "<group>"; };
-		459BB49C1DDAEFFC00DBEC39 /* MCContent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCContent.m; sourceTree = "<group>"; };
-		459BB49D1DDAEFFC00DBEC39 /* MCLeftSliderManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCLeftSliderManager.h; sourceTree = "<group>"; };
-		459BB49E1DDAEFFC00DBEC39 /* MCLeftSliderManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCLeftSliderManager.m; sourceTree = "<group>"; };
-		459BB49F1DDAEFFC00DBEC39 /* MCLeftSlideViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MCLeftSlideViewController.h; sourceTree = "<group>"; };
-		459BB4A01DDAEFFC00DBEC39 /* MCLeftSlideViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MCLeftSlideViewController.m; sourceTree = "<group>"; };
-		459BB4A11DDAEFFC00DBEC39 /* UIView_extra.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UIView_extra.h; sourceTree = "<group>"; };
-		459BB4A21DDAEFFC00DBEC39 /* UIView_extra.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UIView_extra.m; sourceTree = "<group>"; };
 		459C431E1DED72B000437712 /* XBScrollPageController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBScrollPageController.h; sourceTree = "<group>"; };
 		459C431F1DED72B000437712 /* XBScrollPageController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XBScrollPageController.m; sourceTree = "<group>"; };
 		459C43211DED72B000437712 /* XBTagTitleModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XBTagTitleModel.h; sourceTree = "<group>"; };
@@ -893,6 +882,8 @@
 		45E8F4561E2609BC00902455 /* Airbnb04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Airbnb04.png; sourceTree = "<group>"; };
 		45E8F4581E2613D600902455 /* QDXLineDetailWithImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXLineDetailWithImageViewController.h; sourceTree = "<group>"; };
 		45E8F4591E2613D600902455 /* QDXLineDetailWithImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXLineDetailWithImageViewController.m; sourceTree = "<group>"; };
+		45E8F45F1E262A9700902455 /* UIImage+RTTint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RTTint.h"; sourceTree = "<group>"; };
+		45E8F4601E262A9700902455 /* UIImage+RTTint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RTTint.m"; sourceTree = "<group>"; };
 		45ECA27C1E24DD0500B9D835 /* JPAnimationTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPAnimationTool.h; sourceTree = "<group>"; };
 		45ECA27D1E24DD0500B9D835 /* JPAnimationTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPAnimationTool.m; sourceTree = "<group>"; };
 		45ECA27F1E24DDD000B9D835 /* QDXHomeCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXHomeCollectionView.h; sourceTree = "<group>"; };
@@ -1305,6 +1296,8 @@
 		455C66991BAFA705007BA56B /* Tool */ = {
 			isa = PBXGroup;
 			children = (
+				45E8F45F1E262A9700902455 /* UIImage+RTTint.h */,
+				45E8F4601E262A9700902455 /* UIImage+RTTint.m */,
 				4557C6141D18E3ED0092CC56 /* CheckDataTool.h */,
 				4557C6151D18E3ED0092CC56 /* CheckDataTool.m */,
 				A31287A41CCF0DD700CB887E /* QDXOfflineDB.h */,
@@ -1555,22 +1548,6 @@
 			path = CYAlertView;
 			sourceTree = "<group>";
 		};
-		459BB49A1DDAEFFC00DBEC39 /* LeftSlideViewController */ = {
-			isa = PBXGroup;
-			children = (
-				459BB49B1DDAEFFC00DBEC39 /* MCContent.h */,
-				459BB49C1DDAEFFC00DBEC39 /* MCContent.m */,
-				459BB49D1DDAEFFC00DBEC39 /* MCLeftSliderManager.h */,
-				459BB49E1DDAEFFC00DBEC39 /* MCLeftSliderManager.m */,
-				459BB49F1DDAEFFC00DBEC39 /* MCLeftSlideViewController.h */,
-				459BB4A01DDAEFFC00DBEC39 /* MCLeftSlideViewController.m */,
-				459BB4A11DDAEFFC00DBEC39 /* UIView_extra.h */,
-				459BB4A21DDAEFFC00DBEC39 /* UIView_extra.m */,
-			);
-			name = LeftSlideViewController;
-			path = ../Lib/LeftSlideViewController;
-			sourceTree = "<group>";
-		};
 		459C431C1DED72B000437712 /* XBScrollPageController */ = {
 			isa = PBXGroup;
 			children = (
@@ -1816,7 +1793,6 @@
 				459C6E271BD89D2300743FEC /* JTSImage */,
 				455611661D543E75006DF063 /* Need */,
 				459C431C1DED72B000437712 /* XBScrollPageController */,
-				459BB49A1DDAEFFC00DBEC39 /* LeftSlideViewController */,
 				04664EFF1D1CCE82008D50C7 /* YLPopView */,
 				453394FC1CF6D8C800B5A825 /* FeSpinner */,
 				4571CDBC1CE05B00002ED784 /* CYAlertController */,
@@ -2333,7 +2309,6 @@
 				455A95B51C97E3EB0039FA88 /* MJExtensionConst.m in Sources */,
 				45C6F5671C92A07900C5AA31 /* QDXIsConnect.m in Sources */,
 				45C6F5791C92A0D800C5AA31 /* QDXTicketInfoModel.m in Sources */,
-				459BB4A51DDAEFFD00DBEC39 /* MCLeftSlideViewController.m in Sources */,
 				45CA52251DE452270025A376 /* MJRefreshHeader.m in Sources */,
 				45ECA2811E24DDD000B9D835 /* QDXHomeCollectionView.m in Sources */,
 				4525944D1D50D31A002BF84B /* LocalDBService.m in Sources */,
@@ -2406,7 +2381,6 @@
 				45D6E6CB1E0115A2004EFF15 /* QDXActivityViewController.m in Sources */,
 				455A95BB1C97E3EB0039FA88 /* NSObject+MJCoding.m in Sources */,
 				453395091CF6D8C800B5A825 /* UIColor+flat.m in Sources */,
-				459BB4A61DDAEFFD00DBEC39 /* UIView_extra.m in Sources */,
 				451BDEBE1DF54F1C00008959 /* SGNetObserver.m in Sources */,
 				4569E56C1C4CB64B00FF4E8B /* JTSImageViewController.m in Sources */,
 				45ECA27E1E24DD0500B9D835 /* JPAnimationTool.m in Sources */,
@@ -2454,7 +2428,6 @@
 				4569E5751C4CB64B00FF4E8B /* qrspec.c in Sources */,
 				4571CDF91CE05B00002ED784 /* CYAlertView.m in Sources */,
 				45E8F45A1E2613D600902455 /* QDXLineDetailWithImageViewController.m in Sources */,
-				459BB4A31DDAEFFC00DBEC39 /* MCContent.m in Sources */,
 				4569E5761C4CB64B00FF4E8B /* rscode.c in Sources */,
 				4549C7691DBE106800180FB5 /* LBTabBarController.m in Sources */,
 				455A95C71C97F13A0039FA88 /* QDXPointModel.m in Sources */,
@@ -2463,9 +2436,9 @@
 				4571CDF01CE05B00002ED784 /* CYAlertPresentExpandHorizontal.m in Sources */,
 				45F547821CDB423E0050B12F /* QDXHistoryTableViewCell.m in Sources */,
 				4571CDE81CE05B00002ED784 /* CYAlertDismissContractHorizontal.m in Sources */,
+				45E8F4611E262A9700902455 /* UIImage+RTTint.m in Sources */,
 				45CA52231DE452270025A376 /* MJRefreshComponent.m in Sources */,
 				455A95C41C97EF160039FA88 /* QDXHIstoryModel.m in Sources */,
-				459BB4A41DDAEFFD00DBEC39 /* MCLeftSliderManager.m in Sources */,
 				45EE61371CEAC074007302E3 /* PointView.m in Sources */,
 				45C6F6091C92A43A00C5AA31 /* QDXChangeNameViewController.m in Sources */,
 				455A95B61C97E3EB0039FA88 /* MJFoundation.m in Sources */,
@@ -2731,7 +2704,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sport;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sporttest;
 				PRODUCT_NAME = "趣定向";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -2776,7 +2749,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sport;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sporttest;
 				PRODUCT_NAME = "趣定向";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;

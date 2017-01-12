@@ -14,7 +14,6 @@
 #import "ActivityService.h"
 #import "QDXNavigationController.h"
 #import "QDXLoginViewController.h"
-#import "MCLeftSliderManager.h"
 
 @interface ActivityController ()<UITableViewDataSource,UITableViewDelegate>
 {
@@ -46,18 +45,6 @@
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:menuBtn];
     
     [self createTableView];
-}
-
-- (void) openOrCloseLeftList
-{
-    if ([MCLeftSliderManager sharedInstance].LeftSlideVC.closed)
-    {
-        [[MCLeftSliderManager sharedInstance].LeftSlideVC openLeftView];
-    }
-    else
-    {
-        [[MCLeftSliderManager sharedInstance].LeftSlideVC closeLeftView];
-    }
 }
 
 -(void)reloadData

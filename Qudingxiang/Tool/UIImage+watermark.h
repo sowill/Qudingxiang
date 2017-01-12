@@ -11,4 +11,5 @@
 @interface UIImage (watermark)
 //图片上加文字
 - (UIImage *)imageFromText:(NSString *)text;
+
 @end

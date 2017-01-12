@@ -346,6 +346,8 @@
     QDXLineDetailWithImageViewController *presentViewController = [QDXLineDetailWithImageViewController new];
     presentViewController.coverImage = collectionCell.coverImageView.image;
     
+    presentViewController.hidesBottomBarWhenPushed = YES;
+    
     presentViewController.closeBlock =  [self.animationTool begainAnimationWithCollectionViewDidSelectedItemIndexPath:indexPath collcetionView:collectionView forViewController:self presentViewController:presentViewController afterPresentedBlock:presentViewController.fadeBlock];
 }
 

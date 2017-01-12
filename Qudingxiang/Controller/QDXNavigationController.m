@@ -7,7 +7,6 @@
 //
 
 #import "QDXNavigationController.h"
-#import "MCLeftSliderManager.h"
 
 @interface QDXNavigationController ()
 
@@ -55,7 +54,7 @@
 - (void)pushViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
 //    viewController.hidesBottomBarWhenPushed = YES;
-    [[MCLeftSliderManager sharedInstance].LeftSlideVC setPanEnabled:NO];
+
     [super pushViewController:viewController animated:animated];
     
     if (viewController.navigationItem.leftBarButtonItem ==nil && self.viewControllers.count >1) {
@@ -86,7 +85,6 @@
     
     if (self.viewControllers.count == 2) {
 
-        [[MCLeftSliderManager sharedInstance].LeftSlideVC setPanEnabled:YES];
     }
     return  [super popViewControllerAnimated:animated];
 }

@@ -20,8 +20,7 @@
 #import "UpdateService.h"
 #import "QDXNavigationController.h"
 #import "SignViewController.h"
-
-#import "MCLeftSliderManager.h"
+#import "UIImage+RTTint.h"
 
 @interface MineViewController ()<UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
@@ -70,22 +69,14 @@
 
 - (void)createTableView
 {
-    UIImageView *imageview = [[UIImageView alloc] initWithFrame:self.view.bounds];
-    imageview.image = [UIImage imageNamed:@"my_bg.jpg"];
-    imageview.userInteractionEnabled = YES;
-    [self.view addSubview:imageview];
+    self.view.backgroundColor = QDXBGColor;
     
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight) style:UITableViewStylePlain];
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight) style:UITableViewStyleGrouped];
     _tableView.delegate = self;
     _tableView.dataSource = self;
-    _tableView.autoresizingMask = UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleWidth;
-    _tableView.opaque = NO;
-    _tableView.backgroundColor = [UIColor clearColor];
-    _tableView.backgroundView = nil;
-    _tableView.separatorStyle = NO;;
-    _tableView.bounces = NO;
-    
-    [self.view addSubview:_tableView]; 
+    _tableView.backgroundColor = QDXBGColor;
+//    [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    [self.view addSubview:_tableView];
 }
 
 - (void)netData
@@ -119,67 +110,59 @@
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     if (section == 0) {
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth,QdxWidth/4)];
-        view.userInteractionEnabled = YES;
-        _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(FitRealValue(40),64 + FitRealValue(20),FitRealValue(100),FitRealValue(100))];
+        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth,FitRealValue(400))];
+        
+        UIImageView *bgimageView = [[UIImageView alloc] initWithFrame:view.bounds];
+        bgimageView.image = [UIImage imageNamed:@"Airbnb00"];
+        [view addSubview:bgimageView];
+        
+        UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]];
+        effectView.frame = view.bounds;
+        effectView.userInteractionEnabled = YES;
+        effectView.alpha = .5f;
+        [bgimageView addSubview:effectView];
+        
+        _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(QdxWidth/2 - FitRealValue(60),64 + FitRealValue(20),FitRealValue(120),FitRealValue(120))];
         _imageView.clipsToBounds = YES;
         _imageView.layer.cornerRadius = CGRectGetHeight(_imageView.bounds)/2;
-        _imageView.userInteractionEnabled = YES;
         NSString *aPath3=[NSString stringWithFormat:@"%@/Documents/image/%@.png",NSHomeDirectory(),@"image"];
         _path = aPath3;
         UIImage *imgFromUrl3=[[UIImage alloc]initWithContentsOfFile:aPath3];
         
         if(_im){
             _imageView.image = imgFromUrl3;
+            
+            bgimageView.image = imgFromUrl3;
+            
         }else{
             if([save length] != 0){
                 NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,_peopleDict[@"Msg"][@"headurl"]]];
                 [_imageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"my_head"]];
+                
+                [bgimageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"my_head"]];
+
             }else{
                 _imageView.image = [UIImage imageNamed:@"my_head"];
             }
         }
     
         [view addSubview:_imageView];
-        _picBtn = [[UIButton alloc] init];
-        _picBtn.frame = CGRectMake(FitRealValue(40),64 + FitRealValue(20),FitRealValue(100 + 80),FitRealValue(100));
-//        _picBtn.imageView.clipsToBounds = YES;
-//        _picBtn.imageView.layer.cornerRadius = CGRectGetHeight(_picBtn.bounds)/2;
         
-        if ([save length] == 0) {
-            [_picBtn setTitle:@"登录" forState:UIControlStateNormal];
-        }else{
-            [_picBtn setTitle:@"" forState:UIControlStateNormal];
-        }
+        _picBtn = [[UIButton alloc] init];
+        _picBtn.frame = view.bounds;
+        
+//        if ([save length] == 0) {
+//            [_picBtn setTitle:@"登录" forState:UIControlStateNormal];
+//        }else{
+//            [_picBtn setTitle:@"" forState:UIControlStateNormal];
+//        }
 
         _picBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
         _picBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
         _picBtn.titleLabel.font = [UIFont systemFontOfSize:15];
         [_picBtn addTarget:self action:@selector(updatahead) forControlEvents:UIControlEventTouchUpInside];
-        [view addSubview:_picBtn];
+        [self.view addSubview:_picBtn];
         
-        CGFloat headBtnMaxY = CGRectGetMaxY(_picBtn.frame);
-        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(FitRealValue(40), headBtnMaxY+FitRealValue(40), QdxWidth,0.5)];
-        lineView.backgroundColor = [UIColor whiteColor];
-        [view addSubview:lineView];
-        
-        UIButton *signBtn = [[UIButton alloc] init];
-        signBtn.frame = CGRectMake(FitRealValue(40),headBtnMaxY+FitRealValue(45),QdxWidth*4/5,FitRealValue(90));
-        if ([save length] == 0) {
-            [signBtn setTitle:@"登录后显示个性签名" forState:UIControlStateNormal];
-        }else{
-            [signBtn setTitle:_peopleDict[@"Msg"][@"signature"] forState:UIControlStateNormal];
-        }
-        [signBtn setTintColor:[UIColor colorWithRed:255/255.0 green:255/255.0 blue:255/255.0 alpha:0.8]];
-        signBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentLeft;
-        signBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
-        signBtn.titleLabel.font = [UIFont systemFontOfSize:13];
-        [signBtn addTarget:self action:@selector(signbtn) forControlEvents:UIControlEventTouchUpInside];
-        [view addSubview:signBtn];
-        
-        UIView *lineView1 = [[UIView alloc] initWithFrame:CGRectMake(FitRealValue(40), headBtnMaxY+FitRealValue(130), QdxWidth,0.5)];
-        lineView1.backgroundColor = [UIColor whiteColor];
-        [view addSubview:lineView1];
         return view;
     }
     return nil;
@@ -192,7 +175,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return FitRealValue(430);
+    return FitRealValue(400);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
@@ -203,14 +186,13 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     myViewCellTableViewCell* cell = [myViewCellTableViewCell cellWithTableView:tableView];
-    
     if(indexPath.row == 0){
         if ([save length] == 0) {
             cell._name.text = @"昵称";
         }else{
             cell._name.text = _peopleDict[@"Msg"][@"customer_name"];
         }
-        cell.imageV.image = [UIImage imageNamed:@"my_name"];
+        cell.imageV.image = [[UIImage imageNamed:@"my_name"] rt_tintedImageWithColor:QDXBlack level:1.f];
     }else if(indexPath.row == 1){
         if ([_peopleDict[@"Code"] intValue] == 0) {
             cell._name.text = @"账号";
@@ -218,22 +200,22 @@
             cell._name.text =_peopleDict[@"Msg"][@"code"];
         }
         cell.userInteractionEnabled = NO;
-        cell.imageV.image = [UIImage imageNamed:@"my_account"];
+        cell.imageV.image = [[UIImage imageNamed:@"my_account"] rt_tintedImageWithColor:QDXBlack level:1.f];
     }else if(indexPath.row == 2){
         cell._name.text = @"我的路线";
-        cell.imageV.image = [UIImage imageNamed:@"my_line"];
+        cell.imageV.image = [[UIImage imageNamed:@"my_line"] rt_tintedImageWithColor:QDXBlack level:1.f];
     }else if(indexPath.row == 3){
         cell._name.text = @"团队线路";
-        cell.imageV.image = [UIImage imageNamed:@"my_line"];
+        cell.imageV.image = [[UIImage imageNamed:@"my_line"] rt_tintedImageWithColor:QDXBlack level:1.f];
     }else if(indexPath.row == 4){
         cell._name.text = @"设置";
-        cell.imageV.image = [UIImage imageNamed:@"my_setup"];
+        cell.imageV.image = [[UIImage imageNamed:@"my_setup"] rt_tintedImageWithColor:QDXBlack level:1.f];
     }else if(indexPath.row == 5){
         cell._name.text = @"关于趣定向";
-        cell.imageV.image = [UIImage imageNamed:@"my_about"];
+        cell.imageV.image = [[UIImage imageNamed:@"my_about"] rt_tintedImageWithColor:QDXBlack level:1.f];
     }else if(indexPath.row == 6){
         cell._name.text = @"联系客服";
-        cell.imageV.image = [UIImage imageNamed:@"my_service"];
+        cell.imageV.image = [[UIImage imageNamed:@"my_service"] rt_tintedImageWithColor:QDXBlack level:1.f];
     }
     
     return cell;
@@ -249,39 +231,34 @@
         if(indexPath.row == 0){
             QDXChangeNameViewController* regi=[[QDXChangeNameViewController alloc]init];
             regi.cusName = _peopleDict[@"Msg"][@"customer_name"];
-            [[MCLeftSliderManager sharedInstance].LeftSlideVC closeLeftView];//关闭左侧抽屉
             regi.hidesBottomBarWhenPushed = YES;
-            [[MCLeftSliderManager sharedInstance].mainNavigationController pushViewController:regi animated:NO];
+            [self.navigationController pushViewController:regi animated:YES];
         }else if (indexPath.row == 1){
             
         }else if (indexPath.row == 2){
             
             MineLineController *mineVC = [[MineLineController alloc] init];
-            [[MCLeftSliderManager sharedInstance].LeftSlideVC closeLeftView];//关闭左侧抽屉
             mineVC.hidesBottomBarWhenPushed = YES;
-            [[MCLeftSliderManager sharedInstance].mainNavigationController pushViewController:mineVC animated:NO];
+            [self.navigationController pushViewController:mineVC animated:YES];
             
         }else if (indexPath.row == 3){
             
             TeamLineController *teamVC = [[TeamLineController alloc] init];
-            [[MCLeftSliderManager sharedInstance].LeftSlideVC closeLeftView];//关闭左侧抽屉
             teamVC.hidesBottomBarWhenPushed = YES;
-            [[MCLeftSliderManager sharedInstance].mainNavigationController pushViewController:teamVC animated:NO];
+            [self.navigationController pushViewController:teamVC animated:YES];
             
         }else if (indexPath.row == 4){
             
             SettingViewController *setVC = [[SettingViewController alloc] init];
-            [[MCLeftSliderManager sharedInstance].LeftSlideVC closeLeftView];//关闭左侧抽屉
             setVC.hidesBottomBarWhenPushed = YES;
-            [[MCLeftSliderManager sharedInstance].mainNavigationController pushViewController:setVC animated:NO];
+            [self.navigationController pushViewController:setVC animated:YES];
             
         }else if (indexPath.row == 5){
             
             AboutUsViewController *aboutVC = [[AboutUsViewController alloc] init];
             aboutVC.level =  _peopleDict[@"Msg"][@"level"];
-            [[MCLeftSliderManager sharedInstance].LeftSlideVC closeLeftView];//关闭左侧抽屉
             aboutVC.hidesBottomBarWhenPushed = YES;
-            [[MCLeftSliderManager sharedInstance].mainNavigationController pushViewController:aboutVC animated:NO];
+            [self.navigationController pushViewController:aboutVC animated:YES];
             
         }else if (indexPath.row == 6){
             
@@ -450,7 +427,7 @@
         QDXLoginViewController* regi=[[QDXLoginViewController alloc]init];
         QDXNavigationController* navController = [[QDXNavigationController alloc] initWithRootViewController:regi];
         [self presentViewController:navController animated:YES completion:^{
-            [[MCLeftSliderManager sharedInstance].LeftSlideVC setPanEnabled:YES];
+            
         }];
         
     }];
@@ -468,9 +445,8 @@
         [self login];
     }else{
         SignViewController *sign = [[SignViewController alloc] init];
-        [[MCLeftSliderManager sharedInstance].LeftSlideVC closeLeftView];//关闭左侧抽屉
         sign.hidesBottomBarWhenPushed = YES;
-        [[MCLeftSliderManager sharedInstance].mainNavigationController pushViewController:sign animated:NO];
+        [self.navigationController pushViewController:sign animated:NO];
     }
 }
 

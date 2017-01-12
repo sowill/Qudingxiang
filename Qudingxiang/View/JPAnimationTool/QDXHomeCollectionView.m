@@ -28,7 +28,7 @@
 
 -(void)setup
 {
-    self.coverImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, 300, 200)];
+    self.coverImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0,FitRealValue(600), FitRealValue(400))];
     self.coverImageView.tag = JPCoverImageViewTag;
     [self.contentView addSubview:self.coverImageView];
 }

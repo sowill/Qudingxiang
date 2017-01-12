@@ -16,8 +16,8 @@
     myViewCellTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier];
     if (cell == nil) {
         cell = [[myViewCellTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:identifier];
-        cell.backgroundColor = [UIColor clearColor];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
+        cell.backgroundColor = [UIColor whiteColor];
+        cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
         //添加cell的子控件
         [cell addSubViews];
     }
@@ -31,7 +31,7 @@
     [self.contentView addSubview:self.imageV];
     
     self._name = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(40 + 33 + 20), FitRealValue(30), FitRealValue(400), FitRealValue(33))];
-    self._name.textColor = [UIColor whiteColor];
+    self._name.textColor = QDXBlack;
     self._name.font = [UIFont systemFontOfSize:14];
     [self.contentView addSubview:self._name];
 }

@@ -11,7 +11,6 @@
 #import "QDXLoginViewController.h"
 #import "DWViewCell.h"
 #import "DWFlowLayout.h"
-#import "MCLeftSliderManager.h"
 
 @interface MoreViewController ()<UICollectionViewDataSource,UICollectionViewDelegate>
 {
@@ -52,18 +51,6 @@
     [_collectionView reloadData];
 }
 
-- (void) openOrCloseLeftList
-{
-    
-    if ([MCLeftSliderManager sharedInstance].LeftSlideVC.closed)
-    {
-        [[MCLeftSliderManager sharedInstance].LeftSlideVC openLeftView];
-    }
-    else
-    {
-        [[MCLeftSliderManager sharedInstance].LeftSlideVC closeLeftView];
-    }
-}
 
 #pragma mark cell的数量
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section

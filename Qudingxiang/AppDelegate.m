@@ -13,9 +13,6 @@
 #import "GuideViewController.h"
 #import "LBTabBarController.h"
 
-#import "MCLeftSlideViewController.h"
-#import "MCLeftSliderManager.h"
-
 @interface AppDelegate ()<UIScrollViewDelegate>
 {
     UIBackgroundTaskIdentifier backgroundTask;
@@ -65,9 +62,7 @@
 - (void)gotoHomeController
 {
     LBTabBarController *tabVC = [[LBTabBarController alloc] init];
-    MineViewController *leftVC = [[MineViewController alloc] init];
-    MCLeftSlideViewController *rootVC = [[MCLeftSlideViewController alloc] initWithLeftView:leftVC andMainView:tabVC];
-    self.window.rootViewController = rootVC;
+    self.window.rootViewController = tabVC;
     
     // 启动图片
 //    [[MCAdvertManager sharedInstance] setAdvertViewController];

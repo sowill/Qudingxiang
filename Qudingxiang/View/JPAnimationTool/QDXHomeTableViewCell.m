@@ -38,7 +38,7 @@ static NSString *QDXCollectionViewReuseID = @"QDXCollectionViewResuseID";
     
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     
-    layout.itemSize = CGSizeMake(QdxWidth*3.0/4.0, 236);
+    layout.itemSize = CGSizeMake(FitRealValue(640), FitRealValue(440));
     layout.minimumInteritemSpacing = 0;
     layout.minimumLineSpacing = 0 ;
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;

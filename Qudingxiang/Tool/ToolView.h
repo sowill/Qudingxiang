@@ -26,4 +26,5 @@
 +(UIImage*) OriginImage:(UIImage *)image scaleToSize:(CGSize)size;
 //MD5
 + (NSString *)md5:(NSString *)str;
+
 @end

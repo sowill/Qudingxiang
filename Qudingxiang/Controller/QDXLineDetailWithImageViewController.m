@@ -16,6 +16,8 @@
 
 @property (strong, nonatomic) NSLayoutConstraint *detailImageUpCons;
 
+@property (strong, nonatomic) UIButton *backButton;
+
 @end
 
 @implementation QDXLineDetailWithImageViewController
@@ -48,12 +50,29 @@
     
     self.view.backgroundColor = QDXBGColor;
     
+    self.coverImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, FitRealValue(480))];
     self.coverImageView.image = _coverImage;
+    [self.view addSubview:self.coverImageView];
+    
+    self.backButton = [[UIButton alloc] initWithFrame:CGRectMake(12, 22, 20, 18)];
+    [self.backButton setBackgroundImage:[UIImage imageNamed:@"sign_return"] forState:UIControlStateNormal];
+    [self.backButton addTarget:self action:@selector(buttonBackSetting) forControlEvents:UIControlEventTouchUpInside];
+    self.backButton.backgroundColor = [UIColor clearColor];
+    [self.view addSubview:self.backButton];
     
     self.detailImageView.alpha = 0;
     self.detailImageUpCons.constant = 25;
     [self.view layoutIfNeeded];
 
+}
+
+-(void)buttonBackSetting
+{
+    if (self.closeBlock) {
+        self.closeBlock(self);
+    }
+    self.view.alpha = 0;
+//    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

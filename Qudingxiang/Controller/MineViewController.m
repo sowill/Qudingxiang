@@ -16,7 +16,6 @@
 #import "HomeController.h"
 #import "MineService.h"
 #import "MineModel.h"
-#import "myViewCellTableViewCell.h"
 #import "UpdateService.h"
 #import "QDXNavigationController.h"
 #import "SignViewController.h"
@@ -24,42 +23,36 @@
 
 @interface MineViewController ()<UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
-    UITableView *_tableView;
     NSDictionary *_peopleDict;
     NSString *_name;
-    NSString *_acount;
-    NSMutableArray *_dataArr;
-    UILabel *_label;
-    UIImageView *_imageView;
-    UIImage *_image;
-    UIButton *_picBtn;
     NSString *_filePath;
     NSString *_path;
-    NSString *_data;
-    NSData *_imageData;
     UIImage *_im;
-    NSString *_imageName;
-    NSString *_signText;
+    UIButton *_picBtn;
 }
+@property (nonatomic,strong) UITableView *tableView;
+@property (nonatomic,strong) UIImageView *bgimageView;
+@property (nonatomic,strong) UIVisualEffectView *effectView;
+@property (nonatomic,assign) CGFloat lastOffsetY;
+@property (nonatomic,strong) UIImageView *imageView;
 @end
 
 @implementation MineViewController
-
-- (void)viewWillAppear:(BOOL)animated
-{
-    [super viewWillAppear:animated];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stateRefresh) name:@"stateRefresh" object:nil];
-    
-    [self netData];
-}
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self createTableView];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stateRefresh) name:@"stateRefresh" object:nil];
+    
+    [self netData];
+    
+    self.view.backgroundColor = QDXBGColor;
+    [self.view addSubview:self.tableView];
+    [self.view addSubview:self.bgimageView];
+    [self.bgimageView addSubview:self.effectView];
+    [self.view addSubview:self.imageView];
 }
 
 -(void)stateRefresh
@@ -67,16 +60,90 @@
     [self netData];
 }
 
-- (void)createTableView
+-(UITableView *)tableView
 {
-    self.view.backgroundColor = QDXBGColor;
+    if (!_tableView) {
+        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight) style:UITableViewStylePlain];
+        _tableView.delegate = self;
+        _tableView.dataSource = self;
+        _tableView.backgroundColor = QDXBGColor;
+        _tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+        CGFloat headImvH = FitRealValue(400);
+        //这句很重要
+        _tableView.contentInset = UIEdgeInsetsMake(headImvH-20, 0, 0, 0);
+    }
+    return _tableView;
+}
+
+-(UIImageView *)bgimageView
+{
+    if (!_bgimageView) {
+        _bgimageView = [[UIImageView alloc] init];
+        _bgimageView.frame = CGRectMake(0, 0, QdxWidth,FitRealValue(400));
+        _bgimageView.contentMode = UIViewContentModeScaleAspectFill;
+        _bgimageView.clipsToBounds = YES;
+    }
+    return _bgimageView;
+}
+
+-(UIImageView *)imageView
+{
+    if (!_imageView) {
+        _imageView = [[UIImageView alloc] init];
+        _imageView.frame = CGRectMake(QdxWidth/2 - FitRealValue(60),FitRealValue(100),FitRealValue(150),FitRealValue(150));
+        _imageView.clipsToBounds = YES;
+        _imageView.userInteractionEnabled = YES;
+        _imageView.layer.cornerRadius = CGRectGetHeight(_imageView.bounds)/2;
+        NSString *aPath3=[NSString stringWithFormat:@"%@/Documents/image/%@.png",NSHomeDirectory(),@"image"];
+        _path = aPath3;
+        UIImage *imgFromUrl3=[[UIImage alloc]initWithContentsOfFile:aPath3];
+        
+        if(_im){
+            _imageView.image = imgFromUrl3;
+            self.bgimageView.image = imgFromUrl3;
+        }else{
+            if([save length] != 0){
+                NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,_peopleDict[@"Msg"][@"headurl"]]];
+                
+                [_imageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"my_head"]];
+                [self.bgimageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"Airbnb00"]];
+            }else{
+                _imageView.image = [UIImage imageNamed:@"my_head"];
+            }
+        }
+        
+        _picBtn = [[UIButton alloc] init];
+        _picBtn.frame = _imageView.bounds;
+        [_picBtn addTarget:self action:@selector(updatahead) forControlEvents:UIControlEventTouchUpInside];
+        [_imageView addSubview:_picBtn];
+    }
+    return _imageView;
+}
+
+-(UIVisualEffectView *)effectView
+{
+    if (!_effectView) {
+        _effectView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]];
+        _effectView.frame = CGRectMake(0, 0, QdxWidth,FitRealValue(400));
+        _effectView.userInteractionEnabled = YES;
+        _effectView.alpha = .5f;
+    }
+    return _effectView;
+}
+
+#pragma mark - UIScrollViewDelegate
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    //拿到偏移量
+    CGFloat offsetY = scrollView.contentOffset.y;
+    NSInteger headImvH = FitRealValue(400) ;
+    CGFloat offset = headImvH + offsetY;//计算偏移量
     
-    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight) style:UITableViewStyleGrouped];
-    _tableView.delegate = self;
-    _tableView.dataSource = self;
-    _tableView.backgroundColor = QDXBGColor;
-//    [_tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
-    [self.view addSubview:_tableView];
+    //设置头部图片大小
+    self.bgimageView.frame = CGRectMake(0, 0, QdxWidth, headImvH-offset);
+    self.effectView.frame = CGRectMake(0, 0, QdxWidth, headImvH-offset);
+    
+    _imageView.frame = CGRectMake(QdxWidth/2 - FitRealValue(60),FitRealValue(100) - offset,FitRealValue(150),FitRealValue(150));
 }
 
 - (void)netData
@@ -107,75 +174,9 @@
     } andWithToken:save];
 }
 
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    if (section == 0) {
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth,FitRealValue(400))];
-        
-        UIImageView *bgimageView = [[UIImageView alloc] initWithFrame:view.bounds];
-        bgimageView.image = [UIImage imageNamed:@"Airbnb00"];
-        [view addSubview:bgimageView];
-        
-        UIVisualEffectView *effectView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleLight]];
-        effectView.frame = view.bounds;
-        effectView.userInteractionEnabled = YES;
-        effectView.alpha = .5f;
-        [bgimageView addSubview:effectView];
-        
-        _imageView = [[UIImageView alloc] initWithFrame:CGRectMake(QdxWidth/2 - FitRealValue(60),64 + FitRealValue(20),FitRealValue(120),FitRealValue(120))];
-        _imageView.clipsToBounds = YES;
-        _imageView.layer.cornerRadius = CGRectGetHeight(_imageView.bounds)/2;
-        NSString *aPath3=[NSString stringWithFormat:@"%@/Documents/image/%@.png",NSHomeDirectory(),@"image"];
-        _path = aPath3;
-        UIImage *imgFromUrl3=[[UIImage alloc]initWithContentsOfFile:aPath3];
-        
-        if(_im){
-            _imageView.image = imgFromUrl3;
-            
-            bgimageView.image = imgFromUrl3;
-            
-        }else{
-            if([save length] != 0){
-                NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,_peopleDict[@"Msg"][@"headurl"]]];
-                [_imageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"my_head"]];
-                
-                [bgimageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"my_head"]];
-
-            }else{
-                _imageView.image = [UIImage imageNamed:@"my_head"];
-            }
-        }
-    
-        [view addSubview:_imageView];
-        
-        _picBtn = [[UIButton alloc] init];
-        _picBtn.frame = view.bounds;
-        
-//        if ([save length] == 0) {
-//            [_picBtn setTitle:@"登录" forState:UIControlStateNormal];
-//        }else{
-//            [_picBtn setTitle:@"" forState:UIControlStateNormal];
-//        }
-
-        _picBtn.contentHorizontalAlignment = UIControlContentHorizontalAlignmentRight;
-        _picBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 0);
-        _picBtn.titleLabel.font = [UIFont systemFontOfSize:15];
-        [_picBtn addTarget:self action:@selector(updatahead) forControlEvents:UIControlEventTouchUpInside];
-        [self.view addSubview:_picBtn];
-        
-        return view;
-    }
-    return nil;
-}
-
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return FitRealValue(90);
-}
-
-- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
-{
-    return FitRealValue(400);
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)sectionIndex
@@ -183,39 +184,67 @@
     return 7;
 }
 
+- (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
+    
+    if (indexPath.section == 0 && indexPath.row == 6) {
+        if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+            [cell setSeparatorInset:UIEdgeInsetsMake(0,0, 0,0)];
+        }
+        if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+            [cell setLayoutMargins:UIEdgeInsetsMake(0,0, 0,0)];
+        }
+    }else{
+        if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
+            [cell setSeparatorInset:UIEdgeInsetsMake(0,FitRealValue(24), 0,FitRealValue(24))];
+        }
+        if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
+            [cell setLayoutMargins:UIEdgeInsetsMake(0,FitRealValue(24), 0, FitRealValue(24))];
+        }
+    }
+}
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    myViewCellTableViewCell* cell = [myViewCellTableViewCell cellWithTableView:tableView];
+    static NSString *CellIdentifier = @"Cell";
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    if (cell == nil) {
+        cell = [[UITableViewCell alloc]
+                initWithStyle:UITableViewCellStyleDefault
+                reuseIdentifier:CellIdentifier];
+    }
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+    cell.textLabel.font = [UIFont systemFontOfSize:14];
     if(indexPath.row == 0){
         if ([save length] == 0) {
-            cell._name.text = @"昵称";
+            cell.textLabel.text = @"昵称";
         }else{
-            cell._name.text = _peopleDict[@"Msg"][@"customer_name"];
+            cell.textLabel.text = _peopleDict[@"Msg"][@"customer_name"];
         }
-        cell.imageV.image = [[UIImage imageNamed:@"my_name"] rt_tintedImageWithColor:QDXBlack level:1.f];
+        cell.imageView.image = [[UIImage imageNamed:@"my_name"] rt_tintedImageWithColor:QDXBlack level:1.f];
     }else if(indexPath.row == 1){
         if ([_peopleDict[@"Code"] intValue] == 0) {
-            cell._name.text = @"账号";
+            cell.textLabel.text = @"账号";
         }else{
-            cell._name.text =_peopleDict[@"Msg"][@"code"];
+            cell.textLabel.text =_peopleDict[@"Msg"][@"code"];
         }
         cell.userInteractionEnabled = NO;
-        cell.imageV.image = [[UIImage imageNamed:@"my_account"] rt_tintedImageWithColor:QDXBlack level:1.f];
+        cell.imageView.image = [[UIImage imageNamed:@"my_account"] rt_tintedImageWithColor:QDXBlack level:1.f];
     }else if(indexPath.row == 2){
-        cell._name.text = @"我的路线";
-        cell.imageV.image = [[UIImage imageNamed:@"my_line"] rt_tintedImageWithColor:QDXBlack level:1.f];
+        cell.textLabel.text = @"我的路线";
+        cell.imageView.image = [[UIImage imageNamed:@"my_line"] rt_tintedImageWithColor:QDXBlack level:1.f];
     }else if(indexPath.row == 3){
-        cell._name.text = @"团队线路";
-        cell.imageV.image = [[UIImage imageNamed:@"my_line"] rt_tintedImageWithColor:QDXBlack level:1.f];
+        cell.textLabel.text = @"团队线路";
+        cell.imageView.image = [[UIImage imageNamed:@"my_line"] rt_tintedImageWithColor:QDXBlack level:1.f];
     }else if(indexPath.row == 4){
-        cell._name.text = @"设置";
-        cell.imageV.image = [[UIImage imageNamed:@"my_setup"] rt_tintedImageWithColor:QDXBlack level:1.f];
+        cell.textLabel.text = @"设置";
+        cell.imageView.image = [[UIImage imageNamed:@"my_setup"] rt_tintedImageWithColor:QDXBlack level:1.f];
     }else if(indexPath.row == 5){
-        cell._name.text = @"关于趣定向";
-        cell.imageV.image = [[UIImage imageNamed:@"my_about"] rt_tintedImageWithColor:QDXBlack level:1.f];
+        cell.textLabel.text = @"关于趣定向";
+        cell.imageView.image = [[UIImage imageNamed:@"my_about"] rt_tintedImageWithColor:QDXBlack level:1.f];
     }else if(indexPath.row == 6){
-        cell._name.text = @"联系客服";
-        cell.imageV.image = [[UIImage imageNamed:@"my_service"] rt_tintedImageWithColor:QDXBlack level:1.f];
+        cell.textLabel.text = @"联系客服";
+        cell.imageView.image = [[UIImage imageNamed:@"my_service"] rt_tintedImageWithColor:QDXBlack level:1.f];
     }
     
     return cell;
@@ -448,11 +477,6 @@
         sign.hidesBottomBarWhenPushed = YES;
         [self.navigationController pushViewController:sign animated:NO];
     }
-}
-
-- (void)updatePortrait
-{
-    
 }
 
 - (void)didReceiveMemoryWarning {

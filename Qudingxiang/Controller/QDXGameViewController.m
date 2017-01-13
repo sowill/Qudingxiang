@@ -190,7 +190,7 @@
             NSArray *array3 = [macLabel componentsSeparatedByString:@":"];
             NSString *string3 = [array3 componentsJoinedByString:@""];
             mac_Label = [string3 componentsSeparatedByString:@","];
-            //    NSLog(@"%@   %@",mac_Label,self.gameInfo.point.point_name);
+//            NSLog(@"%@   %@   %@",mac_Label,self.gameInfo.point.point_name,self.gameInfo.point.rssi);
             sdateStr = self.gameInfo.sdate;
             [self intervalSinceNow];
             point.text = self.gameInfo.point.point_name;
@@ -332,6 +332,7 @@
         NSString *string2 = [array1 componentsJoinedByString:@""];
         NSArray *array2 = [string2 componentsSeparatedByString:@">)"];
         NSString *string3 = [array2 componentsJoinedByString:@""];
+        
         if (string3.length > 8) {
                 macStr = [string3 substringFromIndex:8];
                 macStr = [macStr substringToIndex:12];

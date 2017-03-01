@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "StartModel.h"
-@protocol PassTicketIDDelegate
+@protocol imgPassTicketIDDelegate
 - (void)PassTicket:(NSString *)tictet andClick:(NSString *)click;
 @end
 @interface ImagePickerController : UIViewController
-@property (nonatomic, strong) id<PassTicketIDDelegate>delegate;
+@property (nonatomic, strong) id<imgPassTicketIDDelegate>delegate;
 @property (nonatomic, strong) NSString *from;
 @property (nonatomic,copy)void(^ScanResult)(NSString*result,BOOL isSucceed,NSString *from);
 -(id)initWithBlock:(void(^)(NSString*,BOOL,NSString*))a;

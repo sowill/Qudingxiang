@@ -153,7 +153,6 @@
 		4571CDFA1CE05B00002ED784 /* CYAlertViewController.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4571CDE61CE05B00002ED784 /* CYAlertViewController.bundle */; };
 		4582B7D61C98EEC00002F5B1 /* QDXQuestionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4582B7D51C98EEC00002F5B1 /* QDXQuestionModel.m */; };
 		4582B7D91C98F3680002F5B1 /* point_questionModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4582B7D81C98F3680002F5B1 /* point_questionModel.m */; };
-		4582B7E01C990F400002F5B1 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 4582B7DF1C990F400002F5B1 /* Info.plist */; };
 		4586957B1C4DD638009BAA81 /* CFNetwork.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4586957A1C4DD638009BAA81 /* CFNetwork.framework */; };
 		4586957D1C4DD642009BAA81 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4586957C1C4DD642009BAA81 /* CoreGraphics.framework */; };
 		4586957F1C4DD64A009BAA81 /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4586957E1C4DD64A009BAA81 /* CoreText.framework */; };
@@ -2212,7 +2211,7 @@
 		45DF76211BA6AAC20024A6B4 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0640;
+				LastUpgradeCheck = 0820;
 				ORGANIZATIONNAME = Air;
 				TargetAttributes = {
 					45DF76281BA6AAC20024A6B4 = {
@@ -2276,7 +2275,6 @@
 				453E44DA1D252A3100BED603 /* btn2@2x.png in Resources */,
 				453395151CF6E06100B5A825 /* wifimanhub@2x.png in Resources */,
 				455C8A921CCF7827001F5FC5 /* AlipaySDK.bundle in Resources */,
-				4582B7E01C990F400002F5B1 /* Info.plist in Resources */,
 				45CA522F1DE452270025A376 /* MJRefresh.bundle in Resources */,
 				45DD34DA1C33D5F500E24250 /* read_me.txt in Resources */,
 				453E44D91D252A3100BED603 /* btn1@2x.png in Resources */,
@@ -2587,6 +2585,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -2596,8 +2595,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -2605,6 +2606,7 @@
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -2620,7 +2622,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PROVISIONING_PROFILE = "";
@@ -2632,6 +2634,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -2641,8 +2644,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
@@ -2659,7 +2664,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -2704,7 +2709,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sporttest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sport;
 				PRODUCT_NAME = "趣定向";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -2749,7 +2754,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sporttest;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sport;
 				PRODUCT_NAME = "趣定向";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -2773,6 +2778,7 @@
 				);
 				INFOPLIST_FILE = QudingxiangTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.app.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "趣定向";
 				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/趣定向.app/趣定向";
@@ -2791,6 +2797,7 @@
 				);
 				INFOPLIST_FILE = QudingxiangTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.app.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "趣定向";
 				PROVISIONING_PROFILE = "";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/趣定向.app/趣定向";

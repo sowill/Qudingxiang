@@ -110,7 +110,8 @@
     
     //高度固定不折行，根据字的多少计算label的宽度
     NSString *str = homeModel.act_address;
-    CGSize size = [str sizeWithFont:self.act_place.font constrainedToSize:CGSizeMake(MAXFLOAT, self.act_place.frame.size.height)];
+    CGSize size = [str boundingRectWithSize:CGSizeMake(MAXFLOAT, self.act_place.frame.size.height) options:NSStringDrawingUsesLineFragmentOrigin attributes:@{NSFontAttributeName:self.act_place.font} context:nil].size;
+//    [str sizeWithFont:self.act_place.font constrainedToSize:CGSizeMake(MAXFLOAT, self.act_place.frame.size.height)];
     //根据计算结果重新设置UILabel的尺寸
     [self.act_place setFrame:CGRectMake(_act_place_img.frame.origin.x + FitRealValue(28 + 10), _act_place_img.frame.origin.y, size.width, FitRealValue(26))];
     self.act_place.text = str;

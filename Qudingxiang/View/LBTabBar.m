@@ -20,7 +20,7 @@
     UIButton *_topBtn;
 }
 /** plus按钮 */
-@property (nonatomic, weak) UIButton *plusBtn ;
+@property (nonatomic, weak) UIButton *plusBtn;
 
 @end
 

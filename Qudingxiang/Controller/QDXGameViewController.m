@@ -44,7 +44,7 @@
 #define TASKHEIGHT                         QdxHeight * 0.73
 #define SHOWTASKHEIGHT                     TASKHEIGHT * 0.1
 
-@interface QDXGameViewController () <LrdOutputViewDelegate>
+@interface QDXGameViewController () <LrdOutputViewDelegate,MAMapViewDelegate>
 {
     //搜索到的mac值
     NSString *macStr;
@@ -190,7 +190,7 @@
             NSArray *array3 = [macLabel componentsSeparatedByString:@":"];
             NSString *string3 = [array3 componentsJoinedByString:@""];
             mac_Label = [string3 componentsSeparatedByString:@","];
-//            NSLog(@"%@   %@   %@",mac_Label,self.gameInfo.point.point_name,self.gameInfo.point.rssi);
+            NSLog(@"%@   %@   %@",mac_Label,self.gameInfo.point.point_name,self.gameInfo.point.rssi);
             sdateStr = self.gameInfo.sdate;
             [self intervalSinceNow];
             point.text = self.gameInfo.point.point_name;

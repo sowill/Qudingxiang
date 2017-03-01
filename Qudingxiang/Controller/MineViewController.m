@@ -90,7 +90,7 @@
 {
     if (!_imageView) {
         _imageView = [[UIImageView alloc] init];
-        _imageView.frame = CGRectMake(QdxWidth/2 - FitRealValue(60),FitRealValue(100),FitRealValue(150),FitRealValue(150));
+        _imageView.frame = CGRectMake(QdxWidth/2 - FitRealValue(60),FitRealValue(120),FitRealValue(150),FitRealValue(150));
         _imageView.clipsToBounds = YES;
         _imageView.userInteractionEnabled = YES;
         _imageView.layer.cornerRadius = CGRectGetHeight(_imageView.bounds)/2;
@@ -143,7 +143,7 @@
     self.bgimageView.frame = CGRectMake(0, 0, QdxWidth, headImvH-offset);
     self.effectView.frame = CGRectMake(0, 0, QdxWidth, headImvH-offset);
     
-    _imageView.frame = CGRectMake(QdxWidth/2 - FitRealValue(60),FitRealValue(100) - offset,FitRealValue(150),FitRealValue(150));
+    _imageView.frame = CGRectMake(QdxWidth/2 - FitRealValue(60),FitRealValue(120) - offset,FitRealValue(150),FitRealValue(150));
 }
 
 - (void)netData

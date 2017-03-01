@@ -16,7 +16,7 @@
 #import "CustomAnimateTransitionPush.h"
 
 @class MineModel;
-@interface QDXGameViewController : BaseViewController<CBCentralManagerDelegate,CBPeripheralDelegate,UINavigationControllerDelegate,MAMapViewDelegate,UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate>
+@interface QDXGameViewController : BaseViewController<CBCentralManagerDelegate,CBPeripheralDelegate,UINavigationControllerDelegate,UITableViewDataSource,UITableViewDelegate,UIGestureRecognizerDelegate>
 @property(strong, nonatomic) UIButton *history_button;
 
 @property(strong, nonatomic) UIButton *task_button;

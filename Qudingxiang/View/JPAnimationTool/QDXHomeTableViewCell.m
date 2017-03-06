@@ -38,12 +38,12 @@ static NSString *QDXCollectionViewReuseID = @"QDXCollectionViewResuseID";
     
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     
-    layout.itemSize = CGSizeMake(FitRealValue(640), FitRealValue(440));
+    layout.itemSize = CGSizeMake(FitRealValue(166 + 20), FitRealValue(270));
     layout.minimumInteritemSpacing = 0;
     layout.minimumLineSpacing = 0 ;
     layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
     
-    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, 236) collectionViewLayout:layout];
+    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, FitRealValue(270)) collectionViewLayout:layout];
     self.collectionView.backgroundColor = [UIColor whiteColor];
     self.collectionView.showsHorizontalScrollIndicator = NO;
     self.collectionView.showsVerticalScrollIndicator = NO;

@@ -183,6 +183,10 @@
 		459C43331DED749100437712 /* UIView+XBExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 459C43321DED749100437712 /* UIView+XBExtension.m */; };
 		459C43361DED75AE00437712 /* XBTestTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 459C43351DED75AE00437712 /* XBTestTableViewController.m */; };
 		459E69F61DF7BC6700D5C9F9 /* QDXTicketSuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 459E69F51DF7BC6700D5C9F9 /* QDXTicketSuccessViewController.m */; };
+		459EB25E1E6D2CCC0011943B /* QDXHomeCooperationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 459EB25D1E6D2CCC0011943B /* QDXHomeCooperationCell.m */; };
+		459EB2611E6D2D260011943B /* QDXCooperationCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 459EB2601E6D2D260011943B /* QDXCooperationCollectionViewCell.m */; };
+		459EB2641E6D471B0011943B /* LocationChoiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 459EB2631E6D471B0011943B /* LocationChoiceViewController.m */; };
+		459EB2671E6D4E880011943B /* ChoseCityCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 459EB2661E6D4E880011943B /* ChoseCityCollectionViewCell.m */; };
 		45AEE2B71D13E4F800116AD0 /* UIControl+UIControl_buttonCon.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AEE2B61D13E4F800116AD0 /* UIControl+UIControl_buttonCon.m */; };
 		45C6F55F1C929FD000C5AA31 /* HomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F55A1C929FD000C5AA31 /* HomeModel.m */; };
 		45C6F5601C929FD000C5AA31 /* ImageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F55C1C929FD000C5AA31 /* ImageModel.m */; };
@@ -698,6 +702,14 @@
 		459C6E331BD89D2300743FEC /* UIImage+JTSImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+JTSImageEffects.m"; sourceTree = "<group>"; };
 		459E69F41DF7BC6700D5C9F9 /* QDXTicketSuccessViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXTicketSuccessViewController.h; sourceTree = "<group>"; };
 		459E69F51DF7BC6700D5C9F9 /* QDXTicketSuccessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXTicketSuccessViewController.m; sourceTree = "<group>"; };
+		459EB25C1E6D2CCC0011943B /* QDXHomeCooperationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXHomeCooperationCell.h; sourceTree = "<group>"; };
+		459EB25D1E6D2CCC0011943B /* QDXHomeCooperationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXHomeCooperationCell.m; sourceTree = "<group>"; };
+		459EB25F1E6D2D260011943B /* QDXCooperationCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXCooperationCollectionViewCell.h; sourceTree = "<group>"; };
+		459EB2601E6D2D260011943B /* QDXCooperationCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXCooperationCollectionViewCell.m; sourceTree = "<group>"; };
+		459EB2621E6D471B0011943B /* LocationChoiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationChoiceViewController.h; sourceTree = "<group>"; };
+		459EB2631E6D471B0011943B /* LocationChoiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationChoiceViewController.m; sourceTree = "<group>"; };
+		459EB2651E6D4E880011943B /* ChoseCityCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChoseCityCollectionViewCell.h; sourceTree = "<group>"; };
+		459EB2661E6D4E880011943B /* ChoseCityCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChoseCityCollectionViewCell.m; sourceTree = "<group>"; };
 		45A0547F1DD5AF0B0076E06E /* 趣定向.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "趣定向.entitlements"; sourceTree = "<group>"; };
 		45AEE2B51D13E4F800116AD0 /* UIControl+UIControl_buttonCon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIControl+UIControl_buttonCon.h"; sourceTree = "<group>"; };
 		45AEE2B61D13E4F800116AD0 /* UIControl+UIControl_buttonCon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+UIControl_buttonCon.m"; sourceTree = "<group>"; };
@@ -1779,6 +1791,8 @@
 				45D6E6CA1E0115A2004EFF15 /* QDXActivityViewController.m */,
 				45E8F4581E2613D600902455 /* QDXLineDetailWithImageViewController.h */,
 				45E8F4591E2613D600902455 /* QDXLineDetailWithImageViewController.m */,
+				459EB2621E6D471B0011943B /* LocationChoiceViewController.h */,
+				459EB2631E6D471B0011943B /* LocationChoiceViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1848,6 +1862,8 @@
 				451BDEC51DF56A3B00008959 /* QDXStateView.m */,
 				45D6E6CC1E011FD8004EFF15 /* QDXActTableViewCell.h */,
 				45D6E6CD1E011FD8004EFF15 /* QDXActTableViewCell.m */,
+				459EB2651E6D4E880011943B /* ChoseCityCollectionViewCell.h */,
+				459EB2661E6D4E880011943B /* ChoseCityCollectionViewCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2102,6 +2118,10 @@
 				45ECA2801E24DDD000B9D835 /* QDXHomeCollectionView.m */,
 				45ECA2821E24E16800B9D835 /* QDXHomeTableViewCell.h */,
 				45ECA2831E24E16800B9D835 /* QDXHomeTableViewCell.m */,
+				459EB25C1E6D2CCC0011943B /* QDXHomeCooperationCell.h */,
+				459EB25D1E6D2CCC0011943B /* QDXHomeCooperationCell.m */,
+				459EB25F1E6D2D260011943B /* QDXCooperationCollectionViewCell.h */,
+				459EB2601E6D2D260011943B /* QDXCooperationCollectionViewCell.m */,
 			);
 			path = JPAnimationTool;
 			sourceTree = "<group>";
@@ -2342,6 +2362,7 @@
 				459C43361DED75AE00437712 /* XBTestTableViewController.m in Sources */,
 				45C6F5661C92A07900C5AA31 /* QDXAccount.m in Sources */,
 				45C6F5A21C92A20400C5AA31 /* QDXOrderTableViewCell.m in Sources */,
+				459EB25E1E6D2CCC0011943B /* QDXHomeCooperationCell.m in Sources */,
 				45C6F6021C92A42400C5AA31 /* MainController.m in Sources */,
 				45C6F5761C92A0D800C5AA31 /* QDXOrdermodel.m in Sources */,
 				45C6F5611C929FD000C5AA31 /* ScrollModel.m in Sources */,
@@ -2437,6 +2458,7 @@
 				45E8F4611E262A9700902455 /* UIImage+RTTint.m in Sources */,
 				45CA52231DE452270025A376 /* MJRefreshComponent.m in Sources */,
 				455A95C41C97EF160039FA88 /* QDXHIstoryModel.m in Sources */,
+				459EB2641E6D471B0011943B /* LocationChoiceViewController.m in Sources */,
 				45EE61371CEAC074007302E3 /* PointView.m in Sources */,
 				45C6F6091C92A43A00C5AA31 /* QDXChangeNameViewController.m in Sources */,
 				455A95B61C97E3EB0039FA88 /* MJFoundation.m in Sources */,
@@ -2451,6 +2473,7 @@
 				455C8A991CCF7827001F5FC5 /* base64.m in Sources */,
 				455A95B71C97E3EB0039FA88 /* MJProperty.m in Sources */,
 				A3415F131CE1911A00B1B77A /* MoreViewController.m in Sources */,
+				459EB2671E6D4E880011943B /* ChoseCityCollectionViewCell.m in Sources */,
 				4569E57D1C4CB64B00FF4E8B /* NSData+ImageContentType.m in Sources */,
 				45C6F55F1C929FD000C5AA31 /* HomeModel.m in Sources */,
 				455A95BE1C97E3EB0039FA88 /* NSString+MJExtension.m in Sources */,
@@ -2547,6 +2570,7 @@
 				4571CDF51CE05B00002ED784 /* CYAlertPresentSlideRight.m in Sources */,
 				A35DAC351CCF184000D01CF0 /* AFURLRequestSerialization.m in Sources */,
 				4571CDE91CE05B00002ED784 /* CYAlertDismissContractVertical.m in Sources */,
+				459EB2611E6D2D260011943B /* QDXCooperationCollectionViewCell.m in Sources */,
 				A3442D2D1C9BAA330092363A /* OrderService.m in Sources */,
 				04664F071D1CCE82008D50C7 /* YLPopViewController.m in Sources */,
 			);
@@ -2709,7 +2733,7 @@
 				);
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sport;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sporttest;
 				PRODUCT_NAME = "趣定向";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;
@@ -2754,7 +2778,7 @@
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sport;
+				PRODUCT_BUNDLE_IDENTIFIER = com.qudingxiang.app.sporttest;
 				PRODUCT_NAME = "趣定向";
 				PROVISIONING_PROFILE = "";
 				SDKROOT = iphoneos;

@@ -19,6 +19,6 @@
 @interface LBTabBar : UITabBar
 
 /** tabbar的代理 */
-@property (nonatomic, weak) id<LBTabBarDelegate> myDelegate ;
+@property (nonatomic, weak) id<LBTabBarDelegate> myDelegate;
 
 @end

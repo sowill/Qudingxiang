@@ -28,9 +28,15 @@
 
 -(void)setup
 {
-    self.coverImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0,FitRealValue(600), FitRealValue(400))];
+    self.coverImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,FitRealValue(30),FitRealValue(166), FitRealValue(166))];
     self.coverImageView.tag = JPCoverImageViewTag;
     [self.contentView addSubview:self.coverImageView];
+    
+    self.coverLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,FitRealValue(166 + 30 + 20), FitRealValue(166), FitRealValue(30))];
+    self.coverLabel.textColor = QDXBlack;
+    self.coverLabel.font = [UIFont systemFontOfSize:14];
+    self.coverLabel.textAlignment = NSTextAlignmentCenter;
+    [self.contentView addSubview:self.coverLabel];
 }
 
 -(void)setDataString:(HomeModel *)dataString{
@@ -38,6 +44,8 @@
     _dataString = dataString;
     
     [self.coverImageView setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,dataString.good_url]] placeholderImage:[UIImage imageNamed:@"banner_cell"]];
+    
+    self.coverLabel.text = dataString.goods_name;
 }
 
 @end

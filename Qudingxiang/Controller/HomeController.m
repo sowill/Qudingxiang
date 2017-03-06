@@ -19,15 +19,17 @@
 #import "AppDelegate.h"
 #import "QDXActivityViewController.h"
 #import "QDXHomeTableViewCell.h"
-#import "JPAnimationTool.h"
+#import "QDXHomeCooperationCell.h"
 #import "QDXLineDetailWithImageViewController.h"
 #import "QDXHomeCollectionView.h"
+#import "LocationChoiceViewController.h"
 
-@interface HomeController ()<UITableViewDataSource,UITableViewDelegate,QDXHomeTableViewCellDelegate>
+@interface HomeController ()<UITableViewDataSource,UITableViewDelegate,QDXHomeTableViewCellDelegate,QDXCooperationCellDelegate,ChoseCityDelegate>
 {
     NSInteger currNum;
     NSInteger page;
     NSInteger code;
+    UIButton *locationBtn;
 
     AppDelegate *appdelegate;
     HomeService *homehttp;
@@ -41,9 +43,6 @@
 
 @property (nonatomic,strong) NSMutableArray *dataArr;
 
-/** animationTool */
-@property(nonatomic, strong)JPAnimationTool *animationTool;
-
 @end
 
 @implementation HomeController
@@ -53,6 +52,7 @@
     [super viewWillAppear:animated];
     [self loadData];
     appdelegate = [[UIApplication sharedApplication] delegate];
+    
 }
 
 -(void)reloadData
@@ -97,12 +97,41 @@
     [_scanBtn addTarget:self action:@selector(scanClick) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_scanBtn];
     
+    locationBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 80, 20)];
+    [locationBtn setTitle:@"地点" forState:UIControlStateNormal];
+    locationBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 25);
+    locationBtn.titleLabel.font = [UIFont systemFontOfSize:17];
+    [locationBtn setImage:[UIImage imageNamed:@"下拉icon"] forState:UIControlStateNormal];
+    locationBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 65, 0, 0);
+    [locationBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [locationBtn addTarget:self action:@selector(locationClick) forControlEvents:UIControlEventTouchUpInside];
+    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:locationBtn];
+    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    negativeSpacer.width = -10;
+    self.navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stateRefresh) name:@"stateRefresh" object:nil];
     
     [self topViewData];
     
     [self createTableView];
     [self createHeaderView];
+    
+}
+
+-(void)choseCityPassValue:(NSString *)city
+{
+    [locationBtn setTitle:city forState:UIControlStateNormal];
+}
+
+-(void)locationClick
+{
+    LocationChoiceViewController *cityVC=[[LocationChoiceViewController alloc]init];
+    QDXNavigationController* navController = [[QDXNavigationController alloc] initWithRootViewController:cityVC];
+    cityVC.hidesBottomBarWhenPushed = YES;
+    [self presentViewController:navController animated:YES completion:^{
+        
+    }];
 }
 
 - (void)dealloc
@@ -154,7 +183,7 @@
 
 - (void)createHeaderView
 {
-    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth,FitRealValue(445 + 223))];
+    UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth,FitRealValue(445 + 180))];
     [view setBackgroundColor:[UIColor whiteColor]];
     
     //创建
@@ -165,17 +194,32 @@
     mask.image = [UIImage imageNamed:@"index_mask"];
     [_imgScrollView addSubview:mask];
     
-    NSArray *titleArr = @[@"亲子",@"交友",@"拓展",@"挑战"];
-    NSArray *imageArr = @[@"index_parenting",@"index_makefriends",@"index_expand",@"index_dekaron"];
+    NSArray *titleArr = @[@"场地",@"赛事",@"活动"];
+    NSArray *imageArr = @[@"场地icon",@"赛事icon",@"活动icon",];
     CGFloat scrollViewMaxY = CGRectGetMaxY(_imgScrollView.frame);
-    for(int i=0; i<4; i++){
-        UIButton *btn = [ToolView createButtonWithFrame:CGRectMake(i*QdxWidth/4+QdxWidth/17, scrollViewMaxY+FitRealValue(50), QdxWidth/8, QdxWidth/8) title:titleArr[i] backGroundImage:imageArr[i] Target:self action:@selector(btnClick:) superView:view];
-        btn.titleEdgeInsets = UIEdgeInsetsMake(QdxWidth/5, 0, 0, 0);
+    for(int i=0; i<3; i++){
+        UIButton *btn = [ToolView createButtonWithFrame:CGRectMake(FitRealValue((226 + 18) * i) + FitRealValue(20), scrollViewMaxY+FitRealValue(20), FitRealValue(226), FitRealValue(140)) title:titleArr[i] backGroundImage:imageArr[i] Target:self action:@selector(btnClick:) superView:view];
         btn.titleLabel.textAlignment = NSTextAlignmentCenter;
+        btn.titleEdgeInsets = UIEdgeInsetsMake(FitRealValue(80), 0, 0, FitRealValue(65));
+        btn.titleLabel.textColor = [UIColor whiteColor];
+        btn.titleLabel.font = [UIFont systemFontOfSize:17];
         btn.imageView.contentMode = UIViewContentModeCenter;
-        btn.titleLabel.textColor = QDXGray;
-        btn.titleLabel.font = [UIFont systemFontOfSize:12];
+        btn.layer.cornerRadius = FitRealValue(6);
+        btn.imageEdgeInsets = UIEdgeInsetsMake(FitRealValue(16), FitRealValue(80), FitRealValue(64), FitRealValue(80));
         btn.tag = 1+i;
+        switch (i) {
+            case 0:
+                btn.backgroundColor = QDXGreen;
+                break;
+            case 1:
+                btn.backgroundColor = QDXOrange;
+                break;
+            case 2:
+                btn.backgroundColor = QDXBlue;
+                break;
+            default:
+                break;
+        }
     }
     _tableView.tableHeaderView = view;
 }
@@ -303,73 +347,57 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return _dataArr.count;
+    return 1;
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return FitRealValue(80) + 10;
+    return FitRealValue(94) + 10;
+}
+
+-(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 2;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row == 0) {
+    if (indexPath.row == 0 && indexPath.section == 0) {
         QDXHomeTableViewCell *cell = [QDXHomeTableViewCell qdxHomeCellWithTableView:_tableView];
         cell.items = _dataArr;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.delegate = self;
         return cell;
     }else{
-        BaseCell *cell = [BaseCell baseCellWithTableView:_tableView];
+        QDXHomeCooperationCell *cell = [QDXHomeCooperationCell qdxCooperationWithTableView:_tableView];
+        cell.items = @[@1,@2,@3,@4,@5,@6];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
-        cell.homeModel = _dataArr[indexPath.row];
+        cell.delegate = self;
         return cell;
     }
 }
 
-#pragma mark --------------------------------------------------
-#pragma mark Private
-
--(JPAnimationTool *)animationTool{
-    if (!_animationTool) {
-        _animationTool = [JPAnimationTool new];
-    }
-    return _animationTool;
-}
-
-#pragma mark --------------------------------------------------
-#pragma mark JPTableViewCellDelegate
--(void)collectionViewDidSelectedItemIndexPath:(NSIndexPath *)indexPath collcetionView:(UICollectionView *)collectionView forCell:(QDXHomeTableViewCell *)cell{
-    
-    QDXHomeCollectionView *collectionCell = (QDXHomeCollectionView *)[collectionView cellForItemAtIndexPath:indexPath];
-
-    QDXLineDetailWithImageViewController *presentViewController = [QDXLineDetailWithImageViewController new];
-    presentViewController.coverImage = collectionCell.coverImageView.image;
-    
-    presentViewController.hidesBottomBarWhenPushed = YES;
-    
-    presentViewController.closeBlock =  [self.animationTool begainAnimationWithCollectionViewDidSelectedItemIndexPath:indexPath collcetionView:collectionView forViewController:self presentViewController:presentViewController afterPresentedBlock:presentViewController.fadeBlock];
-}
-
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
-    if (section == 0) {
+    if (section == 0 || section == 1) {
         UIView *view = [[UIView alloc] init];
-        view.frame = CGRectMake(0, 0, QdxWidth, 10);
+        view.frame = CGRectMake(0, 0, QdxWidth, FitRealValue(20));
         view.backgroundColor = QDXBGColor;
         UIView *view1 = [[UIView alloc] init];
-        view1.frame = CGRectMake(0, 10, QdxWidth, FitRealValue(80));
+        view1.frame = CGRectMake(0, 10, QdxWidth, FitRealValue(94));
         view1.backgroundColor = [UIColor whiteColor];
         [view addSubview:view1];
-        UIView *haedView = [[UIView alloc] initWithFrame:CGRectMake(FitRealValue(24), FitRealValue(24), 3, FitRealValue(36))];
-        haedView.backgroundColor = QDXBlue;
-        [view1 addSubview:haedView];
-        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(24 + 10) + 3, FitRealValue(24), 200, FitRealValue(36))];
-        titleLabel.text = @"最新资讯";
+
+        UILabel *titleLabel = [[UILabel alloc] initWithFrame:CGRectMake((QdxWidth -200)/2, FitRealValue(30), 200, FitRealValue(36))];
+        if (section == 0) {
+            titleLabel.text = @"最新上线";
+        }else{
+            titleLabel.text = @"合作单位";
+        }
         titleLabel.textColor = QDXBlack;
-        titleLabel.textAlignment = NSTextAlignmentLeft;
+        titleLabel.textAlignment = NSTextAlignmentCenter;
         titleLabel.font = [UIFont systemFontOfSize:17];
         [view1 addSubview:titleLabel];
-        UIView *viewLine = [[UIView alloc] initWithFrame:CGRectMake(0, FitRealValue(80) + 10, QdxWidth, 0.5)];
+        UIView *viewLine = [[UIView alloc] initWithFrame:CGRectMake(0, FitRealValue(94) + 10, QdxWidth, FitRealValue(1))];
         viewLine.backgroundColor = QDXLineColor;
         [view addSubview:viewLine];
         return view;
@@ -379,13 +407,11 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    if (indexPath.row == 0) {
-        return 236;
-    }else{
-        return FitRealValue(584);
+    if (indexPath.row == 0 && indexPath.section == 0) {
+        return FitRealValue(270);
+    }else {
+        return FitRealValue(240);
     }
-
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
@@ -397,19 +423,9 @@
     [self.navigationController pushViewController:lineVC animated:YES];
 }
 
-//-(void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
-//{
-//    if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
-//        [cell setSeparatorInset:UIEdgeInsetsMake(0,FitRealValue(24), 0,FitRealValue(24))];
-//    }
-//    if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
-//        [cell setLayoutMargins:UIEdgeInsetsMake(0,FitRealValue(24), 0, FitRealValue(24))];
-//    }
-//}
-
 - (void)btnClick:(UIButton *)btn
 {
-    NSString *type = [NSString stringWithFormat:@"%li",btn.tag];
+    NSString *type = [NSString stringWithFormat:@"%d",(int)btn.tag];
     QDXActivityViewController *qdxActVC = [[QDXActivityViewController alloc] init];
     qdxActVC.type = type;
     qdxActVC.hidesBottomBarWhenPushed = YES;

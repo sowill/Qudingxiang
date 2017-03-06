@@ -60,6 +60,8 @@
 
 #define QDXLightGray UIColorFromRGB(0xd6d6d6)
 
+#define QDXGreen UIColorFromRGB(0x2fbd47)
+
 //是否提示
 #define     QDXPromptFile [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"prompt.data"]
 

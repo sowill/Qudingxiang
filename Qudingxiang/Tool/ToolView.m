@@ -30,9 +30,10 @@
 {
     UIButton *btn = [[UIButton alloc] initWithFrame:frame];
     [btn setTitle:title forState:UIControlStateNormal];
-    [btn setTitleColor:QDXGray forState:UIControlStateNormal];
-    [btn setBackgroundImage:[UIImage imageNamed:image] forState:UIControlStateNormal];
+//    [btn setTitleColor:QDXGray forState:UIControlStateNormal];
+    [btn setImage:[UIImage imageNamed:image] forState:UIControlStateNormal];
     [btn addTarget:target action:action forControlEvents:UIControlEventTouchUpInside];
+    
     [superView addSubview:btn];
     return btn;
 }

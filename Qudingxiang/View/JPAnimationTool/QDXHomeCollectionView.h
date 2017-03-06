@@ -17,4 +17,6 @@
 
 @property (strong, nonatomic)UIImageView *coverImageView;
 
+@property (strong, nonatomic)UILabel *coverLabel;
+
 @end

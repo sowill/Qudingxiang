@@ -24,6 +24,7 @@ static NSString *QDXHomeCooperationCellReuseID = @"QDXHomeCooperationCellReuseID
     QDXHomeCooperationCell *cell = [tableView dequeueReusableCellWithIdentifier:QDXHomeCooperationCellReuseID];
     if (!cell) {
         cell = [[QDXHomeCooperationCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:QDXHomeCooperationCellReuseID];
+
         [cell setup];
     }
     return cell;
@@ -78,7 +79,7 @@ static NSString *QDXHomeCooperationCellReuseID = @"QDXHomeCooperationCellReuseID
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     QDXCooperationCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:QDXHomeCooperationCellReuseID forIndexPath:indexPath];
-//    cell.dataString = self.items[indexPath.row];
+    cell.dataString = self.items[indexPath.row];
     return cell;
 }
 

@@ -37,7 +37,7 @@
 - (void)createNavBtn
 {
     UIButton *buttonBack = [UIButton buttonWithType:UIButtonTypeSystem];
-    buttonBack.frame = CGRectMake(0, 0, 18, 14);
+    buttonBack.frame = CGRectMake(0, 0, 24, 24);
     [buttonBack addTarget:self action:@selector(buttonBackSettin) forControlEvents:UIControlEventTouchUpInside];
     [buttonBack setTitle:nil forState:UIControlStateNormal];
     [buttonBack setBackgroundImage:[UIImage imageNamed:@"sign_return"] forState:UIControlStateNormal];

@@ -12,4 +12,6 @@
 
 @property (strong, nonatomic)UIImageView *cooperationImage;
 
+@property(nonatomic, strong)NSString *dataString;
+
 @end

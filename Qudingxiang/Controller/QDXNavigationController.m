@@ -60,7 +60,7 @@
     if (viewController.navigationItem.leftBarButtonItem ==nil && self.viewControllers.count >1) {
         
         UIButton *buttonBack = [UIButton buttonWithType:UIButtonTypeSystem];
-        buttonBack.frame = CGRectMake(0, 0, 20, 18);
+        buttonBack.frame = CGRectMake(0, 0, 24, 24);
         [buttonBack addTarget:self action:@selector(buttonBackSetting) forControlEvents:UIControlEventTouchUpInside];
         [buttonBack setTitle:nil forState:UIControlStateNormal];
         [buttonBack setBackgroundImage:[UIImage imageNamed:@"sign_return"] forState:UIControlStateNormal];

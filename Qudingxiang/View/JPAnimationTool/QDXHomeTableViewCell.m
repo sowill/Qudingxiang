@@ -50,7 +50,7 @@ static NSString *QDXCollectionViewReuseID = @"QDXCollectionViewResuseID";
     
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
-    self.collectionView.contentInset = UIEdgeInsetsMake(0, 20, 0, 0);
+    self.collectionView.contentInset = UIEdgeInsetsMake(0, FitRealValue(20), 0, 0);
     
     [self.collectionView registerClass:[QDXHomeCollectionView class] forCellWithReuseIdentifier:QDXCollectionViewReuseID];
     

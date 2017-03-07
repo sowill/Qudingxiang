@@ -46,7 +46,9 @@
 
 -(void)cityBtnClick
 {
-
+    if (self.btnBlock) {
+        self.btnBlock();
+    }
 }
 
 @end

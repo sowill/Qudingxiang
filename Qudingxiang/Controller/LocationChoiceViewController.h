@@ -23,4 +23,6 @@
 /** delegate */
 @property(nonatomic, weak)id<ChoseCityDelegate> delegate;
 
+@property(nonatomic, strong) NSString *location;
+
 @end

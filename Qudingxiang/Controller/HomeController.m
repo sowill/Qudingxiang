@@ -23,8 +23,11 @@
 #import "QDXLineDetailWithImageViewController.h"
 #import "QDXHomeCollectionView.h"
 #import "LocationChoiceViewController.h"
+#import <CoreLocation/CoreLocation.h>
+#import "UIButton+ImageText.h"
+#import "MoreCooperationViewController.h"
 
-@interface HomeController ()<UITableViewDataSource,UITableViewDelegate,QDXHomeTableViewCellDelegate,QDXCooperationCellDelegate,ChoseCityDelegate>
+@interface HomeController ()<UITableViewDataSource,UITableViewDelegate,QDXHomeTableViewCellDelegate,QDXCooperationCellDelegate,ChoseCityDelegate,CLLocationManagerDelegate>
 {
     NSInteger currNum;
     NSInteger page;
@@ -42,6 +45,8 @@
 @property (nonatomic,strong) UIButton *scanBtn;
 
 @property (nonatomic,strong) NSMutableArray *dataArr;
+
+@property (nonatomic, strong) CLLocationManager* locationManager;
 
 @end
 
@@ -97,13 +102,17 @@
     [_scanBtn addTarget:self action:@selector(scanClick) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:_scanBtn];
     
-    locationBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 80, 20)];
+    self.locationManager = [[CLLocationManager alloc] init];
+    self.locationManager.delegate = self;
+    self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
+    [self findMe];
+    
+    locationBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 20)];
     [locationBtn setTitle:@"地点" forState:UIControlStateNormal];
-    locationBtn.titleEdgeInsets = UIEdgeInsetsMake(0, 0, 0, 25);
     locationBtn.titleLabel.font = [UIFont systemFontOfSize:17];
     [locationBtn setImage:[UIImage imageNamed:@"下拉icon"] forState:UIControlStateNormal];
-    locationBtn.imageEdgeInsets = UIEdgeInsetsMake(0, 65, 0, 0);
     [locationBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    [locationBtn setImagePosition:1 spacing:0];
     [locationBtn addTarget:self action:@selector(locationClick) forControlEvents:UIControlEventTouchUpInside];
     UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:locationBtn];
     UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
@@ -119,6 +128,58 @@
     
 }
 
+- (void)findMe
+{
+    /** 由于IOS8中定位的授权机制改变 需要进行手动授权
+     * 获取授权认证，两个方法：
+     * [self.locationManager requestWhenInUseAuthorization];
+     * [self.locationManager requestAlwaysAuthorization];
+     */
+    if ([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
+        NSLog(@"requestAlwaysAuthorization");
+        [self.locationManager requestAlwaysAuthorization];
+    }
+    
+    //开始定位，不断调用其代理方法
+    [self.locationManager startUpdatingLocation];
+//    NSLog(@"start gps");
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+     didUpdateLocations:(NSArray *)locations
+{
+    // 1.获取用户位置的对象
+    CLLocation *location = [locations lastObject];
+//    CLLocationCoordinate2D coordinate = location.coordinate;
+//    NSLog(@"纬度:%f 经度:%f", coordinate.latitude, coordinate.longitude);
+//    
+//    NSLog(@"-------根据经纬度反查地理位置--%f--%f",coordinate.latitude,coordinate.longitude);
+    
+    CLGeocoder *clGeoCoder = [[CLGeocoder alloc] init];
+    [clGeoCoder reverseGeocodeLocation:location completionHandler: ^(NSArray *placemarks,NSError *error) {
+        
+//        NSLog(@"--array--%d---error--%@",(int)placemarks.count,error);
+        
+        if (placemarks.count > 0) {
+            CLPlacemark *placemark = [placemarks objectAtIndex:0];
+            NSString *city = placemark.administrativeArea;
+            [locationBtn setTitle:[city substringToIndex:2] forState:UIControlStateNormal];
+//            NSLog(@"%@",placemark.addressDictionary[@"Name"]);
+        }
+    }];
+    
+    // 2.停止定位
+    [manager stopUpdatingLocation];
+}
+
+- (void)locationManager:(CLLocationManager *)manager
+       didFailWithError:(NSError *)error
+{
+    if (error.code == kCLErrorDenied) {
+        // 提示用户出错原因，可按住Option键点击 KCLErrorDenied的查看更多出错信息，可打印error.code值查找原因所在
+    }
+}
+
 -(void)choseCityPassValue:(NSString *)city
 {
     [locationBtn setTitle:city forState:UIControlStateNormal];
@@ -129,6 +190,8 @@
     LocationChoiceViewController *cityVC=[[LocationChoiceViewController alloc]init];
     QDXNavigationController* navController = [[QDXNavigationController alloc] initWithRootViewController:cityVC];
     cityVC.hidesBottomBarWhenPushed = YES;
+    cityVC.delegate = self;
+    cityVC.location = locationBtn.titleLabel.text;
     [self presentViewController:navController animated:YES completion:^{
         
     }];
@@ -199,13 +262,10 @@
     CGFloat scrollViewMaxY = CGRectGetMaxY(_imgScrollView.frame);
     for(int i=0; i<3; i++){
         UIButton *btn = [ToolView createButtonWithFrame:CGRectMake(FitRealValue((226 + 18) * i) + FitRealValue(20), scrollViewMaxY+FitRealValue(20), FitRealValue(226), FitRealValue(140)) title:titleArr[i] backGroundImage:imageArr[i] Target:self action:@selector(btnClick:) superView:view];
-        btn.titleLabel.textAlignment = NSTextAlignmentCenter;
-        btn.titleEdgeInsets = UIEdgeInsetsMake(FitRealValue(80), 0, 0, FitRealValue(65));
         btn.titleLabel.textColor = [UIColor whiteColor];
         btn.titleLabel.font = [UIFont systemFontOfSize:17];
-        btn.imageView.contentMode = UIViewContentModeCenter;
-        btn.layer.cornerRadius = FitRealValue(6);
-        btn.imageEdgeInsets = UIEdgeInsetsMake(FitRealValue(16), FitRealValue(80), FitRealValue(64), FitRealValue(80));
+        [btn setImagePosition:2 spacing:0];
+        btn.layer.cornerRadius = 3;
         btn.tag = 1+i;
         switch (i) {
             case 0:
@@ -364,13 +424,14 @@
 {
     if (indexPath.row == 0 && indexPath.section == 0) {
         QDXHomeTableViewCell *cell = [QDXHomeTableViewCell qdxHomeCellWithTableView:_tableView];
-        cell.items = _dataArr;
+//        cell.items = _dataArr;
+        cell.items = @[@"滨江公园",@"海湾公园",@"横店影城",@"上海海湾",@"滨江公园",@"海湾公园"];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.delegate = self;
         return cell;
     }else{
         QDXHomeCooperationCell *cell = [QDXHomeCooperationCell qdxCooperationWithTableView:_tableView];
-        cell.items = @[@1,@2,@3,@4,@5,@6];
+        cell.items =@[@"阿里体育logo",@"横店影视定向logo",@"驴妈妈logo",@"漫道logo",@"我要赞logo",@"阳澄湖半岛logo"];
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.delegate = self;
         return cell;
@@ -392,17 +453,34 @@
             titleLabel.text = @"最新上线";
         }else{
             titleLabel.text = @"合作单位";
+            
+            UIButton *moreBtn = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth - FitRealValue(20 + 100), FitRealValue(28), FitRealValue(110), 20)];
+            [moreBtn setTitle:@"更多" forState:UIControlStateNormal];
+            moreBtn.titleLabel.font = [UIFont systemFontOfSize:14];
+            [moreBtn setImage:[UIImage imageNamed:@"更多icon"] forState:UIControlStateNormal];
+            [moreBtn setTitleColor:QDXGray forState:UIControlStateNormal];
+            [moreBtn addTarget:self action:@selector(moreBtnClick) forControlEvents:UIControlEventTouchUpInside];
+            [moreBtn setImagePosition:1 spacing:0];
+            [view1 addSubview:moreBtn];
         }
         titleLabel.textColor = QDXBlack;
         titleLabel.textAlignment = NSTextAlignmentCenter;
         titleLabel.font = [UIFont systemFontOfSize:17];
         [view1 addSubview:titleLabel];
+        
         UIView *viewLine = [[UIView alloc] initWithFrame:CGRectMake(0, FitRealValue(94) + 10, QdxWidth, FitRealValue(1))];
         viewLine.backgroundColor = QDXLineColor;
         [view addSubview:viewLine];
         return view;
     }
     return nil;
+}
+
+-(void)moreBtnClick
+{
+    MoreCooperationViewController *moreCooperationVC = [[MoreCooperationViewController alloc] init];
+    moreCooperationVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:moreCooperationVC animated:YES];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

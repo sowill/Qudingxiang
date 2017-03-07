@@ -187,6 +187,9 @@
 		459EB2611E6D2D260011943B /* QDXCooperationCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 459EB2601E6D2D260011943B /* QDXCooperationCollectionViewCell.m */; };
 		459EB2641E6D471B0011943B /* LocationChoiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 459EB2631E6D471B0011943B /* LocationChoiceViewController.m */; };
 		459EB2671E6D4E880011943B /* ChoseCityCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 459EB2661E6D4E880011943B /* ChoseCityCollectionViewCell.m */; };
+		459EB26A1E6D77280011943B /* UIButton+ImageText.m in Sources */ = {isa = PBXBuildFile; fileRef = 459EB2691E6D77280011943B /* UIButton+ImageText.m */; };
+		459EB26D1E6E49BB0011943B /* MoreCooperationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 459EB26C1E6E49BB0011943B /* MoreCooperationViewController.m */; };
+		459EB2701E6E577A0011943B /* LogoCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 459EB26F1E6E577A0011943B /* LogoCollectionViewCell.m */; };
 		45AEE2B71D13E4F800116AD0 /* UIControl+UIControl_buttonCon.m in Sources */ = {isa = PBXBuildFile; fileRef = 45AEE2B61D13E4F800116AD0 /* UIControl+UIControl_buttonCon.m */; };
 		45C6F55F1C929FD000C5AA31 /* HomeModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F55A1C929FD000C5AA31 /* HomeModel.m */; };
 		45C6F5601C929FD000C5AA31 /* ImageModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F55C1C929FD000C5AA31 /* ImageModel.m */; };
@@ -710,6 +713,12 @@
 		459EB2631E6D471B0011943B /* LocationChoiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationChoiceViewController.m; sourceTree = "<group>"; };
 		459EB2651E6D4E880011943B /* ChoseCityCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChoseCityCollectionViewCell.h; sourceTree = "<group>"; };
 		459EB2661E6D4E880011943B /* ChoseCityCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ChoseCityCollectionViewCell.m; sourceTree = "<group>"; };
+		459EB2681E6D77280011943B /* UIButton+ImageText.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIButton+ImageText.h"; sourceTree = "<group>"; };
+		459EB2691E6D77280011943B /* UIButton+ImageText.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIButton+ImageText.m"; sourceTree = "<group>"; };
+		459EB26B1E6E49BB0011943B /* MoreCooperationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MoreCooperationViewController.h; sourceTree = "<group>"; };
+		459EB26C1E6E49BB0011943B /* MoreCooperationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MoreCooperationViewController.m; sourceTree = "<group>"; };
+		459EB26E1E6E577A0011943B /* LogoCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LogoCollectionViewCell.h; sourceTree = "<group>"; };
+		459EB26F1E6E577A0011943B /* LogoCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LogoCollectionViewCell.m; sourceTree = "<group>"; };
 		45A0547F1DD5AF0B0076E06E /* 趣定向.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "趣定向.entitlements"; sourceTree = "<group>"; };
 		45AEE2B51D13E4F800116AD0 /* UIControl+UIControl_buttonCon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIControl+UIControl_buttonCon.h"; sourceTree = "<group>"; };
 		45AEE2B61D13E4F800116AD0 /* UIControl+UIControl_buttonCon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIControl+UIControl_buttonCon.m"; sourceTree = "<group>"; };
@@ -1321,6 +1330,8 @@
 				45EE613C1CEAD4FC007302E3 /* UIImage+watermark.m */,
 				45AEE2B51D13E4F800116AD0 /* UIControl+UIControl_buttonCon.h */,
 				45AEE2B61D13E4F800116AD0 /* UIControl+UIControl_buttonCon.m */,
+				459EB2681E6D77280011943B /* UIButton+ImageText.h */,
+				459EB2691E6D77280011943B /* UIButton+ImageText.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -1793,6 +1804,8 @@
 				45E8F4591E2613D600902455 /* QDXLineDetailWithImageViewController.m */,
 				459EB2621E6D471B0011943B /* LocationChoiceViewController.h */,
 				459EB2631E6D471B0011943B /* LocationChoiceViewController.m */,
+				459EB26B1E6E49BB0011943B /* MoreCooperationViewController.h */,
+				459EB26C1E6E49BB0011943B /* MoreCooperationViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1864,6 +1877,8 @@
 				45D6E6CD1E011FD8004EFF15 /* QDXActTableViewCell.m */,
 				459EB2651E6D4E880011943B /* ChoseCityCollectionViewCell.h */,
 				459EB2661E6D4E880011943B /* ChoseCityCollectionViewCell.m */,
+				459EB26E1E6E577A0011943B /* LogoCollectionViewCell.h */,
+				459EB26F1E6E577A0011943B /* LogoCollectionViewCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2337,6 +2352,7 @@
 				A35DAC7B1CCF623000D01CF0 /* BaseCell.m in Sources */,
 				45CA52211DE452270025A376 /* MJRefreshAutoFooter.m in Sources */,
 				45CA52331DE452270025A376 /* UIScrollView+MJRefresh.m in Sources */,
+				459EB2701E6E577A0011943B /* LogoCollectionViewCell.m in Sources */,
 				45C6F58E1C92A12200C5AA31 /* QDXGameModel.m in Sources */,
 				45C6F5F61C92A3DF00C5AA31 /* QDXGameViewController.m in Sources */,
 				455C8AB81CD064B5001F5FC5 /* QDXOffLineController.m in Sources */,
@@ -2442,6 +2458,7 @@
 				450A56881DFAAD1D00D40FC1 /* YLPopViewManager.m in Sources */,
 				45C6F59A1C92A1D500C5AA31 /* myViewCellTableViewCell.m in Sources */,
 				A31287A61CCF0DD700CB887E /* QDXOfflineDB.m in Sources */,
+				459EB26A1E6D77280011943B /* UIButton+ImageText.m in Sources */,
 				45CA52271DE452270025A376 /* MJRefreshAutoNormalFooter.m in Sources */,
 				45CA52321DE452270025A376 /* UIScrollView+MJExtension.m in Sources */,
 				4569E5751C4CB64B00FF4E8B /* qrspec.c in Sources */,
@@ -2469,6 +2486,7 @@
 				455A95BA1C97E3EB0039FA88 /* NSObject+MJClass.m in Sources */,
 				4569E57C1C4CB64B00FF4E8B /* MKAnnotationView+WebCache.m in Sources */,
 				04664F061D1CCE82008D50C7 /* UITextView+YLTextView.m in Sources */,
+				459EB26D1E6E49BB0011943B /* MoreCooperationViewController.m in Sources */,
 				455C8A981CCF7827001F5FC5 /* Order.m in Sources */,
 				455C8A991CCF7827001F5FC5 /* base64.m in Sources */,
 				455A95B71C97E3EB0039FA88 /* MJProperty.m in Sources */,

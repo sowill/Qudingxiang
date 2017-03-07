@@ -13,7 +13,9 @@
 @interface QDXHomeCollectionView : UICollectionViewCell
 
 /** dataSrouce */
-@property(nonatomic, strong)HomeModel *dataString;
+//@property(nonatomic, strong)HomeModel *dataString;
+
+@property(nonatomic, strong)NSString *dataString;
 
 @property (strong, nonatomic)UIImageView *coverImageView;
 

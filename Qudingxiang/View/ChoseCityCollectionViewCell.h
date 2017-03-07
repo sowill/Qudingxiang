@@ -12,4 +12,6 @@
 
 @property (strong, nonatomic)NSString *cityName;
 
+@property (nonatomic, strong)void (^btnBlock)();
+
 @end

@@ -27,7 +27,7 @@
 -(void)setup
 {
     self.cooperationImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, FitRealValue(250), FitRealValue(120))];
-    self.cooperationImage.image = [UIImage imageNamed:@"阿里体育logo"];
+    self.cooperationImage.image = [UIImage imageNamed:@"合作单位默认图"];
     [self.contentView addSubview:self.cooperationImage];
     
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, FitRealValue(120 - 1), FitRealValue(250), FitRealValue(1))];
@@ -39,6 +39,11 @@
     [self.contentView addSubview:lineTwo];
 }
 
-
+-(void)setDataString:(NSString *)dataString{
+    
+    _dataString = dataString;
+    
+    self.cooperationImage.image = [UIImage imageNamed:dataString];
+}
 
 @end

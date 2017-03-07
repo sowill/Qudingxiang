@@ -11,6 +11,8 @@
 
 @interface LocationChoiceViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
 
+@property(nonatomic, strong)UIButton *locationCityBtn;
+
 @property (strong, nonatomic) UICollectionView *collectionView;
 
 @end
@@ -42,14 +44,14 @@ static NSString *ChoseCityReuseID = @"ChoseCityReuseID";
     locationCityLabel.font = [UIFont systemFontOfSize:14];
     [self.view addSubview:locationCityLabel];
     
-    UIButton *locationCityBtn = [[UIButton alloc] initWithFrame:CGRectMake(FitRealValue(20), FitRealValue(90), FitRealValue(218), FitRealValue(80))];
-    locationCityBtn.layer.cornerRadius = 3;
-    [locationCityBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-    locationCityBtn.titleLabel.font = [UIFont systemFontOfSize:17];
-    [locationCityBtn setTitle:@"定位中" forState:UIControlStateNormal];
-    [locationCityBtn addTarget:self action:@selector(locationCityBtnClick) forControlEvents:UIControlEventTouchUpInside];
-    locationCityBtn.backgroundColor = QDXBlue;
-    [self.view addSubview:locationCityBtn];
+    self.locationCityBtn = [[UIButton alloc] initWithFrame:CGRectMake(FitRealValue(20), FitRealValue(90), FitRealValue(218), FitRealValue(80))];
+    self.locationCityBtn.layer.cornerRadius = 3;
+    [self.locationCityBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    self.locationCityBtn.titleLabel.font = [UIFont systemFontOfSize:17];
+    [self.locationCityBtn setTitle:self.location forState:UIControlStateNormal];
+    [self.locationCityBtn addTarget:self action:@selector(locationCityBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    self.locationCityBtn.backgroundColor = QDXBlue;
+    [self.view addSubview:self.locationCityBtn];
     
     UILabel *openCityLabel = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(20), FitRealValue(205), FitRealValue(218), FitRealValue(30))];
     openCityLabel.text = @"开放城市";
@@ -90,19 +92,6 @@ static NSString *ChoseCityReuseID = @"ChoseCityReuseID";
 }
 
 #pragma mark --------------------------------------------------
-#pragma mark UICollectionViewDelegate
--(void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath{
-    
-    if ([self.delegate respondsToSelector:@selector(choseCityPassValue:)]) {
-        [self.delegate choseCityPassValue:self.items[indexPath.row]];
-        
-        [self dismissViewControllerAnimated:YES completion:^{
-            
-        }];
-    }
-}
-
-#pragma mark --------------------------------------------------
 #pragma mark UICollectionViewDataSource
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
     return self.items.count;
@@ -111,6 +100,13 @@ static NSString *ChoseCityReuseID = @"ChoseCityReuseID";
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     ChoseCityCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ChoseCityReuseID forIndexPath:indexPath];
     cell.cityName = self.items[indexPath.row];
+    cell.btnBlock = ^(){
+        [self.delegate choseCityPassValue:self.items[indexPath.row]];
+        
+        [self dismissViewControllerAnimated:YES completion:^{
+            
+        }];
+    };
     return cell;
 }
 

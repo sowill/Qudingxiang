@@ -39,13 +39,17 @@
     [self.contentView addSubview:self.coverLabel];
 }
 
--(void)setDataString:(HomeModel *)dataString{
+-(void)setDataString:(NSString *)dataString{
     
     _dataString = dataString;
     
-    [self.coverImageView setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,dataString.good_url]] placeholderImage:[UIImage imageNamed:@"banner_cell"]];
+    self.coverImageView.image = [UIImage imageNamed:dataString];
     
-    self.coverLabel.text = dataString.goods_name;
+    self.coverLabel.text = dataString;
+    
+//    [self.coverImageView setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,dataString.good_url]] placeholderImage:[UIImage imageNamed:@"banner_cell"]];
+    
+//    self.coverLabel.text = dataString.goods_name;
 }
 
 @end

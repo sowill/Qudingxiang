@@ -111,19 +111,20 @@ static NSString *QDXSlideHeaderCellIdentifier = @"QDXSlideHeaderCell";
 -(void)updateCellStatus:(QDXSlideHeaderCell *)cell selected:(BOOL)selected
 {
     cell.label.textColor = selected ? QDXBlue:QDXBlack;
-    cell.line.backgroundColor = selected ? QDXBlue:[UIColor whiteColor];
-    [UIView animateWithDuration:0.5f animations:^{
-        // 1. 用一个临时变量保存返回值。
-        CGRect temp = cell.line.frame;
-        
-        // 2. 给这个变量赋值。因为变量都是L-Value，可以被赋值
-        temp.size.width = QdxWidth/4;
-        
-        // 3. 修改frame的值
-        cell.line.frame = temp;
-    } completion:^(BOOL finished){
-        
-    }];
+//    cell.line.backgroundColor = selected ? QDXBlue:[UIColor whiteColor];
+//    [UIView animateWithDuration:0.5f animations:^{
+//        // 1. 用一个临时变量保存返回值。
+//        CGRect temp = cell.line.frame;
+//
+//        // 2. 给这个变量赋值。因为变量都是L-Value，可以被赋值
+//        temp.size.width = selected ? QdxWidth/2 : 0;
+//        
+//        // 3. 修改frame的值
+//        cell.line.frame = temp;
+//        
+//    } completion:^(BOOL finished){
+//        
+//    }];
 }
 
 -(void)updateHeaderStateWithIndex:(NSIndexPath *)index withCollection:(UICollectionView *)collectionView withSelected:(BOOL)select

@@ -14,4 +14,6 @@
 
 + (instancetype)qdxActCellWithTableView:(UITableView *)tableView;
 
++ (instancetype)qdxActCellWithPriceWithTableView:(UITableView *)tableView;
+
 @end

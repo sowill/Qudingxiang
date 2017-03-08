@@ -189,15 +189,23 @@
     _infoView.frame = CGRectMake(FitRealValue(214), FitRealValue(138) - offset, QdxWidth - FitRealValue(214), FitRealValue(152));
     _imageView.frame = CGRectMake(FitRealValue(40),FitRealValue(138) - offset,FitRealValue(152),FitRealValue(152));
     
-//    if (scrollView == self.tableView)
-//    {
-//        CGFloat sectionHeaderHeight = FitRealValue(20);
-//        if (scrollView.contentOffset.y<=sectionHeaderHeight&&scrollView.contentOffset.y>=0) {
-//            scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
-//        } else if (scrollView.contentOffset.y>=sectionHeaderHeight) {
-//            scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
-//        }
-//    }
+    if (scrollView == self.tableView)
+    {
+        CGFloat sectionHeaderHeight = FitRealValue(20);
+        if (scrollView.contentOffset.y<=sectionHeaderHeight&&scrollView.contentOffset.y>=0) {
+            scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
+        }else if(scrollView.contentOffset.y<=sectionHeaderHeight&&scrollView.contentOffset.y<0){
+            
+            [UIView animateWithDuration:1.0 animations:^{
+                scrollView.contentInset = UIEdgeInsetsMake(headImvH, 0, 0, 0);
+            } completion:^(BOOL finished) {
+                
+            }];
+            
+        }else if (scrollView.contentOffset.y>=sectionHeaderHeight) {
+            scrollView.contentInset = UIEdgeInsetsMake(-sectionHeaderHeight, 0, 0, 0);
+        }
+    }
 }
 
 -(void)editBtnClick

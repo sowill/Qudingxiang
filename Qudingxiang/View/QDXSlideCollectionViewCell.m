@@ -9,37 +9,20 @@
 #import "QDXSlideCollectionViewCell.h"
 #import "QDXSlideTableViewCell.h"
 
-#import "QDXOrderInfoModel.h"
-#import "QDXOrdermodel.h"
-#import "QDXTicketInfoModel.h"
-#import "QDXostatus.h"
-#import "QDXpaytype.h"
-#import "QDXOrderTableViewCell.h"
-#import "QDXOrderDetailTableViewController.h"
-#import "OrderService.h"
 #import "QDXIsConnect.h"
+#import "HomeModel.h"
+#import "QDXActTableViewCell.h"
 
 @interface QDXSlideCollectionViewCell ()<UITableViewDelegate,UITableViewDataSource>
 {
     int curr;
     int page;
     int count;
-    
-    UIButton *_button;
-    UIImageView *sad_1;
-    UILabel *sadButton_1;
-    UIView *loginView;
 }
 
-@property (nonatomic,strong) NSMutableArray *orders;
+@property (nonatomic,strong) NSMutableArray *recentArray;
 
-@property (nonatomic,strong) NSMutableArray *willPayOrders;
-
-@property (nonatomic,strong) NSMutableArray *didPayOrders;
-
-@property (nonatomic,strong) NSMutableArray *didCompleted;
-
-@property (nonatomic,copy)SignInClick signInClick;
+@property (nonatomic,strong) NSMutableArray *didArray;
 
 @property (nonatomic,copy)TableViewCellClick tableViewCellClick;
 
@@ -49,52 +32,21 @@ static NSString *QDXSlideTableCellIdentifier = @"QDXSlideTableCellIdentifier";
 
 @implementation QDXSlideCollectionViewCell
 
-- (NSMutableArray *)orders
+- (NSMutableArray *)recentArray
 {
-    if (_orders == nil) {
-        _orders = [NSMutableArray array];
+    if (_recentArray == nil) {
+        _recentArray = [NSMutableArray array];
     }
-    return _orders;
+    return _recentArray;
 }
 
-- (NSMutableArray *)willPayOrders
+- (NSMutableArray *)didArray
 {
-    if (_willPayOrders == nil) {
-        _willPayOrders = [NSMutableArray array];
+    if (_didArray == nil) {
+        _didArray = [NSMutableArray array];
     }
-    return _willPayOrders;
+    return _didArray;
 }
-
-- (NSMutableArray *)didPayOrders
-{
-    if (_didPayOrders == nil) {
-        _didPayOrders = [NSMutableArray array];
-    }
-    return _didPayOrders;
-}
-
-- (NSMutableArray *)didCompleted
-{
-    if (_didCompleted == nil) {
-        _didCompleted = [NSMutableArray array];
-    }
-    return _didCompleted;
-}
-
-- (void)tableViewWillAppear
-{
-    curr = 1;
-    [loginView removeFromSuperview];
-    [sad_1 removeFromSuperview];
-    [sadButton_1 removeFromSuperview];
-    [self loadData];
-}
-
-- (void)loadData
-{
-    [self performSelectorInBackground:@selector(getOrdersListAjax) withObject:nil];
-}
-
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -108,7 +60,7 @@ static NSString *QDXSlideTableCellIdentifier = @"QDXSlideTableCellIdentifier";
 // 初始化上下滑动tableView
 - (UITableView *)tableView{
     if (!_tableView) {
-        self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,0, QdxWidth, QdxHeight - FitRealValue(80)) style:UITableViewStyleGrouped];
+        self.tableView = [[UITableView alloc] initWithFrame:self.frame style:UITableViewStyleGrouped];
         self.tableView.delegate = self;
         self.tableView.dataSource = self;
         self.tableView.showsVerticalScrollIndicator = NO;
@@ -140,9 +92,9 @@ static NSString *QDXSlideTableCellIdentifier = @"QDXSlideTableCellIdentifier";
     // 2.上拉刷新(上拉加载更多数据)
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
     // 设置了底部inset
-    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 30, 0);
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 40, 0);
     // 忽略掉底部inset
-    self.tableView.mj_footer.ignoredScrollViewContentInsetBottom = 30;
+//    self.tableView.mj_footer.ignoredScrollViewContentInsetBottom = 30;
     
 }
 
@@ -151,7 +103,7 @@ static NSString *QDXSlideTableCellIdentifier = @"QDXSlideTableCellIdentifier";
 - (void)loadNewData
 {
     curr = 1;
-    [self getOrdersListAjax];
+    [self cellDataWith:@"1" andWithType: [NSString stringWithFormat: @"%d", _flag]];
     
     // 刷新表格
     [self.tableView reloadData];
@@ -171,141 +123,59 @@ static NSString *QDXSlideTableCellIdentifier = @"QDXSlideTableCellIdentifier";
         
         [self.tableView.mj_footer endRefreshingWithNoMoreData];
     }else{
-        [self getOrdersListAjax];
+        [self cellDataWith:@"1" andWithType: [NSString stringWithFormat: @"%d", _flag]];
     }
 }
 
-- (void)createLoginView
+-(void)cellDataWith:(NSString *)cur andWithType:(NSString *)type
 {
-    loginView = [[UIView alloc] initWithFrame:self.tableView.frame];
-    loginView.backgroundColor = QDXBGColor;
-    [self.tableView addSubview:loginView];
-    
-    UIImageView *sad = [[UIImageView alloc] init];
-    CGFloat sadCenterX = QdxWidth * 0.5;
-    CGFloat sadCenterY = QdxHeight * 0.22;
-    sad.center = CGPointMake(sadCenterX, sadCenterY);
-    sad.bounds = CGRectMake(0, 0, 40, 43);
-    sad.image = [UIImage imageNamed:@"order_logo"];
-    [loginView addSubview:sad];
-    
-    UIButton *sadButton = [[UIButton alloc] init];
-    sadButton.center = CGPointMake(sadCenterX, sadCenterY + 30 + 25);
-    sadButton.bounds = CGRectMake(0, 0, 135, 30);
-    [sadButton setTitle:@"登录查看订单" forState:UIControlStateNormal];
-    [sadButton addTarget:self action:@selector(sign_in) forControlEvents:UIControlEventTouchUpInside];
-    [sadButton setTitleColor:QDXBlue forState:UIControlStateNormal];
-    sadButton.layer.borderColor = QDXBlue.CGColor;
-    sadButton.layer.borderWidth = 0.5;
-    sadButton.layer.cornerRadius = 4;
-    sadButton.titleLabel.font = [UIFont systemFontOfSize:14];
-    [loginView addSubview:sadButton];
-}
-
--(void)sign_in
-{
-    if (self.signInClick) {
-        self.signInClick();
-    }
-}
-
-- (void)coustomSignInClick:(SignInClick)signinClick
-{
-    self.signInClick = signinClick;
-}
-
--(void)getOrdersListAjax
-{
-    if(save == nil){
-        [self createLoginView];
-    }else{
-        [OrderService cellDataBlock:^(NSMutableDictionary *dict) {
-            QDXIsConnect *isConnect = [QDXIsConnect mj_objectWithKeyValues:dict];
-            int ret = [isConnect.Code intValue];
-            if (ret==1)  {
-                if (![dict[@"Msg"][@"count"] isEqualToString:@"0"]){
-                    // 将字典数据转为模型数据
-                    curr = [dict[@"Msg"][@"curr"] intValue];
-                    if(curr ==1){
-                        self.orders = [[NSMutableArray alloc] init];
-                        
-                        self.willPayOrders = [[NSMutableArray alloc] init];
-                        
-                        self.didPayOrders = [[NSMutableArray alloc] init];
-                        
-                        self.didCompleted = [[NSMutableArray alloc] init];
-                    }
-                    page = [dict[@"Msg"][@"page"] intValue];
-                    //将字典转模型
-                    NSArray *dataDict = dict[@"Msg"][@"data"];
-                    
-                    for(NSDictionary *dict in dataDict){
-                        
-                        [self.orders addObject:[QDXOrdermodel OrderWithDict:dict]];
-                        
-                        switch ([dict[@"Orders_st"] intValue]) {
-                            case 1:
-                                [self.willPayOrders addObject:[QDXOrdermodel OrderWithDict:dict]];
-                                break;
-                                
-                            case 2:
-                                [self.didPayOrders addObject:[QDXOrdermodel OrderWithDict:dict]];
-                                break;
-                                
-                            case 3:
-                                [self.didCompleted addObject:[QDXOrdermodel OrderWithDict:dict]];
-                                break;
-                                
-                            default:
-                                break;
-                        }
-                        
-                    }
-                }else{
-                    
-                    self.orders = [[NSMutableArray alloc] init];
-                    self.willPayOrders = [[NSMutableArray alloc] init];
-                    self.didCompleted = [[NSMutableArray alloc] init];
-                    self.didPayOrders = [[NSMutableArray alloc] init];
-                    
-                    [self createSadView];
-                }
-                [self performSelectorOnMainThread:@selector(sussRes) withObject:nil waitUntilDone:YES];
-            }else{
-                //            [self createLoginView];
-            }
-            // 刷新表格
-            [self.tableView reloadData];
-            [self.tableView.mj_footer endRefreshing];
-        } FailBlock:^(NSMutableArray *array) {
+    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+    mgr.responseSerializer = [ AFHTTPResponseSerializer serializer ];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"areatype_id"] = @"1";
+    params[@"curr"] = cur;
+    params[@"type"] =type;
+    NSString *url = [hostUrl stringByAppendingString:goodsUrl];
+    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
+        
+        
+    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+        NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
+        int ret = [infoDict[@"Code"] intValue];
+        if (ret == 1) {
+            NSDictionary *dataDict = infoDict[@"Msg"][@"data"];
             
-        } andWithToken:save andWithCurr:[NSString stringWithFormat:@"%d",curr]];
-    }
-}
-
-- (void)createSadView
-{
-    sad_1 = [[UIImageView alloc] init];
-    CGFloat sad_1CenterX = QdxWidth * 0.5;
-    CGFloat sad_1CenterY = QdxHeight * 0.22;
-    sad_1.center = CGPointMake(sad_1CenterX, sad_1CenterY);
-    sad_1.bounds = CGRectMake(0, 0,40,43);
-    sad_1.image = [UIImage imageNamed:@"order_nothing"];
-    [self.tableView addSubview:sad_1];
-    
-    sadButton_1 = [[UILabel alloc] init];
-    sadButton_1.center = CGPointMake(sad_1CenterX, sad_1CenterY + 43/2 + 20);
-    sadButton_1.bounds = CGRectMake(0, 0, 120, 100);
-    sadButton_1.text = @"您当前没有订单";
-    sadButton_1.font = [UIFont systemFontOfSize:12];
-    sadButton_1.textAlignment = NSTextAlignmentCenter;
-    sadButton_1.textColor = QDXGray;
-    [self.tableView addSubview:sadButton_1];
-}
-
-- (void)sussRes
-{
-
+            switch (self.flag) {
+                case 0:
+                    _recentArray = [[NSMutableArray alloc] init];
+                    for(NSDictionary *dict in dataDict){
+                        HomeModel *model = [[HomeModel alloc] init];
+                        [model setValuesForKeysWithDictionary:dict];
+                        [_recentArray addObject:model];
+                    }
+                    break;
+                    
+                case 1:
+                    _didArray = [[NSMutableArray alloc] init];
+                    for(NSDictionary *dict in dataDict){
+                        HomeModel *model = [[HomeModel alloc] init];
+                        [model setValuesForKeysWithDictionary:dict];
+                        [_didArray addObject:model];
+                    }
+                    break;
+                    
+                default:
+                    break;
+            }
+            
+        }
+        else{
+            
+        }
+    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    }];
 }
 
 // 注册cell
@@ -323,51 +193,53 @@ static NSString *QDXSlideTableCellIdentifier = @"QDXSlideTableCellIdentifier";
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     switch (self.flag) {
         case 0:
-            return self.orders.count;
+            if (self.recentArray.count == 0) {
+                return self.homeModelArray.count;
+            }else{
+                return self.recentArray.count;
+            }
             break;
             
         case 1:
-            return self.willPayOrders.count;
+            if (self.recentArray.count == 0) {
+                return self.homeModelArray.count;
+            }else{
+                return self.didArray.count;
+            }
             break;
-            
-        case 2:
-            return self.didPayOrders.count;
-            break;
-            
-        case 3:
-            return self.didCompleted.count;
-            break;
-            
+
         default:
-            return 0;
+            return self.homeModelArray.count;
             break;
     }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     // 1.创建cell
-    QDXOrderTableViewCell *cell = [QDXOrderTableViewCell cellWithTableView:tableView];
+    QDXActTableViewCell *cell = [QDXActTableViewCell qdxActCellWithTableView:_tableView];
+    cell.selectionStyle = UITableViewCellSelectionStyleNone;
+
     // 2.给cell传递模型数据
     
     switch (self.flag) {
         case 0:
-            cell.order = self.orders[indexPath.row];
+            if (self.recentArray.count == 0) {
+                cell.homeModel = self.homeModelArray[indexPath.row];
+            }else{
+                cell.homeModel = self.recentArray[indexPath.row];
+            }
             break;
             
         case 1:
-            cell.order = self.willPayOrders[indexPath.row];
-            break;
-            
-        case 2:
-            cell.order = self.didPayOrders[indexPath.row];
-            break;
-            
-        case 3:
-            cell.order = self.didCompleted[indexPath.row];
+            if (self.recentArray.count == 0) {
+                cell.homeModel = self.homeModelArray[indexPath.row];
+            }else{
+                cell.homeModel = self.didArray[indexPath.row];
+            }
             break;
             
         default:
-            cell.order = self.orders[indexPath.row];
+            cell.homeModel = self.homeModelArray[indexPath.row];
             break;
     }
     
@@ -377,32 +249,23 @@ static NSString *QDXSlideTableCellIdentifier = @"QDXSlideTableCellIdentifier";
 #pragma mark - 代理方法
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 100;
+    return FitRealValue(556 + 20);
 }
 
 -(void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     if (self.tableViewCellClick) {
-        
         switch (self.flag) {
             case 0:
-                self.tableViewCellClick(self.orders[indexPath.row]);
+                self.tableViewCellClick(self.recentArray[indexPath.row]);
                 break;
                 
             case 1:
-                self.tableViewCellClick(self.willPayOrders[indexPath.row]);
-                break;
-                
-            case 2:
-                self.tableViewCellClick(self.didPayOrders[indexPath.row]);
-                break;
-                
-            case 3:
-                self.tableViewCellClick(self.didCompleted[indexPath.row]);
+                self.tableViewCellClick(self.didArray[indexPath.row]);
                 break;
                 
             default:
-                self.tableViewCellClick(self.orders[indexPath.row]);
+                self.tableViewCellClick(self.homeModelArray[indexPath.row]);
                 break;
         }
         

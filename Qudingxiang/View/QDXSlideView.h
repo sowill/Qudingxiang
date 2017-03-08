@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-@class QDXOrdermodel;
+@class HomeModel;
 
 @interface QDXSlideView : UIView
 
-@property (nonatomic,strong)void (^passBlock)();
+@property (nonatomic,strong)NSArray *homeModelArray;
 
-@property (nonatomic,strong)void (^passWithValueBlock)(QDXOrdermodel *order);
+@property (nonatomic,strong)void (^passWithValueBlock)(HomeModel *order);
 
 -(instancetype)initWithFrame:(CGRect)frame titleAry:(NSArray *)titltAry;
 

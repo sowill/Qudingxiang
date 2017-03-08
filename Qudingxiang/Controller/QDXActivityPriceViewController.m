@@ -1,37 +1,28 @@
 //
-//  QDXActivityViewController.m
+//  QDXActivityPriceViewController.m
 //  趣定向
 //
-//  Created by Air on 2016/12/14.
-//  Copyright © 2016年 Air. All rights reserved.
+//  Created by Air on 2017/3/8.
+//  Copyright © 2017年 Air. All rights reserved.
 //
 
-#import "QDXActivityViewController.h"
+#import "QDXActivityPriceViewController.h"
 #import "HomeModel.h"
 #import "QDXActTableViewCell.h"
 #import "QDXLineDetailViewController.h"
-#import "QDXSlideView.h"
 
-@interface QDXActivityViewController ()<UITableViewDataSource,UITableViewDelegate>
+@interface QDXActivityPriceViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic, strong) NSMutableArray *actArray;
-
 @end
 
-@implementation QDXActivityViewController
-
-- (NSMutableArray *)actArray
-{
-    if (_actArray == nil) {
-        _actArray = [NSMutableArray array];
-    }
-    return _actArray;
-}
+@implementation QDXActivityPriceViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    
     self.view.backgroundColor = QDXBGColor;
     self.navigationItem.title = _navTitle;
     
@@ -81,16 +72,7 @@
                 [_actArray addObject:model];
             }
             
-            QDXSlideView *slideView = [[QDXSlideView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight) titleAry:@[@"近期",@"已完成"]];
-            slideView.homeModelArray = _actArray;
-            slideView.passWithValueBlock = ^(HomeModel *homeModel){
-                QDXLineDetailViewController *lineVC = [[QDXLineDetailViewController alloc] init];
-                lineVC.homeModel = homeModel;
-                [self.navigationController pushViewController:lineVC animated:YES];
-            };
-            [self.view addSubview:slideView];
-            
-//            [self createTableView];
+            [self createTableView];
         }
         else{
             
@@ -112,7 +94,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    QDXActTableViewCell *cell = [QDXActTableViewCell qdxActCellWithTableView:_tableView];
+    QDXActTableViewCell *cell = [QDXActTableViewCell qdxActCellWithPriceWithTableView:_tableView];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.homeModel = _actArray[indexPath.row];
     return cell;
@@ -130,5 +112,6 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
 
 @end

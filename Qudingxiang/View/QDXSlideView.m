@@ -21,6 +21,8 @@
 
 @property (nonatomic,strong)NSArray *titleAry;
 
+@property (nonatomic,strong)UIView *line;
+
 @end
 
 static NSString *identifier = @"UICollectionCell";
@@ -42,6 +44,17 @@ static NSString *identifier = @"UICollectionCell";
     [self addSubview:self.headerView];
     // 将collectionView添加在视图上
     [self addSubview:self.collectionView];
+    
+    [self addSubview:self.line];
+}
+
+-(UIView *)line{
+    if (!_line) {
+        self.line = [[UIView alloc] init];
+        self.line.frame = CGRectMake(FitRealValue(24), FitRealValue(80) - 2, QdxWidth/2 - FitRealValue(24) , 2);
+        self.line.backgroundColor = QDXBlue;
+    }
+    return _line;
 }
 
 // 设置布局样式
@@ -100,19 +113,31 @@ static NSString *identifier = @"UICollectionCell";
     return self.titleAry.count;
 }
 
-
 -(void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
 {
-//    [UIView animateWithDuration:0.1f animations:^{
-    [self.headerView updateHeaderStateWithIndex:indexPath withCollection:self.headerView.collectionView withSelected:YES];
-//    }];
+    [UIView animateWithDuration:0.1f animations:^{
+        [self.headerView updateHeaderStateWithIndex:indexPath withCollection:self.headerView.collectionView withSelected:YES];
+    }];
+}
+
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    if (scrollView.contentOffset.x > QdxWidth/2) {
+        [UIView animateWithDuration:0.1f animations:^{
+            self.line.frame = CGRectMake(QdxWidth/2, FitRealValue(80) - 2, QdxWidth/2 - FitRealValue(24), 2);
+        }];
+    }else{
+        [UIView animateWithDuration:0.1f animations:^{
+            self.line.frame = CGRectMake(FitRealValue(24), FitRealValue(80) - 2, QdxWidth/2 - FitRealValue(24) , 2);
+        }];
+    }
 }
 
 -(void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath
 {
-//    [UIView animateWithDuration:0.1f animations:^{
-    [self.headerView updateHeaderStateWithIndex:indexPath withCollection:self.headerView.collectionView withSelected:NO];
-//    }];
+    [UIView animateWithDuration:0.1f animations:^{
+        [self.headerView updateHeaderStateWithIndex:indexPath withCollection:self.headerView.collectionView withSelected:NO];
+    }];
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
@@ -122,21 +147,13 @@ static NSString *identifier = @"UICollectionCell";
 
     cell.flag = indexPath.row;
     
-    [cell coustomSignInClick:^(){
-        if (self.passBlock) {
-            self.passBlock();
-        }
-    }];
+    cell.homeModelArray = self.homeModelArray;
     
-    [cell coustomTableViewCellClick:^(QDXOrdermodel *order){
+    [cell coustomTableViewCellClick:^(HomeModel *homeModel){
         if (self.passWithValueBlock) {
-            self.passWithValueBlock(order);
+            self.passWithValueBlock(homeModel);
         }
     }];
-    
-//    if (self.tableViewWillAppear) {
-//        self.tableViewWillAppear();
-//    }
     
     return cell;
 }

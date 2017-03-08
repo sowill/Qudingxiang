@@ -173,6 +173,8 @@
 		4586959E1C4DD741009BAA81 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4586959D1C4DD741009BAA81 /* CoreMedia.framework */; };
 		458695A01C4DD748009BAA81 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4586959F1C4DD748009BAA81 /* QuartzCore.framework */; };
 		458695A21C4DD74E009BAA81 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 458695A11C4DD74E009BAA81 /* AVFoundation.framework */; };
+		45983EE01E700C5700BA52E3 /* NSMutableAttributedString+ChangeColorFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 45983EDF1E700C5700BA52E3 /* NSMutableAttributedString+ChangeColorFont.m */; };
+		45983EE31E70161500BA52E3 /* QDXActivityPriceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45983EE21E70161500BA52E3 /* QDXActivityPriceViewController.m */; };
 		459AEBDA1DCC7C11000472F1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 459AEBD91DCC7C11000472F1 /* Images.xcassets */; };
 		459BB4991DDAE49A00DBEC39 /* TipsManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 459BB4981DDAE49A00DBEC39 /* TipsManager.m */; };
 		459C432B1DED72B000437712 /* XBScrollPageController.m in Sources */ = {isa = PBXBuildFile; fileRef = 459C431F1DED72B000437712 /* XBScrollPageController.m */; };
@@ -281,7 +283,6 @@
 		45E8F4531E2609B100902455 /* Airbnb02.png in Resources */ = {isa = PBXBuildFile; fileRef = 45E8F4521E2609B100902455 /* Airbnb02.png */; };
 		45E8F4551E2609B600902455 /* Airbnb03.png in Resources */ = {isa = PBXBuildFile; fileRef = 45E8F4541E2609B600902455 /* Airbnb03.png */; };
 		45E8F4571E2609BC00902455 /* Airbnb04.png in Resources */ = {isa = PBXBuildFile; fileRef = 45E8F4561E2609BC00902455 /* Airbnb04.png */; };
-		45E8F45A1E2613D600902455 /* QDXLineDetailWithImageViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45E8F4591E2613D600902455 /* QDXLineDetailWithImageViewController.m */; };
 		45E8F4611E262A9700902455 /* UIImage+RTTint.m in Sources */ = {isa = PBXBuildFile; fileRef = 45E8F4601E262A9700902455 /* UIImage+RTTint.m */; };
 		45ECA27E1E24DD0500B9D835 /* JPAnimationTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 45ECA27D1E24DD0500B9D835 /* JPAnimationTool.m */; };
 		45ECA2811E24DDD000B9D835 /* QDXHomeCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45ECA2801E24DDD000B9D835 /* QDXHomeCollectionView.m */; };
@@ -674,6 +675,10 @@
 		4586959D1C4DD741009BAA81 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		4586959F1C4DD748009BAA81 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		458695A11C4DD74E009BAA81 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		45983EDE1E700C5700BA52E3 /* NSMutableAttributedString+ChangeColorFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableAttributedString+ChangeColorFont.h"; sourceTree = "<group>"; };
+		45983EDF1E700C5700BA52E3 /* NSMutableAttributedString+ChangeColorFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableAttributedString+ChangeColorFont.m"; sourceTree = "<group>"; };
+		45983EE11E70161500BA52E3 /* QDXActivityPriceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXActivityPriceViewController.h; sourceTree = "<group>"; };
+		45983EE21E70161500BA52E3 /* QDXActivityPriceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXActivityPriceViewController.m; sourceTree = "<group>"; };
 		459AEBD91DCC7C11000472F1 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		459BB4971DDAE49A00DBEC39 /* TipsManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TipsManager.h; sourceTree = "<group>"; };
 		459BB4981DDAE49A00DBEC39 /* TipsManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TipsManager.m; sourceTree = "<group>"; };
@@ -900,8 +905,6 @@
 		45E8F4521E2609B100902455 /* Airbnb02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Airbnb02.png; sourceTree = "<group>"; };
 		45E8F4541E2609B600902455 /* Airbnb03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Airbnb03.png; sourceTree = "<group>"; };
 		45E8F4561E2609BC00902455 /* Airbnb04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Airbnb04.png; sourceTree = "<group>"; };
-		45E8F4581E2613D600902455 /* QDXLineDetailWithImageViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXLineDetailWithImageViewController.h; sourceTree = "<group>"; };
-		45E8F4591E2613D600902455 /* QDXLineDetailWithImageViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXLineDetailWithImageViewController.m; sourceTree = "<group>"; };
 		45E8F45F1E262A9700902455 /* UIImage+RTTint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RTTint.h"; sourceTree = "<group>"; };
 		45E8F4601E262A9700902455 /* UIImage+RTTint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RTTint.m"; sourceTree = "<group>"; };
 		45ECA27C1E24DD0500B9D835 /* JPAnimationTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPAnimationTool.h; sourceTree = "<group>"; };
@@ -1332,6 +1335,8 @@
 				45AEE2B61D13E4F800116AD0 /* UIControl+UIControl_buttonCon.m */,
 				459EB2681E6D77280011943B /* UIButton+ImageText.h */,
 				459EB2691E6D77280011943B /* UIButton+ImageText.m */,
+				45983EDE1E700C5700BA52E3 /* NSMutableAttributedString+ChangeColorFont.h */,
+				45983EDF1E700C5700BA52E3 /* NSMutableAttributedString+ChangeColorFont.m */,
 			);
 			path = Tool;
 			sourceTree = "<group>";
@@ -1800,12 +1805,12 @@
 				459E69F51DF7BC6700D5C9F9 /* QDXTicketSuccessViewController.m */,
 				45D6E6C91E0115A2004EFF15 /* QDXActivityViewController.h */,
 				45D6E6CA1E0115A2004EFF15 /* QDXActivityViewController.m */,
-				45E8F4581E2613D600902455 /* QDXLineDetailWithImageViewController.h */,
-				45E8F4591E2613D600902455 /* QDXLineDetailWithImageViewController.m */,
 				459EB2621E6D471B0011943B /* LocationChoiceViewController.h */,
 				459EB2631E6D471B0011943B /* LocationChoiceViewController.m */,
 				459EB26B1E6E49BB0011943B /* MoreCooperationViewController.h */,
 				459EB26C1E6E49BB0011943B /* MoreCooperationViewController.m */,
+				45983EE11E70161500BA52E3 /* QDXActivityPriceViewController.h */,
+				45983EE21E70161500BA52E3 /* QDXActivityPriceViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2463,7 +2468,6 @@
 				45CA52321DE452270025A376 /* UIScrollView+MJExtension.m in Sources */,
 				4569E5751C4CB64B00FF4E8B /* qrspec.c in Sources */,
 				4571CDF91CE05B00002ED784 /* CYAlertView.m in Sources */,
-				45E8F45A1E2613D600902455 /* QDXLineDetailWithImageViewController.m in Sources */,
 				4569E5761C4CB64B00FF4E8B /* rscode.c in Sources */,
 				4549C7691DBE106800180FB5 /* LBTabBarController.m in Sources */,
 				455A95C71C97F13A0039FA88 /* QDXPointModel.m in Sources */,
@@ -2526,6 +2530,7 @@
 				45FAC8A21DD0571B004A6531 /* QDXPointSettingViewController.m in Sources */,
 				4569E5861C4CB64B00FF4E8B /* UIImage+GIF.m in Sources */,
 				A35DAC321CCF184000D01CF0 /* AFHTTPSessionManager.m in Sources */,
+				45983EE31E70161500BA52E3 /* QDXActivityPriceViewController.m in Sources */,
 				4571CDEE1CE05B00002ED784 /* CYAlertDismissSlideUp.m in Sources */,
 				A340BE171C96ACB4009F40FD /* BaseViewController.m in Sources */,
 				451BDEC01DF54F1C00008959 /* SimplePinger.m in Sources */,
@@ -2570,6 +2575,7 @@
 				45C6F5C91C92A36200C5AA31 /* QDXOrderDetailTableViewController.m in Sources */,
 				4557D1561CD9D51900CA76BD /* QDXTaskViewController.m in Sources */,
 				A35DAC791CCF5EB500D01CF0 /* NoticeViewController.m in Sources */,
+				45983EE01E700C5700BA52E3 /* NSMutableAttributedString+ChangeColorFont.m in Sources */,
 				455A95C11C97EC990039FA88 /* QDXTeamsModel.m in Sources */,
 				45C6F5FC1C92A40B00C5AA31 /* ActivityController.m in Sources */,
 				A35DAC381CCF184000D01CF0 /* NullSafe.m in Sources */,

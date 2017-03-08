@@ -8,6 +8,7 @@
 
 #import "QDXActTableViewCell.h"
 #import "HomeModel.h"
+#import "NSMutableAttributedString+ChangeColorFont.h"
 
 @interface QDXActTableViewCell()
 
@@ -31,6 +32,67 @@
 
 @implementation QDXActTableViewCell
 
++ (instancetype)qdxActCellWithPriceWithTableView:(UITableView *)tableView
+{
+    static NSString *cellID = @"ID";
+    QDXActTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
+    if(!cell){
+        cell = [[QDXActTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
+        //添加cell的子控件
+        [cell addSubViewsWithPrice];
+    }
+    return cell;
+}
+
+-(void)addSubViewsWithPrice
+{
+    self.contentView.backgroundColor = QDXBGColor;
+    
+    self.BGView = [[UIView alloc] initWithFrame:CGRectMake(FitRealValue(24), FitRealValue(20), QdxWidth - FitRealValue(48), FitRealValue(556))];
+    self.BGView.backgroundColor = [UIColor whiteColor];
+    self.BGView.layer.cornerRadius = 3;
+    self.BGView.layer.borderColor = [[UIColor whiteColor] CGColor];
+    
+    self.BGView.layer.shadowColor = QDXGray.CGColor;
+    self.BGView.layer.shadowOffset = CGSizeMake(0, 0);
+    self.BGView.layer.shadowOpacity = 0.2;
+    self.BGView.layer.shadowRadius = 3.0;
+    [self.contentView addSubview:self.BGView];
+    
+    self.act_img = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.BGView.frame.size.width, FitRealValue(424))];
+    //    self.act_img.contentMode = UIViewContentModeScaleAspectFit;
+    [self.BGView addSubview:self.act_img];
+    
+    UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:self.act_img.bounds byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii:CGSizeMake(2, 2)];
+    CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+    maskLayer.frame = self.act_img.bounds;
+    maskLayer.path = maskPath.CGPath;
+    self.act_img.layer.mask = maskLayer;
+    
+    self.act_name = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(20), self.act_img.frame.size.height + FitRealValue(20), self.BGView.frame.size.width, FitRealValue(30))];
+    self.act_name.textColor = QDXBlack;
+    self.act_name.font = [UIFont systemFontOfSize:17];
+    self.act_name.textAlignment = NSTextAlignmentLeft;
+    [self.BGView addSubview:self.act_name];
+    
+    _act_place_img = [[UIImageView alloc] initWithFrame:CGRectMake(FitRealValue(20), self.act_name.frame.origin.y + FitRealValue(30 + 30), FitRealValue(22), FitRealValue(28))];
+    _act_place_img.image = [UIImage imageNamed:@"定位"];
+    [self.BGView addSubview:_act_place_img];
+    
+    self.act_place = [[UILabel alloc] initWithFrame:CGRectMake(_act_place_img.frame.origin.x + FitRealValue(28 + 10), _act_place_img.frame.origin.y, 0, FitRealValue(26))];
+    self.act_place.font = [UIFont systemFontOfSize:14];  //UILabel的字体大小
+    self.act_place.numberOfLines = 0;  //必须定义这个属性，否则UILabel不会换行
+    self.act_place.textColor = QDXGray;
+    self.act_place.textAlignment = NSTextAlignmentLeft;  //文本对齐方式
+    [self.BGView addSubview:self.act_place];
+    
+    self.act_price = [[UILabel alloc] initWithFrame:CGRectMake(self.BGView.frame.size.width - FitRealValue(20 + 200),  _act_place_img.frame.origin.y - FitRealValue(20), FitRealValue(200), FitRealValue(42))];
+    self.act_price.textColor = QDXOrange;
+//    self.act_price.font = [UIFont systemFontOfSize:14];
+    self.act_price.textAlignment = NSTextAlignmentRight;
+    [self.BGView addSubview:self.act_price];
+}
+
 + (instancetype)qdxActCellWithTableView:(UITableView *)tableView
 {
     static NSString *cellID = @"ID";
@@ -47,18 +109,18 @@
 {
     self.contentView.backgroundColor = QDXBGColor;
     
-    self.BGView = [[UIView alloc] initWithFrame:CGRectMake(FitRealValue(24), FitRealValue(20), QdxWidth - FitRealValue(48), FitRealValue(618))];
+    self.BGView = [[UIView alloc] initWithFrame:CGRectMake(FitRealValue(24), FitRealValue(20), QdxWidth - FitRealValue(48), FitRealValue(556))];
     self.BGView.backgroundColor = [UIColor whiteColor];
-    self.BGView.layer.cornerRadius = 2;
+    self.BGView.layer.cornerRadius = 3;
     self.BGView.layer.borderColor = [[UIColor whiteColor] CGColor];
     
     self.BGView.layer.shadowColor = QDXGray.CGColor;
     self.BGView.layer.shadowOffset = CGSizeMake(0, 0);
     self.BGView.layer.shadowOpacity = 0.2;
-    self.BGView.layer.shadowRadius = 4.0;
+    self.BGView.layer.shadowRadius = 3.0;
     [self.contentView addSubview:self.BGView];
     
-    self.act_img = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.BGView.frame.size.width, FitRealValue(416))];
+    self.act_img = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, self.BGView.frame.size.width, FitRealValue(424))];
 //    self.act_img.contentMode = UIViewContentModeScaleAspectFit;
     [self.BGView addSubview:self.act_img];
     
@@ -68,19 +130,19 @@
     maskLayer.path = maskPath.CGPath;
     self.act_img.layer.mask = maskLayer;
     
-    self.act_name = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(30), self.act_img.frame.size.height + FitRealValue(30), self.BGView.frame.size.width, FitRealValue(30))];
+    self.act_name = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(20), self.act_img.frame.size.height + FitRealValue(20), self.BGView.frame.size.width, FitRealValue(30))];
     self.act_name.textColor = QDXBlack;
     self.act_name.font = [UIFont systemFontOfSize:17];
     self.act_name.textAlignment = NSTextAlignmentLeft;
     [self.BGView addSubview:self.act_name];
     
-    self.act_price = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(30), self.BGView.frame.size.height - FitRealValue(30 + 34), self.BGView.frame.size.width, FitRealValue(34))];
-    self.act_price.textColor = QDXOrange;
-    self.act_price.font = [UIFont systemFontOfSize:20];
-    self.act_price.textAlignment = NSTextAlignmentLeft;
-    [self.BGView addSubview:self.act_price];
+//    self.act_price = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(30), self.BGView.frame.size.height - FitRealValue(30 + 34), self.BGView.frame.size.width, FitRealValue(34))];
+//    self.act_price.textColor = QDXOrange;
+//    self.act_price.font = [UIFont systemFontOfSize:20];
+//    self.act_price.textAlignment = NSTextAlignmentLeft;
+//    [self.BGView addSubview:self.act_price];
     
-    _act_place_img = [[UIImageView alloc] initWithFrame:CGRectMake(FitRealValue(30), self.act_name.frame.origin.y + FitRealValue(20 + 30), FitRealValue(22), FitRealValue(28))];
+    _act_place_img = [[UIImageView alloc] initWithFrame:CGRectMake(FitRealValue(20), self.act_name.frame.origin.y + FitRealValue(30 + 30), FitRealValue(22), FitRealValue(28))];
     _act_place_img.image = [UIImage imageNamed:@"定位"];
     [self.BGView addSubview:_act_place_img];
     
@@ -108,7 +170,15 @@
     _homeModel = homeModel;
     [self.act_img setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,homeModel.good_url]] placeholderImage:[UIImage imageNamed:@"banner_cell"]];
     self.act_name.text = homeModel.goods_name;
-    self.act_price.text = [@"¥" stringByAppendingString:homeModel.goods_price];
+    
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@""];
+    [string appendString:@"¥" withColor:QDXOrange font:[UIFont systemFontOfSize:14]];
+    NSRange range = [homeModel.goods_price rangeOfString:@"."];
+    NSString *a = homeModel.goods_price;
+    [string appendString:[a substringToIndex:(int)range.location] withColor:QDXOrange font:[UIFont boldSystemFontOfSize:24]];
+    [string appendString:[a substringFromIndex:(int)range.location] withColor:QDXOrange font:[UIFont systemFontOfSize:14]];
+    self.act_price.attributedText = string;
+//    self.act_price.text = [@"¥" stringByAppendingString:homeModel.goods_price];
     
     self.act_state.text = homeModel.act_time;
     

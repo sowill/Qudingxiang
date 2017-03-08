@@ -20,12 +20,12 @@
 #import "QDXActivityViewController.h"
 #import "QDXHomeTableViewCell.h"
 #import "QDXHomeCooperationCell.h"
-#import "QDXLineDetailWithImageViewController.h"
 #import "QDXHomeCollectionView.h"
 #import "LocationChoiceViewController.h"
 #import <CoreLocation/CoreLocation.h>
 #import "UIButton+ImageText.h"
 #import "MoreCooperationViewController.h"
+#import "QDXActivityPriceViewController.h"
 
 @interface HomeController ()<UITableViewDataSource,UITableViewDelegate,QDXHomeTableViewCellDelegate,QDXCooperationCellDelegate,ChoseCityDelegate,CLLocationManagerDelegate>
 {
@@ -418,6 +418,14 @@
 -(NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 2;
+}
+
+-(void)collectionViewDidSelectedItemIndexPath:(NSIndexPath *)indexPath collcetionView:(UICollectionView *)collectionView forCell:(QDXHomeTableViewCell *)cell
+{
+    QDXActivityPriceViewController *actWithPriceVC = [[QDXActivityPriceViewController alloc] init];
+    actWithPriceVC.hidesBottomBarWhenPushed = YES;
+    actWithPriceVC.type = [NSString stringWithFormat:@"%d",(int)indexPath.row];
+    [self.navigationController pushViewController:actWithPriceVC animated:YES];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

@@ -113,8 +113,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    [self creatButtonBack];
-    
     self.QDXScrollView =[[UIScrollView alloc] initWithFrame:self.view.frame];
     self.QDXScrollView.showsVerticalScrollIndicator = FALSE;
     self.QDXScrollView.backgroundColor = QDXBGColor;
@@ -1464,28 +1462,6 @@ toViewController:(UIViewController *)toVC {
         }
     }];
     [self.navigationController pushViewController:gameVC animated:YES];
-}
-
-// 返回按钮
-- (void)creatButtonBack
-{
-    UIButton *buttonBack = [UIButton buttonWithType:UIButtonTypeSystem];
-    buttonBack.frame = CGRectMake(0, 0, 24, 24);
-    [buttonBack addTarget:self action:@selector(buttonBackSetting) forControlEvents:UIControlEventTouchUpInside];
-    [buttonBack setTitle:nil forState:UIControlStateNormal];
-    [buttonBack setBackgroundImage:[UIImage imageNamed:@"sign_return"] forState:UIControlStateNormal];
-    buttonBack.backgroundColor = [UIColor clearColor];
-    
-    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:buttonBack];
-    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    negativeSpacer.width = 0;
-    self.navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
-}
-
-- (void)buttonBackSetting
-{
-    [self dismissViewControllerAnimated:YES completion:^{}];
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 - (void)didReceiveMemoryWarning {

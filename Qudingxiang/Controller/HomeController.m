@@ -95,8 +95,6 @@
     
     homehttp = [HomeService sharedInstance];
     
-    self.view.backgroundColor = QDXBGColor;
-    
     _scanBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 18)];
     [_scanBtn setBackgroundImage:[UIImage imageNamed:@"index_sweep"] forState:UIControlStateNormal];
     [_scanBtn addTarget:self action:@selector(scanClick) forControlEvents:UIControlEventTouchUpInside];

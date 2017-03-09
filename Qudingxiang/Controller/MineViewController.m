@@ -53,7 +53,6 @@
     
     [self netData];
     
-    self.view.backgroundColor = QDXBGColor;
     [self.view addSubview:self.tableView];
     [self.view addSubview:self.bgimageView];
     [self.view addSubview:self.imageView];

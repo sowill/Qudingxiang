@@ -103,7 +103,7 @@ static NSString *QDXSlideTableCellIdentifier = @"QDXSlideTableCellIdentifier";
 - (void)loadNewData
 {
     curr = 1;
-    [self cellDataWith:@"1" andWithType: [NSString stringWithFormat: @"%d", _flag]];
+    [self cellDataWith:@"1" andWithType: _type];
     
     // 刷新表格
     [self.tableView reloadData];
@@ -123,7 +123,7 @@ static NSString *QDXSlideTableCellIdentifier = @"QDXSlideTableCellIdentifier";
         
         [self.tableView.mj_footer endRefreshingWithNoMoreData];
     }else{
-        [self cellDataWith:@"1" andWithType: [NSString stringWithFormat: @"%d", _flag]];
+        [self cellDataWith:@"1" andWithType: _type];
     }
 }
 

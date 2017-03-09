@@ -25,13 +25,9 @@ static NSString *ChoseCityReuseID = @"ChoseCityReuseID";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.view.backgroundColor = QDXBGColor;
-    
     self.navigationItem.title = @"切换城市";
     
     self.items = @[@"上海",@"北京",@"深圳",@"苏州",@"成都",@"盐城"];
-    
-    [self createButtonBack];
     
     [self setupUI];
 }
@@ -108,27 +104,6 @@ static NSString *ChoseCityReuseID = @"ChoseCityReuseID";
         }];
     };
     return cell;
-}
-
-// 返回按钮
--(void)createButtonBack
-{
-    UIButton *buttonBack = [UIButton buttonWithType:UIButtonTypeSystem];
-    buttonBack.frame = CGRectMake(0, 0, 24, 24);
-    [buttonBack addTarget:self action:@selector(buttonBackSetting) forControlEvents:UIControlEventTouchUpInside];
-    [buttonBack setTitle:nil forState:UIControlStateNormal];
-    [buttonBack setBackgroundImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
-    buttonBack.backgroundColor = [UIColor clearColor];
-    
-    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:buttonBack];
-    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    negativeSpacer.width = 0;
-    self.navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
-}
-
--(void)buttonBackSetting
-{
-    [self dismissViewControllerAnimated:YES completion:^{}];
 }
 
 - (void)didReceiveMemoryWarning {

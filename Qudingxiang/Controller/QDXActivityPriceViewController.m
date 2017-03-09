@@ -23,7 +23,6 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.view.backgroundColor = QDXBGColor;
     self.navigationItem.title = _navTitle;
     
     [self cellDataWith:@"1" andWithType:_type];
@@ -89,7 +88,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return FitRealValue(556);
+    return FitRealValue(556 + 20);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

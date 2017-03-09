@@ -15,6 +15,8 @@
 
 @property (nonatomic,strong)void (^passWithValueBlock)(HomeModel *order);
 
+@property (nonatomic,strong)NSString *type;
+
 -(instancetype)initWithFrame:(CGRect)frame titleAry:(NSArray *)titltAry;
 
 @end

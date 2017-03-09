@@ -147,6 +147,8 @@ static NSString *identifier = @"UICollectionCell";
 
     cell.flag = indexPath.row;
     
+    cell.type = self.type;
+    
     cell.homeModelArray = self.homeModelArray;
     
     [cell coustomTableViewCellClick:^(HomeModel *homeModel){

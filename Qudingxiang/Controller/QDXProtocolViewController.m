@@ -27,7 +27,6 @@
     [self setupCurrentLine];
     [self setupProtocol];
     
-    [self createButtonBack];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noti3) name:@"noti3" object:nil];
 }
 
@@ -43,7 +42,6 @@
 
 -(void)setupFrame
 {
-    self.view.backgroundColor = [UIColor colorWithWhite:0.949 alpha:1.000];
     self.navigationItem.title = @"协议";
     
     protocol = [[UIWebView alloc] initWithFrame:CGRectMake(0, 10, QdxWidth, QdxHeight - 200)];
@@ -129,34 +127,10 @@
     }];
 }
 
-// 返回按钮
--(void)createButtonBack
-{
-    UIButton *buttonBack = [UIButton buttonWithType:UIButtonTypeSystem];
-    buttonBack.frame = CGRectMake(0, 0, 24, 24);
-    [buttonBack addTarget:self action:@selector(backto) forControlEvents:UIControlEventTouchUpInside];
-    [buttonBack setTitle:nil forState:UIControlStateNormal];
-    [buttonBack setBackgroundImage:[UIImage imageNamed:@"sign_return"] forState:UIControlStateNormal];
-    buttonBack.backgroundColor = [UIColor clearColor];
-    
-    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:buttonBack];
-    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    negativeSpacer.width = 0;
-    self.navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
-}
-
-- (void)backto
-{
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"noti2" object:nil];
-    [self dismissViewControllerAnimated:YES completion:^{}];
-}
 
 -(void)dealloc
-
 {
-    
     //移除观察者，Observer不能为nil
-    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
 }

@@ -27,34 +27,11 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"个性签名";
-    self.view.backgroundColor = [UIColor colorWithRed:245/255.0 green:245/255.0 blue:245/255.0 alpha:1];
+
     [self createText];
-//    [self createNavBtn];
+    
     [_signText becomeFirstResponder];
 
-}
-
-- (void)createNavBtn
-{
-    UIButton *buttonBack = [UIButton buttonWithType:UIButtonTypeSystem];
-    buttonBack.frame = CGRectMake(0, 0, 24, 24);
-    [buttonBack addTarget:self action:@selector(buttonBackSettin) forControlEvents:UIControlEventTouchUpInside];
-    [buttonBack setTitle:nil forState:UIControlStateNormal];
-    [buttonBack setBackgroundImage:[UIImage imageNamed:@"sign_return"] forState:UIControlStateNormal];
-    buttonBack.backgroundColor = [UIColor clearColor];
-    
-    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:buttonBack];
-    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    negativeSpacer.width = -10;
-    self.navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
-}
-
-- (void)buttonBackSettin
-{
-    [_signText endEditing:YES];
-    [self dismissViewControllerAnimated:YES completion:^{
-        
-    }];
 }
 
 - (void)createText

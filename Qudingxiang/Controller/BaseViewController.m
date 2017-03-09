@@ -28,10 +28,41 @@
     // Do any additional setup after loading the view.
     isLoad = NO;
     
+    self.view.backgroundColor = QDXBGColor;
+    
+    if (self.navigationItem.leftBarButtonItem == nil
+        && ![self.navigationItem.title  isEqual: @"首页"]
+        && ![self.navigationItem.title  isEqual: @"活动"]
+        && ![self.navigationItem.title  isEqual: @"订单"]
+        && ![self.navigationItem.title  isEqual: @"我的"]){
+        [self createButtonBack];
+    }
+    
     self.observer = [SGNetObserver defultObsever];
     [self.observer startNotifier];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(networkStatusChanged:) name:SGReachabilityChangedNotification object:nil];
+}
+
+// 返回按钮
+-(void)createButtonBack
+{
+    UIButton *buttonBack = [UIButton buttonWithType:UIButtonTypeSystem];
+    buttonBack.frame = CGRectMake(0, 0, 24, 24);
+    [buttonBack addTarget:self action:@selector(buttonBackSetting) forControlEvents:UIControlEventTouchUpInside];
+    [buttonBack setTitle:nil forState:UIControlStateNormal];
+    [buttonBack setBackgroundImage:[UIImage imageNamed:@"close"] forState:UIControlStateNormal];
+    buttonBack.backgroundColor = [UIColor clearColor];
+    
+    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:buttonBack];
+    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
+    negativeSpacer.width = -10;
+    self.navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
+}
+
+-(void)buttonBackSetting
+{
+    [self dismissViewControllerAnimated:YES completion:^{}];
 }
 
 - (void)dealloc{

@@ -28,13 +28,6 @@
     // Do any additional setup after loading the view.
     
     self.navigationItem.title = @"玩法";
-    self.view.backgroundColor = QDXBGColor;
-    
-    UIButton *menuBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-    menuBtn.frame = CGRectMake(0, 0, 20, 18);
-    [menuBtn setBackgroundImage:[UIImage imageNamed:@"index_my"] forState:UIControlStateNormal];
-    [menuBtn addTarget:self action:@selector(openOrCloseLeftList) forControlEvents:UIControlEventTouchUpInside];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:menuBtn];
     
     DWFlowLayout *layout = [[DWFlowLayout alloc] init];
     [layout setPagingEnabled:YES];

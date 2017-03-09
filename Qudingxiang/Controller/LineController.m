@@ -38,12 +38,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = [UIColor whiteColor];
+
     self.navigationItem.title = @"路线选择";
     _isEnterToGame = NO;
     [self btnData];
     [self createTableView];
-    [self creatButtonBack];
+
     //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noti2) name:@"noti2" object:nil];
     //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noti3) name:@"noti3" object:nil];
 }
@@ -79,24 +79,6 @@
 }
 
 
-
-// 返回按钮
-- (void)creatButtonBack
-{
-    UIButton *buttonBack = [UIButton buttonWithType:UIButtonTypeSystem];
-    buttonBack.frame = CGRectMake(0, 0, 24, 24);
-    [buttonBack addTarget:self action:@selector(buttonBackSetting) forControlEvents:UIControlEventTouchUpInside];
-    [buttonBack setTitle:nil forState:UIControlStateNormal];
-    [buttonBack setBackgroundImage:[UIImage imageNamed:@"sign_return"] forState:UIControlStateNormal];
-    buttonBack.backgroundColor = [UIColor clearColor];
-    
-    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:buttonBack];
-    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    negativeSpacer.width = -0;
-    self.navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
-    
-}
-
 - (void)viewDidLayoutSubviews
 {
     if ([_tableView respondsToSelector:@selector(setSeparatorInset:)]) {
@@ -117,25 +99,6 @@
     if ([cell respondsToSelector:@selector(setLayoutMargins:)]) {
         [cell setLayoutMargins:UIEdgeInsetsZero];
     }
-}
-
-- (void)buttonBackSetting
-{
-    //    HomeController *homeVC = [[HomeController alloc] init];
-    //    UIViewController *target = nil;
-    //    for(UIViewController *controller in self.navigationController.viewControllers){
-    //        if([controller isKindOfClass:[homeVC class]]){
-    //            target = controller;
-    //        }
-    //    }
-    //    if(target){
-    //        [self.navigationController popToViewController:target animated:YES];
-    //    }
-    //[[NSNotificationCenter defaultCenter] postNotificationName:@"noti1" object:nil];
-    [self dismissViewControllerAnimated:YES completion:^{
-        
-    }];
-    
 }
 
 -(void)dealloc

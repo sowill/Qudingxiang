@@ -55,7 +55,6 @@
 
 -(void)setupFrame
 {
-    self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = @"选择路线";
     
     self.QDXScrollView =[[UIScrollView alloc] initWithFrame:self.view.frame];

@@ -25,8 +25,6 @@ static NSString *LogoReuseID = @"LogoReuseID";
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.view.backgroundColor = QDXBGColor;
-    
     self.navigationItem.title = @"合作单位";
 
     self.items = @[@"阿里体育logo",@"横店影视定向logo",@"驴妈妈logo",@"漫道logo",@"我要赞logo",@"阳澄湖半岛logo"];

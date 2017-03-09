@@ -20,6 +20,8 @@ typedef void(^TableViewCellClick)(HomeModel *homeModel);
 
 @property (nonatomic,strong)NSArray *homeModelArray;
 
+@property (nonatomic, strong) NSString *type;
+
 - (void) coustomTableViewCellClick:(TableViewCellClick)tableViewCellClick;
 
 @end

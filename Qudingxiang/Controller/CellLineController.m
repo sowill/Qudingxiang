@@ -27,11 +27,11 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = QDXBGColor;
+
     self.navigationItem.title = @"路线选择";
     [self createTableView];
     [self netData];
-//    [self creatButtonBack];
+
     if ([_tableView respondsToSelector:@selector(setSeparatorInset:)])
     {
         [_tableView setSeparatorInset:UIEdgeInsetsZero];

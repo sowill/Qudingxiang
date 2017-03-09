@@ -68,7 +68,7 @@
         
         UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:buttonBack];
         UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-        negativeSpacer.width = 0;
+        negativeSpacer.width = -10;
         viewController.navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
     }
 }

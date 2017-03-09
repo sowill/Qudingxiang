@@ -32,7 +32,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.view.backgroundColor = QDXBGColor;
+    
     self.navigationItem.title = _navTitle;
     
     [self cellDataWith:@"1" andWithType:_type];
@@ -83,6 +83,7 @@
             
             QDXSlideView *slideView = [[QDXSlideView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight) titleAry:@[@"近期",@"已完成"]];
             slideView.homeModelArray = _actArray;
+            slideView.type = _type;
             slideView.passWithValueBlock = ^(HomeModel *homeModel){
                 QDXLineDetailViewController *lineVC = [[QDXLineDetailViewController alloc] init];
                 lineVC.homeModel = homeModel;
@@ -107,12 +108,12 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return FitRealValue(556);
+    return FitRealValue(556 + 20);
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    QDXActTableViewCell *cell = [QDXActTableViewCell qdxActCellWithTableView:_tableView];
+    QDXActTableViewCell *cell = [QDXActTableViewCell qdxActCellWithPriceWithTableView:_tableView];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.homeModel = _actArray[indexPath.row];
     return cell;

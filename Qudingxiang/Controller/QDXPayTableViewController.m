@@ -34,7 +34,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.title = @"订单支付";
-    self.view.backgroundColor = QDXBGColor;
+
     [self createTableView];
     aliOrWX = 2;
     

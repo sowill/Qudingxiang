@@ -175,7 +175,7 @@
     [string appendString:@"¥" withColor:QDXOrange font:[UIFont systemFontOfSize:14]];
     NSRange range = [homeModel.goods_price rangeOfString:@"."];
     NSString *a = homeModel.goods_price;
-    [string appendString:[a substringToIndex:(int)range.location] withColor:QDXOrange font:[UIFont boldSystemFontOfSize:24]];
+    [string appendString:[a substringToIndex:(int)range.location] withColor:QDXOrange font:[UIFont systemFontOfSize:24]];
     [string appendString:[a substringFromIndex:(int)range.location] withColor:QDXOrange font:[UIFont systemFontOfSize:14]];
     self.act_price.attributedText = string;
 //    self.act_price.text = [@"¥" stringByAppendingString:homeModel.goods_price];

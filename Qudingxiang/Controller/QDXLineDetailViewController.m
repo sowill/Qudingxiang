@@ -60,11 +60,6 @@
     [share addTarget:self action:@selector(shareClick) forControlEvents:UIControlEventTouchUpInside];
     [share setBackgroundImage:[UIImage imageNamed:@"Share"] forState:UIControlStateNormal];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:share];
-//    if (![[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"weixin://"]]) {
-//        share.hidden = YES;
-//    }else{
-//        share.hidden = NO;
-//    }
 }
 
 -(void)shareClick
@@ -138,9 +133,7 @@
 
 -(void)setupDetail
 {
-    self.view.backgroundColor = [UIColor whiteColor];
     self.navigationItem.title = self.homeModel.goods_name;
-    
     
     // 进度条
     UIProgressView *progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth,6)];

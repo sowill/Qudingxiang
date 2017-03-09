@@ -42,7 +42,6 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.view.backgroundColor = QDXBGColor;
     self.title = @"订单详情";
 }
 

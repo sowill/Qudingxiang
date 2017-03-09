@@ -48,10 +48,6 @@
 
 -(void)setupRegisterView
 {
-    self.view.backgroundColor = QDXBGColor;
-    
-    [self createButtonBack];
-    
     //4 添加一个用户名称输入框
     customerNameText = [[UITextField alloc]init];
     CGFloat customerNameTextCenterX = QdxWidth * 0.5;
@@ -190,27 +186,6 @@
     [commitBtn setBackgroundImage:[[UIImage imageNamed:@"sign_button"] resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch] forState:UIControlStateNormal];
     [commitBtn addTarget:self action:@selector(commitBtnClick) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:commitBtn];
-}
-
-// 返回按钮
--(void)createButtonBack
-{
-    UIButton *buttonBack = [UIButton buttonWithType:UIButtonTypeSystem];
-    buttonBack.frame = CGRectMake(0, 0, 24, 24);
-    [buttonBack addTarget:self action:@selector(buttonBackSetting) forControlEvents:UIControlEventTouchUpInside];
-    [buttonBack setTitle:nil forState:UIControlStateNormal];
-    [buttonBack setBackgroundImage:[UIImage imageNamed:@"sign_return"] forState:UIControlStateNormal];
-    buttonBack.backgroundColor = [UIColor clearColor];
-    
-    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:buttonBack];
-    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    negativeSpacer.width = 0;
-    self.navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
-}
-
--(void)buttonBackSetting
-{
-    [self.navigationController popViewControllerAnimated:YES];
 }
 
 -(void)deletetel_two

@@ -25,10 +25,6 @@
     
     self.title = @"使用成功";
     
-    self.view.backgroundColor = QDXBGColor;
-    
-//    [self creatButtonBack];
-    
     _successView = [[QDXStateView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight - 49)];
     _successView.delegate = self;
     _successView.stateImg.image = [UIImage imageNamed:@"order_success"];
@@ -37,26 +33,6 @@
     [self.view addSubview:_successView];
 }
 
-// 返回按钮
-- (void)creatButtonBack
-{
-    UIButton *buttonBack = [UIButton buttonWithType:UIButtonTypeSystem];
-    buttonBack.frame = CGRectMake(0, 0, 24, 24);
-    [buttonBack addTarget:self action:@selector(buttonBackSetting) forControlEvents:UIControlEventTouchUpInside];
-    [buttonBack setTitle:nil forState:UIControlStateNormal];
-    [buttonBack setBackgroundImage:[UIImage imageNamed:@"sign_return"] forState:UIControlStateNormal];
-    buttonBack.backgroundColor = [UIColor clearColor];
-    
-    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:buttonBack];
-    UIBarButtonItem *negativeSpacer = [[UIBarButtonItem alloc]initWithBarButtonSystemItem:UIBarButtonSystemItemFixedSpace target:nil action:nil];
-    negativeSpacer.width = 0;
-    self.navigationItem.leftBarButtonItems = @[negativeSpacer, buttonItem];
-}
-
-- (void)buttonBackSetting
-{
-    [self dismissViewControllerAnimated:YES completion:^{}];
-}
 
 -(void)changeState
 {

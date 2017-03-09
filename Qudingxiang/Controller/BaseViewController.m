@@ -62,7 +62,9 @@
 
 -(void)buttonBackSetting
 {
-    [self dismissViewControllerAnimated:YES completion:^{}];
+    [self dismissViewControllerAnimated:YES completion:^{
+    
+    }];
 }
 
 - (void)dealloc{

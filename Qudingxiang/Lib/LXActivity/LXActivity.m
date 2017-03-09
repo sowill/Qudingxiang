@@ -28,7 +28,7 @@
 #define SHARETITLE_HEIGHT                       SHAREBUTTON_HEIGHT * 0.4
 #define SHARETITLE_INTERVAL_WIDTH               ([UIScreen mainScreen].bounds.size.width -4*SHAREBUTTON_WIDTH)/5
 #define SHARETITLE_INTERVAL_HEIGHT              SHAREBUTTON_HEIGHT+SHAREBUTTON_INTERVAL_HEIGHT+30
-#define SHARETITLE_FONT                         [UIFont systemFontOfSize:18]
+#define SHARETITLE_FONT                         [UIFont systemFontOfSize:15]
 
 #define TITLE_INTERVAL_HEIGHT                   18
 #define TITLE_HEIGHT                            20
@@ -38,21 +38,19 @@
 #define SHADOW_OFFSET                           CGSizeMake(0, 0.0f)
 #define TITLE_NUMBER_LINES                      2
 
-#define BUTTON_INTERVAL_HEIGHT                  0
-#define BUTTON_HEIGHT                           45
-#define BUTTON_INTERVAL_WIDTH                   0
-#define BUTTON_WIDTH                            [UIScreen mainScreen].bounds.size.width
-#define BUTTONTITLE_FONT                        [UIFont systemFontOfSize:14]
+#define BUTTON_INTERVAL_HEIGHT                  FitRealValue(44)
+#define BUTTON_HEIGHT                           FitRealValue(72)
+#define BUTTON_INTERVAL_WIDTH                   ([UIScreen mainScreen].bounds.size.width - FitRealValue(460))/2
+#define BUTTON_WIDTH                            FitRealValue(460)
+#define BUTTONTITLE_FONT                        [UIFont systemFontOfSize:15]
 #define BUTTON_BORDER_WIDTH                     0.5f
-#define BUTTON_BORDER_COLOR                     [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:0.8].CGColor
-
+#define BUTTON_BORDER_COLOR                     QDXGray.CGColor
 
 @interface UIImage (custom)
 
 + (UIImage *)imageWithColor:(UIColor *)color;
 
 @end
-
 
 @implementation UIImage (custom)
 
@@ -156,12 +154,12 @@
         titleLabel.textColor = [UIColor colorWithWhite:0.400 alpha:1.000];
         [self.backGroundView addSubview:titleLabel];
         
-        UIView *LeftView = [[UIView alloc] initWithFrame:CGRectMake(0,30,QdxWidth/2 - 35, 1)];
-        LeftView.backgroundColor = [UIColor colorWithWhite:0.875 alpha:1.000];
-        [self.backGroundView addSubview:LeftView];
-        UIView *RightView = [[UIView alloc] initWithFrame:CGRectMake(QdxWidth/2+ 35,30, QdxWidth/2 -20, 1)];
-        RightView.backgroundColor = [UIColor colorWithWhite:0.875 alpha:1.000];
-        [self.backGroundView addSubview:RightView];
+//        UIView *LeftView = [[UIView alloc] initWithFrame:CGRectMake(0,30,QdxWidth/2 - 35, 1)];
+//        LeftView.backgroundColor = [UIColor colorWithWhite:0.875 alpha:1.000];
+//        [self.backGroundView addSubview:LeftView];
+//        UIView *RightView = [[UIView alloc] initWithFrame:CGRectMake(QdxWidth/2+ 35,30, QdxWidth/2 -20, 1)];
+//        RightView.backgroundColor = [UIColor colorWithWhite:0.875 alpha:1.000];
+//        [self.backGroundView addSubview:RightView];
     }
     
     if (shareButtonImagesNameArray) {
@@ -242,9 +240,9 @@
         }
         [self.backGroundView addSubview:cancelButton];
         
-        UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0,self.LXActivityHeight-BUTTON_HEIGHT-BUTTON_INTERVAL_HEIGHT,QdxWidth, 1)];
-        bottomView.backgroundColor = [UIColor colorWithWhite:0.875 alpha:1.000];
-        [self.backGroundView addSubview:bottomView];
+//        UIView *bottomView = [[UIView alloc] initWithFrame:CGRectMake(0,self.LXActivityHeight-BUTTON_HEIGHT-BUTTON_INTERVAL_HEIGHT,QdxWidth, 1)];
+//        bottomView.backgroundColor = [UIColor colorWithWhite:0.875 alpha:1.000];
+//        [self.backGroundView addSubview:bottomView];
         
         self.postionIndexNumber++;
     }
@@ -259,13 +257,13 @@
 - (UIButton *)creatCancelButtonWith:(NSString *)cancelButtonTitle
 {
     UIButton *cancelButton = [[UIButton alloc] initWithFrame:CGRectMake(BUTTON_INTERVAL_WIDTH, BUTTON_INTERVAL_HEIGHT, BUTTON_WIDTH, BUTTON_HEIGHT)];
-//    cancelButton.layer.masksToBounds = YES;
-//    cancelButton.layer.cornerRadius = CORNER_RADIUS;
-//    
-//    cancelButton.layer.borderWidth = BUTTON_BORDER_WIDTH;
-//    cancelButton.layer.borderColor = BUTTON_BORDER_COLOR;
+    cancelButton.layer.masksToBounds = YES;
+    cancelButton.layer.cornerRadius = CORNER_RADIUS;
+    
+    cancelButton.layer.borderWidth = BUTTON_BORDER_WIDTH;
+    cancelButton.layer.borderColor = BUTTON_BORDER_COLOR;
 
-    [cancelButton setTitleColor:[UIColor colorWithRed:0.000 green:0.600 blue:0.992 alpha:1.000] forState:UIControlStateNormal];
+    [cancelButton setTitleColor:QDXGray forState:UIControlStateNormal];
     UIImage *image = [UIImage imageWithColor:CANCEL_BUTTON_COLOR];
     [cancelButton setBackgroundImage:image forState:UIControlStateNormal];
     

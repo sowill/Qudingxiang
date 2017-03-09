@@ -266,6 +266,8 @@
 		45CA52321DE452270025A376 /* UIScrollView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CA521C1DE452270025A376 /* UIScrollView+MJExtension.m */; };
 		45CA52331DE452270025A376 /* UIScrollView+MJRefresh.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CA521E1DE452270025A376 /* UIScrollView+MJRefresh.m */; };
 		45CA52341DE452270025A376 /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CA52201DE452270025A376 /* UIView+MJExtension.m */; };
+		45CC71B61E70F98D0028EA30 /* PlaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CC71B51E70F98D0028EA30 /* PlaceViewController.m */; };
+		45CC71B91E71045B0028EA30 /* PlaceCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CC71B81E71045B0028EA30 /* PlaceCollectionViewCell.m */; };
 		45D6E6CB1E0115A2004EFF15 /* QDXActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D6E6CA1E0115A2004EFF15 /* QDXActivityViewController.m */; };
 		45D6E6CE1E011FD8004EFF15 /* QDXActTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D6E6CD1E011FD8004EFF15 /* QDXActTableViewCell.m */; };
 		45DBF7241DE7E84B008FDA7D /* QDXSlideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DBF7231DE7E84B008FDA7D /* QDXSlideView.m */; };
@@ -872,6 +874,10 @@
 		45CA521E1DE452270025A376 /* UIScrollView+MJRefresh.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIScrollView+MJRefresh.m"; sourceTree = "<group>"; };
 		45CA521F1DE452270025A376 /* UIView+MJExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+MJExtension.h"; sourceTree = "<group>"; };
 		45CA52201DE452270025A376 /* UIView+MJExtension.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+MJExtension.m"; sourceTree = "<group>"; };
+		45CC71B41E70F98D0028EA30 /* PlaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaceViewController.h; sourceTree = "<group>"; };
+		45CC71B51E70F98D0028EA30 /* PlaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceViewController.m; sourceTree = "<group>"; };
+		45CC71B71E71045B0028EA30 /* PlaceCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaceCollectionViewCell.h; sourceTree = "<group>"; };
+		45CC71B81E71045B0028EA30 /* PlaceCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceCollectionViewCell.m; sourceTree = "<group>"; };
 		45D6E6C91E0115A2004EFF15 /* QDXActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXActivityViewController.h; sourceTree = "<group>"; };
 		45D6E6CA1E0115A2004EFF15 /* QDXActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXActivityViewController.m; sourceTree = "<group>"; };
 		45D6E6CC1E011FD8004EFF15 /* QDXActTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXActTableViewCell.h; sourceTree = "<group>"; };
@@ -1811,6 +1817,8 @@
 				459EB26C1E6E49BB0011943B /* MoreCooperationViewController.m */,
 				45983EE11E70161500BA52E3 /* QDXActivityPriceViewController.h */,
 				45983EE21E70161500BA52E3 /* QDXActivityPriceViewController.m */,
+				45CC71B41E70F98D0028EA30 /* PlaceViewController.h */,
+				45CC71B51E70F98D0028EA30 /* PlaceViewController.m */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -1884,6 +1892,8 @@
 				459EB2661E6D4E880011943B /* ChoseCityCollectionViewCell.m */,
 				459EB26E1E6E577A0011943B /* LogoCollectionViewCell.h */,
 				459EB26F1E6E577A0011943B /* LogoCollectionViewCell.m */,
+				45CC71B71E71045B0028EA30 /* PlaceCollectionViewCell.h */,
+				45CC71B81E71045B0028EA30 /* PlaceCollectionViewCell.m */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2350,6 +2360,7 @@
 				45CA52251DE452270025A376 /* MJRefreshHeader.m in Sources */,
 				45ECA2811E24DDD000B9D835 /* QDXHomeCollectionView.m in Sources */,
 				4525944D1D50D31A002BF84B /* LocalDBService.m in Sources */,
+				45CC71B61E70F98D0028EA30 /* PlaceViewController.m in Sources */,
 				455C8A941CCF7827001F5FC5 /* APAuthV2Info.m in Sources */,
 				A3442D2B1C9BAA330092363A /* ActivityService.m in Sources */,
 				45EE613A1CEAC641007302E3 /* PointAnnotationView.m in Sources */,
@@ -2505,6 +2516,7 @@
 				45C6F5601C929FD000C5AA31 /* ImageModel.m in Sources */,
 				45C6F60A1C92A43A00C5AA31 /* QDXChangePwdViewController.m in Sources */,
 				45F6642F1DCB1DDC00C33FAF /* DWViewCell.m in Sources */,
+				45CC71B91E71045B0028EA30 /* PlaceCollectionViewCell.m in Sources */,
 				45C6F5881C92A10300C5AA31 /* LineModel.m in Sources */,
 				45CA522E1DE452270025A376 /* MJRefreshStateHeader.m in Sources */,
 				4569E57F1C4CB64B00FF4E8B /* SDWebImageCompat.m in Sources */,

@@ -26,6 +26,7 @@
 #import "UIButton+ImageText.h"
 #import "MoreCooperationViewController.h"
 #import "QDXActivityPriceViewController.h"
+#import "PlaceViewController.h"
 
 @interface HomeController ()<UITableViewDataSource,UITableViewDelegate,QDXHomeTableViewCellDelegate,QDXCooperationCellDelegate,ChoseCityDelegate,CLLocationManagerDelegate>
 {
@@ -134,7 +135,7 @@
      * [self.locationManager requestAlwaysAuthorization];
      */
     if ([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
-        NSLog(@"requestAlwaysAuthorization");
+//        NSLog(@"requestAlwaysAuthorization");
         [self.locationManager requestAlwaysAuthorization];
     }
     
@@ -510,11 +511,20 @@
 - (void)btnClick:(UIButton *)btn
 {
     NSString *type = [NSString stringWithFormat:@"%d",(int)btn.tag];
-    QDXActivityViewController *qdxActVC = [[QDXActivityViewController alloc] init];
-    qdxActVC.type = type;
-    qdxActVC.hidesBottomBarWhenPushed = YES;
-    qdxActVC.navTitle = btn.titleLabel.text;
-    [self.navigationController pushViewController:qdxActVC animated:YES];
+    
+    if ((int)btn.tag == 1) {
+        PlaceViewController *placeVC = [[PlaceViewController alloc] init];
+        placeVC.type = type;
+        placeVC.hidesBottomBarWhenPushed = YES;
+        placeVC.navTitle = btn.titleLabel.text;
+        [self.navigationController pushViewController:placeVC animated:YES];
+    }else{
+        QDXActivityViewController *qdxActVC = [[QDXActivityViewController alloc] init];
+        qdxActVC.type = type;
+        qdxActVC.hidesBottomBarWhenPushed = YES;
+        qdxActVC.navTitle = btn.titleLabel.text;
+        [self.navigationController pushViewController:qdxActVC animated:YES];
+    }
 }
 
 - (void)scanClick

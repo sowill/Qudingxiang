@@ -69,13 +69,13 @@
     maskLayer.path = maskPath.CGPath;
     self.act_img.layer.mask = maskLayer;
     
-    self.act_name = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(20), self.act_img.frame.size.height + FitRealValue(20), self.BGView.frame.size.width, FitRealValue(30))];
+    self.act_name = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(20), self.act_img.frame.size.height + FitRealValue(20), self.BGView.frame.size.width - FitRealValue(20), FitRealValue(30))];
     self.act_name.textColor = QDXBlack;
     self.act_name.font = [UIFont systemFontOfSize:17];
     self.act_name.textAlignment = NSTextAlignmentLeft;
     [self.BGView addSubview:self.act_name];
     
-    _act_place_img = [[UIImageView alloc] initWithFrame:CGRectMake(FitRealValue(20), self.act_name.frame.origin.y + FitRealValue(30 + 30), FitRealValue(22), FitRealValue(28))];
+    _act_place_img = [[UIImageView alloc] initWithFrame:CGRectMake(FitRealValue(20), self.act_name.frame.origin.y + FitRealValue(30 + 30), FitRealValue(32), FitRealValue(32))];
     _act_place_img.image = [UIImage imageNamed:@"定位"];
     [self.BGView addSubview:_act_place_img];
     
@@ -130,7 +130,7 @@
     maskLayer.path = maskPath.CGPath;
     self.act_img.layer.mask = maskLayer;
     
-    self.act_name = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(20), self.act_img.frame.size.height + FitRealValue(20), self.BGView.frame.size.width, FitRealValue(30))];
+    self.act_name = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(20), self.act_img.frame.size.height + FitRealValue(20), self.BGView.frame.size.width - FitRealValue(20), FitRealValue(30))];
     self.act_name.textColor = QDXBlack;
     self.act_name.font = [UIFont systemFontOfSize:17];
     self.act_name.textAlignment = NSTextAlignmentLeft;
@@ -142,7 +142,7 @@
 //    self.act_price.textAlignment = NSTextAlignmentLeft;
 //    [self.BGView addSubview:self.act_price];
     
-    _act_place_img = [[UIImageView alloc] initWithFrame:CGRectMake(FitRealValue(20), self.act_name.frame.origin.y + FitRealValue(30 + 30), FitRealValue(22), FitRealValue(28))];
+    _act_place_img = [[UIImageView alloc] initWithFrame:CGRectMake(FitRealValue(20), self.act_name.frame.origin.y + FitRealValue(30 + 30), FitRealValue(32), FitRealValue(32))];
     _act_place_img.image = [UIImage imageNamed:@"定位"];
     [self.BGView addSubview:_act_place_img];
     
@@ -189,7 +189,7 @@
     [self.act_place setFrame:CGRectMake(_act_place_img.frame.origin.x + FitRealValue(28 + 10), _act_place_img.frame.origin.y, size.width, FitRealValue(26))];
     self.act_place.text = str;
     
-    _act_state_img.frame = CGRectMake(self.act_place.frame.origin.x + FitRealValue(60) + self.act_place.frame.size.width, _act_place_img.frame.origin.y, FitRealValue(28), FitRealValue(28));
+    _act_state_img.frame = CGRectMake(self.act_place.frame.origin.x + FitRealValue(60) + self.act_place.frame.size.width, _act_place_img.frame.origin.y, FitRealValue(32), FitRealValue(32));
     
     _act_state.frame = CGRectMake(_act_state_img.frame.origin.x + FitRealValue(28 + 10), _act_state_img.frame.origin.y, FitRealValue(200), FitRealValue(26));
 }

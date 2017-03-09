@@ -11,8 +11,6 @@
 
 @interface MoreCooperationViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
 
-@property(nonatomic, strong)UIButton *logoBtn;
-
 @property(nonatomic, strong)UICollectionView *collectionView;
 
 @end

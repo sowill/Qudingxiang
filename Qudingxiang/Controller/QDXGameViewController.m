@@ -1355,8 +1355,8 @@ toViewController:(UIViewController *)toVC {
 {
     NSArray *shareButtonTitleArray = [[NSArray alloc] init];
     NSArray *shareButtonImageNameArray = [[NSArray alloc] init];
-    shareButtonTitleArray = @[@"QQ好友",@"QQ空间",@"微信好友",@"朋友圈"];
-    shareButtonImageNameArray = @[@"qq好友",@"qq空间",@"微信好友",@"朋友圈"];
+    shareButtonTitleArray = @[@"微信好友",@"朋友圈",@"QQ好友",@"QQ空间"];
+    shareButtonImageNameArray = @[@"微信好友",@"朋友圈",@"qq好友",@"qq空间"];
     LXActivity *lxActivity = [[LXActivity alloc] initWithTitle:@"分享到" delegate:self cancelButtonTitle:@"取消分享" ShareButtonTitles:shareButtonTitleArray withShareButtonImagesName:shareButtonImageNameArray];
     
     UIWindow *appWindow = [[UIApplication sharedApplication] keyWindow];

@@ -66,9 +66,9 @@
 {
     NSArray *shareButtonTitleArray = [[NSArray alloc] init];
     NSArray *shareButtonImageNameArray = [[NSArray alloc] init];
-    shareButtonTitleArray = @[@"QQ好友",@"QQ空间",@"微信好友",@"朋友圈"];
-    shareButtonImageNameArray = @[@"qq好友",@"qq空间",@"微信好友",@"朋友圈"];
-    LXActivity *lxActivity = [[LXActivity alloc] initWithTitle:@"分享到" delegate:self cancelButtonTitle:@"取消分享" ShareButtonTitles:shareButtonTitleArray withShareButtonImagesName:shareButtonImageNameArray];
+    shareButtonTitleArray = @[@"微信好友",@"朋友圈",@"QQ好友",@"QQ空间"];
+    shareButtonImageNameArray = @[@"微信好友",@"朋友圈",@"qq好友",@"qq空间"];
+    LXActivity *lxActivity = [[LXActivity alloc] initWithTitle:@"分享到" delegate:self cancelButtonTitle:@"取消" ShareButtonTitles:shareButtonTitleArray withShareButtonImagesName:shareButtonImageNameArray];
     [lxActivity showInView:self.view];
 }
 
@@ -163,11 +163,11 @@
     
     NSString *url = [hostUrl stringByAppendingString:[NSString stringWithFormat:@"index.php/home/goods/index/goods_id/%@",self.homeModel.goods_id]];
     
+    [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
     if([self.homeModel.good_st isEqualToString:@"1"]){
-        [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
         [self createPayUI];
     }else{
-        [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
+        
     }
 }
 
@@ -362,7 +362,6 @@
         activity.backgroundColor = [UIColor whiteColor];
         [self.deliverView addSubview:activity];
         
-        
         UIButton * closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
         closeBtn.frame = CGRectMake(QdxWidth-32, 0, 36, 32);
         [closeBtn setBackgroundImage:[UIImage imageNamed:@"取消按钮"] forState:UIControlStateNormal];
@@ -378,7 +377,7 @@
         place.font = [UIFont systemFontOfSize:14];
         [activity addSubview:place];
         
-        details = [[UITextView alloc] initWithFrame:CGRectMake(activityHeight, 15+15+15, QdxWidth - 10-activityHeight, activityHeight -15-15 - 15 -15)];
+        details = [[UITextView alloc] initWithFrame:CGRectMake(activityHeight, 15+15+15, QdxWidth - 10 - activityHeight, activityHeight -15-15 - 15 -15)];
         details.editable = NO;
         details.autoresizingMask = UIViewAutoresizingFlexibleHeight;
         details.font = [UIFont fontWithName:@"Arial" size:12];
@@ -412,6 +411,7 @@
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
         NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
+        
         QDXDetailsModel *model = [[QDXDetailsModel alloc] init];
         [model setUrl:infoDict[@"Msg"][@"area"][@"map"]];
         [model setArea_name:infoDict[@"Msg"][@"line_sub"]];
@@ -500,7 +500,7 @@
         
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-
+        
         if([dict[@"Code"] intValue] == 0){
             [pay setTitle:@"不能付" forState:UIControlStateNormal];
             [pay setBackgroundImage:[ToolView createImageWithColor:QDXLightGray] forState:UIControlStateNormal];
@@ -526,7 +526,7 @@
                 _totalPrice = [model.Orders_am floatValue];
                 _price.text = [NSString stringWithFormat:@"¥%.2f",_totalPrice];
                 if(isBool ==YES){
-                    _indexNum =0;
+                    _indexNum = 1;
                     for(NSDictionary *ticketArr in model.ticketinfo){
                         if([ticketArr[@"ticket_id"] isEqualToString:_homeModel.goods_id]){
                             [model setTicket_price:ticketArr[@"ticket_price"]];

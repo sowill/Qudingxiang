@@ -11,6 +11,6 @@
 -(void)passTrendValues:(NSString *)values andWXValue:(NSString *)WXValues;//1.1定义协议与方法
 @end
 
-@interface QDXLoginViewController : UIViewController
+@interface QDXLoginViewController : BaseViewController
 @property (retain,nonatomic) id <PassTrendValueDelegate> trendDelegate;
 @end

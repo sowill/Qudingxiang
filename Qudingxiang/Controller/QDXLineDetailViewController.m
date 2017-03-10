@@ -15,7 +15,7 @@
 #import "HomeModel.h"
 #import "QDXOrderDetailTableViewController.h"
 #import "QDXLoginViewController.h"
-//#import "QDXNavigationController.h"
+#import "NSMutableAttributedString+ChangeColorFont.h"
 #import <WebKit/WebKit.h>
 
 @interface QDXLineDetailViewController ()<WKNavigationDelegate>
@@ -37,7 +37,7 @@
     UILabel *activityStartTime;
     UIImageView *activitypic;
     UILabel *place;
-    UITextView *details;
+    UILabel *details;
     UIButton *hadSignUp;
     UIButton  *sign_up;
 }
@@ -222,33 +222,34 @@
 - (void)createPayUI
 {
     // 添加底部按钮
-    _bottom = [[UIView alloc] initWithFrame:CGRectMake(0, QdxHeight- 50-64, QdxWidth, 0.5)];
+    _bottom = [[UIView alloc] initWithFrame:CGRectMake(0, QdxHeight- FitRealValue(110)-64, QdxWidth, 0.5)];
     _bottom.backgroundColor = QDXLineColor;
     [self.view addSubview:_bottom];
     
-    sign_up = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth/2, QdxHeight- 50-64, QdxWidth/2, 50)];
+    sign_up = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth/2, QdxHeight- FitRealValue(110)-64, QdxWidth/2, FitRealValue(110))];
     [sign_up setTitle:@"立即报名" forState:UIControlStateNormal];
     [sign_up setBackgroundImage:[ToolView createImageWithColor:QDXBlue] forState:UIControlStateNormal];
     [sign_up setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [sign_up setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
     [sign_up setBackgroundImage:[ToolView createImageWithColor:QDXDarkBlue] forState:UIControlStateHighlighted];
-    sign_up.titleLabel.font = [UIFont systemFontOfSize:16.0];
+    sign_up.titleLabel.font = [UIFont systemFontOfSize:16];
     [sign_up addTarget:self action:@selector(sign_up) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:sign_up];
     
-    UIButton *cost = [[UIButton alloc] initWithFrame:CGRectMake(0, QdxHeight- 50-64, QdxWidth/2, 50)];
+    UIButton *cost = [[UIButton alloc] initWithFrame:CGRectMake(0, QdxHeight- FitRealValue(110)-64, QdxWidth/2, FitRealValue(110))];
     [cost setBackgroundColor:[UIColor whiteColor]];
     cost.userInteractionEnabled = NO;
     [self.view addSubview:cost];
-    UILabel *sum = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth/4 - 90/2 , 50/2-25/2, 25, 25)];
-    sum.text = @"¥";
-    sum.textColor = QDXOrange;
-    sum.font = [UIFont systemFontOfSize:20];
-    [cost addSubview:sum];
-    UILabel * price_1 = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth/4 - 90/2 + 20, 50/2-40/2, 90, 40)];
+
+    UILabel * price_1 = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth/4 - 90/2 + 10, FitRealValue(110)/2-40/2, 90, 40)];
     price_1.textColor = QDXOrange;
-    price_1.font = [UIFont systemFontOfSize:20];
-    price_1.text = self.homeModel.goods_price;
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@""];
+    [string appendString:@"¥" withColor:QDXOrange font:[UIFont systemFontOfSize:14]];
+    NSRange range = [self.homeModel.goods_price rangeOfString:@"."];
+    NSString *a = self.homeModel.goods_price;
+    [string appendString:[a substringToIndex:(int)range.location] withColor:QDXOrange font:[UIFont systemFontOfSize:24]];
+    [string appendString:[a substringFromIndex:(int)range.location] withColor:QDXOrange font:[UIFont systemFontOfSize:14]];
+    price_1.attributedText = string;
     [cost addSubview:price_1];
 }
 
@@ -296,93 +297,92 @@
         
         // ------底部弹出的View
         self.deliverView                 = [[UIView alloc] init];
-        self.deliverView.frame           = CGRectMake(0, QdxHeight*0.55, QdxWidth, QdxHeight*0.45);
-        self.deliverView.backgroundColor = [UIColor colorWithWhite:0.949 alpha:1.000];
+        self.deliverView.frame           = CGRectMake(0, QdxHeight - FitRealValue(506), QdxWidth, FitRealValue(506));
+        self.deliverView.backgroundColor = [UIColor clearColor];
         
-        self.deliverView.layer.shadowColor = [UIColor blackColor].CGColor;
-        self.deliverView.layer.shadowOffset = CGSizeMake(0.5, 0.5);
-        self.deliverView.layer.shadowOpacity = 0.8;
-        self.deliverView.layer.shadowRadius = 5;
         [appWindow addSubview:self.deliverView];
         
-        UIView *bottom = [[UIView alloc] initWithFrame:CGRectMake(0, QdxHeight*0.45- 50 , QdxWidth, 0.5)];
+        UIView *bottom = [[UIView alloc] initWithFrame:CGRectMake(0, FitRealValue(506) - FitRealValue(110) , QdxWidth, 0.5)];
         bottom.backgroundColor = QDXLineColor;
         [self.deliverView addSubview:bottom];
         // 添加底部按钮
-        pay = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth/2, QdxHeight*0.45- 50, QdxWidth/2, 50)];
+        pay = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth/2, FitRealValue(506)- FitRealValue(110), QdxWidth/2, FitRealValue(110))];
         pay.titleLabel.font = [UIFont systemFontOfSize:16.0];
         pay.titleLabel.textAlignment = NSTextAlignmentCenter;
         [pay setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [pay addTarget:self action:@selector(pay) forControlEvents:UIControlEventTouchUpInside];
         [self.deliverView addSubview:pay];
         
-        UIButton *cost = [[UIButton alloc] initWithFrame:CGRectMake(0, QdxHeight*0.45- 50, QdxWidth/2, 50)];
+        UIButton *cost = [[UIButton alloc] initWithFrame:CGRectMake(0, FitRealValue(506)- FitRealValue(110), QdxWidth/2, FitRealValue(110))];
         [cost setBackgroundColor:[UIColor whiteColor]];
         cost.userInteractionEnabled = NO;
         [self.deliverView addSubview:cost];
-        UILabel *sum = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth/4 - 90/2 - 30/2, 50/2-25/2, 30, 25)];
-        sum.text = @"总计";
-        sum.textColor =QDXGray;
-        sum.font = [UIFont systemFontOfSize:14];
-        [cost addSubview:sum];
-        _price = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth/4 - 90/2 + 20, 50/2-40/2, 90, 40)];
-        _price.textColor = QDXOrange;
-        _price.font = [UIFont systemFontOfSize:20];
+
+        _price = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth/4 - 90/2, FitRealValue(110)/2-40/2, 90, 40)];
         [cost addSubview:_price];
         
-        float viewHeight = QdxHeight*0.45 - 50;
-        float cellHeight = viewHeight*0.05;
-        float payHeight = viewHeight*0.3;
-        float activityHeight = viewHeight-cellHeight-payHeight-cellHeight;
+        float viewHeight = FitRealValue(506);
+        float cellHeight = FitRealValue(210);
+        float payHeight = FitRealValue(110);
+        float activityHeight = viewHeight-cellHeight-payHeight;
         
-        _payView = [[UIView alloc] initWithFrame:CGRectMake(0, viewHeight - payHeight-cellHeight, QdxWidth, payHeight)];
+        _payView = [[UIView alloc] initWithFrame:CGRectMake(0, activityHeight, QdxWidth, cellHeight)];
         _payView.backgroundColor = [UIColor whiteColor];
         [self.deliverView addSubview:_payView];
         
-        _addBtn = [ToolView createButtonWithFrame:CGRectMake(QdxWidth-20 - 18, payHeight/2, 25, 18) title:@"" backGroundImage:@"加号" Target:self action:@selector(addClick) superView:_payView];
+        _addBtn = [ToolView createButtonWithFrame:CGRectMake(QdxWidth-20 - 18, cellHeight/2, 25, 18) title:@"" backGroundImage:@"加号" Target:self action:@selector(addClick) superView:_payView];
         
-        _minBtn = [ToolView createButtonWithFrame:CGRectMake(QdxWidth-95 - 18, payHeight/2, 25, 18) title:@"" backGroundImage:@"减号" Target:self action:@selector(minClick) superView:_payView];
+        _minBtn = [ToolView createButtonWithFrame:CGRectMake(QdxWidth-95 - 18, cellHeight/2, 25, 18) title:@"" backGroundImage:@"减号" Target:self action:@selector(minClick) superView:_payView];
   
-        _numberLabel = [ToolView createLabelWithFrame:CGRectMake(QdxWidth-50-18,payHeight/2, 30, 18) text:[NSString stringWithFormat:@"%i",_indexNum] font:12 superView:_payView];
+        _numberLabel = [ToolView createLabelWithFrame:CGRectMake(QdxWidth-50-18,cellHeight/2, 30, 18) text:[NSString stringWithFormat:@"%i",_indexNum] font:12 superView:_payView];
         
         
-        UILabel *activityTime = [[UILabel alloc] initWithFrame:CGRectMake(10, 15, 60, 15)];
+        UILabel *activityTime = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(40), FitRealValue(60), 60, 15)];
         activityTime.text = @"截止日期";
         activityTime.font = [UIFont systemFontOfSize:14];
-        activityTime.textColor = [UIColor colorWithWhite:0.067 alpha:1.000];
+        activityTime.textColor = QDXBlack;
         [_payView addSubview:activityTime];
         
-        activityStartTime = [[UILabel alloc] initWithFrame:CGRectMake(10, payHeight/2 +5, QdxWidth/2, 15)];
+        activityStartTime = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(40), cellHeight/2 +5, QdxWidth/2, 15)];
         activityStartTime.text = @"0000.00.00(剩余00张)";
-        activityStartTime.font = [UIFont systemFontOfSize:12];
-        activityStartTime.textColor = [UIColor colorWithWhite:0.400 alpha:1.000];
+        activityStartTime.font = [UIFont systemFontOfSize:13];
+        activityStartTime.textColor = QDXGray;
         [_payView addSubview:activityStartTime];
         
         UIView *activity = [[UIView alloc] initWithFrame:CGRectMake(0, 0 , QdxWidth, activityHeight)];
         activity.backgroundColor = [UIColor whiteColor];
         [self.deliverView addSubview:activity];
         
+        UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, activityHeight + FitRealValue(1), QdxWidth, FitRealValue(1))];
+        line.backgroundColor = QDXLineColor;
+        [self.deliverView addSubview:line];
+        
         UIButton * closeBtn = [UIButton buttonWithType:UIButtonTypeCustom];
-        closeBtn.frame = CGRectMake(QdxWidth-32, 0, 36, 32);
+        closeBtn.frame = CGRectMake(QdxWidth-15 - 24, 15, 24, 24);
         [closeBtn setBackgroundImage:[UIImage imageNamed:@"取消按钮"] forState:UIControlStateNormal];
         [closeBtn addTarget:self action:@selector(exitClick) forControlEvents:UIControlEventTouchUpInside];
         [activity addSubview:closeBtn];
         
-        activitypic = [[UIImageView alloc] initWithFrame:CGRectMake(10, 10, activityHeight-20, activityHeight- 20)];
-        activitypic.contentMode = UIViewContentModeScaleAspectFit;
-        [activity addSubview:activitypic];
+        UIView *picView = [[UIView alloc] initWithFrame:CGRectMake(FitRealValue(30), -FitRealValue(60), FitRealValue(200), FitRealValue(200))];
+        picView.layer.cornerRadius = 3;
+        picView.layer.borderColor = [[UIColor whiteColor] CGColor];
+        picView.backgroundColor = [UIColor whiteColor];
+        [activity addSubview:picView];
         
-        place = [[UILabel alloc] initWithFrame:CGRectMake(activityHeight, 15, 150, 20)];
-        place.textColor = [UIColor colorWithWhite:0.067 alpha:1.000];
-        place.font = [UIFont systemFontOfSize:14];
+        activitypic = [[UIImageView alloc] initWithFrame:CGRectMake(FitRealValue(10), FitRealValue(10), FitRealValue(180), FitRealValue(180))];
+//        activitypic.contentMode = UIViewContentModeScaleAspectFit;
+        [picView addSubview:activitypic];
+        
+        place = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(200 + 30 + 30), FitRealValue(26), 150, 20)];
+        place.textColor = QDXBlack;
+        place.font = [UIFont systemFontOfSize:15];
         [activity addSubview:place];
         
-        details = [[UITextView alloc] initWithFrame:CGRectMake(activityHeight, 15+15+15, QdxWidth - 10 - activityHeight, activityHeight -15-15 - 15 -15)];
-        details.editable = NO;
-        details.autoresizingMask = UIViewAutoresizingFlexibleHeight;
-        details.font = [UIFont fontWithName:@"Arial" size:12];
-        details.textColor = [UIColor colorWithWhite:0.400 alpha:1.000];
-        details.scrollEnabled = YES;
+        details = [[UILabel alloc] initWithFrame:CGRectMake(place.frame.origin.x, FitRealValue(26 ) + 20, FitRealValue(360), FitRealValue(60))];
+//        details.autoresizingMask = UIViewAutoresizingFlexibleHeight;
+        details.numberOfLines = 0;
+        details.font = [UIFont fontWithName:@"Arial" size:11];
+        details.textColor = QDXGray;
         [activity addSubview:details];
         
         // ------View出现动画
@@ -393,6 +393,18 @@
             
         }];
     }
+}
+
+-(void)setUpPriceFont
+{
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@""];
+    [string appendString:@"总计:" withColor:QDXGray font:[UIFont systemFontOfSize:13]];
+    [string appendString:@"¥" withColor:QDXOrange font:[UIFont systemFontOfSize:14]];
+    NSRange range = [[NSString stringWithFormat:@"%.2f",_totalPrice]  rangeOfString:@"."];
+    NSString *a = [NSString stringWithFormat:@"%.2f",_totalPrice];
+    [string appendString:[a substringToIndex:(int)range.location] withColor:QDXOrange font:[UIFont systemFontOfSize:24]];
+    [string appendString:[a substringFromIndex:(int)range.location] withColor:QDXOrange font:[UIFont systemFontOfSize:14]];
+    _price.attributedText = string;
 }
 
 
@@ -463,7 +475,7 @@
         [self payDataWithNumber:@"1" PassNum:NO];
         _priceStr = [_homeModel.goods_price intValue];
         _totalPrice += _priceStr;
-        _price.text = [NSString stringWithFormat:@"¥%.2f",_totalPrice];
+        [self setUpPriceFont];
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"stateRefresh" object:nil];
     }
@@ -479,7 +491,7 @@
     [self payDataWithNumber:@"2" PassNum:NO];
         _priceStr = [_homeModel.goods_price intValue];
         _totalPrice -= _priceStr;
-        _price.text = [NSString stringWithFormat:@"¥%.2f",_totalPrice];
+        [self setUpPriceFont];
         
         [[NSNotificationCenter defaultCenter] postNotificationName:@"stateRefresh" object:nil];
     }
@@ -524,7 +536,7 @@
                 _orders_name = model.Orders_name;
                 _orders_id =model.Orders_id;
                 _totalPrice = [model.Orders_am floatValue];
-                _price.text = [NSString stringWithFormat:@"¥%.2f",_totalPrice];
+                [self setUpPriceFont];
                 if(isBool ==YES){
                     _indexNum = 1;
                     for(NSDictionary *ticketArr in model.ticketinfo){

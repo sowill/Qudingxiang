@@ -268,6 +268,8 @@
 		45CA52341DE452270025A376 /* UIView+MJExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CA52201DE452270025A376 /* UIView+MJExtension.m */; };
 		45CC71B61E70F98D0028EA30 /* PlaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CC71B51E70F98D0028EA30 /* PlaceViewController.m */; };
 		45CC71B91E71045B0028EA30 /* PlaceCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45CC71B81E71045B0028EA30 /* PlaceCollectionViewCell.m */; };
+		45CC71BB1E7284C80028EA30 /* MAMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45CC71BA1E7284C80028EA30 /* MAMapKit.framework */; };
+		45CC71BD1E7284F40028EA30 /* AMap.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 45CC71BC1E7284F40028EA30 /* AMap.bundle */; };
 		45D6E6CB1E0115A2004EFF15 /* QDXActivityViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D6E6CA1E0115A2004EFF15 /* QDXActivityViewController.m */; };
 		45D6E6CE1E011FD8004EFF15 /* QDXActTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D6E6CD1E011FD8004EFF15 /* QDXActTableViewCell.m */; };
 		45DBF7241DE7E84B008FDA7D /* QDXSlideView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DBF7231DE7E84B008FDA7D /* QDXSlideView.m */; };
@@ -278,8 +280,6 @@
 		45DD34DA1C33D5F500E24250 /* read_me.txt in Resources */ = {isa = PBXBuildFile; fileRef = 45DD34D51C33D5F500E24250 /* read_me.txt */; };
 		45DF76381BA6AAC20024A6B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45DF76361BA6AAC20024A6B4 /* Main.storyboard */; };
 		45E497F61E11284400F61F05 /* AMapFoundationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45E497F41E11284400F61F05 /* AMapFoundationKit.framework */; };
-		45E497F71E11284400F61F05 /* MAMapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45E497F51E11284400F61F05 /* MAMapKit.framework */; };
-		45E497F91E11285000F61F05 /* AMap.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 45E497F81E11285000F61F05 /* AMap.bundle */; };
 		45E8F44F1E2609A300902455 /* Airbnb00.png in Resources */ = {isa = PBXBuildFile; fileRef = 45E8F44E1E2609A300902455 /* Airbnb00.png */; };
 		45E8F4511E2609AA00902455 /* Airbnb01.png in Resources */ = {isa = PBXBuildFile; fileRef = 45E8F4501E2609AA00902455 /* Airbnb01.png */; };
 		45E8F4531E2609B100902455 /* Airbnb02.png in Resources */ = {isa = PBXBuildFile; fileRef = 45E8F4521E2609B100902455 /* Airbnb02.png */; };
@@ -878,6 +878,8 @@
 		45CC71B51E70F98D0028EA30 /* PlaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceViewController.m; sourceTree = "<group>"; };
 		45CC71B71E71045B0028EA30 /* PlaceCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlaceCollectionViewCell.h; sourceTree = "<group>"; };
 		45CC71B81E71045B0028EA30 /* PlaceCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlaceCollectionViewCell.m; sourceTree = "<group>"; };
+		45CC71BA1E7284C80028EA30 /* MAMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MAMapKit.framework; sourceTree = "<group>"; };
+		45CC71BC1E7284F40028EA30 /* AMap.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AMap.bundle; sourceTree = "<group>"; };
 		45D6E6C91E0115A2004EFF15 /* QDXActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXActivityViewController.h; sourceTree = "<group>"; };
 		45D6E6CA1E0115A2004EFF15 /* QDXActivityViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXActivityViewController.m; sourceTree = "<group>"; };
 		45D6E6CC1E011FD8004EFF15 /* QDXActTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXActTableViewCell.h; sourceTree = "<group>"; };
@@ -904,8 +906,6 @@
 		45DF76371BA6AAC20024A6B4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		45DF76421BA6AAC20024A6B4 /* 趣定向.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "趣定向.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		45E497F41E11284400F61F05 /* AMapFoundationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapFoundationKit.framework; sourceTree = "<group>"; };
-		45E497F51E11284400F61F05 /* MAMapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = MAMapKit.framework; sourceTree = "<group>"; };
-		45E497F81E11285000F61F05 /* AMap.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AMap.bundle; sourceTree = "<group>"; };
 		45E8F44E1E2609A300902455 /* Airbnb00.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Airbnb00.png; sourceTree = "<group>"; };
 		45E8F4501E2609AA00902455 /* Airbnb01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Airbnb01.png; sourceTree = "<group>"; };
 		45E8F4521E2609B100902455 /* Airbnb02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Airbnb02.png; sourceTree = "<group>"; };
@@ -1039,7 +1039,7 @@
 				45E497F61E11284400F61F05 /* AMapFoundationKit.framework in Frameworks */,
 				4586958C1C4DD6BB009BAA81 /* CoreTelephony.framework in Frameworks */,
 				4586958A1C4DD6AD009BAA81 /* libWeChatSDK.a in Frameworks */,
-				45E497F71E11284400F61F05 /* MAMapKit.framework in Frameworks */,
+				45CC71BB1E7284C80028EA30 /* MAMapKit.framework in Frameworks */,
 				458695891C4DD687009BAA81 /* libstdc++.tbd in Frameworks */,
 				455C8A931CCF7827001F5FC5 /* AlipaySDK.framework in Frameworks */,
 				458695851C4DD664009BAA81 /* libc++.tbd in Frameworks */,
@@ -2114,9 +2114,9 @@
 		45DF765A1BA6AB150024A6B4 /* Lib */ = {
 			isa = PBXGroup;
 			children = (
-				45E497F81E11285000F61F05 /* AMap.bundle */,
+				45CC71BC1E7284F40028EA30 /* AMap.bundle */,
+				45CC71BA1E7284C80028EA30 /* MAMapKit.framework */,
 				45E497F41E11284400F61F05 /* AMapFoundationKit.framework */,
-				45E497F51E11284400F61F05 /* MAMapKit.framework */,
 				451BDEB41DF54F1C00008959 /* SGNetObserver */,
 				45CA51F21DE452270025A376 /* MJRefresh */,
 				4549C7601DBE103800180FB5 /* Category */,
@@ -2310,8 +2310,8 @@
 				451828AF1D40C87A00D5FC85 /* icon_ea_indicator@3x.png in Resources */,
 				451828AE1D40C87A00D5FC85 /* icon_ea_indicator@2x.png in Resources */,
 				45E8F4551E2609B600902455 /* Airbnb03.png in Resources */,
-				45E497F91E11285000F61F05 /* AMap.bundle in Resources */,
 				453395141CF6E06100B5A825 /* wifimanhub_grayscale@2x.png in Resources */,
+				45CC71BD1E7284F40028EA30 /* AMap.bundle in Resources */,
 				45C6F6171C92A62700C5AA31 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				451828AD1D40C87A00D5FC85 /* icon_ea_background@3x.png in Resources */,
 				451828AC1D40C87A00D5FC85 /* icon_ea_background@2x.png in Resources */,

@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 #import "QDXLoginViewController.h"
-@interface QDXBindViewController : UIViewController<PassTrendValueDelegate>
+@interface QDXBindViewController : BaseViewController<PassTrendValueDelegate>
 
 @end

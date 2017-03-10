@@ -128,6 +128,7 @@
     MineCellService *mineCell = [MineCellService sharedInstance];
     [mineCell cellDatasucceed:^(id data) {
         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments | NSJSONReadingMutableLeaves error:nil];
+        
         if ([dict[@"Code"] intValue] == 0) {
             
         }else{

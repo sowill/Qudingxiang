@@ -3,7 +3,7 @@
 //  MAMapKit
 //
 //  Created by shaobin on 16/10/24.
-//  Copyright © 2016年 le.weng. All rights reserved.
+//  Copyright © 2016 Amap. All rights reserved.
 //
 
 #ifndef MAConfig_h

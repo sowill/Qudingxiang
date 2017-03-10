@@ -52,11 +52,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stateRefresh) name:@"stateRefresh" object:nil];
     
     [self netData];
-    
-    [self.view addSubview:self.tableView];
-    [self.view addSubview:self.bgimageView];
-    [self.view addSubview:self.imageView];
-    [self.view addSubview:self.infoView];
 }
 
 -(void)stateRefresh
@@ -90,16 +85,16 @@
         }
         [_infoView addSubview:_signLab];
         
-        _phoneLab = [[UIButton alloc] initWithFrame:CGRectMake(FitRealValue(10), FitRealValue(10 + 36 + 20), FitRealValue(230), FitRealValue(36))];
-        _phoneLab.titleLabel.textColor = [UIColor whiteColor];
+        _phoneLab = [[UIButton alloc] initWithFrame:CGRectMake(FitRealValue(10), FitRealValue(10 + 36 + 20), FitRealValue(200), FitRealValue(36))];
+        [_phoneLab setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         _phoneLab.titleLabel.font = [UIFont systemFontOfSize:12];
         
-        NSMutableString * str1 = [[NSMutableString alloc]initWithString:_peopleDict[@"Msg"][@"code"]];
-        [str1 deleteCharactersInRange:NSMakeRange(3,6)];
-        [str1 insertString:@"******" atIndex:3];
         if ([save length] == 0) {
             [_phoneLab setTitle:@"************" forState:UIControlStateNormal];
         }else{
+            NSMutableString * str1 = [[NSMutableString alloc]initWithString:_peopleDict[@"Msg"][@"code"]];
+            [str1 deleteCharactersInRange:NSMakeRange(3,6)];
+            [str1 insertString:@"******" atIndex:3];
             [_phoneLab setTitle:str1 forState:UIControlStateNormal];
         }
         [_phoneLab setImage:[UIImage imageNamed:@"iphone"] forState:UIControlStateNormal];
@@ -240,7 +235,10 @@
                 
             }
         }
-        [_tableView reloadData];
+        [self.view addSubview:self.tableView];
+        [self.view addSubview:self.bgimageView];
+        [self.view addSubview:self.imageView];
+        [self.view addSubview:self.infoView];
         
     } FailBlock:^(NSMutableArray *array) {
         

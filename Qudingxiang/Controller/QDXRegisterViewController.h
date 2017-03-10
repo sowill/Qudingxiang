@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface QDXRegisterViewController : UIViewController
+@interface QDXRegisterViewController : BaseViewController
 
 @property(nonatomic,strong)NSString* firstVaule;
 

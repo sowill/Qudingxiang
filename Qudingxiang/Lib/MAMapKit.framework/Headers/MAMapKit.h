@@ -3,7 +3,7 @@
 //  MAMapKit
 //
 //  Created by 翁乐 on 12/2/15.
-//  Copyright © 2015 le.weng. All rights reserved.
+//  Copyright © 2015 Amap. All rights reserved.
 //
 
 #import <MAMapKit/MAConfig.h>
@@ -46,4 +46,5 @@
 #import <MAMapKit/MAOfflineItemMunicipality.h>
 #import <MAMapKit/MAOfflineItemNationWide.h>
 #import <MAMapKit/MAOfflineProvince.h>
+#import <MAMapKit/MAUserLocationRepresentation.h>
 

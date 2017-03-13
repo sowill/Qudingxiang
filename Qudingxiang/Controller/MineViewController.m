@@ -59,116 +59,6 @@
     [self netData];
 }
 
--(UIView *)infoView
-{
-    if (!_infoView) {
-        _infoView = [[UIView alloc] initWithFrame:CGRectMake(FitRealValue(214), FitRealValue(138), QdxWidth - FitRealValue(214), FitRealValue(152))];
-        _infoView.backgroundColor = [UIColor clearColor];
-        
-        _nameLab = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(10), FitRealValue(10), FitRealValue(380), FitRealValue(36))];
-        _nameLab.textColor = [UIColor whiteColor];
-        _nameLab.font = [UIFont systemFontOfSize:17];
-        if ([save length] == 0) {
-            _nameLab.text = @"昵称";
-        }else{
-            _nameLab.text = _peopleDict[@"Msg"][@"customer_name"];
-        }
-        [_infoView addSubview:_nameLab];
-        
-        _signLab = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(10), FitRealValue(10 + 36 + 20 + 36 + 20), FitRealValue(380), FitRealValue(36))];
-        _signLab.textColor = [UIColor whiteColor];
-        _signLab.font = [UIFont systemFontOfSize:12];
-        if ([save length] == 0) {
-            _signLab.text = @"签名:";
-        }else{
-            _signLab.text = [@"签名:"stringByAppendingString:_peopleDict[@"Msg"][@"signature"]];
-        }
-        [_infoView addSubview:_signLab];
-        
-        _phoneLab = [[UIButton alloc] initWithFrame:CGRectMake(FitRealValue(10), FitRealValue(10 + 36 + 20), FitRealValue(200), FitRealValue(36))];
-        [_phoneLab setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-        _phoneLab.titleLabel.font = [UIFont systemFontOfSize:12];
-        
-        if ([save length] == 0) {
-            [_phoneLab setTitle:@"************" forState:UIControlStateNormal];
-        }else{
-            NSMutableString * str1 = [[NSMutableString alloc]initWithString:_peopleDict[@"Msg"][@"code"]];
-            [str1 deleteCharactersInRange:NSMakeRange(3,6)];
-            [str1 insertString:@"******" atIndex:3];
-            [_phoneLab setTitle:str1 forState:UIControlStateNormal];
-        }
-        [_phoneLab setImage:[UIImage imageNamed:@"iphone"] forState:UIControlStateNormal];
-        [_phoneLab setImagePosition:0 WithMargin:0];
-        [_infoView addSubview:_phoneLab];
-        
-        _editBtn = [[UIButton alloc] initWithFrame:CGRectMake(FitRealValue(380), 0, QdxWidth - FitRealValue(214 + 380), FitRealValue(152))];
-        _editBtn.titleLabel.textColor = [UIColor whiteColor];
-        _editBtn.titleLabel.font = [UIFont systemFontOfSize:12];
-        [_editBtn setTitle:@"编辑资料" forState:UIControlStateNormal];
-        [_editBtn addTarget:self action:@selector(editBtnClick) forControlEvents:UIControlEventTouchUpInside];
-        [_infoView addSubview:_editBtn];
-    }
-    return _infoView;
-}
-
--(UITableView *)tableView
-{
-    if (!_tableView) {
-        _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight) style:UITableViewStyleGrouped];
-        _tableView.delegate = self;
-        _tableView.dataSource = self;
-        _tableView.backgroundColor = QDXBGColor;
-        _tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-        CGFloat headImvH = FitRealValue(330);
-        //这句很重要
-        _tableView.contentInset = UIEdgeInsetsMake(headImvH, 0, 0, 0);
-    }
-    return _tableView;
-}
-
--(UIImageView *)bgimageView
-{
-    if (!_bgimageView) {
-        _bgimageView = [[UIImageView alloc] init];
-        _bgimageView.frame = CGRectMake(0, 0, QdxWidth,FitRealValue(330));
-        _bgimageView.contentMode = UIViewContentModeScaleAspectFill;
-        _bgimageView.clipsToBounds = YES;
-        _bgimageView.image = [UIImage imageNamed:@"背景"];
-    }
-    return _bgimageView;
-}
-
--(UIImageView *)imageView
-{
-    if (!_imageView) {
-        _imageView = [[UIImageView alloc] init];
-        _imageView.frame = CGRectMake(FitRealValue(40),FitRealValue(138),FitRealValue(152),FitRealValue(152));
-        _imageView.userInteractionEnabled = YES;
-        _imageView.layer.cornerRadius = 3;
-        NSString *aPath3=[NSString stringWithFormat:@"%@/Documents/image/%@.png",NSHomeDirectory(),@"image"];
-        _path = aPath3;
-        UIImage *imgFromUrl3=[[UIImage alloc]initWithContentsOfFile:aPath3];
-        
-        if(_im){
-            _imageView.image = imgFromUrl3;
-        }else{
-            if([save length] != 0){
-                NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,_peopleDict[@"Msg"][@"headurl"]]];
-                
-                [_imageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"默认头像"]];
-            }else{
-                _imageView.image = [UIImage imageNamed:@"默认头像"];
-            }
-        }
-        
-        _picBtn = [[UIButton alloc] init];
-        _picBtn.frame = _imageView.bounds;
-        [_picBtn addTarget:self action:@selector(updatahead) forControlEvents:UIControlEventTouchUpInside];
-        [_imageView addSubview:_picBtn];
-    }
-    return _imageView;
-}
-
 #pragma mark - UIScrollViewDelegate
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
@@ -220,7 +110,7 @@
         NSDictionary* _dic = [[NSDictionary alloc] initWithDictionary:dict];
         _peopleDict=[NSDictionary dictionaryWithDictionary:_dic];
         if ([_peopleDict[@"Code"] intValue] == 0) {
-            NSFileManager * fileManager = [[NSFileManager alloc]init];
+            NSFileManager *fileManager = [[NSFileManager alloc]init];
             NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
             
             documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
@@ -235,14 +125,106 @@
                 
             }
         }
-        [self.view addSubview:self.tableView];
-        [self.view addSubview:self.bgimageView];
-        [self.view addSubview:self.imageView];
-        [self.view addSubview:self.infoView];
+        
+        [self setupUI];
         
     } FailBlock:^(NSMutableArray *array) {
         
     } andWithToken:save];
+}
+
+-(void)setupUI
+{
+    _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight) style:UITableViewStyleGrouped];
+    _tableView.delegate = self;
+    _tableView.dataSource = self;
+    _tableView.backgroundColor = QDXBGColor;
+    _tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
+    CGFloat headImvH = FitRealValue(330);
+    //这句很重要
+    _tableView.contentInset = UIEdgeInsetsMake(headImvH, 0, 0, 0);
+    [self.view addSubview:self.tableView];
+    
+    _bgimageView = [[UIImageView alloc] init];
+    _bgimageView.frame = CGRectMake(0, 0, QdxWidth,FitRealValue(330));
+    _bgimageView.contentMode = UIViewContentModeScaleAspectFill;
+    _bgimageView.clipsToBounds = YES;
+    _bgimageView.image = [UIImage imageNamed:@"背景"];
+    [self.view addSubview:self.bgimageView];
+    
+    _imageView = [[UIImageView alloc] init];
+    _imageView.frame = CGRectMake(FitRealValue(40),FitRealValue(138),FitRealValue(152),FitRealValue(152));
+    _imageView.userInteractionEnabled = YES;
+    _imageView.layer.cornerRadius = 3;
+    NSString *aPath3=[NSString stringWithFormat:@"%@/Documents/image/%@.png",NSHomeDirectory(),@"image"];
+    _path = aPath3;
+    UIImage *imgFromUrl3=[[UIImage alloc]initWithContentsOfFile:aPath3];
+    
+    if(_im){
+        _imageView.image = imgFromUrl3;
+    }else{
+        if([save length] != 0){
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,_peopleDict[@"Msg"][@"headurl"]]];
+            
+            [_imageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"默认头像"]];
+        }else{
+            _imageView.image = [UIImage imageNamed:@"默认头像"];
+        }
+    }
+    
+    _picBtn = [[UIButton alloc] init];
+    _picBtn.frame = _imageView.bounds;
+    [_picBtn addTarget:self action:@selector(updatahead) forControlEvents:UIControlEventTouchUpInside];
+    [_imageView addSubview:_picBtn];
+    [self.view addSubview:self.imageView];
+    
+    _infoView = [[UIView alloc] initWithFrame:CGRectMake(FitRealValue(214), FitRealValue(138), QdxWidth - FitRealValue(214), FitRealValue(152))];
+    _infoView.backgroundColor = [UIColor clearColor];
+    
+    _nameLab = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(10), FitRealValue(10), FitRealValue(380), FitRealValue(36))];
+    _nameLab.textColor = [UIColor whiteColor];
+    _nameLab.font = [UIFont systemFontOfSize:17];
+    if ([save length] == 0) {
+        _nameLab.text = @"昵称";
+    }else{
+        _nameLab.text = _peopleDict[@"Msg"][@"customer_name"];
+    }
+    [_infoView addSubview:_nameLab];
+    
+    _signLab = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(10), FitRealValue(10 + 36 + 20 + 36 + 20), FitRealValue(380), FitRealValue(36))];
+    _signLab.textColor = [UIColor whiteColor];
+    _signLab.font = [UIFont systemFontOfSize:12];
+    if ([save length] == 0) {
+        _signLab.text = @"签名:";
+    }else{
+        _signLab.text = [@"签名:"stringByAppendingString:_peopleDict[@"Msg"][@"signature"]];
+    }
+    [_infoView addSubview:_signLab];
+    
+    _phoneLab = [[UIButton alloc] initWithFrame:CGRectMake(FitRealValue(10), FitRealValue(10 + 36 + 20), FitRealValue(200), FitRealValue(36))];
+    [_phoneLab setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    _phoneLab.titleLabel.font = [UIFont systemFontOfSize:12];
+    
+    if ([save length] == 0) {
+        [_phoneLab setTitle:@"************" forState:UIControlStateNormal];
+    }else{
+        NSMutableString * str1 = [[NSMutableString alloc]initWithString:_peopleDict[@"Msg"][@"code"]];
+        [str1 deleteCharactersInRange:NSMakeRange(3,6)];
+        [str1 insertString:@"******" atIndex:3];
+        [_phoneLab setTitle:str1 forState:UIControlStateNormal];
+    }
+    [_phoneLab setImage:[UIImage imageNamed:@"iphone"] forState:UIControlStateNormal];
+    [_phoneLab setImagePosition:0 WithMargin:0];
+    [_infoView addSubview:_phoneLab];
+    
+    _editBtn = [[UIButton alloc] initWithFrame:CGRectMake(FitRealValue(380), 0, QdxWidth - FitRealValue(214 + 380), FitRealValue(152))];
+    _editBtn.titleLabel.textColor = [UIColor whiteColor];
+    _editBtn.titleLabel.font = [UIFont systemFontOfSize:12];
+    [_editBtn setTitle:@"编辑资料" forState:UIControlStateNormal];
+    [_editBtn addTarget:self action:@selector(editBtnClick) forControlEvents:UIControlEventTouchUpInside];
+    [_infoView addSubview:_editBtn];
+
+    [self.view addSubview:self.infoView];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -352,16 +334,24 @@
 
 -(void)teamlineBtnClick
 {
-    TeamLineController *teamVC = [[TeamLineController alloc] init];
-    teamVC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:teamVC animated:YES];
+    if ([save length] == 0) {
+        [self signbtn];
+    }else{
+        TeamLineController *teamVC = [[TeamLineController alloc] init];
+        teamVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:teamVC animated:YES];
+    }
 }
 
 -(void)mylineBtnClick
 {
-    MineLineController *mineVC = [[MineLineController alloc] init];
-    mineVC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:mineVC animated:YES];
+    if ([save length] == 0) {
+        [self signbtn];
+    }else{
+        MineLineController *mineVC = [[MineLineController alloc] init];
+        mineVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:mineVC animated:YES];
+    }
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

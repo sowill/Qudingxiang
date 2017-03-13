@@ -32,7 +32,7 @@
     
     if (self.navigationItem.leftBarButtonItem == nil
         && ![self.navigationItem.title  isEqual: @"首页"]
-        && ![self.navigationItem.title  isEqual: @"活动"]
+        && ![self.navigationItem.title  isEqual: @"发现"]
         && ![self.navigationItem.title  isEqual: @"订单"]
         && ![self.navigationItem.title  isEqual: @"我的"]){
         [self createButtonBack];

@@ -19,6 +19,7 @@
 #import <objc/runtime.h>
 #import "UIControl+UIControl_buttonCon.h"
 #import "AppDelegate.h"
+#import "PPNetworkHelper.h"
 #endif
 
 #define kWeChat_KEY       @"wxd7bdc3ac4f2505fe"
@@ -142,3 +143,9 @@
 
 //获取团队线路  参数:TokenKey curr
 #define teamUrl @"index.php/Home/Myline/getMyTeamLineList"
+
+//获取首页title
+#define titleUrl @"index.php/Home/Util/title"
+
+//获取首页最新版本
+#define dbVersionUrl @"index.php/Home/util/Dbversion"

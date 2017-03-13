@@ -318,7 +318,8 @@
         cost.userInteractionEnabled = NO;
         [self.deliverView addSubview:cost];
 
-        _price = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth/4 - 90/2, FitRealValue(110)/2-40/2, 90, 40)];
+        _price = [[UILabel alloc] initWithFrame:CGRectMake(0, FitRealValue(110)/2-40/2, QdxWidth/2, 40)];
+        _price.textAlignment = NSTextAlignmentCenter;
         [cost addSubview:_price];
         
         float viewHeight = FitRealValue(506);
@@ -330,6 +331,8 @@
         _payView.backgroundColor = [UIColor whiteColor];
         [self.deliverView addSubview:_payView];
         
+        //默认有1张票
+        _indexNum = 1;
         _addBtn = [ToolView createButtonWithFrame:CGRectMake(QdxWidth-20 - 18, cellHeight/2, 25, 18) title:@"" backGroundImage:@"加号" Target:self action:@selector(addClick) superView:_payView];
         
         _minBtn = [ToolView createButtonWithFrame:CGRectMake(QdxWidth-95 - 18, cellHeight/2, 25, 18) title:@"" backGroundImage:@"减号" Target:self action:@selector(minClick) superView:_payView];
@@ -535,7 +538,9 @@
                 _ostatus_name = model.ostatus_name;
                 _orders_name = model.Orders_name;
                 _orders_id =model.Orders_id;
+                
                 _totalPrice = [model.Orders_am floatValue];
+                
                 [self setUpPriceFont];
                 if(isBool ==YES){
                     _indexNum = 1;

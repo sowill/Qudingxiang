@@ -421,10 +421,13 @@
 
 -(void)collectionViewDidSelectedItemIndexPath:(NSIndexPath *)indexPath collcetionView:(UICollectionView *)collectionView forCell:(QDXHomeTableViewCell *)cell
 {
-    QDXActivityPriceViewController *actWithPriceVC = [[QDXActivityPriceViewController alloc] init];
-    actWithPriceVC.hidesBottomBarWhenPushed = YES;
-    actWithPriceVC.type = [NSString stringWithFormat:@"%d",(int)indexPath.row];
-    [self.navigationController pushViewController:actWithPriceVC animated:YES];
+    if ( [cell.reuseIdentifier isEqualToString:@"QDXCollectionViewResuseID"]) {
+        QDXActivityPriceViewController *actWithPriceVC = [[QDXActivityPriceViewController alloc] init];
+        actWithPriceVC.hidesBottomBarWhenPushed = YES;
+        actWithPriceVC.type = [NSString stringWithFormat:@"%d",(int)indexPath.row];
+//        actWithPriceVC.navTitle = 
+        [self.navigationController pushViewController:actWithPriceVC animated:YES];
+    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath

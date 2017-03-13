@@ -93,7 +93,7 @@
     HomeController *homeVC = [[HomeController alloc] init];
     [self setUpOneChildVcWithVc:homeVC Image:@"index_home_nomal" selectedImage:@"index_home_click" title:@"首页"];
     ActivityController *activityVC = [[ActivityController alloc] init];
-    [self setUpOneChildVcWithVc:activityVC Image:@"index_location_nomal" selectedImage:@"index_location_click" title:@"活动"];
+    [self setUpOneChildVcWithVc:activityVC Image:@"index_location_nomal" selectedImage:@"index_location_click" title:@"发现"];
     OrderController *orderVC = [[OrderController alloc] init];
     [self setUpOneChildVcWithVc:orderVC Image:@"index_order_nomal" selectedImage:@"index_order_click" title:@"订单"];
     MineViewController *mineVC = [[MineViewController alloc] init];

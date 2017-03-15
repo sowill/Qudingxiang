@@ -7,6 +7,7 @@
 //
 
 #import "ChoseCityCollectionViewCell.h"
+#import "City.h"
 
 @interface ChoseCityCollectionViewCell()
 {
@@ -38,10 +39,11 @@
     [self.contentView addSubview:cityBtn];
 }
 
--(void)setCityName:(NSString *)cityName
+-(void)setCity:(City *)city
 {
-    _cityName = cityName;
-    [cityBtn setTitle:cityName forState:UIControlStateNormal];
+    _city = city;
+    
+    [cityBtn setTitle:city.city_cn forState:UIControlStateNormal];
 }
 
 -(void)cityBtnClick

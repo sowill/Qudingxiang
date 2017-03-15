@@ -41,8 +41,6 @@
     [super viewDidLoad];
 
     self.view.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
-
-
 }
 
 - (void)viewWillAppear:(BOOL)animated {

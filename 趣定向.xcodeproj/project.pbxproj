@@ -292,6 +292,9 @@
 		45DBF72A1DE80B53008FDA7D /* QDXSlideHeaderCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DBF7291DE80B53008FDA7D /* QDXSlideHeaderCell.m */; };
 		45DBF72D1DE80DF4008FDA7D /* QDXSlideCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DBF72C1DE80DF4008FDA7D /* QDXSlideCollectionViewCell.m */; };
 		45DBF7301DE80F66008FDA7D /* QDXSlideTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DBF72F1DE80F66008FDA7D /* QDXSlideTableViewCell.m */; };
+		45DCEFDD1E78E5E80051F015 /* City.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DCEFDA1E78E5E80051F015 /* City.m */; };
+		45DCEFDE1E78E5E80051F015 /* Utilstatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DCEFDC1E78E5E80051F015 /* Utilstatus.m */; };
+		45DCEFE11E79073C0051F015 /* CityList.m in Sources */ = {isa = PBXBuildFile; fileRef = 45DCEFE01E79073C0051F015 /* CityList.m */; };
 		45DD34DA1C33D5F500E24250 /* read_me.txt in Resources */ = {isa = PBXBuildFile; fileRef = 45DD34D51C33D5F500E24250 /* read_me.txt */; };
 		45DF76381BA6AAC20024A6B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45DF76361BA6AAC20024A6B4 /* Main.storyboard */; };
 		45E497F61E11284400F61F05 /* AMapFoundationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45E497F41E11284400F61F05 /* AMapFoundationKit.framework */; };
@@ -941,6 +944,12 @@
 		45DBF72C1DE80DF4008FDA7D /* QDXSlideCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXSlideCollectionViewCell.m; sourceTree = "<group>"; };
 		45DBF72E1DE80F66008FDA7D /* QDXSlideTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXSlideTableViewCell.h; sourceTree = "<group>"; };
 		45DBF72F1DE80F66008FDA7D /* QDXSlideTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXSlideTableViewCell.m; sourceTree = "<group>"; };
+		45DCEFD91E78E5E80051F015 /* City.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = City.h; sourceTree = "<group>"; };
+		45DCEFDA1E78E5E80051F015 /* City.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = City.m; sourceTree = "<group>"; };
+		45DCEFDB1E78E5E80051F015 /* Utilstatus.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilstatus.h; sourceTree = "<group>"; };
+		45DCEFDC1E78E5E80051F015 /* Utilstatus.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utilstatus.m; sourceTree = "<group>"; };
+		45DCEFDF1E79073C0051F015 /* CityList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CityList.h; sourceTree = "<group>"; };
+		45DCEFE01E79073C0051F015 /* CityList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CityList.m; sourceTree = "<group>"; };
 		45DD34D41C33D5F500E24250 /* libWeChatSDK.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libWeChatSDK.a; sourceTree = "<group>"; };
 		45DD34D51C33D5F500E24250 /* read_me.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = read_me.txt; sourceTree = "<group>"; };
 		45DD34D61C33D5F500E24250 /* WechatAuthSDK.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WechatAuthSDK.h; sourceTree = "<group>"; };
@@ -1764,6 +1773,12 @@
 		45C6F5581C929FD000C5AA31 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				45DCEFDF1E79073C0051F015 /* CityList.h */,
+				45DCEFE01E79073C0051F015 /* CityList.m */,
+				45DCEFD91E78E5E80051F015 /* City.h */,
+				45DCEFDA1E78E5E80051F015 /* City.m */,
+				45DCEFDB1E78E5E80051F015 /* Utilstatus.h */,
+				45DCEFDC1E78E5E80051F015 /* Utilstatus.m */,
 				A31287A11CCF0DA200CB887E /* line_pointModel.h */,
 				A31287A21CCF0DA200CB887E /* line_pointModel.m */,
 				45C6F58F1C92A13A00C5AA31 /* ActModel.h */,
@@ -2531,6 +2546,7 @@
 				A35DAC371CCF184000D01CF0 /* AFURLSessionManager.m in Sources */,
 				455A95B81C97E3EB0039FA88 /* MJPropertyKey.m in Sources */,
 				459BB4991DDAE49A00DBEC39 /* TipsManager.m in Sources */,
+				45DCEFE11E79073C0051F015 /* CityList.m in Sources */,
 				45C6F5F91C92A3DF00C5AA31 /* QDXTeamsViewController.m in Sources */,
 				4556117D1D543E75006DF063 /* HUTransitionHorizontalLinesAnimator.m in Sources */,
 				451BDEC61DF56A3B00008959 /* QDXStateView.m in Sources */,
@@ -2669,6 +2685,7 @@
 				A3413EC21C97F565009332B3 /* HomeService.m in Sources */,
 				4569E5881C4CB64B00FF4E8B /* UIImage+WebP.m in Sources */,
 				4536EB9B1D013B25005D3CB5 /* ImageScrollView.m in Sources */,
+				45DCEFDD1E78E5E80051F015 /* City.m in Sources */,
 				455C8A9F1CCF7827001F5FC5 /* RSADataSigner.m in Sources */,
 				455A95BC1C97E3EB0039FA88 /* NSObject+MJKeyValue.m in Sources */,
 				45CA52281DE452270025A376 /* MJRefreshAutoStateFooter.m in Sources */,
@@ -2687,6 +2704,7 @@
 				4556117F1D543E75006DF063 /* UIViewController+Animator.m in Sources */,
 				45CA522B1DE452270025A376 /* MJRefreshBackStateFooter.m in Sources */,
 				4569E5931C4CB64B00FF4E8B /* MBProgressHUD+MJ.m in Sources */,
+				45DCEFDE1E78E5E80051F015 /* Utilstatus.m in Sources */,
 				4569E5941C4CB64B00FF4E8B /* MBProgressHUD.m in Sources */,
 				45CA52291DE452270025A376 /* MJRefreshBackGifFooter.m in Sources */,
 				45FAC8A51DD08EA9004A6531 /* QDXPointListViewController.m in Sources */,

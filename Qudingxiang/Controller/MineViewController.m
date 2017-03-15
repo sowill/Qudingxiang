@@ -321,13 +321,13 @@
         cell.imageView.image = [UIImage imageNamed:@"我的卡包icon"];
     }else if(indexPath.row == 1 && indexPath.section == 1){
         cell.textLabel.text = @"我的设置";
-        cell.imageView.image = [UIImage imageNamed:@"我的卡包icon"];
+        cell.imageView.image = [UIImage imageNamed:@"我的设置"];
     }else if(indexPath.row == 0 && indexPath.section == 2){
         cell.textLabel.text = @"关于我们";
-        cell.imageView.image =  [UIImage imageNamed:@"我的卡包icon"];
+        cell.imageView.image =  [UIImage imageNamed:@"关于我们"];
     }else if(indexPath.row == 1 && indexPath.section == 2){
         cell.textLabel.text = @"联系我们";
-        cell.imageView.image =  [UIImage imageNamed:@"我的卡包icon"];
+        cell.imageView.image =  [UIImage imageNamed:@"联系我们"];
     }
     return cell;
 }

@@ -27,6 +27,7 @@
 #import "MoreCooperationViewController.h"
 #import "QDXActivityPriceViewController.h"
 #import "PlaceViewController.h"
+#import "City.h"
 
 @interface HomeController ()<UITableViewDataSource,UITableViewDelegate,QDXHomeTableViewCellDelegate,QDXCooperationCellDelegate,ChoseCityDelegate,CLLocationManagerDelegate>
 {
@@ -179,9 +180,9 @@
     }
 }
 
--(void)choseCityPassValue:(NSString *)city
+-(void)choseCityPassValue:(City *)city
 {
-    [locationBtn setTitle:city forState:UIControlStateNormal];
+    [locationBtn setTitle:city.city_cn forState:UIControlStateNormal];
 }
 
 -(void)locationClick

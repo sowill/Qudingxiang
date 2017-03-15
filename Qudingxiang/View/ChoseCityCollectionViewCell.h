@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+@class City;
 
 @interface ChoseCityCollectionViewCell : UICollectionViewCell
 
-@property (strong, nonatomic)NSString *cityName;
+@property (strong, nonatomic)City *city;
 
 @property (nonatomic, strong)void (^btnBlock)();
 

@@ -9,6 +9,7 @@
 #import "AboutUsViewController.h"
 #import "NoticeViewController.h"
 #import "QDXPointListViewController.h"
+#import "NSMutableAttributedString+ChangeColorFont.h"
 
 @interface AboutUsViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
@@ -87,22 +88,26 @@
     if(!cell){
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
         if(indexPath.section == 1){
-            UILabel *label = [ToolView createLabelWithFrame:CGRectMake(10, 10, 100, 24) text:@"活动须知" font:14 superView:cell];
+            UILabel *label = [ToolView createLabelWithFrame:CGRectMake(FitRealValue(30), FitRealValue(30), 100, 24) text:@"活动须知" font:15 superView:cell];
             label.textColor = QDXBlack;
             cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
         }else if(indexPath.section == 0){
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
-            UIImageView *imageIcon = [ToolView createImageWithFrame:CGRectMake(QdxWidth/2-22.5, 25, 55, 55)];
+            UIImageView *imageIcon = [ToolView createImageWithFrame:CGRectMake((QdxWidth-FitRealValue(160))/2, FitRealValue(70), FitRealValue(160), FitRealValue(160))];
             imageIcon.image = [UIImage imageNamed:@"icon"];
             imageIcon.backgroundColor = [UIColor clearColor];
             [cell addSubview:imageIcon];
-            UIButton *version = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth/2-20, 85, 50, 20)];
-            [version setTitle:_strVersion forState:UIControlStateNormal];
-            version.titleLabel.font = [UIFont systemFontOfSize:14];
-            [version setTitleColor:QDXGray forState:UIControlStateNormal];
+            UILabel *version = [[UILabel alloc] initWithFrame:CGRectMake(0, imageIcon.frame.origin.y + FitRealValue(160 + 20), QdxWidth, 20)];
+
+            NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@""];
+            [string appendString:@"当前版本 " withColor:QDXGray font:[UIFont systemFontOfSize:12]];
+            [string appendString:_strVersion withColor:QDXBlue font:[UIFont systemFontOfSize:12]];
+            version.attributedText = string;
+            
+            version.textAlignment = NSTextAlignmentCenter;
             [cell addSubview:version];
-            UILabel *desLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 115, QdxWidth-20, 100)];
+            UILabel *desLabel = [[UILabel alloc] initWithFrame:CGRectMake(24, version.frame.origin.y + 20 + 10, QdxWidth-48, 130)];
             desLabel.numberOfLines = 0;
             if (QdxWidth>320) {
                 NSDictionary *attributesDic = [self settingAttributesWithLineSpacing:3 FirstLineHeadIndent:2 * 14 Font:[UIFont systemFontOfSize:15] TextColor:QDXGray];
@@ -116,7 +121,7 @@
             
             [cell addSubview:desLabel];
         }else if(indexPath.section == 2){
-            UILabel *label = [ToolView createLabelWithFrame:CGRectMake(10, 10, 100, 24) text:@"点标管理" font:14 superView:cell];
+            UILabel *label = [ToolView createLabelWithFrame:CGRectMake(FitRealValue(30), FitRealValue(30), 100, 24) text:@"点标管理" font:15 superView:cell];
             label.textColor = QDXBlack;
             cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
@@ -128,9 +133,9 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if(indexPath.section == 0){
-        return 225;
+        return 280;
     }else{
-        return 44;
+        return FitRealValue(100);
     }
 }
 

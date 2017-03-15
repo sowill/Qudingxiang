@@ -7,22 +7,20 @@
 //
 
 #import "BaseViewController.h"
+@class City;
 
 @protocol ChoseCityDelegate <NSObject>
 
 @optional
--(void)choseCityPassValue:(NSString *)city;
+-(void)choseCityPassValue:(City *)city;
 
 @end
 
 @interface LocationChoiceViewController : BaseViewController
 
-/** data */
-@property(nonatomic, strong)NSArray *items;
-
 /** delegate */
 @property(nonatomic, weak)id<ChoseCityDelegate> delegate;
 
-@property(nonatomic, strong) NSString *location;
+@property(nonatomic, copy) NSString *location;
 
 @end

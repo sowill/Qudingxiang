@@ -100,6 +100,8 @@
 
 #define hostUrl @"https://www.qudingxiang.cn/"
 
+#define newHostUrl @"https://www.qudingxiang.cn/qdx/"
+
 //图片上传接口：
 //Upmfile/upfile  参数imgfile  返回：上传图片的存放路径
 #define imageUrl @"index.php/Home/Upmfile/upfile"
@@ -149,3 +151,5 @@
 
 //获取首页最新版本
 #define dbVersionUrl @"index.php/Home/util/Dbversion"
+
+#define getCityUrl @"index.php/Home/City/getList"

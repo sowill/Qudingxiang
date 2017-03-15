@@ -46,7 +46,7 @@
     _tableView.showsVerticalScrollIndicator = NO;
     [_tableView setTableFooterView:[[UIView alloc] initWithFrame:CGRectZero]];
     //_tableView.separatorStyle =UITableViewCellSeparatorStyleNone;
-    _tableView.backgroundColor = [UIColor colorWithRed:238/255.0 green:238/255.0 blue:238/255.0 alpha:1];
+    _tableView.backgroundColor = QDXBGColor;
     _tableView.scrollEnabled = NO;
     [self.view addSubview:_tableView];
 }
@@ -74,7 +74,7 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
-    return 10;
+    return 15;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -91,6 +91,7 @@
 {
     return 2;
 }
+
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     static NSString *cellID = @"ID";
@@ -102,35 +103,35 @@
         if(indexPath.section == 0){
             if(indexPath.row == 0){
                 [cell setAccessoryType:UITableViewCellAccessoryNone];
-                UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 11, QdxWidth/2, 21)];;
+                UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(30), FitRealValue(30), QdxWidth/2, 21)];;
                 nameLabel.text = @"清除图片缓存";
                 nameLabel.textAlignment = NSTextAlignmentLeft;
-                nameLabel.font = [UIFont systemFontOfSize:14];
-                nameLabel.textColor = [UIColor colorWithRed:17/255.0 green:17/255.0 blue:17/255.0 alpha:1];
+                nameLabel.font = [UIFont systemFontOfSize:15];
+                nameLabel.textColor = QDXBlack;
                 [cell addSubview:nameLabel];
-                _valueDataLabel = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth*2/3, 10, QdxWidth/3-10, 21)];
+                _valueDataLabel = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth*2/3, FitRealValue(30), QdxWidth/3-10, 21)];
                 
                 _valueDataLabel.text = [NSString stringWithFormat:@"%.2fMB",_dataValue];
                 _valueDataLabel.font = [UIFont systemFontOfSize:14];
-                _valueDataLabel.textColor = [UIColor colorWithRed:17/255.0 green:17/255.0 blue:17/255.0 alpha:1];
+                _valueDataLabel.textColor = QDXGray;
                 _valueDataLabel.textAlignment = NSTextAlignmentRight;
                 [cell addSubview:_valueDataLabel];
             }else{
                 cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
-                UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(10, 11, QdxWidth, 21)];;
+                UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(30), FitRealValue(30), QdxWidth, 21)];;
                 nameLabel.text = @"修改密码";
-                nameLabel.font = [UIFont systemFontOfSize:14];
+                nameLabel.font = [UIFont systemFontOfSize:15];
                 nameLabel.textAlignment = NSTextAlignmentLeft;
-                nameLabel.textColor = [UIColor colorWithRed:17/255.0 green:17/255.0 blue:17/255.0 alpha:1];
+                nameLabel.textColor = QDXBlack;
                 [cell addSubview:nameLabel];
             }
         }else if(indexPath.section == 1){
             [cell setAccessoryType:UITableViewCellAccessoryNone];
-            UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, 11, QdxWidth, 21)];;
-            nameLabel.text = @"退出登录";
-            nameLabel.font = [UIFont systemFontOfSize:14];
+            UILabel *nameLabel = [[UILabel alloc] initWithFrame:CGRectMake(0, FitRealValue(30), QdxWidth, 21)];;
+            nameLabel.text = @"退出当前账号";
+            nameLabel.font = [UIFont systemFontOfSize:15];
             nameLabel.textAlignment = NSTextAlignmentCenter;
-            nameLabel.textColor = [UIColor redColor];
+            nameLabel.textColor = QDXBlue;
             [cell addSubview:nameLabel];
         }
         
@@ -176,7 +177,7 @@
 }
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return 44;
+    return FitRealValue(100);
 }
 
 //首先获取缓存文件的路径
@@ -272,15 +273,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

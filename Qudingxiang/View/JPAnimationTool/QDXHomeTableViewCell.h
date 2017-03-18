@@ -23,7 +23,7 @@
 @property(nonatomic, weak)id<QDXHomeTableViewCellDelegate> delegate;
 
 /** data */
-@property(nonatomic, strong)NSArray *items;
+@property(nonatomic, strong)NSMutableArray *areaArr;
 
 +(instancetype)qdxHomeCellWithTableView:(UITableView *)tableView;
 

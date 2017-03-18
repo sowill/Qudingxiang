@@ -8,6 +8,7 @@
 
 #import "MoreCooperationViewController.h"
 #import "LogoCollectionViewCell.h"
+#import "Partner.h"
 
 @interface MoreCooperationViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
 
@@ -24,8 +25,6 @@ static NSString *LogoReuseID = @"LogoReuseID";
     // Do any additional setup after loading the view.
     
     self.navigationItem.title = @"合作单位";
-
-    self.items = @[@"阿里体育logo",@"横店影视定向logo",@"驴妈妈logo",@"漫道logo",@"我要赞logo",@"阳澄湖半岛logo"];
     
     [self setupUI];
 }
@@ -52,8 +51,9 @@ static NSString *LogoReuseID = @"LogoReuseID";
     [self.view addSubview:self.collectionView];
 }
 
--(void)setItems:(NSArray *)items{
-    _items = items;
+-(void)setPartnerArr:(NSMutableArray *)partnerArr
+{
+    _partnerArr = partnerArr;
     
     [self.collectionView reloadData];
 }
@@ -61,12 +61,12 @@ static NSString *LogoReuseID = @"LogoReuseID";
 #pragma mark --------------------------------------------------
 #pragma mark UICollectionViewDataSource
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return self.items.count;
+    return self.partnerArr.count;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     LogoCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:LogoReuseID forIndexPath:indexPath];
-    cell.logo = self.items[indexPath.row];
+    cell.logo = self.partnerArr[indexPath.row];
     return cell;
 }
 

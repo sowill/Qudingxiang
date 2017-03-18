@@ -7,6 +7,7 @@
 //
 
 #import "QDXCooperationCollectionViewCell.h"
+#import "Partner.h"
 
 @interface QDXCooperationCollectionViewCell()
 
@@ -27,7 +28,6 @@
 -(void)setup
 {
     self.cooperationImage = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, FitRealValue(250), FitRealValue(120))];
-    self.cooperationImage.image = [UIImage imageNamed:@"合作单位默认图"];
     [self.contentView addSubview:self.cooperationImage];
     
     UIView *line = [[UIView alloc] initWithFrame:CGRectMake(0, FitRealValue(120 - 1), FitRealValue(250), FitRealValue(1))];
@@ -39,11 +39,11 @@
     [self.contentView addSubview:lineTwo];
 }
 
--(void)setDataString:(NSString *)dataString{
+-(void)setDataString:(Partner *)dataString{
     
     _dataString = dataString;
     
-    self.cooperationImage.image = [UIImage imageNamed:dataString];
+    [self.cooperationImage setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",newHostUrl,dataString.partner_logo]] placeholderImage:[UIImage imageNamed:@"合作单位默认图"]];
 }
 
 @end

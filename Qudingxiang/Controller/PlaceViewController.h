@@ -14,4 +14,8 @@
 
 @property (nonatomic, strong) NSString *navTitle;
 
+@property (nonatomic, strong) NSMutableArray *cityArr;
+
+@property (nonatomic, strong) NSString *cityId;
+
 @end

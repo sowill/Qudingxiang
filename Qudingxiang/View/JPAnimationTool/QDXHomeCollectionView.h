@@ -8,14 +8,14 @@
 
 #import <UIKit/UIKit.h>
 
-@class HomeModel;
+@class Area;
 
 @interface QDXHomeCollectionView : UICollectionViewCell
 
 /** dataSrouce */
-//@property(nonatomic, strong)HomeModel *dataString;
+@property(nonatomic, strong)Area *dataString;
 
-@property(nonatomic, strong)NSString *dataString;
+//@property(nonatomic, strong)NSString *dataString;
 
 @property (strong, nonatomic)UIImageView *coverImageView;
 

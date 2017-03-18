@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-@class HomeModel;
+@class Goods;
 @interface QDXActTableViewCell : UITableViewCell
 
-@property (nonatomic, strong)HomeModel *homeModel;
+@property (nonatomic, strong)Goods *goods;
 
 + (instancetype)qdxActCellWithTableView:(UITableView *)tableView;
 

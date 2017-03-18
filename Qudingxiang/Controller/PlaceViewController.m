@@ -13,6 +13,9 @@
 #import "LocationChoiceViewController.h"
 #import <CoreLocation/CoreLocation.h>
 #import "UIButton+ImageText.h"
+#import "City.h"
+#import "AreaList.h"
+#import "Area.h"
 
 @interface PlaceViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,ChoseCityDelegate,CLLocationManagerDelegate>
 {
@@ -50,7 +53,7 @@ static NSString *placeReuseID = @"placeReuseID";
     [self findMe];
     
     locationBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 20)];
-    [locationBtn setTitle:@"地点" forState:UIControlStateNormal];
+    [locationBtn setTitle:@"上海" forState:UIControlStateNormal];
     locationBtn.titleLabel.font = [UIFont systemFontOfSize:17];
     [locationBtn setImage:[UIImage imageNamed:@"下拉icon"] forState:UIControlStateNormal];
     [locationBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -61,7 +64,26 @@ static NSString *placeReuseID = @"placeReuseID";
     negativeSpacer.width = -10;
     self.navigationItem.rightBarButtonItems = @[negativeSpacer, buttonItem];
     
-    [self cellDataWith:@"1" andWithType:_type];
+    [self createCollectionView];
+    [self getArea];
+}
+
+-(void)getArea
+{
+    _actArray = [NSMutableArray arrayWithCapacity:0];
+    NSString *url = [newHostUrl stringByAppendingString:getAreaUrl];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"city_id"] = _cityId;
+    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
+        AreaList *areaList = [[AreaList alloc] initWithDic:responseObject];
+        for (Area *area in areaList.areaArray) {
+            [_actArray addObject:area];
+        }
+        
+        [self.collectionView reloadData];
+    } failure:^(NSError *error) {
+        
+    }];
 }
 
 - (void)findMe
@@ -116,53 +138,20 @@ static NSString *placeReuseID = @"placeReuseID";
     }
 }
 
--(void)choseCityPassValue:(NSString *)city
+-(void)choseCityPassValue:(City *)city
 {
-    [locationBtn setTitle:city forState:UIControlStateNormal];
+    [locationBtn setTitle:city.city_cn forState:UIControlStateNormal];
+    _cityId = city.city_id;
+    [self getArea];
 }
 
 -(void)locationClick
 {
     LocationChoiceViewController *cityVC=[[LocationChoiceViewController alloc]init];
     cityVC.delegate = self;
+    cityVC.items = self.cityArr;
     cityVC.location = locationBtn.titleLabel.text;
     [self.navigationController pushViewController:cityVC animated:YES];
-}
-
-
--(void)cellDataWith:(NSString *)cur andWithType:(NSString *)type
-{
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr.responseSerializer = [ AFHTTPResponseSerializer serializer ];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"areatype_id"] = @"1";
-    params[@"curr"] = cur;
-    params[@"type"] =type;
-    NSString *url = [hostUrl stringByAppendingString:goodsUrl];
-    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
-        int ret = [infoDict[@"Code"] intValue];
-        if (ret == 1) {
-            NSDictionary *dataDict = infoDict[@"Msg"][@"data"];
-            _actArray = [[NSMutableArray alloc] init];
-            for(NSDictionary *dict in dataDict){
-                HomeModel *model = [[HomeModel alloc] init];
-                [model setValuesForKeysWithDictionary:dict];
-                [_actArray addObject:model];
-            }
-            
-            [self createCollectionView];
-        }
-        else{
-            
-        }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-    }];
 }
 
 -(void)createCollectionView
@@ -173,7 +162,7 @@ static NSString *placeReuseID = @"placeReuseID";
     layout.minimumLineSpacing = FitRealValue(9);
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
     
-    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(FitRealValue(20), 0, QdxWidth - FitRealValue(40), QdxHeight - 64 - FitRealValue(20)) collectionViewLayout:layout];
+    self.collectionView = [[UICollectionView alloc] initWithFrame:CGRectMake(FitRealValue(20), 0, QdxWidth - FitRealValue(40), QdxHeight - 64) collectionViewLayout:layout];
     self.collectionView.backgroundColor = QDXBGColor;
     self.collectionView.showsHorizontalScrollIndicator = NO;
     self.collectionView.showsVerticalScrollIndicator = NO;
@@ -195,7 +184,7 @@ static NSString *placeReuseID = @"placeReuseID";
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath
 {
     PlaceCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:placeReuseID forIndexPath:indexPath];
-    cell.homeModel = self.actArray[indexPath.row];
+    cell.area = self.actArray[indexPath.row];
     return cell;
 }
 
@@ -204,6 +193,7 @@ static NSString *placeReuseID = @"placeReuseID";
     QDXActivityPriceViewController *actWithPriceVC = [[QDXActivityPriceViewController alloc] init];
     actWithPriceVC.hidesBottomBarWhenPushed = YES;
     actWithPriceVC.type = [NSString stringWithFormat:@"%d",(int)indexPath.row];
+    actWithPriceVC.area = self.actArray[indexPath.row];
     [self.navigationController pushViewController:actWithPriceVC animated:YES];
 }
 

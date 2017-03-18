@@ -53,7 +53,7 @@ static NSString *QDXHomeCooperationCellReuseID = @"QDXHomeCooperationCellReuseID
     [self.contentView addSubview:self.collectionView];
 }
 
--(void)setItems:(NSArray *)items{
+-(void)setItems:(NSMutableArray *)items{
     _items = items;
     [self.collectionView reloadData];
 }
@@ -74,10 +74,22 @@ static NSString *QDXHomeCooperationCellReuseID = @"QDXHomeCooperationCellReuseID
 #pragma mark --------------------------------------------------
 #pragma mark UICollectionViewDataSource
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
+    
+    if (self.items.count > 6) {
+        return 6;
+    }
+    
     return self.items.count;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if (self.items.count > 6) {
+        QDXCooperationCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:QDXHomeCooperationCellReuseID forIndexPath:indexPath];
+        cell.dataString = self.items[indexPath.row];
+        return cell;
+    }
+    
     QDXCooperationCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:QDXHomeCooperationCellReuseID forIndexPath:indexPath];
     cell.dataString = self.items[indexPath.row];
     return cell;

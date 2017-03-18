@@ -8,7 +8,7 @@
 
 #import "QDXHomeCollectionView.h"
 #import "JPAnimationTool.h"
-#import "HomeModel.h"
+#import "Area.h"
 
 @interface QDXHomeCollectionView()
 
@@ -39,15 +39,15 @@
     [self.contentView addSubview:self.coverLabel];
 }
 
--(void)setDataString:(NSString *)dataString{
+-(void)setDataString:(Area *)dataString{
     
     _dataString = dataString;
     
-    self.coverImageView.image = [UIImage imageNamed:dataString];
+//    self.coverImageView.image = [UIImage imageNamed:dataString.area_url];
     
-    self.coverLabel.text = dataString;
+    self.coverLabel.text = dataString.area_cn;
     
-//    [self.coverImageView setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,dataString.good_url]] placeholderImage:[UIImage imageNamed:@"banner_cell"]];
+    [self.coverImageView setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",newHostUrl,dataString.area_url]] placeholderImage:[UIImage imageNamed:@"banner_cell"]];
     
 //    self.coverLabel.text = dataString.goods_name;
 }

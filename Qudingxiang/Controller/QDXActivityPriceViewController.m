@@ -7,9 +7,13 @@
 //
 
 #import "QDXActivityPriceViewController.h"
-#import "HomeModel.h"
+
 #import "QDXActTableViewCell.h"
 #import "QDXLineDetailViewController.h"
+
+#import "GoodsList.h"
+#import "Goods.h"
+#import "Area.h"
 
 @interface QDXActivityPriceViewController ()<UITableViewDataSource,UITableViewDelegate>
 @property (nonatomic, strong) UITableView *tableView;
@@ -23,9 +27,28 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     
-    self.navigationItem.title = _navTitle;
+    self.navigationItem.title = self.area.area_cn;
     
-    [self cellDataWith:@"1" andWithType:_type];
+    [self createTableView];
+    [self getGoods];
+}
+
+-(void)getGoods
+{
+    _actArray = [NSMutableArray arrayWithCapacity:0];
+    NSString *url = [newHostUrl stringByAppendingString:getGoodsUrl];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"area_id"] = self.area.area_id;
+    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
+        GoodsList *goodsList = [[GoodsList alloc] initWithDic:responseObject];
+        for (Goods *goods in goodsList.goodsArray) {
+            [_actArray addObject:goods];
+        }
+        
+        [self.tableView reloadData];
+    } failure:^(NSError *error) {
+        
+    }];
 }
 
 - (void)createTableView
@@ -46,41 +69,6 @@
     [self.view addSubview:self.tableView];
 }
 
--(void)cellDataWith:(NSString *)cur andWithType:(NSString *)type
-{
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr.responseSerializer = [ AFHTTPResponseSerializer serializer ];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"areatype_id"] = @"1";
-    params[@"curr"] = cur;
-    params[@"type"] =type;
-    NSString *url = [hostUrl stringByAppendingString:goodsUrl];
-    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
-        int ret = [infoDict[@"Code"] intValue];
-        if (ret == 1) {
-            NSDictionary *dataDict = infoDict[@"Msg"][@"data"];
-            _actArray = [[NSMutableArray alloc] init];
-            for(NSDictionary *dict in dataDict){
-                HomeModel *model = [[HomeModel alloc] init];
-                [model setValuesForKeysWithDictionary:dict];
-                [_actArray addObject:model];
-            }
-            
-            [self createTableView];
-        }
-        else{
-            
-        }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-    }];
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
     return _actArray.count;
@@ -95,7 +83,7 @@
 {
     QDXActTableViewCell *cell = [QDXActTableViewCell qdxActCellWithPriceWithTableView:_tableView];
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.homeModel = _actArray[indexPath.row];
+    cell.goods = _actArray[indexPath.row];
     return cell;
 }
 

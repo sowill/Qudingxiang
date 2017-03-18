@@ -57,8 +57,9 @@ static NSString *QDXCollectionViewReuseID = @"QDXCollectionViewResuseID";
     [self.contentView addSubview:self.collectionView];
 }
 
--(void)setItems:(NSArray *)items{
-    _items = items;
+-(void)setAreaArr:(NSMutableArray *)areaArr
+{
+    _areaArr = areaArr;
     [self.collectionView reloadData];
 }
 
@@ -73,12 +74,26 @@ static NSString *QDXCollectionViewReuseID = @"QDXCollectionViewResuseID";
 #pragma mark --------------------------------------------------
 #pragma mark UICollectionViewDataSource
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return self.items.count;
+    
+    if (self.areaArr.count > 6) {
+        return 6;
+    }
+    
+    return self.areaArr.count;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
+    
+    if (self.areaArr.count > 6) {
+        QDXHomeCollectionView *cell = [collectionView dequeueReusableCellWithReuseIdentifier:QDXCollectionViewReuseID forIndexPath:indexPath];
+        cell.dataString = self.areaArr[indexPath.row];
+        
+        return cell;
+    }
+    
     QDXHomeCollectionView *cell = [collectionView dequeueReusableCellWithReuseIdentifier:QDXCollectionViewReuseID forIndexPath:indexPath];
-    cell.dataString = self.items[indexPath.row];
+    cell.dataString = self.areaArr[indexPath.row];
+    
     return cell;
 }
 

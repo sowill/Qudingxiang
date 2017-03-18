@@ -14,4 +14,6 @@
 
 @property (nonatomic, strong) NSString *navTitle;
 
+@property (nonatomic, strong) NSString *cityId;
+
 @end

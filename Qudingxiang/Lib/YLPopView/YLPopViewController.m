@@ -88,8 +88,6 @@
 /*
  *  底部按钮
  */
-
-
     self.noButton = [UIButton buttonWithType:UIButtonTypeSystem];
     self.yesButton = [UIButton buttonWithType:UIButtonTypeSystem];
     [self.noButton setTitle:@"取消" forState:UIControlStateNormal];
@@ -169,16 +167,10 @@
     self.wordCountLabel.textColor = [UIColor lightGrayColor];
     [self.textView addSubview:self.wordCountLabel];
 
-
-
     /*
      *  出现的动画
      */
-
     [self setAnimation];
-
-
-
 }
 
 //出现的动画

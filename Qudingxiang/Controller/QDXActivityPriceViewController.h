@@ -8,10 +8,12 @@
 
 #import "BaseViewController.h"
 
+@class Area;
+
 @interface QDXActivityPriceViewController : BaseViewController
 
 @property (nonatomic, strong) NSString *type;
 
-@property (nonatomic, strong) NSString *navTitle;
+@property (nonatomic, strong) Area *area;
 
 @end

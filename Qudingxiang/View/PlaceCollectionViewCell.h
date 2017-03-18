@@ -7,10 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-@class HomeModel;
+@class Area;
 
 @interface PlaceCollectionViewCell : UICollectionViewCell
 
-@property (nonatomic, strong) HomeModel *homeModel;
+@property (nonatomic, strong) Area *area;
 
 @end

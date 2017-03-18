@@ -18,6 +18,7 @@
 #import "ImageScrollView.h"
 #import "AppDelegate.h"
 #import "QDXActivityViewController.h"
+
 #import "QDXHomeTableViewCell.h"
 #import "QDXHomeCooperationCell.h"
 #import "QDXHomeCollectionView.h"
@@ -27,6 +28,11 @@
 #import "MoreCooperationViewController.h"
 #import "QDXActivityPriceViewController.h"
 #import "PlaceViewController.h"
+#import "AreaList.h"
+#import "Area.h"
+#import "PartnerList.h"
+#import "Partner.h"
+#import "CityList.h"
 #import "City.h"
 
 @interface HomeController ()<UITableViewDataSource,UITableViewDelegate,QDXHomeTableViewCellDelegate,QDXCooperationCellDelegate,ChoseCityDelegate,CLLocationManagerDelegate>
@@ -48,7 +54,15 @@
 
 @property (nonatomic,strong) NSMutableArray *dataArr;
 
-@property (nonatomic, strong) CLLocationManager* locationManager;
+@property (nonatomic, strong) CLLocationManager *locationManager;
+
+@property (nonatomic, strong) NSMutableArray *hotAreaArr;
+
+@property (nonatomic, strong) NSMutableArray *partnerArr;
+
+@property (nonatomic, strong) NSMutableArray *cityArr;
+
+@property (nonatomic, strong) NSString *cityId;
 
 @end
 
@@ -73,27 +87,11 @@
 //    [_imgScrollView stopTimer];
 }
 
--(void)getTitle
-{
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr.responseSerializer = [ AFHTTPResponseSerializer serializer ];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Util/title"];
-    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
-        self.navigationItem.title = infoDict[@"title"];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-    }];
-}
-
 - (void)viewDidLoad
 {
-    [self getTitle];
     [super viewDidLoad];
+    
+    self.navigationItem.title = @"趣定向";
     
     homehttp = [HomeService sharedInstance];
     
@@ -108,7 +106,7 @@
     [self findMe];
     
     locationBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 20)];
-    [locationBtn setTitle:@"地点" forState:UIControlStateNormal];
+    [locationBtn setTitle:@"上海" forState:UIControlStateNormal];
     locationBtn.titleLabel.font = [UIFont systemFontOfSize:17];
     [locationBtn setImage:[UIImage imageNamed:@"下拉icon"] forState:UIControlStateNormal];
     [locationBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -183,18 +181,17 @@
 -(void)choseCityPassValue:(City *)city
 {
     [locationBtn setTitle:city.city_cn forState:UIControlStateNormal];
+    [self getCity];
 }
 
 -(void)locationClick
 {
     LocationChoiceViewController *cityVC=[[LocationChoiceViewController alloc]init];
-    QDXNavigationController* navController = [[QDXNavigationController alloc] initWithRootViewController:cityVC];
     cityVC.hidesBottomBarWhenPushed = YES;
     cityVC.delegate = self;
+    cityVC.items = _cityArr;
     cityVC.location = locationBtn.titleLabel.text;
-    [self presentViewController:navController animated:YES completion:^{
-        
-    }];
+    [self.navigationController pushViewController:cityVC animated:YES];
 }
 
 - (void)dealloc
@@ -207,31 +204,78 @@
     [self loadData];
 }
 
-- (void)loadDataCell
+- (void)getCity
 {
-    dispatch_queue_t queue = dispatch_queue_create("gcdtest.rongfzh.yc", DISPATCH_QUEUE_CONCURRENT);
-    dispatch_async(queue, ^{
-        [homehttp dbversionsucceed:^(id data) {
+    _cityArr = [NSMutableArray arrayWithCapacity:0];
+    NSString *url = [newHostUrl stringByAppendingString:getCityUrl];
+    [PPNetworkHelper POST:url parameters:nil success:^(id responseObject) {
+        
+        CityList *cityList = [[CityList alloc] initWithDic:responseObject];
+        
+        for (City *city in cityList.cityArray) {
+            //这个默认城市名是两个字符串
+            if ([[city.city_cn substringToIndex:2] isEqualToString:locationBtn.titleLabel.text]) {
+                _cityId = city.city_id;
+                
+            }
             
-        } failure:^(NSError *error) {
-            
-        }];
-    });
-    dispatch_barrier_async(queue, ^{
-        [self cellDataWith:@"1" isRemoveAll:YES andWithType:@"0"];
-    });
+            [_cityArr addObject:city];
+        }
+        
+        [self.tableView reloadData];
+    } failure:^(NSError *error) {
+        
+    }];
+}
+
+- (void)getPartner
+{
+    _partnerArr = [NSMutableArray arrayWithCapacity:0];
+    NSString *url = [newHostUrl stringByAppendingString:getPartnerUrl];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
+        
+        PartnerList *partnerList = [[PartnerList alloc] initWithDic:responseObject];
+        
+        for (Partner *partner in partnerList.PartnerArray) {
+            [_partnerArr addObject:partner];
+        }
+        [self.tableView reloadData];
+    } failure:^(NSError *error) {
+        
+    }];
+}
+
+- (void)getHotArea
+{
+    _hotAreaArr = [NSMutableArray arrayWithCapacity:0];
+    NSString *url = [newHostUrl stringByAppendingString:getHotAreaUrl];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
+        
+        AreaList *areaList = [[AreaList alloc] initWithDic:responseObject];
+        
+        for (Area *area in areaList.areaArray) {
+            [_hotAreaArr addObject:area];
+        }
+        [self.tableView reloadData];
+    } failure:^(NSError *error) {
+        
+    }];
 }
 
 - (void)loadData
 {
+    [self getHotArea];
+    [self getPartner];
+    [self getCity];
+    
     [self state];
-    [self loadDataCell];
     _scanBtn.hidden = NO;
 }
 
 - (void)createTableView
 {
-    _dataArr = [NSMutableArray arrayWithCapacity:0];
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight- 64 - 10 - 25) style:UITableViewStyleGrouped];
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -298,7 +342,7 @@
 - (void)loadNewData
 {
     currNum = 1;
-    [self cellDataWith:[NSString stringWithFormat:@"%li", (long)currNum] isRemoveAll:YES andWithType:@"0"];
+    [self loadData];
     [_tableView.mj_header endRefreshing];
 }
 
@@ -310,12 +354,28 @@
         [_tableView reloadData];
         [_tableView.mj_footer endRefreshingWithNoMoreData];
     }else{
-        [self cellDataWith:[NSString stringWithFormat:@"%li", (long)currNum] isRemoveAll:NO andWithType:@"0"];
+        [self loadData];
     }
 }
 
 - (void)topViewData
 {
+//    _scrollArr = [NSMutableArray arrayWithCapacity:0];
+//    NSString *url = [newHostUrl stringByAppendingString:getMatchUrl];
+//    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+//    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
+//        GoodsList *goodsList = [[GoodsList alloc] initWithDic:responseObject];
+//        for (Goods *goods in goodsList.goodsArray) {
+//            [_recentArray addObject:goods];
+//        }
+//        
+//        [_scrollArr addObject:[NSString stringWithFormat:@"%@%@",hostUrl,str]];
+//        
+//    } failure:^(NSError *error) {
+//        
+//    }];
+    
+    
     [homehttp topViewDatasucceed:^(id data) {
         NSMutableArray *modelArr  = [NSMutableArray arrayWithCapacity:0];
         NSDictionary *dataDict = data[@"Msg"][@"data"];
@@ -378,32 +438,6 @@
     } WithToken:save];
 }
 
-- (void)cellDataWith:(NSString *)cur isRemoveAll:(BOOL)isRemoveAll andWithType:(NSString *)type
-{
-    [homehttp loadCellsucceed:^(id data) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments | NSJSONReadingMutableLeaves error:nil];
-        NSDictionary *dataDict = dict[@"Msg"][@"data"];
-        
-        if (![dict[@"Msg"][@"count"] isEqualToString:@"0"]){
-            currNum = [dict[@"Msg"][@"curr"] integerValue];
-            page = [dict[@"Msg"][@"page"] integerValue];
-            if (isRemoveAll) {
-                [_dataArr removeAllObjects];
-            }
-            for(NSDictionary *dict in dataDict){
-                HomeModel *model = [[HomeModel alloc] init];
-                [model setValuesForKeysWithDictionary:dict];
-                [_dataArr addObject:model];
-            }
-        }
-        [_tableView.mj_footer endRefreshing];
-        dispatch_async(dispatch_get_main_queue(), ^{
-            [_tableView reloadData];
-        });
-    } failure:^(NSError *error) {
-
-    } WithCurr:cur WithType:type];
-}
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -435,14 +469,13 @@
 {
     if (indexPath.row == 0 && indexPath.section == 0) {
         QDXHomeTableViewCell *cell = [QDXHomeTableViewCell qdxHomeCellWithTableView:_tableView];
-//        cell.items = _dataArr;
-        cell.items = @[@"滨江公园",@"海湾公园",@"横店影城",@"上海海湾",@"滨江公园",@"海湾公园"];
+        cell.areaArr = _hotAreaArr;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.delegate = self;
         return cell;
     }else{
         QDXHomeCooperationCell *cell = [QDXHomeCooperationCell qdxCooperationWithTableView:_tableView];
-        cell.items =@[@"阿里体育logo",@"横店影视定向logo",@"驴妈妈logo",@"漫道logo",@"我要赞logo",@"阳澄湖半岛logo"];
+        cell.items =_partnerArr;
         cell.selectionStyle = UITableViewCellSelectionStyleNone;
         cell.delegate = self;
         return cell;
@@ -490,6 +523,7 @@
 -(void)moreBtnClick
 {
     MoreCooperationViewController *moreCooperationVC = [[MoreCooperationViewController alloc] init];
+    moreCooperationVC.partnerArr = _partnerArr;
     moreCooperationVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:moreCooperationVC animated:YES];
 }
@@ -503,28 +537,22 @@
     }
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    QDXLineDetailViewController *lineVC = [[QDXLineDetailViewController alloc] init];
-    lineVC.homeModel = _dataArr[indexPath.row];
-    lineVC.hidesBottomBarWhenPushed = YES;
-    [self.navigationController pushViewController:lineVC animated:YES];
-}
-
 - (void)btnClick:(UIButton *)btn
 {
     NSString *type = [NSString stringWithFormat:@"%d",(int)btn.tag];
-    
+
     if ((int)btn.tag == 1) {
         PlaceViewController *placeVC = [[PlaceViewController alloc] init];
         placeVC.type = type;
         placeVC.hidesBottomBarWhenPushed = YES;
         placeVC.navTitle = btn.titleLabel.text;
+        placeVC.cityArr = _cityArr;
+        placeVC.cityId = _cityId;
         [self.navigationController pushViewController:placeVC animated:YES];
     }else{
         QDXActivityViewController *qdxActVC = [[QDXActivityViewController alloc] init];
         qdxActVC.type = type;
+        qdxActVC.cityId = _cityId;
         qdxActVC.hidesBottomBarWhenPushed = YES;
         qdxActVC.navTitle = btn.titleLabel.text;
         [self.navigationController pushViewController:qdxActVC animated:YES];

@@ -152,4 +152,25 @@
 //获取首页最新版本
 #define dbVersionUrl @"index.php/Home/util/Dbversion"
 
-#define getCityUrl @"index.php/Home/City/getList"
+#pragma mark ——————————————————————————————————————————
+
+//获取开放城市 参数city_id
+#define getCityUrl @"Home/City/getList"
+
+//获取最新上线
+#define getHotAreaUrl @"Home/Area/getListHot"
+
+//获取合作单位列表
+#define getPartnerUrl @"Home/Partner/getList"
+
+//场地产品列表 参数city_id
+#define getGoodsUrl @"Home/Goods/getList"
+
+//赛事列表 参数city_id
+#define getMatchUrl @"Home/Match/getList"
+
+//活动列表 参数city_id
+#define getActionUrl @"Home/Action/getList"
+
+//场地列表 参数city_id
+#define getAreaUrl @"Home/Area/getList"

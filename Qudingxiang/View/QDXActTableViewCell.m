@@ -7,7 +7,7 @@
 //
 
 #import "QDXActTableViewCell.h"
-#import "HomeModel.h"
+#import "Goods.h"
 #import "NSMutableAttributedString+ChangeColorFont.h"
 
 @interface QDXActTableViewCell()
@@ -34,7 +34,7 @@
 
 + (instancetype)qdxActCellWithPriceWithTableView:(UITableView *)tableView
 {
-    static NSString *cellID = @"ID";
+    static NSString *cellID = @"actCellWithPriceID";
     QDXActTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if(!cell){
         cell = [[QDXActTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
@@ -95,7 +95,7 @@
 
 + (instancetype)qdxActCellWithTableView:(UITableView *)tableView
 {
-    static NSString *cellID = @"ID";
+    static NSString *cellID = @"actCellID";
     QDXActTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellID];
     if(!cell){
         cell = [[QDXActTableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellID];
@@ -165,26 +165,28 @@
     [self.BGView addSubview:self.act_state];
 }
 
-- (void)setHomeModel:(HomeModel *)homeModel
+- (void)setGoods:(Goods *)goods
 {
-    _homeModel = homeModel;
-    [self.act_img setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,homeModel.good_url]] placeholderImage:[UIImage imageNamed:@"banner_cell"]];
-    self.act_name.text = homeModel.goods_name;
+    _goods = goods;
+
+    [self.act_img setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",newHostUrl,goods.goods_url]] placeholderImage:[UIImage imageNamed:@"banner_cell"]];
+    self.act_name.text = goods.goods_cn;
     
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@""];
     [string appendString:@"¥" withColor:QDXOrange font:[UIFont systemFontOfSize:14]];
-    NSRange range = [homeModel.goods_price rangeOfString:@"."];
-    NSString *a = homeModel.goods_price;
+    NSRange range = [goods.goods_price rangeOfString:@"."];
+    NSString *a = goods.goods_price;
     [string appendString:[a substringToIndex:(int)range.location] withColor:QDXOrange font:[UIFont systemFontOfSize:24]];
     [string appendString:[a substringFromIndex:(int)range.location] withColor:QDXOrange font:[UIFont systemFontOfSize:14]];
     self.act_price.attributedText = string;
 //    self.act_price.text = [@"¥" stringByAppendingString:homeModel.goods_price];
     
-    self.act_state.text = homeModel.act_time;
+    
+    self.act_state.text = [goods.goods_time substringToIndex:10];
     
     //高度固定不折行，根据字的多少计算label的宽度
-    NSString *str = homeModel.act_address;
-    CGSize size = [str sizeWithFont:self.act_place.font constrainedToSize:CGSizeMake(MAXFLOAT, self.act_place.frame.size.height)];
+    NSString *str = goods.goods_address;
+    CGSize size = [str sizeWithFont:self.act_place.font constrainedToSize:CGSizeMake(QdxWidth - FitRealValue(400), self.act_place.frame.size.height)];
     //根据计算结果重新设置UILabel的尺寸
     [self.act_place setFrame:CGRectMake(_act_place_img.frame.origin.x + FitRealValue(28 + 10), _act_place_img.frame.origin.y, size.width, FitRealValue(26))];
     self.act_place.text = str;

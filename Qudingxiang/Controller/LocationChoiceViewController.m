@@ -8,20 +8,12 @@
 
 #import "LocationChoiceViewController.h"
 #import "ChoseCityCollectionViewCell.h"
-#import "City.h"
-#import "Utilstatus.h"
-#import "CityList.h"
 
 @interface LocationChoiceViewController ()<UICollectionViewDelegate,UICollectionViewDataSource>
-
-/** data */
-@property(nonatomic, strong)NSMutableArray *items;
 
 @property(nonatomic, strong)UIButton *locationCityBtn;
 
 @property (strong, nonatomic) UICollectionView *collectionView;
-
-@property(nonatomic, strong)CityList *cityListInfo;
 
 @end
 
@@ -34,22 +26,6 @@ static NSString *ChoseCityReuseID = @"ChoseCityReuseID";
     // Do any additional setup after loading the view.
     
     self.navigationItem.title = @"切换城市";
-    
-    _items = [NSMutableArray arrayWithCapacity:0];
-    NSString *url = [newHostUrl stringByAppendingString:getCityUrl];
-    [PPNetworkHelper POST:url parameters:nil success:^(id responseObject) {
-        
-        CityList *cityList = [[CityList alloc] initWithDic:responseObject];
-        self.cityListInfo = cityList;
-        
-        for (City *city in self.cityListInfo.cityArray) {
-            [_items addObject:city];
-        }
-
-        [self.collectionView reloadData];
-    } failure:^(NSError *error) {
-        
-    }];
     
     [self setupUI];
 }
@@ -100,26 +76,22 @@ static NSString *ChoseCityReuseID = @"ChoseCityReuseID";
 
 -(void)locationCityBtnClick
 {
-    [self dismissViewControllerAnimated:YES completion:^{
-        
-    }];
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark --------------------------------------------------
 #pragma mark UICollectionViewDataSource
 -(NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section{
-    return _items.count;
+    return self.items.count;
 }
 
 -(UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath{
     ChoseCityCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:ChoseCityReuseID forIndexPath:indexPath];
-    cell.city = _items[indexPath.row];
+    cell.city = self.items[indexPath.row];
     cell.btnBlock = ^(){
-        [self.delegate choseCityPassValue:_items[indexPath.row]];
+        [self.delegate choseCityPassValue:self.items[indexPath.row]];
         
-        [self dismissViewControllerAnimated:YES completion:^{
-            
-        }];
+        [self.navigationController popViewControllerAnimated:YES];
     };
     return cell;
 }

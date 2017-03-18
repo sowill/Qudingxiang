@@ -11,6 +11,6 @@
 @interface MoreCooperationViewController : BaseViewController
 
 /** data */
-@property(nonatomic, strong)NSArray *items;
+@property(nonatomic, strong)NSMutableArray *partnerArr;
 
 @end

@@ -8,8 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+@class Partner;
+
 @interface LogoCollectionViewCell : UICollectionViewCell
 
-@property (strong, nonatomic)NSString *logo;
+@property(nonatomic, strong)Partner *logo;
 
 @end

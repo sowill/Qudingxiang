@@ -23,7 +23,7 @@
 @property(nonatomic, weak)id<QDXCooperationCellDelegate> delegate;
 
 /** data */
-@property(nonatomic, strong)NSArray *items;
+@property(nonatomic, strong)NSMutableArray *items;
 
 +(instancetype)qdxCooperationWithTableView:(UITableView *)tableView;
 

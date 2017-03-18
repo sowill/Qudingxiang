@@ -23,4 +23,7 @@
 
 @property(nonatomic, copy) NSString *location;
 
+/** data */
+@property(nonatomic, strong)NSMutableArray *items;
+
 @end

@@ -7,27 +7,20 @@
 //
 
 #import "QDXActivityViewController.h"
-#import "HomeModel.h"
-#import "QDXActTableViewCell.h"
+#import "RecentActivityViewController.h"
+#import "Goods.h"
 #import "QDXLineDetailViewController.h"
-#import "QDXSlideView.h"
 
-@interface QDXActivityViewController ()<UITableViewDataSource,UITableViewDelegate>
-@property (nonatomic, strong) UITableView *tableView;
-
-@property (nonatomic, strong) NSMutableArray *actArray;
-
+@interface QDXActivityViewController ()<UIScrollViewDelegate,GoodsCellSelected>
+@property (nonatomic, strong) UIScrollView *mainScrollView;
+@property (nonatomic, strong) RecentActivityViewController *recentVC;
+@property (nonatomic, strong) RecentActivityViewController *didVC;
+@property (nonatomic, strong) UIView *btnContainerView;
+@property (nonatomic, strong) UILabel *slideLabel;
+@property (nonatomic ,strong) NSMutableArray *btnsArray;
 @end
 
 @implementation QDXActivityViewController
-
-- (NSMutableArray *)actArray
-{
-    if (_actArray == nil) {
-        _actArray = [NSMutableArray array];
-    }
-    return _actArray;
-}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -35,96 +28,143 @@
     
     self.navigationItem.title = _navTitle;
     
-    [self cellDataWith:@"1" andWithType:_type];
+    [self setMainScrollView];
 }
 
-- (void)createTableView
+-(void)setMainScrollView
 {
-    self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,0, QdxWidth, QdxHeight -64) style:UITableViewStylePlain];
-    self.tableView.delegate = self;
-    self.tableView.dataSource = self;
-    self.tableView.showsVerticalScrollIndicator = NO;
-    self.tableView.backgroundColor = QDXBGColor;
-    //    self.tableview.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
-    [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
+    _mainScrollView = [[UIScrollView alloc]initWithFrame:CGRectMake(0, 0, QdxWidth, self.view.frame.size.height)];
+    _mainScrollView.delegate = self;
+    _mainScrollView.backgroundColor = QDXBGColor;
+    _mainScrollView.pagingEnabled = YES;
+    _mainScrollView.showsHorizontalScrollIndicator = NO;
+    _mainScrollView.showsVerticalScrollIndicator = NO;
+    [self.view addSubview:_mainScrollView];
     
-    // 设置了底部inset
-    _tableView.contentInset = UIEdgeInsetsMake(0, 0, 30, 0);
-    // 忽略掉底部inset
-    _tableView.mj_footer.ignoredScrollViewContentInsetBottom = 30;
-    
-    [self.view addSubview:self.tableView];
+    NSArray *views = @[self.recentVC.view,self.didVC.view];
+    for (NSInteger i = 0; i<self.btnsArray.count; i++) {
+        //把三个vc的view依次贴到_mainScrollView上面
+        UIView *pageView = [[UIView alloc]initWithFrame:CGRectMake(QdxWidth*i, 0, _mainScrollView.frame.size.width, _mainScrollView.frame.size.height-100)];
+        [pageView addSubview:views[i]];
+        [_mainScrollView addSubview:pageView];
+    }
+    _mainScrollView.contentSize = CGSizeMake(QdxWidth*(views.count), 0);
 }
 
--(void)cellDataWith:(NSString *)cur andWithType:(NSString *)type
-{
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr.responseSerializer = [ AFHTTPResponseSerializer serializer ];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"areatype_id"] = @"1";
-    params[@"curr"] = cur;
-    params[@"type"] =type;
-    NSString *url = [hostUrl stringByAppendingString:goodsUrl];
-    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
-        int ret = [infoDict[@"Code"] intValue];
-        if (ret == 1) {
-            NSDictionary *dataDict = infoDict[@"Msg"][@"data"];
-            _actArray = [[NSMutableArray alloc] init];
-            for(NSDictionary *dict in dataDict){
-                HomeModel *model = [[HomeModel alloc] init];
-                [model setValuesForKeysWithDictionary:dict];
-                [_actArray addObject:model];
-            }
-            
-            QDXSlideView *slideView = [[QDXSlideView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight) titleAry:@[@"近期",@"已完成"]];
-            slideView.homeModelArray = _actArray;
-            slideView.type = _type;
-            slideView.passWithValueBlock = ^(HomeModel *homeModel){
-                QDXLineDetailViewController *lineVC = [[QDXLineDetailViewController alloc] init];
-                lineVC.homeModel = homeModel;
-                [self.navigationController pushViewController:lineVC animated:YES];
-            };
-            [self.view addSubview:slideView];
-            
-//            [self createTableView];
-        }
-        else{
-            
-        }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+/**
+ *  标签按钮点击
+ *
+ *  @param sender 按钮
+ */
+-(void)sliderAction:(UIButton *)sender{
+    [self sliderAnimationWithTag:sender.tag];
+    [UIView animateWithDuration:0.3 animations:^{
+        _mainScrollView.contentOffset = CGPointMake(QdxWidth*(sender.tag), 0);
+    } completion:^(BOOL finished) {
         
     }];
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    return _actArray.count;
+/**
+ *  滑动scrollView以及改变sliderLabel位置
+ *
+ *  @param tag 按钮tag
+ */
+-(void)sliderAnimationWithTag:(NSInteger)tag{
+    [self.btnsArray enumerateObjectsUsingBlock:^(UIButton *btn, NSUInteger idx, BOOL * _Nonnull stop) {
+        btn.selected = NO;
+    }];
+    //获取被选中的按钮
+    UIButton *selectedBtn = self.btnsArray[tag];
+    selectedBtn.selected = YES;
+    //动画
+    [UIView animateWithDuration:0.3 animations:^{
+        _slideLabel.center = CGPointMake(selectedBtn.center.x, _slideLabel.center.y);
+    } completion:^(BOOL finished) {
+        [self.btnsArray enumerateObjectsUsingBlock:^(UIButton *btn, NSUInteger idx, BOOL * _Nonnull stop) {
+            btn.titleLabel.font = [UIFont systemFontOfSize:17];
+        }];
+        selectedBtn.titleLabel.font = [UIFont systemFontOfSize:18];
+    }];
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return FitRealValue(556 + 20);
+#pragma mark- XXXXXXXXXXXXXXX懒加载XXXXXXXXXXXXXXXXXXXX
+- (RecentActivityViewController *)recentVC {
+    if (!_recentVC) {
+        _recentVC = [[RecentActivityViewController alloc]init];
+        _recentVC.cityId = self.cityId;
+        _recentVC.stateId = @"1";
+        _recentVC.typeId = self.type;
+        _recentVC.delegate = self;
+    }
+    return _recentVC;
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    QDXActTableViewCell *cell = [QDXActTableViewCell qdxActCellWithPriceWithTableView:_tableView];
-    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.homeModel = _actArray[indexPath.row];
-    return cell;
+-(RecentActivityViewController *)didVC{
+    if (!_didVC) {
+        _didVC = [[RecentActivityViewController alloc]init];
+        _didVC.cityId = self.cityId;
+        _didVC.stateId = @"4";
+        _didVC.typeId = self.type;
+        _didVC.delegate = self;
+    }
+    return _didVC;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+-(void)goodsCellSelectedWith:(Goods *)goods
 {
-    [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    QDXLineDetailViewController *lineVC = [[QDXLineDetailViewController alloc] init];
-    lineVC.homeModel = _actArray[indexPath.row];
-    [self.navigationController pushViewController:lineVC animated:YES];
+    QDXLineDetailViewController *lineDetailVC = [[QDXLineDetailViewController alloc] init];
+//    lineDetailVC.homeModel = goods;
+    lineDetailVC.hidesBottomBarWhenPushed = YES;
+    [self.navigationController pushViewController:lineDetailVC animated:YES];
+}
+
+- (NSMutableArray *)btnsArray {
+    if (!_btnsArray) {
+        _btnsArray = [NSMutableArray array];
+        self.btnContainerView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, QdxWidth, 40)];
+        self.btnContainerView.backgroundColor = [UIColor whiteColor];
+        [self.view addSubview:_btnContainerView];
+        
+        _slideLabel = [[UILabel alloc]initWithFrame:CGRectMake(FitRealValue(24), 40-1, QdxWidth/2 - FitRealValue(24), 2)];
+        _slideLabel.backgroundColor = QDXBlue;
+        
+        [_btnContainerView addSubview:_slideLabel];
+        
+        for (int i = 0; i < 2; i++) {
+            UIButton * btn = [UIButton buttonWithType:UIButtonTypeCustom];
+            [btn setTitleColor:QDXBlue forState:UIControlStateSelected];
+            [btn setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+            if (i==0) {
+                btn.frame = CGRectMake(FitRealValue(24),0, QdxWidth/2 - FitRealValue(24), _btnContainerView.frame.size.height);
+            }else{
+                btn.frame = CGRectMake(i*QdxWidth/2,0, QdxWidth/2 - FitRealValue(24), _btnContainerView.frame.size.height);
+            }
+            
+            btn.titleLabel.font = [UIFont systemFontOfSize:17];
+            [btn addTarget:self action:@selector(sliderAction:) forControlEvents:UIControlEventTouchUpInside];
+            if (i == 0) {
+                [btn setTitle:@"近期" forState:UIControlStateNormal];
+            }else{
+                [btn setTitle:@"已完成" forState:UIControlStateNormal];
+            }
+            btn.tag = i;
+            [_btnsArray addObject:btn];
+            if (i == 0) {
+                btn.selected = YES;
+                btn.titleLabel.font = [UIFont systemFontOfSize:18];
+                
+            }
+            [_btnContainerView addSubview:btn];
+        }
+    }
+    return _btnsArray;
+}
+
+//scrollView滑动代理监听
+-(void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    double index_ = scrollView.contentOffset.x/QdxWidth;
+    [self sliderAnimationWithTag:(int)(index_+0.5)];
 }
 
 - (void)didReceiveMemoryWarning {

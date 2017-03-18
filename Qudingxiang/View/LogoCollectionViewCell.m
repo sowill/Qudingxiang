@@ -7,6 +7,7 @@
 //
 
 #import "LogoCollectionViewCell.h"
+#import "Partner.h"
 
 @interface LogoCollectionViewCell()
 {
@@ -37,10 +38,13 @@
     [self.contentView addSubview:logoBtn];
 }
 
--(void)setLogo:(NSString *)logo
+-(void)setLogo:(Partner *)logo
 {
     _logo = logo;
-    [logoBtn setImage:[UIImage imageNamed:logo] forState:UIControlStateNormal];
+    
+    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",newHostUrl,logo.partner_logo]];
+    UIImage *imagea = [UIImage imageWithData: [NSData dataWithContentsOfURL:url]];
+    [logoBtn setImage:imagea forState:UIControlStateNormal];
 }
 
 @end

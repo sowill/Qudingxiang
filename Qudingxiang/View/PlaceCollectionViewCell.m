@@ -7,7 +7,7 @@
 //
 
 #import "PlaceCollectionViewCell.h"
-#import "HomeModel.h"
+#import "Area.h"
 @interface PlaceCollectionViewCell()
 
 @property (nonatomic, strong) UIView *BGView;
@@ -70,13 +70,13 @@
     [self.BGView addSubview:self.act_place];
 }
 
--(void)setHomeModel:(HomeModel *)homeModel
+-(void)setArea:(Area *)area
 {
-    _homeModel = homeModel;
-    [self.act_img setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,homeModel.good_url]] placeholderImage:[UIImage imageNamed:@"banner_cell"]];
-    self.act_name.text = homeModel.goods_name;
+    _area = area;
+    [self.act_img setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",newHostUrl,area.area_url]] placeholderImage:[UIImage imageNamed:@"banner_cell"]];
+    self.act_name.text = area.area_cn;
     //高度固定不折行，根据字的多少计算label的宽度
-    NSString *str = homeModel.act_address;
+    NSString *str = [area.city_cn stringByAppendingString:area.county_cn];
     CGSize size = [str sizeWithFont:self.act_place.font constrainedToSize:CGSizeMake(MAXFLOAT, self.act_place.frame.size.height)];
     
     if (size.width > (self.contentView.frame.size.width - FitRealValue(30))) {

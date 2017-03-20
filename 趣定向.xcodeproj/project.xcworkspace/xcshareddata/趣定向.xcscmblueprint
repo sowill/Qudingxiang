@@ -1,21 +1,21 @@
 {
-  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "8a704681-5a24-d745-a967-a8f7d1b20364++8510+++C50F188",
+  "DVTSourceControlWorkspaceBlueprintPrimaryRemoteRepositoryKey" : "8a704681-5a24-d745-a967-a8f7d1b20364++8510",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyRepositoryLocationsKey" : {
-    "E7DCB85806C0291DBC42B605293A7F78C491502E+++C69C7EC" : {
+    "8a704681-5a24-d745-a967-a8f7d1b20364++8510" : {
 
     },
-    "8a704681-5a24-d745-a967-a8f7d1b20364++8510+++C50F188" : {
+    "E7DCB85806C0291DBC42B605293A7F78C491502E" : {
 
     }
   },
   "DVTSourceControlWorkspaceBlueprintWorkingCopyStatesKey" : {
-    "E7DCB85806C0291DBC42B605293A7F78C491502E+++C69C7EC" : 9223372036854775807,
-    "8a704681-5a24-d745-a967-a8f7d1b20364++8510+++C50F188" : 9223372036854775807
+    "8a704681-5a24-d745-a967-a8f7d1b20364++8510" : 9223372036854775807,
+    "E7DCB85806C0291DBC42B605293A7F78C491502E" : 9223372036854775807
   },
   "DVTSourceControlWorkspaceBlueprintIdentifierKey" : "4B442A32-B1E5-47B4-80F0-644A54B370DF",
   "DVTSourceControlWorkspaceBlueprintWorkingCopyPathsKey" : {
-    "E7DCB85806C0291DBC42B605293A7F78C491502E+++C69C7EC" : "Qudingxiang\/",
-    "8a704681-5a24-d745-a967-a8f7d1b20364++8510+++C50F188" : "Qudingxiang\/"
+    "8a704681-5a24-d745-a967-a8f7d1b20364++8510" : "Qudingxiang\/",
+    "E7DCB85806C0291DBC42B605293A7F78C491502E" : "Qudingxiang\/"
   },
   "DVTSourceControlWorkspaceBlueprintNameKey" : "趣定向",
   "DVTSourceControlWorkspaceBlueprintVersion" : 204,
@@ -24,12 +24,12 @@
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/github.com\/sowill\/Qudingxiang.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8a704681-5a24-d745-a967-a8f7d1b20364++8510+++C50F188"
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "8a704681-5a24-d745-a967-a8f7d1b20364++8510"
     },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "https:\/\/oketion.com:8443\/svn\/oketion",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Subversion",
-      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E7DCB85806C0291DBC42B605293A7F78C491502E+++C69C7EC"
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "E7DCB85806C0291DBC42B605293A7F78C491502E"
     }
   ]
 }

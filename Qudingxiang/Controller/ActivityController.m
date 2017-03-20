@@ -164,14 +164,14 @@
 {
    [tableView deselectRowAtIndexPath:indexPath animated:NO];
     QDXLineDetailViewController *lineVC = [[QDXLineDetailViewController alloc] init];
-    ActModel *md = (ActModel*)_dataArr[indexPath.row];
-    HomeModel *homeModel = [[HomeModel alloc] init];
-    homeModel.goods_id = md.goods_id;
-    homeModel.goods_price = md.goods_price;
-    homeModel.good_st = md.good_st;
-    homeModel.goods_name = md.goods_name;
-    homeModel.line = md.line;
-    lineVC.homeModel = homeModel;
+//    ActModel *md = (ActModel*)_dataArr[indexPath.row];
+//    HomeModel *homeModel = [[HomeModel alloc] init];
+//    homeModel.goods_id = md.goods_id;
+//    homeModel.goods_price = md.goods_price;
+//    homeModel.good_st = md.good_st;
+//    homeModel.goods_name = md.goods_name;
+//    homeModel.line = md.line;
+    lineVC.goods = _dataArr[indexPath.row];
     lineVC.hidesBottomBarWhenPushed =YES;
     [self.navigationController pushViewController:lineVC animated:YES];
 }

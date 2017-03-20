@@ -18,4 +18,6 @@
 
 @property (nonatomic, strong) NSString *cityId;
 
+@property (nonatomic, strong) NSString *cityCn;
+
 @end

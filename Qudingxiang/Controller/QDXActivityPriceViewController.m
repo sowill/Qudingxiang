@@ -16,6 +16,11 @@
 #import "Area.h"
 
 @interface QDXActivityPriceViewController ()<UITableViewDataSource,UITableViewDelegate>
+{
+    int curr;
+    int page;
+    int count;
+}
 @property (nonatomic, strong) UITableView *tableView;
 
 @property (nonatomic, strong) NSMutableArray *actArray;
@@ -61,13 +66,64 @@
     //    self.tableview.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     [self.tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     
-    // 设置了底部inset
-    _tableView.contentInset = UIEdgeInsetsMake(0, 0, 30, 0);
-    // 忽略掉底部inset
-    _tableView.mj_footer.ignoredScrollViewContentInsetBottom = 30;
+    [self setupRefreshView];
     
     [self.view addSubview:self.tableView];
 }
+
+/**
+ *  集成刷新控件
+ */
+- (void)setupRefreshView
+{
+    // 1.下拉刷新
+    __weak __typeof(self) weakSelf = self;
+    
+    self.tableView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [weakSelf loadNewData];
+    }];
+    
+    // 马上进入刷新状态
+    //    [self.tableView.mj_header beginRefreshing];
+    
+    // 2.上拉刷新(上拉加载更多数据)
+    self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+    // 设置了底部inset
+    self.tableView.contentInset = UIEdgeInsetsMake(0, 0, 10, 0);
+    // 忽略掉底部inset
+    //    self.tableView.mj_footer.ignoredScrollViewContentInsetBottom = 30;
+    
+}
+
+#pragma mark - 数据处理相关
+#pragma mark 下拉刷新数据
+- (void)loadNewData
+{
+    curr = 1;
+    [self getGoods];
+    
+    // 刷新表格
+    [self.tableView reloadData];
+    // 拿到当前的下拉刷新控件，结束刷新状态
+    [self.tableView.mj_header endRefreshing];
+}
+
+#pragma mark 上拉加载更多数据
+- (void)loadMoreData
+{
+    curr++;
+    if(curr > page ){
+        // 刷新表格
+        [self.tableView reloadData];
+        
+        // 拿到当前的上拉刷新控件，结束刷新状态
+        
+        [self.tableView.mj_footer endRefreshingWithNoMoreData];
+    }else{
+        [self getGoods];
+    }
+}
+
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
@@ -91,7 +147,7 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     QDXLineDetailViewController *lineVC = [[QDXLineDetailViewController alloc] init];
-    lineVC.homeModel = _actArray[indexPath.row];
+    lineVC.goods = _actArray[indexPath.row];
     [self.navigationController pushViewController:lineVC animated:YES];
 }
 

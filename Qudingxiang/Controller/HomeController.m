@@ -34,6 +34,8 @@
 #import "Partner.h"
 #import "CityList.h"
 #import "City.h"
+#import "GoodsList.h"
+#import "Goods.h"
 
 @interface HomeController ()<UITableViewDataSource,UITableViewDelegate,QDXHomeTableViewCellDelegate,QDXCooperationCellDelegate,ChoseCityDelegate,CLLocationManagerDelegate>
 {
@@ -119,8 +121,6 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stateRefresh) name:@"stateRefresh" object:nil];
     
-    [self topViewData];
-    
     [self createTableView];
     [self createHeaderView];
     
@@ -181,7 +181,13 @@
 -(void)choseCityPassValue:(City *)city
 {
     [locationBtn setTitle:city.city_cn forState:UIControlStateNormal];
-    [self getCity];
+    
+    for (City *city in _cityArr) {
+        //这个默认城市名是两个字符串
+        if ([[city.city_cn substringToIndex:2] isEqualToString:locationBtn.titleLabel.text]) {
+            _cityId = city.city_id;
+        }
+    }
 }
 
 -(void)locationClick
@@ -216,9 +222,7 @@
             //这个默认城市名是两个字符串
             if ([[city.city_cn substringToIndex:2] isEqualToString:locationBtn.titleLabel.text]) {
                 _cityId = city.city_id;
-                
             }
-            
             [_cityArr addObject:city];
         }
         
@@ -266,6 +270,7 @@
 
 - (void)loadData
 {
+    [self topViewData];
     [self getHotArea];
     [self getPartner];
     [self getCity];
@@ -360,47 +365,29 @@
 
 - (void)topViewData
 {
-//    _scrollArr = [NSMutableArray arrayWithCapacity:0];
-//    NSString *url = [newHostUrl stringByAppendingString:getMatchUrl];
-//    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-//    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
-//        GoodsList *goodsList = [[GoodsList alloc] initWithDic:responseObject];
-//        for (Goods *goods in goodsList.goodsArray) {
-//            [_recentArray addObject:goods];
-//        }
-//        
-//        [_scrollArr addObject:[NSString stringWithFormat:@"%@%@",hostUrl,str]];
-//        
-//    } failure:^(NSError *error) {
-//        
-//    }];
-    
-    
-    [homehttp topViewDatasucceed:^(id data) {
-        NSMutableArray *modelArr  = [NSMutableArray arrayWithCapacity:0];
-        NSDictionary *dataDict = data[@"Msg"][@"data"];
-        _scrollArr = [NSMutableArray arrayWithCapacity:0];
-        for(NSDictionary *dict in dataDict){
-            int i = [dict[@"goods_index"] intValue];
-            if (i == 1) {
-                HomeModel *model = [[HomeModel alloc] init];
-                [model setValuesForKeysWithDictionary:dict];
-                _model_tmp = model;
-                NSString *str = model.good_url;
-                [_scrollArr addObject:[NSString stringWithFormat:@"%@%@",hostUrl,str]];
-                [modelArr addObject:model];
-            }
+    _scrollArr = [NSMutableArray arrayWithCapacity:0];
+    NSMutableArray *modelArr  = [NSMutableArray arrayWithCapacity:0];
+    NSString *url = [newHostUrl stringByAppendingString:getMatchUrl];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
+        GoodsList *goodsList = [[GoodsList alloc] initWithDic:responseObject];
+        for (Goods *goods in goodsList.goodsArray) {
+            [_scrollArr addObject:[NSString stringWithFormat:@"%@%@",newHostUrl,goods.goods_url]];
+            [modelArr addObject:goods];
         }
+        
         NSMutableArray *arr = [[NSMutableArray alloc] initWithCapacity:0];
-        for(int i = 0;i < 4;i++){
-            [arr addObject:_scrollArr[i]];
+        for(int i = 0;i < _scrollArr.count;i++){
+            if (_scrollArr.count < 4) {
+                [arr addObject:_scrollArr[i]];
+            }
         }
         //添加数据
         _imgScrollView.pics = arr;
         //点击事件
         [_imgScrollView returnIndex:^(NSInteger index) {
-        QDXLineDetailViewController *detailLine = [[QDXLineDetailViewController alloc] init];
-            detailLine.homeModel = [modelArr objectAtIndex:index];
+            QDXLineDetailViewController *detailLine = [[QDXLineDetailViewController alloc] init];
+            detailLine.goods = [modelArr objectAtIndex:index];
             detailLine.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:detailLine animated:YES];
         }];
@@ -408,8 +395,9 @@
         dispatch_async(dispatch_get_main_queue(), ^(void){
             [_imgScrollView reloadView];
         });
+
     } failure:^(NSError *error) {
-    
+        
     }];
 }
 
@@ -460,7 +448,7 @@
         QDXActivityPriceViewController *actWithPriceVC = [[QDXActivityPriceViewController alloc] init];
         actWithPriceVC.hidesBottomBarWhenPushed = YES;
         actWithPriceVC.type = [NSString stringWithFormat:@"%d",(int)indexPath.row];
-//        actWithPriceVC.navTitle = 
+        actWithPriceVC.area = _hotAreaArr[indexPath.row];
         [self.navigationController pushViewController:actWithPriceVC animated:YES];
     }
 }
@@ -548,6 +536,7 @@
         placeVC.navTitle = btn.titleLabel.text;
         placeVC.cityArr = _cityArr;
         placeVC.cityId = _cityId;
+        placeVC.cityCn = locationBtn.titleLabel.text;
         [self.navigationController pushViewController:placeVC animated:YES];
     }else{
         QDXActivityViewController *qdxActVC = [[QDXActivityViewController alloc] init];

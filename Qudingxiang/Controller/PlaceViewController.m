@@ -11,21 +11,27 @@
 #import "PlaceCollectionViewCell.h"
 #import "QDXActivityPriceViewController.h"
 #import "LocationChoiceViewController.h"
-#import <CoreLocation/CoreLocation.h>
+
+#import "QDXStateView.h"
 #import "UIButton+ImageText.h"
 #import "City.h"
 #import "AreaList.h"
 #import "Area.h"
 
-@interface PlaceViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,ChoseCityDelegate,CLLocationManagerDelegate>
+@interface PlaceViewController ()<UICollectionViewDelegate,UICollectionViewDataSource,ChoseCityDelegate,CLLocationManagerDelegate,StateDelegate>
 {
     UIButton *locationBtn;
+    int curr;
+    int page;
+    int count;
 }
 @property (nonatomic, strong) NSMutableArray *actArray;
 
 @property (nonatomic, strong) UICollectionView *collectionView;
 
 @property (nonatomic, strong) CLLocationManager* locationManager;
+
+@property (nonatomic, strong) QDXStateView *noThingView;
 
 @end
 
@@ -50,10 +56,9 @@ static NSString *placeReuseID = @"placeReuseID";
     self.locationManager = [[CLLocationManager alloc] init];
     self.locationManager.delegate = self;
     self.locationManager.desiredAccuracy = kCLLocationAccuracyBest;
-    [self findMe];
     
     locationBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 60, 20)];
-    [locationBtn setTitle:@"上海" forState:UIControlStateNormal];
+    [locationBtn setTitle:_cityCn forState:UIControlStateNormal];
     locationBtn.titleLabel.font = [UIFont systemFontOfSize:17];
     [locationBtn setImage:[UIImage imageNamed:@"下拉icon"] forState:UIControlStateNormal];
     [locationBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
@@ -76,66 +81,43 @@ static NSString *placeReuseID = @"placeReuseID";
     params[@"city_id"] = _cityId;
     [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
         AreaList *areaList = [[AreaList alloc] initWithDic:responseObject];
-        for (Area *area in areaList.areaArray) {
-            [_actArray addObject:area];
-        }
+        curr = [areaList.curr intValue];
+        count = [areaList.count intValue];
+        page = [areaList.allpage intValue];
         
-        [self.collectionView reloadData];
+        [_noThingView removeFromSuperview];
+        if (count == 0) {
+            [self createSadViewWithDetail: @"该城市目前还没有场地哦~"];
+        }else{
+            for (Area *area in areaList.areaArray) {
+                [_actArray addObject:area];
+            }
+            
+            [self.collectionView reloadData];
+        }
     } failure:^(NSError *error) {
         
     }];
 }
 
-- (void)findMe
+- (void)createSadViewWithDetail :(NSString *)detail
 {
-    /** 由于IOS8中定位的授权机制改变 需要进行手动授权
-     * 获取授权认证，两个方法：
-     * [self.locationManager requestWhenInUseAuthorization];
-     * [self.locationManager requestAlwaysAuthorization];
-     */
-    if ([self.locationManager respondsToSelector:@selector(requestAlwaysAuthorization)]) {
-//        NSLog(@"requestAlwaysAuthorization");
-        [self.locationManager requestAlwaysAuthorization];
+    _noThingView = [[QDXStateView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight - 49)];
+    _noThingView.tag = 2;
+    _noThingView.delegate = self;
+    _noThingView.stateImg.image = [UIImage imageNamed:@"order_nothing"];
+    if ([detail length] == 0) {
+        _noThingView.stateDetail.text = @"该城市目前还没有场地哦~";
+    }else{
+        _noThingView.stateDetail.text = detail;
     }
-    
-    //开始定位，不断调用其代理方法
-    [self.locationManager startUpdatingLocation];
-    //    NSLog(@"start gps");
+    [_noThingView.stateButton setTitle:@"切换城市" forState:UIControlStateNormal];
+    [self.view addSubview:_noThingView];
 }
 
-- (void)locationManager:(CLLocationManager *)manager
-     didUpdateLocations:(NSArray *)locations
+-(void)changeState
 {
-    // 1.获取用户位置的对象
-    CLLocation *location = [locations lastObject];
-    //    CLLocationCoordinate2D coordinate = location.coordinate;
-    //    NSLog(@"纬度:%f 经度:%f", coordinate.latitude, coordinate.longitude);
-    //
-    //    NSLog(@"-------根据经纬度反查地理位置--%f--%f",coordinate.latitude,coordinate.longitude);
-    
-    CLGeocoder *clGeoCoder = [[CLGeocoder alloc] init];
-    [clGeoCoder reverseGeocodeLocation:location completionHandler: ^(NSArray *placemarks,NSError *error) {
-        
-        //        NSLog(@"--array--%d---error--%@",(int)placemarks.count,error);
-        
-        if (placemarks.count > 0) {
-            CLPlacemark *placemark = [placemarks objectAtIndex:0];
-            NSString *city = placemark.administrativeArea;
-            [locationBtn setTitle:[city substringToIndex:2] forState:UIControlStateNormal];
-            //            NSLog(@"%@",placemark.addressDictionary[@"Name"]);
-        }
-    }];
-    
-    // 2.停止定位
-    [manager stopUpdatingLocation];
-}
-
-- (void)locationManager:(CLLocationManager *)manager
-       didFailWithError:(NSError *)error
-{
-    if (error.code == kCLErrorDenied) {
-        // 提示用户出错原因，可按住Option键点击 KCLErrorDenied的查看更多出错信息，可打印error.code值查找原因所在
-    }
+    [self locationClick];
 }
 
 -(void)choseCityPassValue:(City *)city
@@ -170,8 +152,63 @@ static NSString *placeReuseID = @"placeReuseID";
     self.collectionView.dataSource = self;
     self.collectionView.delegate = self;
     
+    [self setupRefreshView];
+    
     [self.collectionView registerClass:[PlaceCollectionViewCell class] forCellWithReuseIdentifier:placeReuseID];
     [self.view addSubview:self.collectionView];
+}
+
+/**
+ *  集成刷新控件
+ */
+- (void)setupRefreshView
+{
+    // 1.下拉刷新
+    __weak __typeof(self) weakSelf = self;
+    
+    self.collectionView.mj_header = [MJRefreshNormalHeader headerWithRefreshingBlock:^{
+        [weakSelf loadNewData];
+    }];
+    
+    // 马上进入刷新状态
+    //    [self.tableView.mj_header beginRefreshing];
+    
+    // 2.上拉刷新(上拉加载更多数据)
+    self.collectionView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];
+    // 设置了底部inset
+    self.collectionView.contentInset = UIEdgeInsetsMake(0, 0, 10, 0);
+    // 忽略掉底部inset
+    //    self.tableView.mj_footer.ignoredScrollViewContentInsetBottom = 30;
+    
+}
+
+#pragma mark - 数据处理相关
+#pragma mark 下拉刷新数据
+- (void)loadNewData
+{
+    curr = 1;
+    [self getArea];
+    
+    // 刷新表格
+    [self.collectionView reloadData];
+    // 拿到当前的下拉刷新控件，结束刷新状态
+    [self.collectionView.mj_header endRefreshing];
+}
+
+#pragma mark 上拉加载更多数据
+- (void)loadMoreData
+{
+    curr++;
+    if(curr > page ){
+        // 刷新表格
+        [self.collectionView reloadData];
+        
+        // 拿到当前的上拉刷新控件，结束刷新状态
+        
+        [self.collectionView.mj_footer endRefreshingWithNoMoreData];
+    }else{
+        [self getArea];
+    }
 }
 
 #pragma mark --------------------------------------------------

@@ -7,12 +7,11 @@
 //
 
 #import "QDXLineDetailViewController.h"
-#import "LineModel.h"
 #import "QDXDetailsModel.h"
 #import "JTSImageViewController.h"
 #import "JTSImageInfo.h"
 #import <QuartzCore/QuartzCore.h>
-#import "HomeModel.h"
+#import "Goods.h"
 #import "QDXOrderDetailTableViewController.h"
 #import "QDXLoginViewController.h"
 #import "NSMutableAttributedString+ChangeColorFont.h"
@@ -77,10 +76,10 @@
 - (void)didClickOnImageIndex:(NSInteger *)imageIndex
 {
 
-    NSString *urlstr = [hostUrl stringByAppendingString:[NSString stringWithFormat:@"index.php/home/goods/index/goods_id/%@",_homeModel.goods_id]];
+    NSString *urlstr = [hostUrl stringByAppendingString:[NSString stringWithFormat:@"index.php/home/goods/index/goods_id/%@",_goods.goods_id]];
     NSURL *imgurl = [NSURL URLWithString:urlstr];
     NSString *title = @"趣定向";
-    NSString *description = _homeModel.goods_name;
+    NSString *description = _goods.goods_cn;
     if (imageIndex == 0) {
         TencentOAuth *auth = [[TencentOAuth alloc] initWithAppId:@"1104830915"andDelegate:self];
 
@@ -133,7 +132,7 @@
 
 -(void)setupDetail
 {
-    self.navigationItem.title = self.homeModel.goods_name;
+    self.navigationItem.title = _goods.goods_cn;
     
     // 进度条
     UIProgressView *progressView = [[UIProgressView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth,6)];
@@ -161,10 +160,10 @@
     
     [_webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:nil];
     
-    NSString *url = [hostUrl stringByAppendingString:[NSString stringWithFormat:@"index.php/home/goods/index/goods_id/%@",self.homeModel.goods_id]];
+    NSString *url = [hostUrl stringByAppendingString:[NSString stringWithFormat:@"index.php/home/goods/index/goods_id/%@",_goods.goods_id]];
     
     [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
-    if([self.homeModel.good_st isEqualToString:@"1"]){
+    if([_goods.goodstatus_id isEqualToString:@"1"]){
         [self createPayUI];
     }else{
         
@@ -245,8 +244,8 @@
     price_1.textColor = QDXOrange;
     NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@""];
     [string appendString:@"¥" withColor:QDXOrange font:[UIFont systemFontOfSize:14]];
-    NSRange range = [self.homeModel.goods_price rangeOfString:@"."];
-    NSString *a = self.homeModel.goods_price;
+    NSRange range = [_goods.goods_price rangeOfString:@"."];
+    NSString *a = _goods.goods_price;
     [string appendString:[a substringToIndex:(int)range.location] withColor:QDXOrange font:[UIFont systemFontOfSize:24]];
     [string appendString:[a substringFromIndex:(int)range.location] withColor:QDXOrange font:[UIFont systemFontOfSize:14]];
     price_1.attributedText = string;
@@ -418,7 +417,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"TokenKey"] = save;
 
-    params[@"line_id"] = _homeModel.line[@"line_id"];
+    params[@"line_id"] = _goods.line_id;
     NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Line/getInfoAjax"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
         
@@ -476,7 +475,7 @@
         _indexNum++;
         _numberLabel.text = [NSString stringWithFormat:@"%i",_indexNum];
         [self payDataWithNumber:@"1" PassNum:NO];
-        _priceStr = [_homeModel.goods_price intValue];
+        _priceStr = [_goods.goods_price intValue];
         _totalPrice += _priceStr;
         [self setUpPriceFont];
         
@@ -492,7 +491,7 @@
     _indexNum--;
     _numberLabel.text = [NSString stringWithFormat:@"%i",_indexNum];
     [self payDataWithNumber:@"2" PassNum:NO];
-        _priceStr = [_homeModel.goods_price intValue];
+        _priceStr = [_goods.goods_price intValue];
         _totalPrice -= _priceStr;
         [self setUpPriceFont];
         
@@ -507,7 +506,7 @@
     mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"TokenKey"] = save;
-    params[@"goods_id"] = _homeModel.goods_id;
+    params[@"goods_id"] = _goods.goods_id;
     params[@"add"] = number;
     NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Orders/addOrders"];
     [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
@@ -545,7 +544,7 @@
                 if(isBool ==YES){
                     _indexNum = 1;
                     for(NSDictionary *ticketArr in model.ticketinfo){
-                        if([ticketArr[@"ticket_id"] isEqualToString:_homeModel.goods_id]){
+                        if([ticketArr[@"ticket_id"] isEqualToString:_goods.goods_id]){
                             [model setTicket_price:ticketArr[@"ticket_price"]];
                             _indexNum++;
                             _numberLabel.text = [NSString stringWithFormat:@"%i",_indexNum];

@@ -114,7 +114,7 @@
 -(void)goodsCellSelectedWith:(Goods *)goods
 {
     QDXLineDetailViewController *lineDetailVC = [[QDXLineDetailViewController alloc] init];
-//    lineDetailVC.homeModel = goods;
+    lineDetailVC.goods = goods;
     lineDetailVC.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:lineDetailVC animated:YES];
 }

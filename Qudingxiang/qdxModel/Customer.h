@@ -1,4 +1,4 @@
-//Created by DCode on 2017-03-16 .
+//Created by DCode on 2017-03-20 .
 //Copyright © 2017 Shallvi. All rights reserved.  
 
 #import <Foundation/Foundation.h>
@@ -20,6 +20,6 @@
 @property (nonatomic,copy) NSString *customer_address; //地址
 @property (nonatomic,copy) NSString *customer_level; //级别
 @property (nonatomic,copy) NSString *area_id; //场地
-@property (nonatomic,copy) NSString *area_cn;
+ 
 -(id)initWithDic:(NSDictionary *) infoDict;
 @end

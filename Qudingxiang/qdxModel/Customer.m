@@ -1,4 +1,4 @@
-//Created by DCode on 2017-03-16 .
+//Created by DCode on 2017-03-20 .
 //Copyright © 2017 Shallvi. All rights reserved.  
 #import "Customer.h"
 
@@ -22,7 +22,7 @@
 			_customer_address = infoDict[@"customer_address"];
 			_customer_level = infoDict[@"customer_level"];
 			_area_id = infoDict[@"area_id"];
-			_area_cn = infoDict[@"area"][@"area_cn"];
+ 
 		}
 		return self;
 }

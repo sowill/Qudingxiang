@@ -185,8 +185,6 @@
 		459C43331DED749100437712 /* UIView+XBExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 459C43321DED749100437712 /* UIView+XBExtension.m */; };
 		459C43361DED75AE00437712 /* XBTestTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 459C43351DED75AE00437712 /* XBTestTableViewController.m */; };
 		459E69F61DF7BC6700D5C9F9 /* QDXTicketSuccessViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 459E69F51DF7BC6700D5C9F9 /* QDXTicketSuccessViewController.m */; };
-		459EB25E1E6D2CCC0011943B /* QDXHomeCooperationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 459EB25D1E6D2CCC0011943B /* QDXHomeCooperationCell.m */; };
-		459EB2611E6D2D260011943B /* QDXCooperationCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 459EB2601E6D2D260011943B /* QDXCooperationCollectionViewCell.m */; };
 		459EB2641E6D471B0011943B /* LocationChoiceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 459EB2631E6D471B0011943B /* LocationChoiceViewController.m */; };
 		459EB2671E6D4E880011943B /* ChoseCityCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 459EB2661E6D4E880011943B /* ChoseCityCollectionViewCell.m */; };
 		459EB26A1E6D77280011943B /* UIButton+ImageText.m in Sources */ = {isa = PBXBuildFile; fileRef = 459EB2691E6D77280011943B /* UIButton+ImageText.m */; };
@@ -325,15 +323,7 @@
 		45DD34DA1C33D5F500E24250 /* read_me.txt in Resources */ = {isa = PBXBuildFile; fileRef = 45DD34D51C33D5F500E24250 /* read_me.txt */; };
 		45DF76381BA6AAC20024A6B4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 45DF76361BA6AAC20024A6B4 /* Main.storyboard */; };
 		45E497F61E11284400F61F05 /* AMapFoundationKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 45E497F41E11284400F61F05 /* AMapFoundationKit.framework */; };
-		45E8F44F1E2609A300902455 /* Airbnb00.png in Resources */ = {isa = PBXBuildFile; fileRef = 45E8F44E1E2609A300902455 /* Airbnb00.png */; };
-		45E8F4511E2609AA00902455 /* Airbnb01.png in Resources */ = {isa = PBXBuildFile; fileRef = 45E8F4501E2609AA00902455 /* Airbnb01.png */; };
-		45E8F4531E2609B100902455 /* Airbnb02.png in Resources */ = {isa = PBXBuildFile; fileRef = 45E8F4521E2609B100902455 /* Airbnb02.png */; };
-		45E8F4551E2609B600902455 /* Airbnb03.png in Resources */ = {isa = PBXBuildFile; fileRef = 45E8F4541E2609B600902455 /* Airbnb03.png */; };
-		45E8F4571E2609BC00902455 /* Airbnb04.png in Resources */ = {isa = PBXBuildFile; fileRef = 45E8F4561E2609BC00902455 /* Airbnb04.png */; };
 		45E8F4611E262A9700902455 /* UIImage+RTTint.m in Sources */ = {isa = PBXBuildFile; fileRef = 45E8F4601E262A9700902455 /* UIImage+RTTint.m */; };
-		45ECA27E1E24DD0500B9D835 /* JPAnimationTool.m in Sources */ = {isa = PBXBuildFile; fileRef = 45ECA27D1E24DD0500B9D835 /* JPAnimationTool.m */; };
-		45ECA2811E24DDD000B9D835 /* QDXHomeCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45ECA2801E24DDD000B9D835 /* QDXHomeCollectionView.m */; };
-		45ECA2841E24E16800B9D835 /* QDXHomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45ECA2831E24E16800B9D835 /* QDXHomeTableViewCell.m */; };
 		45EE61371CEAC074007302E3 /* PointView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EE61361CEAC074007302E3 /* PointView.m */; };
 		45EE613A1CEAC641007302E3 /* PointAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EE61391CEAC641007302E3 /* PointAnnotationView.m */; };
 		45EE613D1CEAD4FC007302E3 /* UIImage+watermark.m in Sources */ = {isa = PBXBuildFile; fileRef = 45EE613C1CEAD4FC007302E3 /* UIImage+watermark.m */; };
@@ -343,6 +333,12 @@
 		45F6642F1DCB1DDC00C33FAF /* DWViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45F6642D1DCB1DDC00C33FAF /* DWViewCell.m */; };
 		45FAC8A21DD0571B004A6531 /* QDXPointSettingViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45FAC8A11DD0571B004A6531 /* QDXPointSettingViewController.m */; };
 		45FAC8A51DD08EA9004A6531 /* QDXPointListViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45FAC8A41DD08EA9004A6531 /* QDXPointListViewController.m */; };
+		45FD833B1E80BD0D00C4D37A /* Myline.m in Sources */ = {isa = PBXBuildFile; fileRef = 45FD83381E80BD0D00C4D37A /* Myline.m */; };
+		45FD833C1E80BD0D00C4D37A /* MylineList.m in Sources */ = {isa = PBXBuildFile; fileRef = 45FD833A1E80BD0D00C4D37A /* MylineList.m */; };
+		45FD83501E80D4E000C4D37A /* QDXCooperationCollectionViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45FD83491E80D4E000C4D37A /* QDXCooperationCollectionViewCell.m */; };
+		45FD83511E80D4E000C4D37A /* QDXHomeCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45FD834B1E80D4E000C4D37A /* QDXHomeCollectionView.m */; };
+		45FD83521E80D4E000C4D37A /* QDXHomeCooperationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45FD834D1E80D4E000C4D37A /* QDXHomeCooperationCell.m */; };
+		45FD83531E80D4E000C4D37A /* QDXHomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45FD834F1E80D4E000C4D37A /* QDXHomeTableViewCell.m */; };
 		A31287A31CCF0DA200CB887E /* line_pointModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A31287A21CCF0DA200CB887E /* line_pointModel.m */; };
 		A31287A61CCF0DD700CB887E /* QDXOfflineDB.m in Sources */ = {isa = PBXBuildFile; fileRef = A31287A51CCF0DD700CB887E /* QDXOfflineDB.m */; };
 		A31287AB1CCF165D00CB887E /* BaseService.m in Sources */ = {isa = PBXBuildFile; fileRef = A31287A81CCF165D00CB887E /* BaseService.m */; };
@@ -757,10 +753,6 @@
 		459C6E331BD89D2300743FEC /* UIImage+JTSImageEffects.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+JTSImageEffects.m"; sourceTree = "<group>"; };
 		459E69F41DF7BC6700D5C9F9 /* QDXTicketSuccessViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXTicketSuccessViewController.h; sourceTree = "<group>"; };
 		459E69F51DF7BC6700D5C9F9 /* QDXTicketSuccessViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXTicketSuccessViewController.m; sourceTree = "<group>"; };
-		459EB25C1E6D2CCC0011943B /* QDXHomeCooperationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXHomeCooperationCell.h; sourceTree = "<group>"; };
-		459EB25D1E6D2CCC0011943B /* QDXHomeCooperationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXHomeCooperationCell.m; sourceTree = "<group>"; };
-		459EB25F1E6D2D260011943B /* QDXCooperationCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXCooperationCollectionViewCell.h; sourceTree = "<group>"; };
-		459EB2601E6D2D260011943B /* QDXCooperationCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXCooperationCollectionViewCell.m; sourceTree = "<group>"; };
 		459EB2621E6D471B0011943B /* LocationChoiceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocationChoiceViewController.h; sourceTree = "<group>"; };
 		459EB2631E6D471B0011943B /* LocationChoiceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocationChoiceViewController.m; sourceTree = "<group>"; };
 		459EB2651E6D4E880011943B /* ChoseCityCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChoseCityCollectionViewCell.h; sourceTree = "<group>"; };
@@ -1043,19 +1035,8 @@
 		45DF76371BA6AAC20024A6B4 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		45DF76421BA6AAC20024A6B4 /* 趣定向.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "趣定向.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		45E497F41E11284400F61F05 /* AMapFoundationKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AMapFoundationKit.framework; sourceTree = "<group>"; };
-		45E8F44E1E2609A300902455 /* Airbnb00.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Airbnb00.png; sourceTree = "<group>"; };
-		45E8F4501E2609AA00902455 /* Airbnb01.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Airbnb01.png; sourceTree = "<group>"; };
-		45E8F4521E2609B100902455 /* Airbnb02.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Airbnb02.png; sourceTree = "<group>"; };
-		45E8F4541E2609B600902455 /* Airbnb03.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Airbnb03.png; sourceTree = "<group>"; };
-		45E8F4561E2609BC00902455 /* Airbnb04.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Airbnb04.png; sourceTree = "<group>"; };
 		45E8F45F1E262A9700902455 /* UIImage+RTTint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+RTTint.h"; sourceTree = "<group>"; };
 		45E8F4601E262A9700902455 /* UIImage+RTTint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+RTTint.m"; sourceTree = "<group>"; };
-		45ECA27C1E24DD0500B9D835 /* JPAnimationTool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JPAnimationTool.h; sourceTree = "<group>"; };
-		45ECA27D1E24DD0500B9D835 /* JPAnimationTool.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JPAnimationTool.m; sourceTree = "<group>"; };
-		45ECA27F1E24DDD000B9D835 /* QDXHomeCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXHomeCollectionView.h; sourceTree = "<group>"; };
-		45ECA2801E24DDD000B9D835 /* QDXHomeCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXHomeCollectionView.m; sourceTree = "<group>"; };
-		45ECA2821E24E16800B9D835 /* QDXHomeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXHomeTableViewCell.h; sourceTree = "<group>"; };
-		45ECA2831E24E16800B9D835 /* QDXHomeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXHomeTableViewCell.m; sourceTree = "<group>"; };
 		45EE61351CEAC074007302E3 /* PointView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointView.h; sourceTree = "<group>"; };
 		45EE61361CEAC074007302E3 /* PointView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PointView.m; sourceTree = "<group>"; };
 		45EE61381CEAC641007302E3 /* PointAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointAnnotationView.h; sourceTree = "<group>"; };
@@ -1090,6 +1071,18 @@
 		45FAC8A11DD0571B004A6531 /* QDXPointSettingViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXPointSettingViewController.m; sourceTree = "<group>"; };
 		45FAC8A31DD08EA9004A6531 /* QDXPointListViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXPointListViewController.h; sourceTree = "<group>"; };
 		45FAC8A41DD08EA9004A6531 /* QDXPointListViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXPointListViewController.m; sourceTree = "<group>"; };
+		45FD83371E80BD0D00C4D37A /* Myline.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Myline.h; sourceTree = "<group>"; };
+		45FD83381E80BD0D00C4D37A /* Myline.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Myline.m; sourceTree = "<group>"; };
+		45FD83391E80BD0D00C4D37A /* MylineList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MylineList.h; sourceTree = "<group>"; };
+		45FD833A1E80BD0D00C4D37A /* MylineList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MylineList.m; sourceTree = "<group>"; };
+		45FD83481E80D4E000C4D37A /* QDXCooperationCollectionViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXCooperationCollectionViewCell.h; sourceTree = "<group>"; };
+		45FD83491E80D4E000C4D37A /* QDXCooperationCollectionViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXCooperationCollectionViewCell.m; sourceTree = "<group>"; };
+		45FD834A1E80D4E000C4D37A /* QDXHomeCollectionView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXHomeCollectionView.h; sourceTree = "<group>"; };
+		45FD834B1E80D4E000C4D37A /* QDXHomeCollectionView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXHomeCollectionView.m; sourceTree = "<group>"; };
+		45FD834C1E80D4E000C4D37A /* QDXHomeCooperationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXHomeCooperationCell.h; sourceTree = "<group>"; };
+		45FD834D1E80D4E000C4D37A /* QDXHomeCooperationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXHomeCooperationCell.m; sourceTree = "<group>"; };
+		45FD834E1E80D4E000C4D37A /* QDXHomeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXHomeTableViewCell.h; sourceTree = "<group>"; };
+		45FD834F1E80D4E000C4D37A /* QDXHomeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXHomeTableViewCell.m; sourceTree = "<group>"; };
 		A31287A11CCF0DA200CB887E /* line_pointModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = line_pointModel.h; sourceTree = "<group>"; };
 		A31287A21CCF0DA200CB887E /* line_pointModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = line_pointModel.m; sourceTree = "<group>"; };
 		A31287A41CCF0DD700CB887E /* QDXOfflineDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXOfflineDB.h; sourceTree = "<group>"; };
@@ -1915,102 +1908,13 @@
 		45C6F5921C92A1A300C5AA31 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				4549C7671DBE106800180FB5 /* LBTabBarController.h */,
-				4549C7681DBE106800180FB5 /* LBTabBarController.m */,
-				4556CD6F1CEDC5CF00577A61 /* SignViewController.h */,
-				4556CD701CEDC5CF00577A61 /* SignViewController.m */,
-				A3415F111CE1911A00B1B77A /* MoreViewController.h */,
-				A3415F121CE1911A00B1B77A /* MoreViewController.m */,
-				A35DAC771CCF5EB500D01CF0 /* NoticeViewController.h */,
-				A35DAC781CCF5EB500D01CF0 /* NoticeViewController.m */,
-				A35DAC741CCF5B9B00D01CF0 /* MineViewController.h */,
-				A35DAC751CCF5B9B00D01CF0 /* MineViewController.m */,
-				A3442D1D1C9B946A0092363A /* AboutUsViewController.h */,
-				A3442D1E1C9B946A0092363A /* AboutUsViewController.m */,
-				A3442D1F1C9B946A0092363A /* SettingViewController.h */,
-				A3442D201C9B946A0092363A /* SettingViewController.m */,
-				45C6F5ED1C92A3DF00C5AA31 /* QDXLineChooseViewController.h */,
-				45C6F5EE1C92A3DF00C5AA31 /* QDXLineChooseViewController.m */,
-				45C6F5EF1C92A3DF00C5AA31 /* QDXProtocolViewController.h */,
-				45C6F5F01C92A3DF00C5AA31 /* QDXProtocolViewController.m */,
-				45C6F5CD1C92A39300C5AA31 /* CellLineController.h */,
-				45C6F5CE1C92A39300C5AA31 /* CellLineController.m */,
-				45C6F5D11C92A39300C5AA31 /* LineController.h */,
-				45C6F5D21C92A39300C5AA31 /* LineController.m */,
-				45C6F5D31C92A39300C5AA31 /* QDXLineDetailViewController.h */,
-				45C6F5D41C92A39300C5AA31 /* QDXLineDetailViewController.m */,
-				45C6F5D51C92A39300C5AA31 /* QDXPayTableViewController.h */,
-				45C6F5D61C92A39300C5AA31 /* QDXPayTableViewController.m */,
-				45C6F5CA1C92A38600C5AA31 /* QDXNavigationController.h */,
-				45C6F5CB1C92A38600C5AA31 /* QDXNavigationController.m */,
-				45C6F5C41C92A36200C5AA31 /* OrderController.h */,
-				45C6F5C51C92A36200C5AA31 /* OrderController.m */,
-				459C43341DED75AE00437712 /* XBTestTableViewController.h */,
-				459C43351DED75AE00437712 /* XBTestTableViewController.m */,
-				45C6F5C61C92A36200C5AA31 /* QDXOrderDetailTableViewController.h */,
-				45C6F5C71C92A36200C5AA31 /* QDXOrderDetailTableViewController.m */,
-				45C6F5BE1C92A32C00C5AA31 /* MineLineController.h */,
-				45C6F5BF1C92A32C00C5AA31 /* MineLineController.m */,
-				45C6F5C01C92A32C00C5AA31 /* myViewController.h */,
-				45C6F5C11C92A32C00C5AA31 /* myViewController.m */,
-				45C6F5AF1C92A2D500C5AA31 /* QDXBindViewController.h */,
-				45C6F5B01C92A2D500C5AA31 /* QDXBindViewController.m */,
-				45C6F5B11C92A2D500C5AA31 /* QDXLoginViewController.h */,
-				45C6F5B21C92A2D500C5AA31 /* QDXLoginViewController.m */,
-				45C6F5FA1C92A40B00C5AA31 /* ActivityController.h */,
-				45C6F5FB1C92A40B00C5AA31 /* ActivityController.m */,
-				45C6F5FF1C92A42400C5AA31 /* MainController.h */,
-				45C6F6001C92A42400C5AA31 /* MainController.m */,
-				45C6F6031C92A43A00C5AA31 /* QDXChangeNameViewController.h */,
-				45C6F6041C92A43A00C5AA31 /* QDXChangeNameViewController.m */,
-				45C6F6051C92A43A00C5AA31 /* QDXChangePwdViewController.h */,
-				45C6F6061C92A43A00C5AA31 /* QDXChangePwdViewController.m */,
-				45C6F6071C92A43A00C5AA31 /* QDXForgetPasswordViewController.h */,
-				45C6F6081C92A43A00C5AA31 /* QDXForgetPasswordViewController.m */,
-				45C6F60C1C92A46500C5AA31 /* QDXCreateCodeViewController.h */,
-				45C6F60D1C92A46500C5AA31 /* QDXCreateCodeViewController.m */,
-				45C6F60E1C92A46500C5AA31 /* QDXRegisterViewController.h */,
-				45C6F60F1C92A46500C5AA31 /* QDXRegisterViewController.m */,
-				A340BDCD1C9697EE009F40FD /* TeamLineController.h */,
-				A340BDCE1C9697EE009F40FD /* TeamLineController.m */,
-				A340BE151C96ACB4009F40FD /* BaseViewController.h */,
-				A340BE161C96ACB4009F40FD /* BaseViewController.m */,
-				A3271F861CA9383700B6B95D /* ImagePickerController.h */,
-				A35DAC6F1CCF59C700D01CF0 /* ImagePickerController.m */,
-				A35DAC711CCF5A1500D01CF0 /* GuideViewController.h */,
-				A35DAC721CCF5A1500D01CF0 /* GuideViewController.m */,
-				45C6F5F11C92A3DF00C5AA31 /* QDXTeamsViewController.h */,
-				45C6F5F21C92A3DF00C5AA31 /* QDXTeamsViewController.m */,
-				45C6F5EB1C92A3DF00C5AA31 /* QDXGameViewController.h */,
-				45C6F5EC1C92A3DF00C5AA31 /* QDXGameViewController.m */,
-				4557D1511CD9A33300CA76BD /* QDXHistoryViewController.h */,
-				4557D1521CD9A33300CA76BD /* QDXHistoryViewController.m */,
-				4557D1541CD9D51900CA76BD /* QDXTaskViewController.h */,
-				4557D1551CD9D51900CA76BD /* QDXTaskViewController.m */,
-				455C8AB61CD064B5001F5FC5 /* QDXOffLineController.h */,
-				455C8AB71CD064B5001F5FC5 /* QDXOffLineController.m */,
-				043A59E51D18F22600E5E1BB /* HelpViewController.h */,
-				043A59E61D18F22600E5E1BB /* HelpViewController.m */,
-				45FAC8A01DD0571B004A6531 /* QDXPointSettingViewController.h */,
-				45FAC8A11DD0571B004A6531 /* QDXPointSettingViewController.m */,
-				45FAC8A31DD08EA9004A6531 /* QDXPointListViewController.h */,
-				45FAC8A41DD08EA9004A6531 /* QDXPointListViewController.m */,
-				459E69F41DF7BC6700D5C9F9 /* QDXTicketSuccessViewController.h */,
-				459E69F51DF7BC6700D5C9F9 /* QDXTicketSuccessViewController.m */,
-				459EB2621E6D471B0011943B /* LocationChoiceViewController.h */,
-				459EB2631E6D471B0011943B /* LocationChoiceViewController.m */,
-				459EB26B1E6E49BB0011943B /* MoreCooperationViewController.h */,
-				459EB26C1E6E49BB0011943B /* MoreCooperationViewController.m */,
-				45C6F5FD1C92A42400C5AA31 /* HomeController.h */,
-				45C6F5FE1C92A42400C5AA31 /* HomeController.m */,
-				45CC71B41E70F98D0028EA30 /* PlaceViewController.h */,
-				45CC71B51E70F98D0028EA30 /* PlaceViewController.m */,
-				45983EE11E70161500BA52E3 /* QDXActivityPriceViewController.h */,
-				45983EE21E70161500BA52E3 /* QDXActivityPriceViewController.m */,
-				45D6E6C91E0115A2004EFF15 /* QDXActivityViewController.h */,
-				45D6E6CA1E0115A2004EFF15 /* QDXActivityViewController.m */,
-				45D4FEAB1E7BC7A2005958E3 /* RecentActivityViewController.h */,
-				45D4FEAC1E7BC7A2005958E3 /* RecentActivityViewController.m */,
+				45FD83461E80C9EF00C4D37A /* 活动 */,
+				45FD83451E80C9A800C4D37A /* 订单 */,
+				45FD83441E80C95600C4D37A /* 游戏 */,
+				45FD83431E80C8EE00C4D37A /* 首页 */,
+				45FD83421E80C8B900C4D37A /* 我的 */,
+				45FD83401E80C77900C4D37A /* Base */,
+				45FD83411E80C83000C4D37A /* 登录 */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -2018,64 +1922,12 @@
 		45C6F5931C92A1A300C5AA31 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				45ECA27B1E24DD0500B9D835 /* JPAnimationTool */,
-				451828A11D40C87A00D5FC85 /* EAFeatureGuideView */,
-				4536EB981D013B25005D3CB5 /* ImgPageScrollView */,
-				459C6E271BD89D2300743FEC /* JTSImage */,
-				455611661D543E75006DF063 /* Need */,
-				459C431C1DED72B000437712 /* XBScrollPageController */,
-				04664EFF1D1CCE82008D50C7 /* YLPopView */,
-				453394FC1CF6D8C800B5A825 /* FeSpinner */,
-				4571CDBC1CE05B00002ED784 /* CYAlertController */,
-				453679D81CD3036700828EF9 /* PopMenuView */,
-				4519DA5C1C3D0C8600E34BE4 /* LXActivity */,
-				451A143B1DC7375A003B8805 /* XDMultTableView */,
-				4549C76A1DBE108300180FB5 /* LBTabBar.h */,
-				4549C76B1DBE108300180FB5 /* LBTabBar.m */,
-				45C6F5B51C92A30600C5AA31 /* DetailCell.h */,
-				45C6F5B61C92A30600C5AA31 /* DetailCell.m */,
-				45C6F5B71C92A30600C5AA31 /* HomeCell.h */,
-				45C6F5B81C92A30600C5AA31 /* HomeCell.m */,
-				45C6F5B91C92A30600C5AA31 /* LineCell.h */,
-				45C6F5BA1C92A30600C5AA31 /* LineCell.m */,
-				45C6F5A91C92A27100C5AA31 /* BaseCell.h */,
-				A35DAC7A1CCF623000D01CF0 /* BaseCell.m */,
-				45C6F5AB1C92A27100C5AA31 /* ScrollView.h */,
-				45C6F5AC1C92A27100C5AA31 /* ScrollView.m */,
-				45C6F5A61C92A25600C5AA31 /* ActCell.h */,
-				45C6F5A71C92A25600C5AA31 /* ActCell.m */,
-				45C6F59C1C92A20400C5AA31 /* QDXOrderTableViewCell.h */,
-				45C6F59D1C92A20400C5AA31 /* QDXOrderTableViewCell.m */,
-				45C6F59F1C92A20400C5AA31 /* QDXTicketTableViewCell.h */,
-				45C6F5A01C92A20400C5AA31 /* QDXTicketTableViewCell.m */,
-				45C6F5941C92A1D500C5AA31 /* MineCell.h */,
-				45C6F5951C92A1D500C5AA31 /* MineCell.m */,
-				45C6F5961C92A1D500C5AA31 /* myViewCellTableViewCell.h */,
-				45C6F5971C92A1D500C5AA31 /* myViewCellTableViewCell.m */,
-				45F547801CDB423E0050B12F /* QDXHistoryTableViewCell.h */,
-				45F547811CDB423E0050B12F /* QDXHistoryTableViewCell.m */,
-				A3311D9A1CD3490300114FC0 /* TabbarView.h */,
-				A3311D9B1CD3490300114FC0 /* TabbarView.m */,
-				459BB4971DDAE49A00DBEC39 /* TipsManager.h */,
-				459BB4981DDAE49A00DBEC39 /* TipsManager.m */,
-				45EE61351CEAC074007302E3 /* PointView.h */,
-				45EE61361CEAC074007302E3 /* PointView.m */,
-				45EE61381CEAC641007302E3 /* PointAnnotationView.h */,
-				45EE61391CEAC641007302E3 /* PointAnnotationView.m */,
-				453AF08E1D59756900FCC23E /* MyAnnotation.h */,
-				453AF08F1D59756900FCC23E /* MyAnnotation.m */,
-				451BDEC11DF551B000008959 /* QDXNoNetWorkView.h */,
-				451BDEC21DF551B000008959 /* QDXNoNetWorkView.m */,
-				451BDEC41DF56A3B00008959 /* QDXStateView.h */,
-				451BDEC51DF56A3B00008959 /* QDXStateView.m */,
-				45D6E6CC1E011FD8004EFF15 /* QDXActTableViewCell.h */,
-				45D6E6CD1E011FD8004EFF15 /* QDXActTableViewCell.m */,
-				459EB2651E6D4E880011943B /* ChoseCityCollectionViewCell.h */,
-				459EB2661E6D4E880011943B /* ChoseCityCollectionViewCell.m */,
-				459EB26E1E6E577A0011943B /* LogoCollectionViewCell.h */,
-				459EB26F1E6E577A0011943B /* LogoCollectionViewCell.m */,
-				45CC71B71E71045B0028EA30 /* PlaceCollectionViewCell.h */,
-				45CC71B81E71045B0028EA30 /* PlaceCollectionViewCell.m */,
+				45FD83581E80D5CB00C4D37A /* 活动 */,
+				45FD83571E80D59400C4D37A /* 我的 */,
+				45FD83561E80D57A00C4D37A /* base */,
+				45FD83551E80D56200C4D37A /* 游戏 */,
+				45FD83541E80D50B00C4D37A /* 订单 */,
+				45FD83471E80D47500C4D37A /* Home */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2206,6 +2058,10 @@
 		45D4FE411E7A4360005958E3 /* qdxModel */ = {
 			isa = PBXGroup;
 			children = (
+				45FD83371E80BD0D00C4D37A /* Myline.h */,
+				45FD83381E80BD0D00C4D37A /* Myline.m */,
+				45FD83391E80BD0D00C4D37A /* MylineList.h */,
+				45FD833A1E80BD0D00C4D37A /* MylineList.m */,
 				45D4FE421E7A4360005958E3 /* Area.h */,
 				45D4FE431E7A4360005958E3 /* Area.m */,
 				45D4FE441E7A4360005958E3 /* AreaList.h */,
@@ -2394,28 +2250,6 @@
 			path = Lib;
 			sourceTree = "<group>";
 		};
-		45ECA27B1E24DD0500B9D835 /* JPAnimationTool */ = {
-			isa = PBXGroup;
-			children = (
-				45E8F44E1E2609A300902455 /* Airbnb00.png */,
-				45E8F4501E2609AA00902455 /* Airbnb01.png */,
-				45E8F4521E2609B100902455 /* Airbnb02.png */,
-				45E8F4541E2609B600902455 /* Airbnb03.png */,
-				45E8F4561E2609BC00902455 /* Airbnb04.png */,
-				45ECA27C1E24DD0500B9D835 /* JPAnimationTool.h */,
-				45ECA27D1E24DD0500B9D835 /* JPAnimationTool.m */,
-				45ECA27F1E24DDD000B9D835 /* QDXHomeCollectionView.h */,
-				45ECA2801E24DDD000B9D835 /* QDXHomeCollectionView.m */,
-				45ECA2821E24E16800B9D835 /* QDXHomeTableViewCell.h */,
-				45ECA2831E24E16800B9D835 /* QDXHomeTableViewCell.m */,
-				459EB25C1E6D2CCC0011943B /* QDXHomeCooperationCell.h */,
-				459EB25D1E6D2CCC0011943B /* QDXHomeCooperationCell.m */,
-				459EB25F1E6D2D260011943B /* QDXCooperationCollectionViewCell.h */,
-				459EB2601E6D2D260011943B /* QDXCooperationCollectionViewCell.m */,
-			);
-			path = JPAnimationTool;
-			sourceTree = "<group>";
-		};
 		45EE61421CEB182C007302E3 /* TTSExample */ = {
 			isa = PBXGroup;
 			children = (
@@ -2446,6 +2280,258 @@
 				45EEDBF51BCCFFDA0059B42A /* split.h */,
 			);
 			path = libqrencode;
+			sourceTree = "<group>";
+		};
+		45FD83401E80C77900C4D37A /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				A35DAC711CCF5A1500D01CF0 /* GuideViewController.h */,
+				A35DAC721CCF5A1500D01CF0 /* GuideViewController.m */,
+				45C6F5FF1C92A42400C5AA31 /* MainController.h */,
+				45C6F6001C92A42400C5AA31 /* MainController.m */,
+				A340BE151C96ACB4009F40FD /* BaseViewController.h */,
+				A340BE161C96ACB4009F40FD /* BaseViewController.m */,
+				45C6F5CA1C92A38600C5AA31 /* QDXNavigationController.h */,
+				45C6F5CB1C92A38600C5AA31 /* QDXNavigationController.m */,
+				4549C7671DBE106800180FB5 /* LBTabBarController.h */,
+				4549C7681DBE106800180FB5 /* LBTabBarController.m */,
+			);
+			name = Base;
+			sourceTree = "<group>";
+		};
+		45FD83411E80C83000C4D37A /* 登录 */ = {
+			isa = PBXGroup;
+			children = (
+				45C6F5AF1C92A2D500C5AA31 /* QDXBindViewController.h */,
+				45C6F5B01C92A2D500C5AA31 /* QDXBindViewController.m */,
+				45C6F6071C92A43A00C5AA31 /* QDXForgetPasswordViewController.h */,
+				45C6F6081C92A43A00C5AA31 /* QDXForgetPasswordViewController.m */,
+				45C6F60C1C92A46500C5AA31 /* QDXCreateCodeViewController.h */,
+				45C6F60D1C92A46500C5AA31 /* QDXCreateCodeViewController.m */,
+				45C6F60E1C92A46500C5AA31 /* QDXRegisterViewController.h */,
+				45C6F60F1C92A46500C5AA31 /* QDXRegisterViewController.m */,
+				45C6F5B11C92A2D500C5AA31 /* QDXLoginViewController.h */,
+				45C6F5B21C92A2D500C5AA31 /* QDXLoginViewController.m */,
+			);
+			name = "登录";
+			sourceTree = "<group>";
+		};
+		45FD83421E80C8B900C4D37A /* 我的 */ = {
+			isa = PBXGroup;
+			children = (
+				45FAC8A01DD0571B004A6531 /* QDXPointSettingViewController.h */,
+				45FAC8A11DD0571B004A6531 /* QDXPointSettingViewController.m */,
+				45FAC8A31DD08EA9004A6531 /* QDXPointListViewController.h */,
+				45FAC8A41DD08EA9004A6531 /* QDXPointListViewController.m */,
+				A35DAC771CCF5EB500D01CF0 /* NoticeViewController.h */,
+				A35DAC781CCF5EB500D01CF0 /* NoticeViewController.m */,
+				A3415F111CE1911A00B1B77A /* MoreViewController.h */,
+				A3415F121CE1911A00B1B77A /* MoreViewController.m */,
+				A35DAC741CCF5B9B00D01CF0 /* MineViewController.h */,
+				A35DAC751CCF5B9B00D01CF0 /* MineViewController.m */,
+				A3442D1D1C9B946A0092363A /* AboutUsViewController.h */,
+				A3442D1E1C9B946A0092363A /* AboutUsViewController.m */,
+				A3442D1F1C9B946A0092363A /* SettingViewController.h */,
+				A3442D201C9B946A0092363A /* SettingViewController.m */,
+				45C6F5BE1C92A32C00C5AA31 /* MineLineController.h */,
+				45C6F5BF1C92A32C00C5AA31 /* MineLineController.m */,
+				45C6F5C01C92A32C00C5AA31 /* myViewController.h */,
+				45C6F5C11C92A32C00C5AA31 /* myViewController.m */,
+				45C6F6031C92A43A00C5AA31 /* QDXChangeNameViewController.h */,
+				45C6F6041C92A43A00C5AA31 /* QDXChangeNameViewController.m */,
+				45C6F6051C92A43A00C5AA31 /* QDXChangePwdViewController.h */,
+				45C6F6061C92A43A00C5AA31 /* QDXChangePwdViewController.m */,
+				A340BDCD1C9697EE009F40FD /* TeamLineController.h */,
+				A340BDCE1C9697EE009F40FD /* TeamLineController.m */,
+				4556CD6F1CEDC5CF00577A61 /* SignViewController.h */,
+				4556CD701CEDC5CF00577A61 /* SignViewController.m */,
+			);
+			name = "我的";
+			sourceTree = "<group>";
+		};
+		45FD83431E80C8EE00C4D37A /* 首页 */ = {
+			isa = PBXGroup;
+			children = (
+				A3271F861CA9383700B6B95D /* ImagePickerController.h */,
+				A35DAC6F1CCF59C700D01CF0 /* ImagePickerController.m */,
+				45C6F5D31C92A39300C5AA31 /* QDXLineDetailViewController.h */,
+				45C6F5D41C92A39300C5AA31 /* QDXLineDetailViewController.m */,
+				45C6F5FD1C92A42400C5AA31 /* HomeController.h */,
+				45C6F5FE1C92A42400C5AA31 /* HomeController.m */,
+				459EB2621E6D471B0011943B /* LocationChoiceViewController.h */,
+				459EB2631E6D471B0011943B /* LocationChoiceViewController.m */,
+				459EB26B1E6E49BB0011943B /* MoreCooperationViewController.h */,
+				459EB26C1E6E49BB0011943B /* MoreCooperationViewController.m */,
+				45CC71B41E70F98D0028EA30 /* PlaceViewController.h */,
+				45CC71B51E70F98D0028EA30 /* PlaceViewController.m */,
+				45983EE11E70161500BA52E3 /* QDXActivityPriceViewController.h */,
+				45983EE21E70161500BA52E3 /* QDXActivityPriceViewController.m */,
+				45D6E6C91E0115A2004EFF15 /* QDXActivityViewController.h */,
+				45D6E6CA1E0115A2004EFF15 /* QDXActivityViewController.m */,
+				45D4FEAB1E7BC7A2005958E3 /* RecentActivityViewController.h */,
+				45D4FEAC1E7BC7A2005958E3 /* RecentActivityViewController.m */,
+			);
+			name = "首页";
+			sourceTree = "<group>";
+		};
+		45FD83441E80C95600C4D37A /* 游戏 */ = {
+			isa = PBXGroup;
+			children = (
+				45C6F5CD1C92A39300C5AA31 /* CellLineController.h */,
+				45C6F5CE1C92A39300C5AA31 /* CellLineController.m */,
+				45C6F5D11C92A39300C5AA31 /* LineController.h */,
+				45C6F5D21C92A39300C5AA31 /* LineController.m */,
+				45C6F5ED1C92A3DF00C5AA31 /* QDXLineChooseViewController.h */,
+				45C6F5EE1C92A3DF00C5AA31 /* QDXLineChooseViewController.m */,
+				45C6F5EF1C92A3DF00C5AA31 /* QDXProtocolViewController.h */,
+				45C6F5F01C92A3DF00C5AA31 /* QDXProtocolViewController.m */,
+				45C6F5F11C92A3DF00C5AA31 /* QDXTeamsViewController.h */,
+				45C6F5F21C92A3DF00C5AA31 /* QDXTeamsViewController.m */,
+				45C6F5EB1C92A3DF00C5AA31 /* QDXGameViewController.h */,
+				45C6F5EC1C92A3DF00C5AA31 /* QDXGameViewController.m */,
+				4557D1511CD9A33300CA76BD /* QDXHistoryViewController.h */,
+				4557D1521CD9A33300CA76BD /* QDXHistoryViewController.m */,
+				4557D1541CD9D51900CA76BD /* QDXTaskViewController.h */,
+				4557D1551CD9D51900CA76BD /* QDXTaskViewController.m */,
+				455C8AB61CD064B5001F5FC5 /* QDXOffLineController.h */,
+				455C8AB71CD064B5001F5FC5 /* QDXOffLineController.m */,
+				043A59E51D18F22600E5E1BB /* HelpViewController.h */,
+				043A59E61D18F22600E5E1BB /* HelpViewController.m */,
+			);
+			name = "游戏";
+			sourceTree = "<group>";
+		};
+		45FD83451E80C9A800C4D37A /* 订单 */ = {
+			isa = PBXGroup;
+			children = (
+				459E69F41DF7BC6700D5C9F9 /* QDXTicketSuccessViewController.h */,
+				459E69F51DF7BC6700D5C9F9 /* QDXTicketSuccessViewController.m */,
+				45C6F5D51C92A39300C5AA31 /* QDXPayTableViewController.h */,
+				45C6F5D61C92A39300C5AA31 /* QDXPayTableViewController.m */,
+				45C6F5C41C92A36200C5AA31 /* OrderController.h */,
+				45C6F5C51C92A36200C5AA31 /* OrderController.m */,
+				459C43341DED75AE00437712 /* XBTestTableViewController.h */,
+				459C43351DED75AE00437712 /* XBTestTableViewController.m */,
+				45C6F5C61C92A36200C5AA31 /* QDXOrderDetailTableViewController.h */,
+				45C6F5C71C92A36200C5AA31 /* QDXOrderDetailTableViewController.m */,
+			);
+			name = "订单";
+			sourceTree = "<group>";
+		};
+		45FD83461E80C9EF00C4D37A /* 活动 */ = {
+			isa = PBXGroup;
+			children = (
+				45C6F5FA1C92A40B00C5AA31 /* ActivityController.h */,
+				45C6F5FB1C92A40B00C5AA31 /* ActivityController.m */,
+			);
+			name = "活动";
+			sourceTree = "<group>";
+		};
+		45FD83471E80D47500C4D37A /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				45C6F5AB1C92A27100C5AA31 /* ScrollView.h */,
+				45C6F5AC1C92A27100C5AA31 /* ScrollView.m */,
+				45C6F5B51C92A30600C5AA31 /* DetailCell.h */,
+				45C6F5B61C92A30600C5AA31 /* DetailCell.m */,
+				45C6F5B71C92A30600C5AA31 /* HomeCell.h */,
+				45C6F5B81C92A30600C5AA31 /* HomeCell.m */,
+				45C6F5B91C92A30600C5AA31 /* LineCell.h */,
+				45C6F5BA1C92A30600C5AA31 /* LineCell.m */,
+				45C6F5A91C92A27100C5AA31 /* BaseCell.h */,
+				A35DAC7A1CCF623000D01CF0 /* BaseCell.m */,
+				459EB2651E6D4E880011943B /* ChoseCityCollectionViewCell.h */,
+				459EB2661E6D4E880011943B /* ChoseCityCollectionViewCell.m */,
+				459EB26E1E6E577A0011943B /* LogoCollectionViewCell.h */,
+				459EB26F1E6E577A0011943B /* LogoCollectionViewCell.m */,
+				45CC71B71E71045B0028EA30 /* PlaceCollectionViewCell.h */,
+				45CC71B81E71045B0028EA30 /* PlaceCollectionViewCell.m */,
+				4536EB981D013B25005D3CB5 /* ImgPageScrollView */,
+				45FD83481E80D4E000C4D37A /* QDXCooperationCollectionViewCell.h */,
+				45FD83491E80D4E000C4D37A /* QDXCooperationCollectionViewCell.m */,
+				45FD834A1E80D4E000C4D37A /* QDXHomeCollectionView.h */,
+				45FD834B1E80D4E000C4D37A /* QDXHomeCollectionView.m */,
+				45FD834C1E80D4E000C4D37A /* QDXHomeCooperationCell.h */,
+				45FD834D1E80D4E000C4D37A /* QDXHomeCooperationCell.m */,
+				45FD834E1E80D4E000C4D37A /* QDXHomeTableViewCell.h */,
+				45FD834F1E80D4E000C4D37A /* QDXHomeTableViewCell.m */,
+			);
+			name = Home;
+			sourceTree = "<group>";
+		};
+		45FD83541E80D50B00C4D37A /* 订单 */ = {
+			isa = PBXGroup;
+			children = (
+				45C6F59C1C92A20400C5AA31 /* QDXOrderTableViewCell.h */,
+				45C6F59D1C92A20400C5AA31 /* QDXOrderTableViewCell.m */,
+				45C6F59F1C92A20400C5AA31 /* QDXTicketTableViewCell.h */,
+				45C6F5A01C92A20400C5AA31 /* QDXTicketTableViewCell.m */,
+				459C431C1DED72B000437712 /* XBScrollPageController */,
+			);
+			name = "订单";
+			sourceTree = "<group>";
+		};
+		45FD83551E80D56200C4D37A /* 游戏 */ = {
+			isa = PBXGroup;
+			children = (
+				45F547801CDB423E0050B12F /* QDXHistoryTableViewCell.h */,
+				45F547811CDB423E0050B12F /* QDXHistoryTableViewCell.m */,
+				45EE61351CEAC074007302E3 /* PointView.h */,
+				45EE61361CEAC074007302E3 /* PointView.m */,
+				45EE61381CEAC641007302E3 /* PointAnnotationView.h */,
+				45EE61391CEAC641007302E3 /* PointAnnotationView.m */,
+				453AF08E1D59756900FCC23E /* MyAnnotation.h */,
+				453AF08F1D59756900FCC23E /* MyAnnotation.m */,
+				451828A11D40C87A00D5FC85 /* EAFeatureGuideView */,
+				455611661D543E75006DF063 /* Need */,
+				453679D81CD3036700828EF9 /* PopMenuView */,
+				4571CDBC1CE05B00002ED784 /* CYAlertController */,
+				04664EFF1D1CCE82008D50C7 /* YLPopView */,
+			);
+			name = "游戏";
+			sourceTree = "<group>";
+		};
+		45FD83561E80D57A00C4D37A /* base */ = {
+			isa = PBXGroup;
+			children = (
+				451BDEC11DF551B000008959 /* QDXNoNetWorkView.h */,
+				451BDEC21DF551B000008959 /* QDXNoNetWorkView.m */,
+				451BDEC41DF56A3B00008959 /* QDXStateView.h */,
+				451BDEC51DF56A3B00008959 /* QDXStateView.m */,
+				459BB4971DDAE49A00DBEC39 /* TipsManager.h */,
+				459BB4981DDAE49A00DBEC39 /* TipsManager.m */,
+				A3311D9A1CD3490300114FC0 /* TabbarView.h */,
+				A3311D9B1CD3490300114FC0 /* TabbarView.m */,
+				4549C76A1DBE108300180FB5 /* LBTabBar.h */,
+				4549C76B1DBE108300180FB5 /* LBTabBar.m */,
+				459C6E271BD89D2300743FEC /* JTSImage */,
+				453394FC1CF6D8C800B5A825 /* FeSpinner */,
+				4519DA5C1C3D0C8600E34BE4 /* LXActivity */,
+			);
+			name = base;
+			sourceTree = "<group>";
+		};
+		45FD83571E80D59400C4D37A /* 我的 */ = {
+			isa = PBXGroup;
+			children = (
+				45C6F5941C92A1D500C5AA31 /* MineCell.h */,
+				45C6F5951C92A1D500C5AA31 /* MineCell.m */,
+				45C6F5961C92A1D500C5AA31 /* myViewCellTableViewCell.h */,
+				45C6F5971C92A1D500C5AA31 /* myViewCellTableViewCell.m */,
+				451A143B1DC7375A003B8805 /* XDMultTableView */,
+			);
+			name = "我的";
+			sourceTree = "<group>";
+		};
+		45FD83581E80D5CB00C4D37A /* 活动 */ = {
+			isa = PBXGroup;
+			children = (
+				45D6E6CC1E011FD8004EFF15 /* QDXActTableViewCell.h */,
+				45D6E6CD1E011FD8004EFF15 /* QDXActTableViewCell.m */,
+				45C6F5A61C92A25600C5AA31 /* ActCell.h */,
+				45C6F5A71C92A25600C5AA31 /* ActCell.m */,
+			);
+			name = "活动";
 			sourceTree = "<group>";
 		};
 		A35DAC221CCF184000D01CF0 /* AFNetworking */ = {
@@ -2570,17 +2656,14 @@
 				459AEBDA1DCC7C11000472F1 /* Images.xcassets in Resources */,
 				451828AF1D40C87A00D5FC85 /* icon_ea_indicator@3x.png in Resources */,
 				451828AE1D40C87A00D5FC85 /* icon_ea_indicator@2x.png in Resources */,
-				45E8F4551E2609B600902455 /* Airbnb03.png in Resources */,
 				453395141CF6E06100B5A825 /* wifimanhub_grayscale@2x.png in Resources */,
 				45CC71BD1E7284F40028EA30 /* AMap.bundle in Resources */,
 				45C6F6171C92A62700C5AA31 /* TencentOpenApi_IOS_Bundle.bundle in Resources */,
 				451828AD1D40C87A00D5FC85 /* icon_ea_background@3x.png in Resources */,
 				451828AC1D40C87A00D5FC85 /* icon_ea_background@2x.png in Resources */,
 				453395121CF6E06100B5A825 /* WifiMan_Sign_3@2x.png in Resources */,
-				45E8F44F1E2609A300902455 /* Airbnb00.png in Resources */,
 				451A143F1DC7375A003B8805 /* down_blue@2x.png in Resources */,
 				45DF76381BA6AAC20024A6B4 /* Main.storyboard in Resources */,
-				45E8F4531E2609B100902455 /* Airbnb02.png in Resources */,
 				453395101CF6E06100B5A825 /* WifiMan_Sign_1@2x.png in Resources */,
 				453395111CF6E06100B5A825 /* WifiMan_Sign_2@2x.png in Resources */,
 				453E44DA1D252A3100BED603 /* btn2@2x.png in Resources */,
@@ -2589,8 +2672,6 @@
 				45CA522F1DE452270025A376 /* MJRefresh.bundle in Resources */,
 				45DD34DA1C33D5F500E24250 /* read_me.txt in Resources */,
 				453E44D91D252A3100BED603 /* btn1@2x.png in Resources */,
-				45E8F4511E2609AA00902455 /* Airbnb01.png in Resources */,
-				45E8F4571E2609BC00902455 /* Airbnb04.png in Resources */,
 				4571CDFA1CE05B00002ED784 /* CYAlertViewController.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2621,7 +2702,6 @@
 				45D4FEA31E7A4360005958E3 /* ProvinceList.m in Sources */,
 				45C6F5791C92A0D800C5AA31 /* QDXTicketInfoModel.m in Sources */,
 				45CA52251DE452270025A376 /* MJRefreshHeader.m in Sources */,
-				45ECA2811E24DDD000B9D835 /* QDXHomeCollectionView.m in Sources */,
 				45D4FE8F1E7A4360005958E3 /* CustomerList.m in Sources */,
 				4525944D1D50D31A002BF84B /* LocalDBService.m in Sources */,
 				45CC71B61E70F98D0028EA30 /* PlaceViewController.m in Sources */,
@@ -2636,6 +2716,7 @@
 				45C6F58E1C92A12200C5AA31 /* QDXGameModel.m in Sources */,
 				45C6F5F61C92A3DF00C5AA31 /* QDXGameViewController.m in Sources */,
 				455C8AB81CD064B5001F5FC5 /* QDXOffLineController.m in Sources */,
+				45FD83521E80D4E000C4D37A /* QDXHomeCooperationCell.m in Sources */,
 				45D4FE8A1E7A4360005958E3 /* City.m in Sources */,
 				45D4FE961E7A4360005958E3 /* Line.m in Sources */,
 				455A95BD1C97E3EB0039FA88 /* NSObject+MJProperty.m in Sources */,
@@ -2646,6 +2727,8 @@
 				4571CDF81CE05B00002ED784 /* CYAlertAction.m in Sources */,
 				4571CDF61CE05B00002ED784 /* CYAlertPresentSlideUp.m in Sources */,
 				45D4FE861E7A4360005958E3 /* Area.m in Sources */,
+				45FD83501E80D4E000C4D37A /* QDXCooperationCollectionViewCell.m in Sources */,
+				45FD833B1E80BD0D00C4D37A /* Myline.m in Sources */,
 				45CA52341DE452270025A376 /* UIView+MJExtension.m in Sources */,
 				451828B01D40C87A00D5FC85 /* UIView+EAFeatureGuideView.m in Sources */,
 				45B25AC21E76665D00C0B518 /* AFImageDownloader.m in Sources */,
@@ -2665,7 +2748,6 @@
 				459C43361DED75AE00437712 /* XBTestTableViewController.m in Sources */,
 				45C6F5661C92A07900C5AA31 /* QDXAccount.m in Sources */,
 				45C6F5A21C92A20400C5AA31 /* QDXOrderTableViewCell.m in Sources */,
-				459EB25E1E6D2CCC0011943B /* QDXHomeCooperationCell.m in Sources */,
 				45D4FE9C1E7A4360005958E3 /* Partner.m in Sources */,
 				45D4FE981E7A4360005958E3 /* Linetype.m in Sources */,
 				45C6F6021C92A42400C5AA31 /* MainController.m in Sources */,
@@ -2704,6 +2786,7 @@
 				45C6F5F91C92A3DF00C5AA31 /* QDXTeamsViewController.m in Sources */,
 				4556117D1D543E75006DF063 /* HUTransitionHorizontalLinesAnimator.m in Sources */,
 				451BDEC61DF56A3B00008959 /* QDXStateView.m in Sources */,
+				45FD83531E80D4E000C4D37A /* QDXHomeTableViewCell.m in Sources */,
 				45D6E6CB1E0115A2004EFF15 /* QDXActivityViewController.m in Sources */,
 				455A95BB1C97E3EB0039FA88 /* NSObject+MJCoding.m in Sources */,
 				453395091CF6D8C800B5A825 /* UIColor+flat.m in Sources */,
@@ -2712,7 +2795,6 @@
 				45D4FEA71E7A4360005958E3 /* UtilstatusList.m in Sources */,
 				45D4FE991E7A4360005958E3 /* LinetypeList.m in Sources */,
 				4569E56C1C4CB64B00FF4E8B /* JTSImageViewController.m in Sources */,
-				45ECA27E1E24DD0500B9D835 /* JPAnimationTool.m in Sources */,
 				45D4FE891E7A4360005958E3 /* AreamapList.m in Sources */,
 				45C6F5911C92A13A00C5AA31 /* ActModel.m in Sources */,
 				45D4FE881E7A4360005958E3 /* Areamap.m in Sources */,
@@ -2785,6 +2867,7 @@
 				455A95C41C97EF160039FA88 /* QDXHIstoryModel.m in Sources */,
 				459EB2641E6D471B0011943B /* LocationChoiceViewController.m in Sources */,
 				45EE61371CEAC074007302E3 /* PointView.m in Sources */,
+				45FD833C1E80BD0D00C4D37A /* MylineList.m in Sources */,
 				45C6F6091C92A43A00C5AA31 /* QDXChangeNameViewController.m in Sources */,
 				455A95B61C97E3EB0039FA88 /* MJFoundation.m in Sources */,
 				459C43331DED749100437712 /* UIView+XBExtension.m in Sources */,
@@ -2793,7 +2876,6 @@
 				4571CDED1CE05B00002ED784 /* CYAlertDismissSlideRight.m in Sources */,
 				45D4FE9D1E7A4360005958E3 /* PartnerList.m in Sources */,
 				45B25AD31E76666900C0B518 /* YYCache.m in Sources */,
-				45ECA2841E24E16800B9D835 /* QDXHomeTableViewCell.m in Sources */,
 				455A95BA1C97E3EB0039FA88 /* NSObject+MJClass.m in Sources */,
 				4569E57C1C4CB64B00FF4E8B /* MKAnnotationView+WebCache.m in Sources */,
 				04664F061D1CCE82008D50C7 /* UITextView+YLTextView.m in Sources */,
@@ -2852,6 +2934,7 @@
 				451A14401DC7375A003B8805 /* XDMultTableView.m in Sources */,
 				45B25ADD1E76667600C0B518 /* PPNetworkHelper.m in Sources */,
 				A3413EC21C97F565009332B3 /* HomeService.m in Sources */,
+				45FD83511E80D4E000C4D37A /* QDXHomeCollectionView.m in Sources */,
 				4569E5881C4CB64B00FF4E8B /* UIImage+WebP.m in Sources */,
 				4536EB9B1D013B25005D3CB5 /* ImageScrollView.m in Sources */,
 				455C8A9F1CCF7827001F5FC5 /* RSADataSigner.m in Sources */,
@@ -2912,7 +2995,6 @@
 				4571CDF51CE05B00002ED784 /* CYAlertPresentSlideRight.m in Sources */,
 				A35DAC351CCF184000D01CF0 /* AFURLRequestSerialization.m in Sources */,
 				4571CDE91CE05B00002ED784 /* CYAlertDismissContractVertical.m in Sources */,
-				459EB2611E6D2D260011943B /* QDXCooperationCollectionViewCell.m in Sources */,
 				A3442D2D1C9BAA330092363A /* OrderService.m in Sources */,
 				04664F071D1CCE82008D50C7 /* YLPopViewController.m in Sources */,
 			);

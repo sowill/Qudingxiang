@@ -7,7 +7,6 @@
 //
 
 #import "QDXHomeCollectionView.h"
-#import "JPAnimationTool.h"
 #import "Area.h"
 
 @interface QDXHomeCollectionView()
@@ -29,7 +28,6 @@
 -(void)setup
 {
     self.coverImageView = [[UIImageView alloc] initWithFrame:CGRectMake(0,FitRealValue(30),FitRealValue(166), FitRealValue(166))];
-    self.coverImageView.tag = JPCoverImageViewTag;
     [self.contentView addSubview:self.coverImageView];
     
     self.coverLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,FitRealValue(166 + 30 + 20), FitRealValue(166), FitRealValue(30))];

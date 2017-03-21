@@ -30,19 +30,6 @@
 
 #define FitRealValue(value) ((value)/750.0f*[UIScreen mainScreen].bounds.size.width)
 
-#define kMainPageDistance   FitRealValue(180)
-#define kMainPageScale   1.0  //打开左侧窗时，中视图(右视图）缩放比例
-#define kMainPageCenter  CGPointMake(QdxWidth + QdxWidth * kMainPageScale / 2.0 - kMainPageDistance, QdxHeight / 2)  //打开左侧窗时，中视图中心点
-
-#define vCouldChangeDeckStateDistance  (QdxWidth - kMainPageDistance) / 2.0 - 40 //滑动距离大于此数时，状态改变（关--》开，或者开--》关）
-#define vSpeedFloat   0.7    //滑动速度
-
-#define kLeftAlpha 0.9  //左侧蒙版的最大值
-#define kLeftCenterX -50 //左侧初始偏移量
-#define kLeftScale 1.0 //左侧初始缩放比例
-//#define kLeftSwitchViewCenterX 0
-#define vDeckCanNotPanViewTag    987654   // 不响应此侧滑的View的tag
-
 #define UIColorFromRGB(rgbValue) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16))/255.0 green:((float)((rgbValue & 0xFF00) >> 8))/255.0 blue:((float)(rgbValue & 0xFF))/255.0 alpha:1.0]
 
 #define QDXGray UIColorFromRGB(0x666666)
@@ -174,3 +161,42 @@
 
 //场地列表 参数city_id
 #define getAreaUrl @"Home/Area/getList"
+
+//登录 参数customer_code,customer_pwd
+#define loginUrl @"Home/Customer/login"
+
+//自动登录 参数customer_token
+#define authLoginUrl @"Home/Customer/authlogin"
+
+//验证码登录 参数customer_code,customer_vcode
+#define vcodeLoginUrl @"Home/Customer/vcodeLogin"
+
+//QQ或微信绑定 参数customer_code,customer_pwd,customer_qid,customer_wxid
+#define bindUrl @"Home/Customer/bind"
+
+//获取登录验证码 参数customer_code
+#define getVcodeUrl @"Home/Customer/getVcode"
+
+//获取注册验证码 参数customer_code
+#define setVcodeUrl @"Home/Customer/setVcode"
+
+//注册 参数customer_cn,customer_code,customer_pwd
+#define registerUrl @"Home/Customer/register"
+
+//修改用户信息 参数customer_token,customer_cn,customer_headurl,customer_signature
+#define modifyUrl @"Home/Customer/modify"
+
+//我的线路 参数customer_token，curr
+#define getListUrl @"Home/Myline/getList"
+
+//团队线路 参数customer_token，curr
+#define getTeamListUrl @"Home/Myline/getTeamList"
+
+//当前状态线路 参数customer_token
+#define getMylineUrl @"Home/Myline/getMyline"
+
+//获取门票线路列表 参数customer_token,ticketinfo_cn
+#define getLineListUrl @"Home/Ticketline/getLineList"
+
+//选择线路 参数customer_token,ticketinfo_cn,line_id
+#define selectMylineUrl @"Home/Myline/selectMyline"

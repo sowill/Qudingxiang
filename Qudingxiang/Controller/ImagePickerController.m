@@ -29,11 +29,11 @@
     return self;
 }
 
-- (void)viewDidDisappear:(BOOL)animated
-{
+- (void)viewDidDisappear:(BOOL)animated{
     [super viewDidDisappear:animated];
     [_timer setFireDate:[NSDate distantFuture]];
 }
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
@@ -46,28 +46,9 @@
     if (Custom) {
         [self startReading];//启动摄像头
     }
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noti1) name:@"noti1" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noti2) name:@"noti2" object:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noti3) name:@"noti3" object:nil];
 }
 
--(void)noti3
-{
-    [self.navigationController popToRootViewControllerAnimated:YES];
-}
-
--(void)noti1
-{
-    [self.navigationController popToRootViewControllerAnimated:YES];
-}
-
-- (void)noti2
-{
-    [self.navigationController popToRootViewControllerAnimated:YES];
-}
-
-- (BOOL)startReading
-{
+- (BOOL)startReading{
     NSError *error;
     //1.初始化捕捉设备（AVCaptureDevice），类型为AVMediaTypeVideo
     AVCaptureDevice *captureDevice = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
@@ -196,15 +177,13 @@
 }
 
 
--(void)stopReading
-{
+-(void)stopReading{
     [_captureSession stopRunning];
     _captureSession = nil;
 }
 
 #pragma mark - AVCaptureMetadataOutputObjectsDelegate
-- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection
-{
+- (void)captureOutput:(AVCaptureOutput *)captureOutput didOutputMetadataObjects:(NSArray *)metadataObjects fromConnection:(AVCaptureConnection *)connection{
     if (metadataObjects != nil && [metadataObjects count] > 0) {
         AVMetadataMachineReadableCodeObject * metadataObject = [metadataObjects objectAtIndex:0];
         _result = metadataObject.stringValue;

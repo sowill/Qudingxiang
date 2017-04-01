@@ -187,6 +187,7 @@
 		458695A01C4DD748009BAA81 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4586959F1C4DD748009BAA81 /* QuartzCore.framework */; };
 		458695A21C4DD74E009BAA81 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 458695A11C4DD74E009BAA81 /* AVFoundation.framework */; };
 		458EC8A41E83AA2A00C54097 /* BaseGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 458EC8A31E83AA2900C54097 /* BaseGameViewController.m */; };
+		459186A01E8F86B500524E4E /* QDXPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4591869F1E8F86B500524E4E /* QDXPopView.m */; };
 		45983EE01E700C5700BA52E3 /* NSMutableAttributedString+ChangeColorFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 45983EDF1E700C5700BA52E3 /* NSMutableAttributedString+ChangeColorFont.m */; };
 		45983EE31E70161500BA52E3 /* QDXActivityPriceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45983EE21E70161500BA52E3 /* QDXActivityPriceViewController.m */; };
 		459AEBDA1DCC7C11000472F1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 459AEBD91DCC7C11000472F1 /* Images.xcassets */; };
@@ -758,6 +759,8 @@
 		458695A11C4DD74E009BAA81 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		458EC8A21E83AA2900C54097 /* BaseGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseGameViewController.h; sourceTree = "<group>"; };
 		458EC8A31E83AA2900C54097 /* BaseGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseGameViewController.m; sourceTree = "<group>"; };
+		4591869E1E8F86B500524E4E /* QDXPopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXPopView.h; sourceTree = "<group>"; };
+		4591869F1E8F86B500524E4E /* QDXPopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXPopView.m; sourceTree = "<group>"; };
 		45983EDE1E700C5700BA52E3 /* NSMutableAttributedString+ChangeColorFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableAttributedString+ChangeColorFont.h"; sourceTree = "<group>"; };
 		45983EDF1E700C5700BA52E3 /* NSMutableAttributedString+ChangeColorFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableAttributedString+ChangeColorFont.m"; sourceTree = "<group>"; };
 		45983EE11E70161500BA52E3 /* QDXActivityPriceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXActivityPriceViewController.h; sourceTree = "<group>"; };
@@ -2547,6 +2550,8 @@
 				45494F121E8B9D770063391C /* UITextField+IndexPath.m */,
 				45494F141E8B9E830063391C /* TextFieldTableViewCell.h */,
 				45494F151E8B9E830063391C /* TextFieldTableViewCell.m */,
+				4591869E1E8F86B500524E4E /* QDXPopView.h */,
+				4591869F1E8F86B500524E4E /* QDXPopView.m */,
 			);
 			name = "游戏";
 			sourceTree = "<group>";
@@ -2972,6 +2977,7 @@
 				4569E5801C4CB64B00FF4E8B /* SDWebImageDecoder.m in Sources */,
 				45C6F5751C92A0D800C5AA31 /* QDXOrderInfoModel.m in Sources */,
 				4569E5811C4CB64B00FF4E8B /* SDWebImageDownloader.m in Sources */,
+				459186A01E8F86B500524E4E /* QDXPopView.m in Sources */,
 				4569E5821C4CB64B00FF4E8B /* SDWebImageDownloaderOperation.m in Sources */,
 				4569E5831C4CB64B00FF4E8B /* SDWebImageManager.m in Sources */,
 				A3311D9C1CD3490300114FC0 /* TabbarView.m in Sources */,

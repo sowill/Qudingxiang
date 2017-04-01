@@ -17,7 +17,6 @@
     UIImageView *lineViewTwo;
     UIImageView *lineViewOne;
     UIImageView *pointView;
-    UIButton *viewHistory;
 }
 @end
 
@@ -54,10 +53,10 @@
     useTime.font = [UIFont systemFontOfSize:12];
     [self.contentView addSubview:useTime];
     
-    viewHistory = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth - FitRealValue(48 + 40), 20, FitRealValue(48), FitRealValue(48))];
-    [viewHistory setBackgroundImage:[UIImage imageNamed:@"答题记录"] forState:UIControlStateNormal];
-    [viewHistory addTarget:self action:@selector(historyClick) forControlEvents:UIControlEventTouchUpInside];
-    [self.contentView addSubview:viewHistory];
+    _viewHistory = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth - FitRealValue(48 + 40), 20, FitRealValue(48), FitRealValue(48))];
+    [_viewHistory setBackgroundImage:[UIImage imageNamed:@"答题记录"] forState:UIControlStateNormal];
+    [_viewHistory addTarget:self action:@selector(historyClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.contentView addSubview:_viewHistory];
     
     pointView = [[UIImageView alloc] initWithFrame:CGRectMake(25, 20 + 5, 6, 7)];
     pointView.image = [UIImage imageNamed:@"到达点"];

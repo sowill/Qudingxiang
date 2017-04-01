@@ -9,7 +9,6 @@
 #import "HomeController.h"
 #import "LineController.h"
 
-#import "BaseCell.h"
 #import "QDXLineDetailViewController.h"
 
 #import "ImagePickerController.h"

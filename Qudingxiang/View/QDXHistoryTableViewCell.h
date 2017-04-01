@@ -8,10 +8,12 @@
 
 #import <UIKit/UIKit.h>
 @class HistoryModel;
-//@class QDXGameModel;
+
 @interface QDXHistoryTableViewCell : UITableViewCell
+
 @property (nonatomic, strong) HistoryModel *HistoryInfo;
-//@property (nonatomic, strong) QDXGameModel *GameInfo;
+
+@property (nonatomic, strong) UIButton *viewHistory;
 
 @property (nonatomic, strong)void (^historyBtnBlock)();
 

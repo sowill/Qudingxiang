@@ -27,6 +27,7 @@
 
 #import "QDXProtocolViewController.h"
 #import "QDXNavigationController.h"
+#import "QDXPopView.h"
 
 #define TASKWEIGHT                         QdxWidth * 0.875
 #define TASKHEIGHT                         QdxHeight * 0.73
@@ -58,14 +59,6 @@
 
 @property (nonatomic, strong) UILabel *pointLabel;
 
-@property (nonatomic, strong) UIButton *showOK_button;
-
-@property (nonatomic, strong) UIButton *showTitle_button;
-
-@property (nonatomic, strong) UIView* deliverView;
-
-@property (nonatomic, strong) UIView* BGView;
-
 @property (nonatomic, strong) UIView* topView;
 
 @property (nonatomic, strong) UIView* bottomView;
@@ -77,6 +70,8 @@
 @property (nonatomic, strong) NSString *macStr;
 
 @property (nonatomic, strong) NSString *rmoveMacStr;
+
+@property (nonatomic, strong) QDXPopView *popView;
 
 @end
 
@@ -113,8 +108,6 @@
 
     [self getTaskRefresh];
 }
-
-
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
@@ -513,62 +506,10 @@ toViewController:(UIViewController *)toVC {
 }
 
 -(void)showMsg_buttonClickWith:(NSString *)url{
-    self.BGView = [[UIView alloc] init];
-    self.BGView.frame = [[UIScreen mainScreen] bounds];
-    [self.view addSubview:self.BGView];
-    
-    self.deliverView = [[UIView alloc] init];
-    self.deliverView.frame = CGRectMake(QdxWidth* 0.08,0,TASKWEIGHT/2,TASKHEIGHT/2);
-    [self.view addSubview:self.deliverView];
-    
-    self.BGView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
-    self.deliverView.frame = CGRectMake(QdxWidth/2 - TASKWEIGHT/2,(QdxHeight-64 - TASKHEIGHT)/2,TASKWEIGHT,TASKHEIGHT);
-    self.deliverView.backgroundColor = [UIColor clearColor];
-    self.deliverView.layer.borderWidth = 1;
-    self.deliverView.layer.cornerRadius = 12;
-    self.deliverView.layer.borderColor = [[UIColor clearColor]CGColor];
-    
-    CGPoint finalPoint;
-    
-    finalPoint = CGPointMake(TASKWEIGHT, TASKHEIGHT);
-    
-    CGFloat radius = sqrt((finalPoint.x * finalPoint.x) + (finalPoint.y * finalPoint.y));
-    UIBezierPath *maskFinalBP = [UIBezierPath bezierPathWithOvalInRect:CGRectInset(self.deliverView.frame, -radius, -radius)];
-    UIBezierPath *maskStartBP =  [UIBezierPath bezierPathWithOvalInRect:self.task_button.frame];
-    
-    CAShapeLayer *maskLayer = [CAShapeLayer layer];
-    maskLayer.path = maskFinalBP.CGPath;
-    self.deliverView.layer.mask = maskLayer;
-    
-    CABasicAnimation *maskLayerAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
-    maskLayerAnimation.fromValue = (__bridge id)(maskStartBP.CGPath);
-    maskLayerAnimation.toValue = (__bridge id)((maskFinalBP.CGPath));
-    maskLayerAnimation.duration = 0.7;
-    maskLayerAnimation.timingFunction = [CAMediaTimingFunction  functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    maskLayerAnimation.delegate = self;
-    
-    [maskLayer addAnimation:maskLayerAnimation forKey:@"path"];
-    
-    _showOK_button = [[UIButton alloc] initWithFrame:CGRectMake(0, TASKHEIGHT - SHOWTASKHEIGHT,TASKWEIGHT, SHOWTASKHEIGHT)];
-    [_showOK_button addTarget:self action:@selector(showOK_buttonClick) forControlEvents:UIControlEventTouchUpInside];
-    CGFloat top = 25; // 顶端盖高度
-    CGFloat bottom = 25; // 底端盖高度
-    CGFloat left = 5; // 左端盖宽度
-    CGFloat right = 5; // 右端盖宽度
-    UIEdgeInsets insets = UIEdgeInsetsMake(top, left, bottom, right);
-    // 指定为拉伸模式，伸缩后重新赋值
-    [_showOK_button setBackgroundImage:[[UIImage imageNamed:@"任务卡－按钮"] resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch] forState:UIControlStateNormal];
-    [_showOK_button setTitle:@"好的" forState:UIControlStateNormal];
-    [_showOK_button setTitleColor:[UIColor colorWithRed:0.000 green:0.600 blue:0.992 alpha:1.000] forState:UIControlStateNormal];
-    [self.deliverView addSubview:_showOK_button];
-    
-    _showTitle_button = [[UIButton alloc] initWithFrame:CGRectMake(0,0,TASKWEIGHT, SHOWTASKHEIGHT)];
-    _showTitle_button.userInteractionEnabled = NO;
-    [_showTitle_button setBackgroundImage:[[UIImage imageNamed:@"任务卡－按钮上面"] resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch] forState:UIControlStateNormal];
-    [_showTitle_button setTitle:_taskRefresh.pointmap_cn forState:UIControlStateNormal];
-    [_showTitle_button setTitleColor:[UIColor colorWithWhite:0.067 alpha:1.000] forState:UIControlStateNormal];
-    _showTitle_button.titleLabel.font = [UIFont systemFontOfSize:20];
-    [self.deliverView addSubview:_showTitle_button];
+
+    self.popView = [[QDXPopView alloc] init];
+
+    self.popView.task_button = _task_button;
     
     WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
     config.mediaPlaybackRequiresUserAction = NO;
@@ -579,38 +520,13 @@ toViewController:(UIViewController *)toVC {
     //JS调用OC 添加处理脚本
     [userCC addScriptMessageHandler:self name:@"Success"];
 
-    [self.deliverView addSubview:self.webView];
+    [self.popView.deliverView addSubview:self.webView];
+    
+    [self.popView show];
 }
 
 -(void)showOK_buttonClick{
-    UIBezierPath *finalPath = [UIBezierPath bezierPathWithOvalInRect:self.task_button.frame];
-    
-    CGPoint finalPoint;
-    
-    finalPoint = CGPointMake(self.task_button.center.x - 0, self.task_button.center.y - 0);
-    
-    CGFloat radius = sqrt(finalPoint.x * finalPoint.x + finalPoint.y * finalPoint.y);
-    UIBezierPath *startPath = [UIBezierPath bezierPathWithOvalInRect:CGRectInset(self.task_button.frame, -radius, -radius)];
-    
-    CAShapeLayer *maskLayer = [CAShapeLayer layer];
-    maskLayer.path = finalPath.CGPath;
-    self.deliverView.layer.mask = maskLayer;
-    
-    CABasicAnimation *pingAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
-    pingAnimation.fromValue = (__bridge id)(startPath.CGPath);
-    pingAnimation.toValue   = (__bridge id)(finalPath.CGPath);
-    pingAnimation.duration = 0.7;
-    pingAnimation.timingFunction = [CAMediaTimingFunction  functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    
-    pingAnimation.delegate = self;
-    
-    [maskLayer addAnimation:pingAnimation forKey:@"pingInvert"];
-    
-    dispatch_time_t time=dispatch_time(DISPATCH_TIME_NOW, 0.7 *NSEC_PER_SEC);
-    dispatch_after(time, dispatch_get_main_queue(), ^{
-        [self.BGView removeFromSuperview];
-        [self.deliverView removeFromSuperview];
-    });
+    [self.popView dismiss];
 }
 
 #pragma mark - WKScriptMessageHandler

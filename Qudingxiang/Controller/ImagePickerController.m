@@ -7,8 +7,6 @@
 //
 
 #import "ImagePickerController.h"
-#import "HomeController.h"
-#import "LineController.h"
 #import "QDXNavigationController.h"
 #import <AVFoundation/AVFoundation.h>
 @interface ImagePickerController ()<AVCaptureMetadataOutputObjectsDelegate>
@@ -210,7 +208,7 @@
     if (metadataObjects != nil && [metadataObjects count] > 0) {
         AVMetadataMachineReadableCodeObject * metadataObject = [metadataObjects objectAtIndex:0];
         _result = metadataObject.stringValue;
-//        NSLog(@"%@",_result);
+
         if([self.from intValue] == 0){
             self.ScanResult(metadataObject.stringValue,YES,@"0");
         }else if([self.from intValue] == 1){
@@ -218,104 +216,22 @@
         }
         
     }
-    
-    //[self performSelectorOnMainThread:@selector(stopReading) withObject:nil waitUntilDone:NO];
+
     [self stopReading];
     _isReading = NO;
     if(_result){
         if([self.from intValue] == 0){
             dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
                 [self.navigationController popViewControllerAnimated:YES];
-//                [self dismissViewControllerAnimated:YES completion:nil];
+
             });
         }
     }
-}
-
-
-
-- (void)netWorking
-{
-    
-    //创建请求管理对象
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    //说明服务器返回的事JSON数据
-    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
-    
-    //封装请求参数
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"TokenKey"] = save;
-    params[@"ticketinfo_name"] = _result;
-    [mgr POST:[NSString stringWithFormat:@"%@%@",hostUrl,actUrl] parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary * dict = [[NSDictionary alloc] initWithDictionary:responseObject];
-        NSDictionary *dictMsg = dict[@"Msg"];
-//        NSLog(@"%@",dictMsg);
-        StartModel *model = [[StartModel alloc] init];
-        [model setCode:dict[@"Code"] ];
-        [model setMsg:dict[@"Msg"]];
-        int temp = [model.Code intValue];
-        if (!temp) {
-            UIAlertController *aalert = [UIAlertController alertControllerWithTitle:@"提示" message:[NSString stringWithFormat:@"%@",model.Msg] preferredStyle:UIAlertControllerStyleAlert];
-            [aalert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action) {
-                
-                dispatch_time_t time=dispatch_time(DISPATCH_TIME_NOW, 0.4 *NSEC_PER_SEC);
-                dispatch_after(time, dispatch_get_main_queue(), ^{
-                    [self startReading];
-                });
-                
-            }]];
-            [self presentViewController:aalert animated:YES completion:nil];
-            
-        }else{
-            [model setTicket_id:dictMsg[@"ticket_id"]];
-            if([model.ticket_id longLongValue] <100000000000){
-                [NSKeyedArchiver archiveRootObject:model.ticket_id toFile:QDXTicketFile];
-                LineController *lineVC = [[LineController alloc] init];
-                QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:lineVC];
-                self.delegate = lineVC;
-                [self.delegate PassTicket:model.ticket_id andClick:@"2"];
-                [self presentViewController:nav animated:YES completion:^{
-                    
-                }];
-            }else{
-                HomeController *homeVC = [[HomeController alloc] init];
-                UIViewController *target = nil;
-                for(UIViewController *controller in self.navigationController.viewControllers){
-                    if([controller isKindOfClass:[homeVC class]]){
-                        target = controller;
-                    }
-                }
-                if(target){
-                    [self.navigationController popToViewController:target animated:YES];
-                }
-                
-            }
-            
-        }
-        
-        
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-    }];
 }
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
 
 @end

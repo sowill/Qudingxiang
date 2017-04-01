@@ -8,17 +8,18 @@
 
 #import "HomeController.h"
 #import "LineController.h"
-#import "HomeModel.h"
+
 #import "BaseCell.h"
 #import "QDXLineDetailViewController.h"
-#import "HomeService.h"
+
 #import "ImagePickerController.h"
 #import "QDXLoginViewController.h"
 #import "QDXNavigationController.h"
 #import "ImageScrollView.h"
-#import "AppDelegate.h"
+
 #import "QDXActivityViewController.h"
 
+#import "codeWebViewController.h"
 #import "QDXHomeTableViewCell.h"
 #import "QDXHomeCooperationCell.h"
 #import "QDXHomeCollectionView.h"
@@ -36,6 +37,7 @@
 #import "City.h"
 #import "GoodsList.h"
 #import "Goods.h"
+#import "LineList.h"
 
 @interface HomeController ()<UITableViewDataSource,UITableViewDelegate,QDXHomeTableViewCellDelegate,QDXCooperationCellDelegate,ChoseCityDelegate,CLLocationManagerDelegate>
 {
@@ -43,9 +45,6 @@
     NSInteger page;
     NSInteger code;
     UIButton *locationBtn;
-
-    AppDelegate *appdelegate;
-    HomeService *homehttp;
 }
 
 @property (nonatomic,strong) UITableView *tableView;
@@ -64,6 +63,8 @@
 
 @property (nonatomic, strong) NSMutableArray *cityArr;
 
+@property (nonatomic, strong) NSMutableArray *scrollArr;
+
 @property (nonatomic, strong) NSString *cityId;
 
 @end
@@ -74,8 +75,6 @@
 {
     [super viewWillAppear:animated];
     [self loadData];
-    appdelegate = [[UIApplication sharedApplication] delegate];
-    
 }
 
 -(void)reloadData
@@ -94,8 +93,6 @@
     [super viewDidLoad];
     
     self.navigationItem.title = @"趣定向";
-    
-    homehttp = [HomeService sharedInstance];
     
     _scanBtn = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 20, 18)];
     [_scanBtn setBackgroundImage:[UIImage imageNamed:@"index_sweep"] forState:UIControlStateNormal];
@@ -123,7 +120,6 @@
     
     [self createTableView];
     [self createHeaderView];
-    
 }
 
 - (void)findMe
@@ -274,9 +270,6 @@
     [self getHotArea];
     [self getPartner];
     [self getCity];
-    
-    [self state];
-    _scanBtn.hidden = NO;
 }
 
 - (void)createTableView
@@ -399,31 +392,6 @@
     } failure:^(NSError *error) {
         
     }];
-}
-
-- (void)state
-{
-    appdelegate.loading = YES;
-    [homehttp statesucceed:^(id data) {
-         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments | NSJSONReadingMutableLeaves error:nil];
-        code = [dict[@"Code"] intValue];
-        appdelegate.code = [NSString stringWithFormat:@"%d",(int)code];
-        if(code == 2){
-            appdelegate.ticket = dict[@"Msg"][@"ticket"][@"ticket_id"];
-        }else if (code == 1) {
-            [NSKeyedArchiver archiveRootObject:dict[@"Msg"][@"myline_id"] toFile:QDXCurrentMyLineFile];
-        }
-        appdelegate.loading = NO;
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if(code == 0){
-                _scanBtn.hidden = NO;
-            }else{
-                _scanBtn.hidden = YES;
-            }
-        });
-    } failure:^(NSError *error) {
-
-    } WithToken:save];
 }
 
 
@@ -553,7 +521,26 @@
     if ([save length] != 0) {
         ImagePickerController *imageVC = [[ImagePickerController alloc] initWithBlock:^(NSString *result, BOOL flag, NSString *from) {
             imageVC.from = from;
-            [self netWorkingwith:result];
+
+            dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.5 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+                if ([result containsString:@"http"]) {
+                    codeWebViewController *webVC = [[codeWebViewController alloc] init];
+                    if ([result containsString:@"?"]) {
+                        NSString *addtoken = [@"&customer_token=" stringByAppendingString:save];
+                        NSString *url = [result stringByAppendingString:addtoken];
+                        webVC.url = url;
+                    }else{
+                        NSString *addtoken = [@"?customer_token=" stringByAppendingString:save];
+                        NSString *url = [result stringByAppendingString:addtoken];
+                        webVC.url = url;
+                    }
+                    webVC.hidesBottomBarWhenPushed = YES;
+                    [self.navigationController pushViewController:webVC animated:YES];
+                }else{
+                    [self netWorkingwith:result];
+                }
+            });
+            
         }];
         imageVC.hidesBottomBarWhenPushed =YES;
         [self.navigationController pushViewController:imageVC animated:YES];
@@ -580,47 +567,28 @@
 
 - (void)netWorkingwith:(NSString *)result
 {
-    //创建请求管理对象
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    //说明服务器返回的事JSON数据
-    mgr.responseSerializer = [AFJSONResponseSerializer serializer];
-    
-    //封装请求参数
+    NSString *url = [newHostUrl stringByAppendingString:getLineListUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"TokenKey"] = save;
-    params[@"ticketinfo_name"] = result;
-    [mgr POST:[NSString stringWithFormat:@"%@%@",hostUrl,actUrl] parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary * dict = [[NSDictionary alloc] initWithDictionary:responseObject];
-        NSDictionary *dictMsg = dict[@"Msg"];
-        StartModel *model = [[StartModel alloc] init];
-        [model setCode:dict[@"Code"] ];
-        [model setMsg:dict[@"Msg"]];
-        int temp = [model.Code intValue];
-        if (!temp) {
-            UIAlertController *aalert = [UIAlertController alertControllerWithTitle:@"提示" message:[NSString stringWithFormat:@"%@",model.Msg] preferredStyle:UIAlertControllerStyleAlert];
+    params[@"customer_token"] = save;
+    params[@"ticketinfo_cn"] = result;
+    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
+
+        if ([responseObject[@"Code"] intValue] == 0) {
+            UIAlertController *aalert = [UIAlertController alertControllerWithTitle:@"提示" message:[NSString stringWithFormat:@"%@",responseObject[@"Msg"]] preferredStyle:UIAlertControllerStyleAlert];
             [aalert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action) {
             }]];
             [self presentViewController:aalert animated:YES completion:nil];
-
         }else{
-            [model setTicket_id:dictMsg[@"ticket_id"]];
-            if([model.ticket_id longLongValue] <100000000000){
-                [NSKeyedArchiver archiveRootObject:model.ticket_id toFile:QDXTicketFile];
-                LineController *lineVC = [[LineController alloc] init];
-                QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:lineVC];
-                self.delegate = lineVC;
-                [self.delegate PassTicket:model.ticket_id andClick:@"2"];
-                [self presentViewController:nav animated:YES completion:^{
-                    
-                }];
-            }else{
+            LineList *lineList = [[LineList alloc] initWithDic:responseObject];
+            LineController *lineVC = [[LineController alloc] init];
+            QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:lineVC];
+            lineVC.lineList = lineList;
+            lineVC.ticketID = result;
+            [self presentViewController:nav animated:YES completion:^{
                 
-            }
+            }];
         }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    } failure:^(NSError *error) {
         
     }];
 }
@@ -629,6 +597,5 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
 
 @end

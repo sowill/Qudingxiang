@@ -10,4 +10,6 @@
 @class QDXGameModel;
 @interface QDXHistoryViewController : BaseViewController
 @property(nonatomic,retain) QDXGameModel *Game;
+
+@property(nonatomic,strong) NSString *myline_id;
 @end

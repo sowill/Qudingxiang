@@ -27,6 +27,12 @@
 		451BDEC01DF54F1C00008959 /* SimplePinger.m in Sources */ = {isa = PBXBuildFile; fileRef = 451BDEBC1DF54F1C00008959 /* SimplePinger.m */; };
 		451BDEC31DF551B000008959 /* QDXNoNetWorkView.m in Sources */ = {isa = PBXBuildFile; fileRef = 451BDEC21DF551B000008959 /* QDXNoNetWorkView.m */; };
 		451BDEC61DF56A3B00008959 /* QDXStateView.m in Sources */ = {isa = PBXBuildFile; fileRef = 451BDEC51DF56A3B00008959 /* QDXStateView.m */; };
+		4525779D1E88AC5D000F5F4D /* TaskLocationModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4525779C1E88AC5D000F5F4D /* TaskLocationModel.m */; };
+		452577A01E88ACD2000F5F4D /* PointmapModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 4525779F1E88ACD2000F5F4D /* PointmapModel.m */; };
+		452577A31E88B116000F5F4D /* TaskRefreshModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 452577A21E88B116000F5F4D /* TaskRefreshModel.m */; };
+		452577AC1E890B62000F5F4D /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 452577AB1E890B62000F5F4D /* MapViewController.m */; };
+		452577B51E8A489C000F5F4D /* HistoryModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 452577B41E8A489C000F5F4D /* HistoryModel.m */; };
+		452577B81E8A48D0000F5F4D /* HistoryList.m in Sources */ = {isa = PBXBuildFile; fileRef = 452577B71E8A48D0000F5F4D /* HistoryList.m */; };
 		4525944D1D50D31A002BF84B /* LocalDBService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4525944C1D50D31A002BF84B /* LocalDBService.m */; };
 		452594501D51A0D1002BF84B /* LocalSqlliteService.m in Sources */ = {isa = PBXBuildFile; fileRef = 4525944F1D51A0D1002BF84B /* LocalSqlliteService.m */; };
 		453395071CF6D8C800B5A825 /* FeHandwriting.m in Sources */ = {isa = PBXBuildFile; fileRef = 453394FF1CF6D8C800B5A825 /* FeHandwriting.m */; };
@@ -47,6 +53,13 @@
 		453E44D91D252A3100BED603 /* btn1@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 453E44D71D252A3100BED603 /* btn1@2x.png */; };
 		453E44DA1D252A3100BED603 /* btn2@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 453E44D81D252A3100BED603 /* btn2@2x.png */; };
 		4545CF371C80435000B73849 /* zoomImage.m in Sources */ = {isa = PBXBuildFile; fileRef = 4545CF361C80435000B73849 /* zoomImage.m */; };
+		45494F011E8B4D200063391C /* gameToMapPush.m in Sources */ = {isa = PBXBuildFile; fileRef = 45494F001E8B4D200063391C /* gameToMapPush.m */; };
+		45494F041E8B4FC20063391C /* mapToGamePop.m in Sources */ = {isa = PBXBuildFile; fileRef = 45494F031E8B4FC20063391C /* mapToGamePop.m */; };
+		45494F071E8B60310063391C /* codeWebViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45494F061E8B60310063391C /* codeWebViewController.m */; };
+		45494F0A1E8B920D0063391C /* TeamList.m in Sources */ = {isa = PBXBuildFile; fileRef = 45494F091E8B920D0063391C /* TeamList.m */; };
+		45494F101E8B937F0063391C /* TeamModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 45494F0F1E8B937F0063391C /* TeamModel.m */; };
+		45494F131E8B9D770063391C /* UITextField+IndexPath.m in Sources */ = {isa = PBXBuildFile; fileRef = 45494F121E8B9D770063391C /* UITextField+IndexPath.m */; };
+		45494F161E8B9E830063391C /* TextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45494F151E8B9E830063391C /* TextFieldTableViewCell.m */; };
 		4549C7651DBE103800180FB5 /* UIImage+Image.m in Sources */ = {isa = PBXBuildFile; fileRef = 4549C7621DBE103800180FB5 /* UIImage+Image.m */; };
 		4549C7661DBE103800180FB5 /* UIView+LBExtension.m in Sources */ = {isa = PBXBuildFile; fileRef = 4549C7641DBE103800180FB5 /* UIView+LBExtension.m */; };
 		4549C7691DBE106800180FB5 /* LBTabBarController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4549C7681DBE106800180FB5 /* LBTabBarController.m */; };
@@ -173,6 +186,7 @@
 		4586959E1C4DD741009BAA81 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4586959D1C4DD741009BAA81 /* CoreMedia.framework */; };
 		458695A01C4DD748009BAA81 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4586959F1C4DD748009BAA81 /* QuartzCore.framework */; };
 		458695A21C4DD74E009BAA81 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 458695A11C4DD74E009BAA81 /* AVFoundation.framework */; };
+		458EC8A41E83AA2A00C54097 /* BaseGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 458EC8A31E83AA2900C54097 /* BaseGameViewController.m */; };
 		45983EE01E700C5700BA52E3 /* NSMutableAttributedString+ChangeColorFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 45983EDF1E700C5700BA52E3 /* NSMutableAttributedString+ChangeColorFont.m */; };
 		45983EE31E70161500BA52E3 /* QDXActivityPriceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45983EE21E70161500BA52E3 /* QDXActivityPriceViewController.m */; };
 		459AEBDA1DCC7C11000472F1 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 459AEBD91DCC7C11000472F1 /* Images.xcassets */; };
@@ -237,7 +251,6 @@
 		45C6F5BC1C92A30600C5AA31 /* HomeCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F5B81C92A30600C5AA31 /* HomeCell.m */; };
 		45C6F5BD1C92A30600C5AA31 /* LineCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F5BA1C92A30600C5AA31 /* LineCell.m */; };
 		45C6F5C21C92A32C00C5AA31 /* MineLineController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F5BF1C92A32C00C5AA31 /* MineLineController.m */; };
-		45C6F5C31C92A32C00C5AA31 /* myViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F5C11C92A32C00C5AA31 /* myViewController.m */; };
 		45C6F5C81C92A36200C5AA31 /* OrderController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F5C51C92A36200C5AA31 /* OrderController.m */; };
 		45C6F5C91C92A36200C5AA31 /* QDXOrderDetailTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F5C71C92A36200C5AA31 /* QDXOrderDetailTableViewController.m */; };
 		45C6F5CC1C92A38600C5AA31 /* QDXNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F5CB1C92A38600C5AA31 /* QDXNavigationController.m */; };
@@ -251,7 +264,6 @@
 		45C6F5F91C92A3DF00C5AA31 /* QDXTeamsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F5F21C92A3DF00C5AA31 /* QDXTeamsViewController.m */; };
 		45C6F5FC1C92A40B00C5AA31 /* ActivityController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F5FB1C92A40B00C5AA31 /* ActivityController.m */; };
 		45C6F6011C92A42400C5AA31 /* HomeController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F5FE1C92A42400C5AA31 /* HomeController.m */; };
-		45C6F6021C92A42400C5AA31 /* MainController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F6001C92A42400C5AA31 /* MainController.m */; };
 		45C6F6091C92A43A00C5AA31 /* QDXChangeNameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F6041C92A43A00C5AA31 /* QDXChangeNameViewController.m */; };
 		45C6F60A1C92A43A00C5AA31 /* QDXChangePwdViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F6061C92A43A00C5AA31 /* QDXChangePwdViewController.m */; };
 		45C6F60B1C92A43A00C5AA31 /* QDXForgetPasswordViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45C6F6081C92A43A00C5AA31 /* QDXForgetPasswordViewController.m */; };
@@ -292,7 +304,6 @@
 		45D4FE8C1E7A4360005958E3 /* County.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D4FE4F1E7A4360005958E3 /* County.m */; };
 		45D4FE8D1E7A4360005958E3 /* CountyList.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D4FE511E7A4360005958E3 /* CountyList.m */; };
 		45D4FE8E1E7A4360005958E3 /* Customer.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D4FE531E7A4360005958E3 /* Customer.m */; };
-		45D4FE8F1E7A4360005958E3 /* CustomerList.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D4FE551E7A4360005958E3 /* CustomerList.m */; };
 		45D4FE901E7A4360005958E3 /* Goods.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D4FE571E7A4360005958E3 /* Goods.m */; };
 		45D4FE911E7A4360005958E3 /* GoodsList.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D4FE591E7A4360005958E3 /* GoodsList.m */; };
 		45D4FE921E7A4360005958E3 /* Goodstatus.m in Sources */ = {isa = PBXBuildFile; fileRef = 45D4FE5B1E7A4360005958E3 /* Goodstatus.m */; };
@@ -339,6 +350,7 @@
 		45FD83511E80D4E000C4D37A /* QDXHomeCollectionView.m in Sources */ = {isa = PBXBuildFile; fileRef = 45FD834B1E80D4E000C4D37A /* QDXHomeCollectionView.m */; };
 		45FD83521E80D4E000C4D37A /* QDXHomeCooperationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45FD834D1E80D4E000C4D37A /* QDXHomeCooperationCell.m */; };
 		45FD83531E80D4E000C4D37A /* QDXHomeTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 45FD834F1E80D4E000C4D37A /* QDXHomeTableViewCell.m */; };
+		45FD835B1E8286A200C4D37A /* editMineInfoViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 45FD835A1E8286A200C4D37A /* editMineInfoViewController.m */; };
 		A31287A31CCF0DA200CB887E /* line_pointModel.m in Sources */ = {isa = PBXBuildFile; fileRef = A31287A21CCF0DA200CB887E /* line_pointModel.m */; };
 		A31287A61CCF0DD700CB887E /* QDXOfflineDB.m in Sources */ = {isa = PBXBuildFile; fileRef = A31287A51CCF0DD700CB887E /* QDXOfflineDB.m */; };
 		A31287AB1CCF165D00CB887E /* BaseService.m in Sources */ = {isa = PBXBuildFile; fileRef = A31287A81CCF165D00CB887E /* BaseService.m */; };
@@ -419,6 +431,18 @@
 		451BDEC41DF56A3B00008959 /* QDXStateView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXStateView.h; sourceTree = "<group>"; };
 		451BDEC51DF56A3B00008959 /* QDXStateView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXStateView.m; sourceTree = "<group>"; };
 		452523941BAABD6E0058A8BE /* PrefixHeader.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
+		4525779B1E88AC5D000F5F4D /* TaskLocationModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskLocationModel.h; sourceTree = "<group>"; };
+		4525779C1E88AC5D000F5F4D /* TaskLocationModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskLocationModel.m; sourceTree = "<group>"; };
+		4525779E1E88ACD2000F5F4D /* PointmapModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointmapModel.h; sourceTree = "<group>"; };
+		4525779F1E88ACD2000F5F4D /* PointmapModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PointmapModel.m; sourceTree = "<group>"; };
+		452577A11E88B116000F5F4D /* TaskRefreshModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TaskRefreshModel.h; sourceTree = "<group>"; };
+		452577A21E88B116000F5F4D /* TaskRefreshModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TaskRefreshModel.m; sourceTree = "<group>"; };
+		452577AA1E890B61000F5F4D /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
+		452577AB1E890B62000F5F4D /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
+		452577B31E8A489C000F5F4D /* HistoryModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryModel.h; sourceTree = "<group>"; };
+		452577B41E8A489C000F5F4D /* HistoryModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryModel.m; sourceTree = "<group>"; };
+		452577B61E8A48D0000F5F4D /* HistoryList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HistoryList.h; sourceTree = "<group>"; };
+		452577B71E8A48D0000F5F4D /* HistoryList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HistoryList.m; sourceTree = "<group>"; };
 		4525944B1D50D31A002BF84B /* LocalDBService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalDBService.h; sourceTree = "<group>"; };
 		4525944C1D50D31A002BF84B /* LocalDBService.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LocalDBService.m; sourceTree = "<group>"; };
 		4525944E1D51A0D1002BF84B /* LocalSqlliteService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LocalSqlliteService.h; sourceTree = "<group>"; };
@@ -449,6 +473,20 @@
 		453E44D81D252A3100BED603 /* btn2@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "btn2@2x.png"; sourceTree = "<group>"; };
 		4545CF351C80435000B73849 /* zoomImage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = zoomImage.h; sourceTree = "<group>"; };
 		4545CF361C80435000B73849 /* zoomImage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = zoomImage.m; sourceTree = "<group>"; };
+		45494EFF1E8B4D200063391C /* gameToMapPush.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = gameToMapPush.h; sourceTree = "<group>"; };
+		45494F001E8B4D200063391C /* gameToMapPush.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = gameToMapPush.m; sourceTree = "<group>"; };
+		45494F021E8B4FC20063391C /* mapToGamePop.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = mapToGamePop.h; sourceTree = "<group>"; };
+		45494F031E8B4FC20063391C /* mapToGamePop.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = mapToGamePop.m; sourceTree = "<group>"; };
+		45494F051E8B60310063391C /* codeWebViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = codeWebViewController.h; sourceTree = "<group>"; };
+		45494F061E8B60310063391C /* codeWebViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = codeWebViewController.m; sourceTree = "<group>"; };
+		45494F081E8B920C0063391C /* TeamList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamList.h; sourceTree = "<group>"; };
+		45494F091E8B920D0063391C /* TeamList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamList.m; sourceTree = "<group>"; };
+		45494F0E1E8B937F0063391C /* TeamModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TeamModel.h; sourceTree = "<group>"; };
+		45494F0F1E8B937F0063391C /* TeamModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TeamModel.m; sourceTree = "<group>"; };
+		45494F111E8B9D770063391C /* UITextField+IndexPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UITextField+IndexPath.h"; sourceTree = "<group>"; };
+		45494F121E8B9D770063391C /* UITextField+IndexPath.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UITextField+IndexPath.m"; sourceTree = "<group>"; };
+		45494F141E8B9E830063391C /* TextFieldTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextFieldTableViewCell.h; sourceTree = "<group>"; };
+		45494F151E8B9E830063391C /* TextFieldTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextFieldTableViewCell.m; sourceTree = "<group>"; };
 		4549C7611DBE103800180FB5 /* UIImage+Image.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Image.h"; sourceTree = "<group>"; };
 		4549C7621DBE103800180FB5 /* UIImage+Image.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Image.m"; sourceTree = "<group>"; };
 		4549C7631DBE103800180FB5 /* UIView+LBExtension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+LBExtension.h"; sourceTree = "<group>"; };
@@ -718,6 +756,8 @@
 		4586959D1C4DD741009BAA81 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		4586959F1C4DD748009BAA81 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		458695A11C4DD74E009BAA81 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		458EC8A21E83AA2900C54097 /* BaseGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseGameViewController.h; sourceTree = "<group>"; };
+		458EC8A31E83AA2900C54097 /* BaseGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseGameViewController.m; sourceTree = "<group>"; };
 		45983EDE1E700C5700BA52E3 /* NSMutableAttributedString+ChangeColorFont.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSMutableAttributedString+ChangeColorFont.h"; sourceTree = "<group>"; };
 		45983EDF1E700C5700BA52E3 /* NSMutableAttributedString+ChangeColorFont.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSMutableAttributedString+ChangeColorFont.m"; sourceTree = "<group>"; };
 		45983EE11E70161500BA52E3 /* QDXActivityPriceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXActivityPriceViewController.h; sourceTree = "<group>"; };
@@ -861,8 +901,6 @@
 		45C6F5BA1C92A30600C5AA31 /* LineCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LineCell.m; sourceTree = "<group>"; };
 		45C6F5BE1C92A32C00C5AA31 /* MineLineController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineLineController.h; sourceTree = "<group>"; };
 		45C6F5BF1C92A32C00C5AA31 /* MineLineController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineLineController.m; sourceTree = "<group>"; };
-		45C6F5C01C92A32C00C5AA31 /* myViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = myViewController.h; sourceTree = "<group>"; };
-		45C6F5C11C92A32C00C5AA31 /* myViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = myViewController.m; sourceTree = "<group>"; };
 		45C6F5C41C92A36200C5AA31 /* OrderController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OrderController.h; sourceTree = "<group>"; };
 		45C6F5C51C92A36200C5AA31 /* OrderController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OrderController.m; sourceTree = "<group>"; };
 		45C6F5C61C92A36200C5AA31 /* QDXOrderDetailTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXOrderDetailTableViewController.h; sourceTree = "<group>"; };
@@ -889,8 +927,6 @@
 		45C6F5FB1C92A40B00C5AA31 /* ActivityController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ActivityController.m; sourceTree = "<group>"; };
 		45C6F5FD1C92A42400C5AA31 /* HomeController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HomeController.h; sourceTree = "<group>"; };
 		45C6F5FE1C92A42400C5AA31 /* HomeController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HomeController.m; sourceTree = "<group>"; };
-		45C6F5FF1C92A42400C5AA31 /* MainController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MainController.h; sourceTree = "<group>"; };
-		45C6F6001C92A42400C5AA31 /* MainController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MainController.m; sourceTree = "<group>"; };
 		45C6F6031C92A43A00C5AA31 /* QDXChangeNameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXChangeNameViewController.h; sourceTree = "<group>"; };
 		45C6F6041C92A43A00C5AA31 /* QDXChangeNameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXChangeNameViewController.m; sourceTree = "<group>"; };
 		45C6F6051C92A43A00C5AA31 /* QDXChangePwdViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXChangePwdViewController.h; sourceTree = "<group>"; };
@@ -967,8 +1003,6 @@
 		45D4FE511E7A4360005958E3 /* CountyList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CountyList.m; sourceTree = "<group>"; };
 		45D4FE521E7A4360005958E3 /* Customer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Customer.h; sourceTree = "<group>"; };
 		45D4FE531E7A4360005958E3 /* Customer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Customer.m; sourceTree = "<group>"; };
-		45D4FE541E7A4360005958E3 /* CustomerList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomerList.h; sourceTree = "<group>"; };
-		45D4FE551E7A4360005958E3 /* CustomerList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomerList.m; sourceTree = "<group>"; };
 		45D4FE561E7A4360005958E3 /* Goods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Goods.h; sourceTree = "<group>"; };
 		45D4FE571E7A4360005958E3 /* Goods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Goods.m; sourceTree = "<group>"; };
 		45D4FE581E7A4360005958E3 /* GoodsList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GoodsList.h; sourceTree = "<group>"; };
@@ -1083,6 +1117,8 @@
 		45FD834D1E80D4E000C4D37A /* QDXHomeCooperationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXHomeCooperationCell.m; sourceTree = "<group>"; };
 		45FD834E1E80D4E000C4D37A /* QDXHomeTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXHomeTableViewCell.h; sourceTree = "<group>"; };
 		45FD834F1E80D4E000C4D37A /* QDXHomeTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = QDXHomeTableViewCell.m; sourceTree = "<group>"; };
+		45FD83591E8286A200C4D37A /* editMineInfoViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = editMineInfoViewController.h; sourceTree = "<group>"; };
+		45FD835A1E8286A200C4D37A /* editMineInfoViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = editMineInfoViewController.m; sourceTree = "<group>"; };
 		A31287A11CCF0DA200CB887E /* line_pointModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = line_pointModel.h; sourceTree = "<group>"; };
 		A31287A21CCF0DA200CB887E /* line_pointModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = line_pointModel.m; sourceTree = "<group>"; };
 		A31287A41CCF0DD700CB887E /* QDXOfflineDB.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXOfflineDB.h; sourceTree = "<group>"; };
@@ -1381,6 +1417,10 @@
 				4556116A1D543E75006DF063 /* CustomAnimateTransitionPush.m */,
 				4556116B1D543E75006DF063 /* HUAnimator */,
 				455611741D543E75006DF063 /* ZBCustomTransitions */,
+				45494EFF1E8B4D200063391C /* gameToMapPush.h */,
+				45494F001E8B4D200063391C /* gameToMapPush.m */,
+				45494F021E8B4FC20063391C /* mapToGamePop.h */,
+				45494F031E8B4FC20063391C /* mapToGamePop.m */,
 			);
 			name = Need;
 			path = ../Lib/Need;
@@ -2080,8 +2120,6 @@
 				45D4FE511E7A4360005958E3 /* CountyList.m */,
 				45D4FE521E7A4360005958E3 /* Customer.h */,
 				45D4FE531E7A4360005958E3 /* Customer.m */,
-				45D4FE541E7A4360005958E3 /* CustomerList.h */,
-				45D4FE551E7A4360005958E3 /* CustomerList.m */,
 				45D4FE561E7A4360005958E3 /* Goods.h */,
 				45D4FE571E7A4360005958E3 /* Goods.m */,
 				45D4FE581E7A4360005958E3 /* GoodsList.h */,
@@ -2130,6 +2168,20 @@
 				45D4FE831E7A4360005958E3 /* Utilstatus.m */,
 				45D4FE841E7A4360005958E3 /* UtilstatusList.h */,
 				45D4FE851E7A4360005958E3 /* UtilstatusList.m */,
+				4525779B1E88AC5D000F5F4D /* TaskLocationModel.h */,
+				4525779C1E88AC5D000F5F4D /* TaskLocationModel.m */,
+				4525779E1E88ACD2000F5F4D /* PointmapModel.h */,
+				4525779F1E88ACD2000F5F4D /* PointmapModel.m */,
+				452577A11E88B116000F5F4D /* TaskRefreshModel.h */,
+				452577A21E88B116000F5F4D /* TaskRefreshModel.m */,
+				452577B31E8A489C000F5F4D /* HistoryModel.h */,
+				452577B41E8A489C000F5F4D /* HistoryModel.m */,
+				452577B61E8A48D0000F5F4D /* HistoryList.h */,
+				452577B71E8A48D0000F5F4D /* HistoryList.m */,
+				45494F081E8B920C0063391C /* TeamList.h */,
+				45494F091E8B920D0063391C /* TeamList.m */,
+				45494F0E1E8B937F0063391C /* TeamModel.h */,
+				45494F0F1E8B937F0063391C /* TeamModel.m */,
 			);
 			path = qdxModel;
 			sourceTree = "<group>";
@@ -2287,8 +2339,6 @@
 			children = (
 				A35DAC711CCF5A1500D01CF0 /* GuideViewController.h */,
 				A35DAC721CCF5A1500D01CF0 /* GuideViewController.m */,
-				45C6F5FF1C92A42400C5AA31 /* MainController.h */,
-				45C6F6001C92A42400C5AA31 /* MainController.m */,
 				A340BE151C96ACB4009F40FD /* BaseViewController.h */,
 				A340BE161C96ACB4009F40FD /* BaseViewController.m */,
 				45C6F5CA1C92A38600C5AA31 /* QDXNavigationController.h */,
@@ -2335,8 +2385,6 @@
 				A3442D201C9B946A0092363A /* SettingViewController.m */,
 				45C6F5BE1C92A32C00C5AA31 /* MineLineController.h */,
 				45C6F5BF1C92A32C00C5AA31 /* MineLineController.m */,
-				45C6F5C01C92A32C00C5AA31 /* myViewController.h */,
-				45C6F5C11C92A32C00C5AA31 /* myViewController.m */,
 				45C6F6031C92A43A00C5AA31 /* QDXChangeNameViewController.h */,
 				45C6F6041C92A43A00C5AA31 /* QDXChangeNameViewController.m */,
 				45C6F6051C92A43A00C5AA31 /* QDXChangePwdViewController.h */,
@@ -2345,6 +2393,8 @@
 				A340BDCE1C9697EE009F40FD /* TeamLineController.m */,
 				4556CD6F1CEDC5CF00577A61 /* SignViewController.h */,
 				4556CD701CEDC5CF00577A61 /* SignViewController.m */,
+				45FD83591E8286A200C4D37A /* editMineInfoViewController.h */,
+				45FD835A1E8286A200C4D37A /* editMineInfoViewController.m */,
 			);
 			name = "我的";
 			sourceTree = "<group>";
@@ -2352,6 +2402,8 @@
 		45FD83431E80C8EE00C4D37A /* 首页 */ = {
 			isa = PBXGroup;
 			children = (
+				45C6F5D11C92A39300C5AA31 /* LineController.h */,
+				45C6F5D21C92A39300C5AA31 /* LineController.m */,
 				A3271F861CA9383700B6B95D /* ImagePickerController.h */,
 				A35DAC6F1CCF59C700D01CF0 /* ImagePickerController.m */,
 				45C6F5D31C92A39300C5AA31 /* QDXLineDetailViewController.h */,
@@ -2370,6 +2422,8 @@
 				45D6E6CA1E0115A2004EFF15 /* QDXActivityViewController.m */,
 				45D4FEAB1E7BC7A2005958E3 /* RecentActivityViewController.h */,
 				45D4FEAC1E7BC7A2005958E3 /* RecentActivityViewController.m */,
+				45494F051E8B60310063391C /* codeWebViewController.h */,
+				45494F061E8B60310063391C /* codeWebViewController.m */,
 			);
 			name = "首页";
 			sourceTree = "<group>";
@@ -2379,8 +2433,6 @@
 			children = (
 				45C6F5CD1C92A39300C5AA31 /* CellLineController.h */,
 				45C6F5CE1C92A39300C5AA31 /* CellLineController.m */,
-				45C6F5D11C92A39300C5AA31 /* LineController.h */,
-				45C6F5D21C92A39300C5AA31 /* LineController.m */,
 				45C6F5ED1C92A3DF00C5AA31 /* QDXLineChooseViewController.h */,
 				45C6F5EE1C92A3DF00C5AA31 /* QDXLineChooseViewController.m */,
 				45C6F5EF1C92A3DF00C5AA31 /* QDXProtocolViewController.h */,
@@ -2397,6 +2449,10 @@
 				455C8AB71CD064B5001F5FC5 /* QDXOffLineController.m */,
 				043A59E51D18F22600E5E1BB /* HelpViewController.h */,
 				043A59E61D18F22600E5E1BB /* HelpViewController.m */,
+				458EC8A21E83AA2900C54097 /* BaseGameViewController.h */,
+				458EC8A31E83AA2900C54097 /* BaseGameViewController.m */,
+				452577AA1E890B61000F5F4D /* MapViewController.h */,
+				452577AB1E890B62000F5F4D /* MapViewController.m */,
 			);
 			name = "游戏";
 			sourceTree = "<group>";
@@ -2487,6 +2543,10 @@
 				453679D81CD3036700828EF9 /* PopMenuView */,
 				4571CDBC1CE05B00002ED784 /* CYAlertController */,
 				04664EFF1D1CCE82008D50C7 /* YLPopView */,
+				45494F111E8B9D770063391C /* UITextField+IndexPath.h */,
+				45494F121E8B9D770063391C /* UITextField+IndexPath.m */,
+				45494F141E8B9E830063391C /* TextFieldTableViewCell.h */,
+				45494F151E8B9E830063391C /* TextFieldTableViewCell.m */,
 			);
 			name = "游戏";
 			sourceTree = "<group>";
@@ -2693,6 +2753,7 @@
 				45D4FE9E1E7A4360005958E3 /* qdxPoint.m in Sources */,
 				45C6F56A1C92A0A500C5AA31 /* MineModel.m in Sources */,
 				45C6F5771C92A0D800C5AA31 /* QDXostatus.m in Sources */,
+				452577A01E88ACD2000F5F4D /* PointmapModel.m in Sources */,
 				45AEE2B71D13E4F800116AD0 /* UIControl+UIControl_buttonCon.m in Sources */,
 				4571CDEB1CE05B00002ED784 /* CYAlertDismissSlideDown.m in Sources */,
 				A31287AB1CCF165D00CB887E /* BaseService.m in Sources */,
@@ -2702,7 +2763,6 @@
 				45D4FEA31E7A4360005958E3 /* ProvinceList.m in Sources */,
 				45C6F5791C92A0D800C5AA31 /* QDXTicketInfoModel.m in Sources */,
 				45CA52251DE452270025A376 /* MJRefreshHeader.m in Sources */,
-				45D4FE8F1E7A4360005958E3 /* CustomerList.m in Sources */,
 				4525944D1D50D31A002BF84B /* LocalDBService.m in Sources */,
 				45CC71B61E70F98D0028EA30 /* PlaceViewController.m in Sources */,
 				455C8A941CCF7827001F5FC5 /* APAuthV2Info.m in Sources */,
@@ -2730,8 +2790,10 @@
 				45FD83501E80D4E000C4D37A /* QDXCooperationCollectionViewCell.m in Sources */,
 				45FD833B1E80BD0D00C4D37A /* Myline.m in Sources */,
 				45CA52341DE452270025A376 /* UIView+MJExtension.m in Sources */,
+				45494F0A1E8B920D0063391C /* TeamList.m in Sources */,
 				451828B01D40C87A00D5FC85 /* UIView+EAFeatureGuideView.m in Sources */,
 				45B25AC21E76665D00C0B518 /* AFImageDownloader.m in Sources */,
+				452577A31E88B116000F5F4D /* TaskRefreshModel.m in Sources */,
 				45C6F5861C92A10300C5AA31 /* AlipayModel.m in Sources */,
 				45B25AC71E76665D00C0B518 /* UIProgressView+AFNetworking.m in Sources */,
 				459C432E1DED72B000437712 /* XBTagTitleCell.m in Sources */,
@@ -2750,7 +2812,6 @@
 				45C6F5A21C92A20400C5AA31 /* QDXOrderTableViewCell.m in Sources */,
 				45D4FE9C1E7A4360005958E3 /* Partner.m in Sources */,
 				45D4FE981E7A4360005958E3 /* Linetype.m in Sources */,
-				45C6F6021C92A42400C5AA31 /* MainController.m in Sources */,
 				45C6F5761C92A0D800C5AA31 /* QDXOrdermodel.m in Sources */,
 				45D4FEA21E7A4360005958E3 /* Province.m in Sources */,
 				45C6F5611C929FD000C5AA31 /* ScrollModel.m in Sources */,
@@ -2762,9 +2823,11 @@
 				A31287AC1CCF165D00CB887E /* UpdateService.m in Sources */,
 				455C8AA01CCF7827001F5FC5 /* RSADataVerifier.m in Sources */,
 				455C8A9E1CCF7827001F5FC5 /* openssl_wrapper.m in Sources */,
+				45494F131E8B9D770063391C /* UITextField+IndexPath.m in Sources */,
 				45CA522A1DE452270025A376 /* MJRefreshBackNormalFooter.m in Sources */,
 				459C432C1DED72B000437712 /* XBTagTitleModel.m in Sources */,
 				45CA522C1DE452270025A376 /* MJRefreshGifHeader.m in Sources */,
+				45494F011E8B4D200063391C /* gameToMapPush.m in Sources */,
 				4556117A1D543E75006DF063 /* CustomAnimateTransitionPush.m in Sources */,
 				4569E5581C4CB64B00FF4E8B /* ToolView.m in Sources */,
 				45C6F5A81C92A25600C5AA31 /* ActCell.m in Sources */,
@@ -2789,6 +2852,8 @@
 				45FD83531E80D4E000C4D37A /* QDXHomeTableViewCell.m in Sources */,
 				45D6E6CB1E0115A2004EFF15 /* QDXActivityViewController.m in Sources */,
 				455A95BB1C97E3EB0039FA88 /* NSObject+MJCoding.m in Sources */,
+				45FD835B1E8286A200C4D37A /* editMineInfoViewController.m in Sources */,
+				452577B81E8A48D0000F5F4D /* HistoryList.m in Sources */,
 				453395091CF6D8C800B5A825 /* UIColor+flat.m in Sources */,
 				451BDEBE1DF54F1C00008959 /* SGNetObserver.m in Sources */,
 				45B25AC51E76665D00C0B518 /* UIButton+AFNetworking.m in Sources */,
@@ -2816,6 +2881,7 @@
 				4569E56E1C4CB64B00FF4E8B /* UIApplication+JTSImageViewController.m in Sources */,
 				4569E56F1C4CB64B00FF4E8B /* UIImage+JTSImageEffects.m in Sources */,
 				4569E5701C4CB64B00FF4E8B /* bitstream.c in Sources */,
+				45494F041E8B4FC20063391C /* mapToGamePop.m in Sources */,
 				455611801D543E75006DF063 /* ZBFallenBricksAnimator.m in Sources */,
 				4571CDF31CE05B00002ED784 /* CYAlertPresentSlideDown.m in Sources */,
 				459C432B1DED72B000437712 /* XBScrollPageController.m in Sources */,
@@ -2824,6 +2890,7 @@
 				45D4FE931E7A4360005958E3 /* GoodstatusList.m in Sources */,
 				4556CD711CEDC5CF00577A61 /* SignViewController.m in Sources */,
 				459C432D1DED72B000437712 /* XBPageCell.m in Sources */,
+				458EC8A41E83AA2A00C54097 /* BaseGameViewController.m in Sources */,
 				A35DAC361CCF184000D01CF0 /* AFURLResponseSerialization.m in Sources */,
 				45C6F5891C92A10300C5AA31 /* QDXDetailsModel.m in Sources */,
 				4556CD6E1CED672600577A61 /* QDXMap.m in Sources */,
@@ -2892,6 +2959,7 @@
 				4571CDEA1CE05B00002ED784 /* CYAlertDismissFadeOut.m in Sources */,
 				4569E57E1C4CB64B00FF4E8B /* SDImageCache.m in Sources */,
 				45C6F5C81C92A36200C5AA31 /* OrderController.m in Sources */,
+				4525779D1E88AC5D000F5F4D /* TaskLocationModel.m in Sources */,
 				45C6F5601C929FD000C5AA31 /* ImageModel.m in Sources */,
 				45C6F60A1C92A43A00C5AA31 /* QDXChangePwdViewController.m in Sources */,
 				45F6642F1DCB1DDC00C33FAF /* DWViewCell.m in Sources */,
@@ -2910,6 +2978,7 @@
 				45C6F5AE1C92A27100C5AA31 /* ScrollView.m in Sources */,
 				45F6642E1DCB1DDC00C33FAF /* DWFlowLayout.m in Sources */,
 				4571CDE71CE05B00002ED784 /* CYAlertController.m in Sources */,
+				452577B51E8A489C000F5F4D /* HistoryModel.m in Sources */,
 				45D4FE8C1E7A4360005958E3 /* County.m in Sources */,
 				45C6F5CC1C92A38600C5AA31 /* QDXNavigationController.m in Sources */,
 				4569E5841C4CB64B00FF4E8B /* SDWebImagePrefetcher.m in Sources */,
@@ -2930,7 +2999,6 @@
 				4569E5871C4CB64B00FF4E8B /* UIImage+MultiFormat.m in Sources */,
 				45CA52301DE452270025A376 /* MJRefreshConst.m in Sources */,
 				45C6F5F71C92A3DF00C5AA31 /* QDXLineChooseViewController.m in Sources */,
-				45C6F5C31C92A32C00C5AA31 /* myViewController.m in Sources */,
 				451A14401DC7375A003B8805 /* XDMultTableView.m in Sources */,
 				45B25ADD1E76667600C0B518 /* PPNetworkHelper.m in Sources */,
 				A3413EC21C97F565009332B3 /* HomeService.m in Sources */,
@@ -2952,7 +3020,9 @@
 				45C6F5991C92A1D500C5AA31 /* MineCell.m in Sources */,
 				A31822181C92B87C00A1882B /* LoginService.m in Sources */,
 				4571CDF71CE05B00002ED784 /* CYAlertPresentSystem.m in Sources */,
+				45494F161E8B9E830063391C /* TextFieldTableViewCell.m in Sources */,
 				45C6F5A41C92A20400C5AA31 /* QDXTicketTableViewCell.m in Sources */,
+				452577AC1E890B62000F5F4D /* MapViewController.m in Sources */,
 				4556117F1D543E75006DF063 /* UIViewController+Animator.m in Sources */,
 				45CA522B1DE452270025A376 /* MJRefreshBackStateFooter.m in Sources */,
 				45D4FEA41E7A4360005958E3 /* Sysuser.m in Sources */,
@@ -2967,6 +3037,7 @@
 				45C6F60B1C92A43A00C5AA31 /* QDXForgetPasswordViewController.m in Sources */,
 				4549C76C1DBE108300180FB5 /* LBTabBar.m in Sources */,
 				4571CDF41CE05B00002ED784 /* CYAlertPresentSlideLeft.m in Sources */,
+				45494F101E8B937F0063391C /* TeamModel.m in Sources */,
 				45D4FE8D1E7A4360005958E3 /* CountyList.m in Sources */,
 				45C6F5E11C92A39300C5AA31 /* QDXPayTableViewController.m in Sources */,
 				459E69F61DF7BC6700D5C9F9 /* QDXTicketSuccessViewController.m in Sources */,
@@ -2990,6 +3061,7 @@
 				4569E59E1C4CB64B00FF4E8B /* AppDelegate.m in Sources */,
 				452594501D51A0D1002BF84B /* LocalSqlliteService.m in Sources */,
 				45B25AC61E76665D00C0B518 /* UIImageView+AFNetworking.m in Sources */,
+				45494F071E8B60310063391C /* codeWebViewController.m in Sources */,
 				4569E5A01C4CB64B00FF4E8B /* main.m in Sources */,
 				45D4FEA61E7A4360005958E3 /* Utilstatus.m in Sources */,
 				4571CDF51CE05B00002ED784 /* CYAlertPresentSlideRight.m in Sources */,

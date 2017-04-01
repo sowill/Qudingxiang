@@ -222,31 +222,18 @@ static AFHTTPSessionManager *_sessionManager;
 + (NSURLSessionTask *)uploadImagesWithURL:(NSString *)URL
                                parameters:(NSDictionary *)parameters
                                      name:(NSString *)name
-                                   images:(NSArray<UIImage *> *)images
-                                fileNames:(NSArray<NSString *> *)fileNames
-                               imageScale:(CGFloat)imageScale
+                                    imageData:(NSData *)imageData
+                                 fileName:(NSString *)fileName
                                 imageType:(NSString *)imageType
                                  progress:(PPHttpProgress)progress
                                   success:(PPHttpRequestSuccess)success
                                   failure:(PPHttpRequestFailed)failure {
     NSURLSessionTask *sessionTask = [_sessionManager POST:URL parameters:parameters constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-        
-        for (NSUInteger i = 0; i < images.count; i++) {
-            // 图片经过等比压缩后得到的二进制文件
-            NSData *imageData = UIImageJPEGRepresentation(images[i], imageScale ?: 1.f);
-            // 默认图片的文件名, 若fileNames为nil就使用
-            
-            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-            formatter.dateFormat = @"yyyyMMddHHmmss";
-            NSString *str = [formatter stringFromDate:[NSDate date]];
-            NSString *imageFileName = NSStringFormat(@"%@%ld.%@",str,i,imageType?:@"jpg");
-            
+
             [formData appendPartWithFileData:imageData
                                         name:name
-                                    fileName:fileNames ? NSStringFormat(@"%@.%@",fileNames[i],imageType?:@"jpg") : imageFileName
-                                    mimeType:NSStringFormat(@"image/%@",imageType ?: @"jpg")];
-        }
-        
+                                    fileName:fileName
+                                    mimeType:imageType];
     } progress:^(NSProgress * _Nonnull uploadProgress) {
         //上传进度
         dispatch_sync(dispatch_get_main_queue(), ^{

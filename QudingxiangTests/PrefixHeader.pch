@@ -18,12 +18,13 @@
 #import <AMapFoundationKit/AMapFoundationKit.h>
 #import <objc/runtime.h>
 #import "UIControl+UIControl_buttonCon.h"
-#import "AppDelegate.h"
 #import "PPNetworkHelper.h"
 #endif
 
 #define kWeChat_KEY       @"wxd7bdc3ac4f2505fe"
 #define kWeChat_Secret    @"d4624c36b6795d1d99dcf0547af5443d"
+#define AMap_KEY       @"deebe04a4a659c7c40eeeaad2e4b97cf"
+#define QQ_KEY       @"1104830915"
 
 #define QdxWidth [UIScreen mainScreen].bounds.size.width
 #define QdxHeight [UIScreen mainScreen].bounds.size.height
@@ -50,20 +51,8 @@
 
 #define QDXGreen UIColorFromRGB(0x2fbd47)
 
-//是否提示
-#define     QDXPromptFile [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"prompt.data"]
+#define QDXLightBlue UIColorFromRGB(0x66c3ff)
 
-//记住token
-#define     XWLAccountFile [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"XWLAccount.data"]
-
-#define    QDXTicketFile [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"QDXTicket.data"]
-
-//存储当前myLineid
-#define    QDXMyLineFile [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"QDXMyLine.data"]
-
-#define    QDXCurrentMyLineFile [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"QDXCurrentMyLine.data"]
-
-#define QDXVersion  [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"QDXVersion.data"]
 
 #define QDXGoods  [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"QDXGoods.data"]
 
@@ -71,19 +60,23 @@
 
 #define VGoods   [NSKeyedUnarchiver unarchiveObjectWithFile:QDXGoods]
 
-#define VLine   [NSKeyedUnarchiver unarchiveObjectWithFile:QDXMyline]
 
-#define promptStr   [NSKeyedUnarchiver unarchiveObjectWithFile:QDXPromptFile]
 
-#define Version  [NSKeyedUnarchiver unarchiveObjectWithFile:QDXVersion]
+#define accountFile [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject]
 
-#define saveTicket_id [NSKeyedUnarchiver unarchiveObjectWithFile:QDXTicketFile]
+#pragma mark ——————————————————————————————————————————
 
-#define save [NSKeyedUnarchiver unarchiveObjectWithFile:XWLAccountFile]
+#define    QDXCurrentMyLineFile [[NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"QDXCurrentMyLine.data"]
 
 #define mylineid [NSKeyedUnarchiver unarchiveObjectWithFile:QDXCurrentMyLineFile]
 
-#define accountFile [NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES) lastObject]
+#define Version  [NSKeyedUnarchiver unarchiveObjectWithFile:QDXVersion]
+
+#define QDXVersion  [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"QDXVersion.data"]
+
+#define     XWLAccountFile [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"XWLAccount.data"]
+
+#define save [NSKeyedUnarchiver unarchiveObjectWithFile:XWLAccountFile]
 
 #define hostUrl @"https://www.qudingxiang.cn/"
 
@@ -171,6 +164,9 @@
 //验证码登录 参数customer_code,customer_vcode
 #define vcodeLoginUrl @"Home/Customer/vcodeLogin"
 
+//QQ或微信登录 参数customer_qid,customer_wxid
+#define qvLoginUrl @"Home/Customer/qvLogin"
+
 //QQ或微信绑定 参数customer_code,customer_pwd,customer_qid,customer_wxid
 #define bindUrl @"Home/Customer/bind"
 
@@ -179,6 +175,9 @@
 
 //获取注册验证码 参数customer_code
 #define setVcodeUrl @"Home/Customer/setVcode"
+
+//验证注册验证码 参数customer_code,customer_vcode
+#define validateCodeUrl @"Home/Customer/validateCode"
 
 //注册 参数customer_cn,customer_code,customer_pwd
 #define registerUrl @"Home/Customer/register"
@@ -200,3 +199,45 @@
 
 //选择线路 参数customer_token,ticketinfo_cn,line_id
 #define selectMylineUrl @"Home/Myline/selectMyline"
+
+//头像上传 还有点问题
+#define getImageUrl @"Home/Upmfile/upfile"
+
+//活动结束 参数customer_token，myline_id
+#define gameoverUrl @"Home/Myline/gameover"
+
+//刷新当前活动状态 参数myline_id
+#define taskRefreshUrl @"Home/Task/refresh"
+
+//获取当前线路的点标及地图 参数myline_id
+#define taskLocationUrl @"Home/Task/location"
+
+//当前线路页面（web访问) 参数myline_id
+#define taskIndexUrl @"Home/Task/index"
+
+//当前任务页面（web访问）感应后或打开任务书 参数myline_id,imei,pointmap_mac,pointmap_qr
+#define taskTaskUrl @"Home/Task/task"
+
+//足迹 参数myline_id
+#define historyUrl @"Home/Task/history"
+
+//完赛证书 参数myline_id
+#define toimgUrl @"Home/Cert/toimg"
+
+//历史任务 参数pointmap_id
+#define pointhistoryUrl @"Home/Task/pointhistory"
+
+//赛事活动详情页面 参数goods_id
+#define goodsIndexUrl @"Home/Goods/index"
+
+//获取队伍信息 参数myline_id
+#define getTeamUrl @"Home/Team/getTeam"
+
+//设置队伍信息 参数myline_id（必填) myline_team（队名必填） team_cn（队长必填）team_cn2（队员1） team_cn3（队员2）team_cn4（队员3）team_cn5（队员4）
+#define setTeamUrl @"Home/Team/setTeam"
+
+//获取组队二维码 参数myline_id
+#define teamqrcodeUrl @"Home/Team/teamqrcode"
+
+//协议
+#define protocolUrl @"Home/Util/protocol"

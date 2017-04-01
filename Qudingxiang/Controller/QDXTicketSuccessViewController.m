@@ -36,7 +36,7 @@
 
 -(void)changeState
 {
-    NSString *isHave = [NSKeyedUnarchiver unarchiveObjectWithFile:QDXMyLineFile];
+    NSString *isHave = [NSKeyedUnarchiver unarchiveObjectWithFile:QDXCurrentMyLineFile];
     if (isHave) {
         QDXGameViewController *game = [[QDXGameViewController alloc] init];
         [self.navigationController pushViewController:game animated:YES];

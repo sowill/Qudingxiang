@@ -7,7 +7,8 @@
 //
 
 #import "LineCell.h"
-#import "LineModel.h"
+#import "Line.h"
+
 @interface LineCell()
 {
     UILabel *_desLabel;
@@ -15,7 +16,6 @@
     UIImageView *_imageView;
     UIButton *_quickBtn;
     UIButton *_detailBtn;
-    
 }
 @end
 @implementation LineCell
@@ -72,11 +72,12 @@
     }
     
 }
-- (void)setLineModel:(LineModel *)lineModel
+
+-(void)setLine:(Line *)line
 {
-    _lineModel = lineModel;
-    _desLabel.text = [NSString stringWithFormat:@"%@",lineModel.line_name];
-    _nameLabel.text = [NSString stringWithFormat:@"%@",lineModel.line_sub];
+    _line = line;
+    _desLabel.text = [NSString stringWithFormat:@"%@",line.line_cn];
+    _nameLabel.text = [NSString stringWithFormat:@"%@",line.utilstatus_id];
 }
 
 -(void)setSelect:(NSInteger)select{
@@ -87,10 +88,6 @@
         [_imageView setImage:[UIImage imageNamed:@"勾选选中"]];
     }
     
-}
-
--(void)setRow:(NSInteger)row{
-    _row = row;
 }
 
 - (void)awakeFromNib {

@@ -175,6 +175,7 @@
         [self presentViewController:alert animated:YES completion:nil];
     }
 }
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return FitRealValue(100);

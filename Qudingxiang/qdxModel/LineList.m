@@ -6,11 +6,8 @@
 
 -(id)initWithDic:(NSDictionary *) infoDict{
 		if(self=[super init]){
-			_count= infoDict[@"count"];
-			_allpage= infoDict[@"page"];
-			_curr=infoDict[@"curr"];
-			_curr=infoDict[@"curr"];
-			 NSDictionary *dicData = infoDict[@"data"];
+			_Code= infoDict[@"Code"];
+			 NSDictionary *dicData = infoDict[@"Msg"];
 			 if([dicData isEqual:[NSNull null]]){
 				 NSLog(@" dicData data is null!");
 			 }else{

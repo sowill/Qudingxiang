@@ -10,6 +10,11 @@
 
 @implementation CheckDataTool
 
++ (BOOL) checkForWeb:(NSString *)web{
+    NSString *regEx = @"^([hH][tT]{2}[pP]://|[hH][tT]{2}[pP][sS]://)";
+    return [self baseCheckForRegEx:regEx data:web];
+}
+
 #pragma mark - 邮箱校验
 +(BOOL)checkForEmail:(NSString *)email{
     

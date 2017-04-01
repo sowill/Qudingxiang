@@ -7,32 +7,23 @@
 //
 
 #import "LBTabBarController.h"
-
 #import "HomeController.h"
 #import "ActivityController.h"
 #import "OrderController.h"
 #import "MoreViewController.h"
 #import "MineViewController.h"
-
 #import "QDXNavigationController.h"
-#import "QDXGameViewController.h"
+#import "BaseGameViewController.h"
 #import "LineController.h"
 #import "QDXProtocolViewController.h"
-#import "AppDelegate.h"
-
 #import "QDXLoginViewController.h"
-
 #import "LBTabBar.h"
 #import "UIImage+Image.h"
 #import "UIView+LBExtension.h"
+
 #define LBMagin 10
 @interface LBTabBarController ()<LBTabBarDelegate>
-{
-    NSInteger _line;
-    NSInteger _code;
-    NSString *_line_id;
-    NSString *_ticket;
-}
+
 @property (nonatomic, strong) UIButton *publishButton;
 @property (nonatomic, assign) long indexFlag;
 @end
@@ -141,20 +132,7 @@
 //点击中间按钮的代理方法
 - (void)tabBarPlusBtnClick:(LBTabBar *)tabBar
 {
-    AppDelegate *_delegate = [[UIApplication sharedApplication] delegate];
-    _code = [_delegate.code intValue];
-    _ticket = _delegate.ticket;
-    if(_delegate.loading){
-        UIAlertController *aalert = [UIAlertController alertControllerWithTitle:@"提示" message:@"加载中请稍后" preferredStyle:UIAlertControllerStyleAlert];
-        [aalert addAction:[UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action) {
-            
-        }]];
-        [self presentViewController:aalert animated:YES completion:nil];
-        
-        return;
-    }
     if(save == nil){
-        
         UIAlertController *aalert = [UIAlertController alertControllerWithTitle:@"提示" message:@"请立即登录使用此功能" preferredStyle:UIAlertControllerStyleAlert];
         [aalert addAction:[UIAlertAction actionWithTitle:@"暂不登录" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action) {
             
@@ -169,42 +147,36 @@
         [self presentViewController:aalert animated:YES completion:nil];
         
     }else{
-        if(_code == 0){
-            
-            UIAlertController *aalert = [UIAlertController alertControllerWithTitle:@"提示" message:@"请购买活动券" preferredStyle:UIAlertControllerStyleAlert];
-            [aalert addAction:[UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action) {
+        [self getMyline];
+    }
+}
+
+-(void)getMyline
+{
+    NSString *url = [newHostUrl stringByAppendingString:getMylineUrl];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"customer_token"] = save;
+    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
+        if ([responseObject[@"Code"] intValue] == 0) {
+            UIAlertController *aalert = [UIAlertController alertControllerWithTitle:@"提示" message:responseObject[@"Msg"]preferredStyle:UIAlertControllerStyleAlert];
+            [aalert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action) {
                 
             }]];
             [self presentViewController:aalert animated:YES completion:nil];
+        }else{
+#warning 待删除
+            [NSKeyedArchiver archiveRootObject:responseObject[@"Msg"] toFile:QDXCurrentMyLineFile];
             
-        }else if(_code == 2){
-            LineController *lineVC = [[LineController alloc] init];
-            lineVC.click = @"1";
-            lineVC.ticketID = _ticket;
-            QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:lineVC];
+            BaseGameViewController *game = [[BaseGameViewController alloc] init];
+            game.myline_id = responseObject[@"Msg"];
+            QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:game];
             [self presentViewController:nav animated:YES completion:^{
-                
+                    
             }];
-            
-        }else if(_code == 1){
-            NSString *isHave = [NSKeyedUnarchiver unarchiveObjectWithFile:QDXMyLineFile];
-            if (isHave) {
-                QDXGameViewController *game = [[QDXGameViewController alloc] init];
-                QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:game];
-                [self presentViewController:nav animated:YES completion:^{
-                    
-                }];
-            }else{
-                QDXProtocolViewController *viewController = [[QDXProtocolViewController alloc] init];
-                QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:viewController];
-                [self presentViewController:nav animated:YES completion:^{
-                    
-                }];
-            }
         }
+    } failure:^(NSError *error) {
         
-    }
-    
+    }];
 }
 
 @end

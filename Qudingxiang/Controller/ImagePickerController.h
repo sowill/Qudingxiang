@@ -7,7 +7,6 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "StartModel.h"
 @protocol imgPassTicketIDDelegate
 - (void)PassTicket:(NSString *)tictet andClick:(NSString *)click;
 @end

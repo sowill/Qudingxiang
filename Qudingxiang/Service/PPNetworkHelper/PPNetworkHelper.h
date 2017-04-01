@@ -236,9 +236,8 @@ typedef void(^PPNetworkStatus)(PPNetworkStatusType status);
 + (__kindof NSURLSessionTask *)uploadImagesWithURL:(NSString *)URL
                                         parameters:(NSDictionary *)parameters
                                               name:(NSString *)name
-                                            images:(NSArray<UIImage *> *)images
-                                         fileNames:(NSArray<NSString *> *)fileNames
-                                        imageScale:(CGFloat)imageScale
+                                             imageData:(NSData *)imageData
+                                          fileName:(NSString *)fileName
                                          imageType:(NSString *)imageType
                                           progress:(PPHttpProgress)progress
                                            success:(PPHttpRequestSuccess)success

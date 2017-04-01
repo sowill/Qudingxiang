@@ -7,31 +7,28 @@
 //
 
 #import "MineLineController.h"
-#import "MineModel.h"
-#import "QDXGameViewController.h"
+
+#import "BaseGameViewController.h"
 #import "MineCell.h"
 #import "QDXNavigationController.h"
-#import "MineCellService.h"
+#import "QDXStateView.h"
+#import "MylineList.h"
+#import "Myline.h"
 
-@interface MineLineController ()<UITableViewDataSource,UITableViewDelegate>
+@interface MineLineController ()<UITableViewDataSource,UITableViewDelegate,StateDelegate>
 {
     UITableView *_tableView;
     NSMutableArray *_dataArr;
+    NSMutableArray *_myline_idArr;
     NSString *_myline_id;
     int curr;
     int page;
     int count;
 }
+@property (nonatomic, strong) QDXStateView *noThingView;
 @end
 
 @implementation MineLineController
-
-- (void)viewDidAppear:(BOOL)animated
-{
-    [super viewDidAppear:animated];
-    
-    [self netData];
-}
 
 -(void)reloadData
 {
@@ -42,17 +39,8 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"我的路线";
-
+    [self netData];
     [self createUI];
-
-    if ([_tableView respondsToSelector:@selector(setSeparatorInset:)])
-    {
-        [_tableView setSeparatorInset:UIEdgeInsetsZero];
-    }
-    if ([_tableView respondsToSelector:@selector(setLayoutMargins:)])
-    {
-        [_tableView setLayoutMargins:UIEdgeInsetsZero];
-    }
 }
 
 - (void)createUI
@@ -124,47 +112,54 @@
 
 - (void)netData
 {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-    MineCellService *mineCell = [MineCellService sharedInstance];
-    [mineCell cellDatasucceed:^(id data) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments | NSJSONReadingMutableLeaves error:nil];
+    _dataArr = [NSMutableArray arrayWithCapacity:0];
+    _myline_idArr = [NSMutableArray arrayWithCapacity:0];
+    NSString *url = [newHostUrl stringByAppendingString:getListUrl];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"customer_token"] = save;
+    params[@"curr"] = [NSString stringWithFormat:@"%d",curr];
+    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
         
-        if ([dict[@"Code"] intValue] == 0) {
-            
+        MylineList *mylineList = [[MylineList alloc] initWithDic:responseObject];
+        count = [mylineList.count intValue];
+        curr = [mylineList.curr intValue];
+        page = [mylineList.allpage intValue];
+        
+        [_noThingView removeFromSuperview];
+        if (count == 0) {
+            [self createSadViewWithDetail: @"还没有线路哦~"];
         }else{
-            NSArray *dictData = dict[@"Msg"][@"data"];
-            if([dictData isEqual:[NSNull null]]){
-                
-                UIAlertController *aalert = [UIAlertController alertControllerWithTitle:@"提示" message:@"您当前没有路线" preferredStyle:UIAlertControllerStyleAlert];
-                [aalert addAction:[UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action) {
-                    
-                }]];
-                
-                [self presentViewController:aalert animated:YES completion:nil];
-                
-            }else{
-                curr = [dict[@"Msg"][@"curr"] intValue];
-                page = [dict[@"Msg"][@"page"] intValue];
-                
-                if(curr ==1){
-                    _dataArr = [NSMutableArray arrayWithCapacity:0];
-                }
-
-                for(NSDictionary *dict in dictData){
-                    MineModel *model = [[MineModel alloc] init];
-                    [model setValuesForKeysWithDictionary:dict];
-                    [_dataArr addObject:model];
-                }
-                [_tableView reloadData];
-                [_tableView.mj_footer endRefreshing];
+            
+            for (Myline *myline in mylineList.mylineArray) {
+                [_dataArr addObject:myline];
+                [_myline_idArr addObject:myline.myline_id];
             }
+            [_tableView reloadData];
         }
-
-    } failure:^(NSError *error) {
-
-    }andWithCurr:[NSString stringWithFormat:@"%d",curr]];
         
-    });
+    } failure:^(NSError *error) {
+        
+    }];
+}
+
+-(void)changeState
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)createSadViewWithDetail :(NSString *)detail
+{
+    _noThingView = [[QDXStateView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight - 49)];
+    _noThingView.tag = 2;
+    _noThingView.delegate = self;
+    _noThingView.stateImg.image = [UIImage imageNamed:@"order_nothing"];
+    if ([detail length] == 0) {
+        _noThingView.stateDetail.text = @"还没有线路哦~";
+    }else{
+        _noThingView.stateDetail.text = detail;
+    }
+    [_noThingView.stateButton setTitle:@"返回上一页" forState:UIControlStateNormal];
+    [self.view addSubview:_noThingView];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -187,7 +182,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     MineCell *cell = [MineCell baseCellWithTableView:_tableView];
-    cell.model = _dataArr[indexPath.row];
+    cell.myline = _dataArr[indexPath.row];
     cell.selectionStyle = UITableViewCellSelectionStyleNone; 
     return cell;
 }
@@ -200,9 +195,10 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    QDXGameViewController *gameVC = [[QDXGameViewController alloc] init];
+    
+    BaseGameViewController *gameVC = [[BaseGameViewController alloc] init];
 
-    gameVC.model = _dataArr[indexPath.row];
+    gameVC.myline_id = _myline_idArr[indexPath.row];
     
     [self.navigationController pushViewController:gameVC animated:YES];
 }

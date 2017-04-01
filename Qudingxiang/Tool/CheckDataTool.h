@@ -13,6 +13,14 @@
 /**
  *  邮箱验证
  *
+ *  @param web 网址
+ *
+ *  @return YES:正确  NO:失败
+ */
++ (BOOL) checkForWeb:(NSString *)web;
+/**
+ *  邮箱验证
+ *
  *  @param email 邮箱
  *
  *  @return YES:正确  NO:失败

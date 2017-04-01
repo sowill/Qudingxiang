@@ -19,7 +19,8 @@ typedef void(^dismissWithOperation)();
 
 typedef NS_ENUM(NSUInteger, LrdOutputViewDirection) {
     kLrdOutputViewDirectionLeft = 1,
-    kLrdOutputViewDirectionRight
+    kLrdOutputViewDirectionRight,
+    kLrdOutputViewDirectionTop
 };
 
 @interface LrdOutputView : UIView

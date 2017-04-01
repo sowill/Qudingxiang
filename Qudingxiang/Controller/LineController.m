@@ -7,19 +7,16 @@
 //
 
 #import "LineController.h"
-#import "QDXLineDetailViewController.h"
-#import "HomeController.h"
 #import "LineCell.h"
-#import "LineModel.h"
-#import "HomeModel.h"
+#import "LineList.h"
+#import "Line.h"
 #import "QDXLineChooseViewController.h"
-#import "ImagePickerController.h"
-#import "QDXGameViewController.h"
-#import "QDXProtocolViewController.h"
-//#import "TabbarController.h"
+
+#import "BaseGameViewController.h"
+
 #import "QDXNavigationController.h"
-#import "AppDelegate.h"
-@interface LineController ()<UITableViewDataSource,UITableViewDelegate,PassTicketIDDelegate>
+
+@interface LineController ()<UITableViewDataSource,UITableViewDelegate>
 {
     UITableView *_tableView;
     NSMutableArray *_dataArr;
@@ -27,7 +24,7 @@
     UIImageView *_imageView;
     UIButton *_button;
     NSInteger _state;
-    NSString *_str;
+
     NSInteger *_row;
 }
 @property(nonatomic,strong)NSMutableArray * dataA;
@@ -43,9 +40,6 @@
     _isEnterToGame = NO;
     [self btnData];
     [self createTableView];
-
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noti2) name:@"noti2" object:nil];
-    //[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noti3) name:@"noti3" object:nil];
 }
 
 -(void)reloadData
@@ -53,19 +47,6 @@
     [self btnData];
 }
 
--(void)noti3
-{
-    [self dismissViewControllerAnimated:YES completion:^{
-        
-    }];
-}
-
-- (void)noti2
-{
-    [self dismissViewControllerAnimated:YES completion:^{
-        
-    }];
-}
 - (void)createTableView
 {
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight  - 64) style:UITableViewStylePlain];
@@ -101,54 +82,13 @@
     }
 }
 
--(void)dealloc
-
-{
-    //移除观察者，Observer不能为nil
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-}
-
 - (void)btnData
 {
-    NSString *url = [NSString stringWithFormat:@"%@%@",hostUrl,ticketUrl];
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"TokenKey"] = save;
-    params[@"ticket_id"] = self.ticketID;
-    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dict1 = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        NSDictionary *dict = [[NSDictionary alloc] initWithDictionary:dict1];
-        if ([dict[@"Code"] intValue] == 0) {
-            
-        }else{
-            //将字典转模型
-            NSDictionary *dictArr = dict[@"Msg"][@"data"];
-            _dataArr = [NSMutableArray arrayWithCapacity:0];
-            for(NSDictionary *dict in dictArr){
-                LineModel *model = [[LineModel alloc] init];
-                [model setValuesForKeysWithDictionary:dict[@"line"]];
-                [model setLine_code:@"1"];
-                if(_isEnterToGame){
-                    [model setLine_line:@"1"];
-                }else
-                {
-                    [model setLine_line:@"0"];
-                }
-                [_dataArr addObject:model];
-            }
-        }
-        [_tableView reloadData];
-
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-    }];
-    
-    
+    _dataArr = [NSMutableArray arrayWithCapacity:0];
+    for (Line *line in _lineList.lineArray) {
+        [_dataArr addObject:line];
+    }
+    [_tableView reloadData];
 }
 
 
@@ -161,7 +101,7 @@
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     LineCell *cell = [LineCell baseCellWithTableView:_tableView];
-    cell.lineModel = _dataArr[indexPath.row];
+    cell.line = _dataArr[indexPath.row];
     cell.select = 0;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
     cell.detailClick= ^(){
@@ -169,39 +109,38 @@
         choiceVC.model = _dataArr[indexPath.row];
         [self.navigationController pushViewController:choiceVC animated:YES];
     };
+    
+    __weak __typeof(cell) weakSelf = cell;
     cell.quickClick = ^(){
-        
-        cell.select = 1;
-        _str = cell.lineModel.line_id;
-        
+        __strong __typeof(cell) strongSelf = weakSelf;
+        strongSelf.select = 1;
         UIAlertController *aalert = [UIAlertController alertControllerWithTitle:@"提示" message:@"您确定要选择本条线路吗?" preferredStyle:UIAlertControllerStyleAlert];
         [aalert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action) {
-            
+            strongSelf.select = 0;
         }]];
         [aalert addAction:[UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action) {
             
-            AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-            mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
+            strongSelf.select = 1;
+            
+            NSString *url = [newHostUrl stringByAppendingString:selectMylineUrl];
             NSMutableDictionary *params = [NSMutableDictionary dictionary];
-            params[@"TokenKey"] = save;
-            params[@"line_id"] = _str;
-            NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Myline/selectMyline"];
-            [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-                
-                
-            } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-                NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-                NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
-                int ret = [infoDict[@"Code"] intValue];
+            params[@"customer_token"] = save;
+            params[@"line_id"] = strongSelf.line.line_id;
+            params[@"ticketinfo_cn"] = _ticketID;
+            [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
+                int ret = [responseObject[@"Code"] intValue];
                 if (ret == 1) {
-                    QDXProtocolViewController *viewController = [[QDXProtocolViewController alloc] init];
-                    [self.navigationController pushViewController:viewController animated:YES];
+                    BaseGameViewController *viewController = [[BaseGameViewController alloc] init];
+                    QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:viewController];
+                    [self.navigationController presentViewController:nav animated:YES completion:^{
+                        
+                    }];
                 }else{
-                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:[NSString stringWithFormat:@"%@",infoDict[@"Msg"]] delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
+                    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:[NSString stringWithFormat:@"%@",responseObject[@"Msg"]] delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];
                     [alert show];
                     [_tableView reloadData];
                 }
-            } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+            } failure:^(NSError *error) {
                 
             }];
             
@@ -225,27 +164,8 @@
     
 }
 
-- (void)PassTicket:(NSString *)tictet andClick:(NSString *)click
-{
-    _ticketID = tictet;
-    self.click = click;
-}
-
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
- #pragma mark - Navigation
- 
- // In a storyboard-based application, you will often want to do a little preparation before navigation
- - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
- // Get the new view controller using [segue destinationViewController].
- // Pass the selected object to the new view controller.
- }
- */
-
-
-
 @end

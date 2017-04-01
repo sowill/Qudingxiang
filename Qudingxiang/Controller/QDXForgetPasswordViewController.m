@@ -7,10 +7,11 @@
 //
 
 #import "QDXForgetPasswordViewController.h"
-#import "QDXIsConnect.h"
 #import "QDXLoginViewController.h"
 #import "QDXChangePwdViewController.h"
 #import "CheckDataTool.h"
+
+#import "Customer.h"
 
 @interface QDXForgetPasswordViewController ()<UITextFieldDelegate>
 {
@@ -153,29 +154,22 @@
     
     [self performSelector:@selector(reflashGetKeyBt:) withObject:[NSNumber numberWithInt:60] afterDelay:0];
     
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
+    NSString *url = [newHostUrl stringByAppendingString:getVcodeUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"code"] = [NSString stringWithFormat:@"%@", username];
-    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Customer/getVcode"];
-    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
+    params[@"customer_code"] = [NSString stringWithFormat:@"%@", username];
+    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
         
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
-        QDXIsConnect *isConnect = [QDXIsConnect mj_objectWithKeyValues:dict];
-        int ret = [isConnect.Code intValue];
+        int ret = [responseObject[@"Code"] intValue];
         if (ret==1) {
             [MBProgressHUD showSuccess:@"请输入验证码"];
-        }
-        else{
-            NSString *showerror = [infoDict objectForKey:@"Msg"];
+        }else{
+            NSString *showerror = responseObject[@"Msg"];
             [MBProgressHUD showError:showerror];
         }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    } failure:^(NSError *error) {
         
     }];
+
 }
 
 - (void)reflashGetKeyBt:(NSNumber *)second{
@@ -183,7 +177,7 @@
     {
         
         getCodeBtn.enabled=YES;
-        timeLabel.text = @"点击获取验证码";
+        timeLabel.text = @"获取验证码";
     }
     else
     {
@@ -203,36 +197,26 @@
         [MBProgressHUD showError:@"请输入正确的手机号"];
         return;
     }
-
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
+    
+    NSString *url = [newHostUrl stringByAppendingString:vcodeLoginUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"code"] = [NSString stringWithFormat:@"%@", username];
-    params[@"vcode"] = [NSString stringWithFormat:@"%@", getcode];
-    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Customer/vcodeLogin"];
-    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
+    params[@"customer_code"] = [NSString stringWithFormat:@"%@", username];
+    params[@"customer_vcode"] = [NSString stringWithFormat:@"%@", getcode];
+    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
         
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
-        //将字典转模型
-        QDXIsConnect *isConnect = [QDXIsConnect mj_objectWithKeyValues:dict];
-        
-        int ret = [isConnect.Code intValue];
+        int ret = [responseObject[@"Code"] intValue];
         if (ret==1) {
-            //存储Token信息
-            [NSKeyedArchiver archiveRootObject:isConnect.Msg[@"token"] toFile:XWLAccountFile];
+            Customer *customer = [[Customer alloc] initWithDic:responseObject[@"Msg"]];
+            [NSKeyedArchiver archiveRootObject:customer.customer_token toFile:XWLAccountFile];
             
-            //切换窗口根控制器
             QDXChangePwdViewController *viewController = [[QDXChangePwdViewController alloc] init];
             [self.navigationController pushViewController:viewController animated:YES];
-        }
-        else{
-            NSString *showerror = [infoDict objectForKey:@"Msg"];
+        }else{
+            NSString *showerror = responseObject[@"Msg"];
             [MBProgressHUD showError:showerror];
         }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    } failure:^(NSError *error) {
         
     }];
     

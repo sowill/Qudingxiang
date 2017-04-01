@@ -7,8 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
-@class MineModel;
+@class Myline;
 @interface MineCell : UITableViewCell
-@property (nonatomic, strong)MineModel *model;
+@property (nonatomic, strong)Myline *myline;
 + (instancetype)baseCellWithTableView:(UITableView *)tableView;
 @end

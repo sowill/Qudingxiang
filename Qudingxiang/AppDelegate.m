@@ -7,43 +7,33 @@
 //
 
 #import "AppDelegate.h"
-
 #import "QDXNavigationController.h"
-#import "MineViewController.h"
 #import "GuideViewController.h"
 #import "LBTabBarController.h"
+#import "Customer.h"
 
-@interface AppDelegate ()<UIScrollViewDelegate>
-{
-    UIBackgroundTaskIdentifier backgroundTask;
-    NSUInteger counter;
-    UIScrollView *_sv;
-    UIPageControl *_pc;
-}
+@interface AppDelegate ()
+
 @end
 
 @implementation AppDelegate
 
-
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     // Override point for customization after application launch.
     self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-    self.window.backgroundColor = [UIColor whiteColor];   //设置通用背景颜色
+    self.window.backgroundColor = QDXBGColor;   //设置通用背景颜色
     [self.window makeKeyAndVisible];
     
     [UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleLightContent;
     
     [WXApi registerApp:kWeChat_KEY withDescription:@"weChat"];
     
-    [AMapServices sharedServices].apiKey = @"deebe04a4a659c7c40eeeaad2e4b97cf";
-    //判断当前版本是否是新版本
-    NSDictionary *infoDict = [NSBundle mainBundle].infoDictionary;
+    [AMapServices sharedServices].apiKey = AMap_KEY;
     
-    //取出当前应用的版本号
-    NSString *currentVersion = [infoDict objectForKey:@"CFBundleShortVersionString"];
-    //取出沙盒存储的应用版本号
-    NSString *saveVersion = Version;
-    if(![currentVersion isEqualToString:saveVersion]){
+    [self authLogin];
+
+    NSString *currentVersion = [[NSBundle mainBundle].infoDictionary objectForKey:@"CFBundleShortVersionString"];
+    if(![currentVersion isEqualToString:Version]){
         [NSKeyedArchiver archiveRootObject:currentVersion toFile:QDXVersion];
         [self gotoScrollView];
     }else{
@@ -51,6 +41,37 @@
     }
     
     return YES;
+}
+
+-(void)authLogin
+{
+    NSString *url = [newHostUrl stringByAppendingString:authLoginUrl];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"customer_token"] = save;
+    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
+        if ([responseObject[@"Code"] intValue] == 0) {
+            NSFileManager *fileManager = [[NSFileManager alloc]init];
+            NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+            documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
+            [fileManager removeItemAtPath:documentDir error:nil];
+        }else{
+            Customer *customer = [[Customer alloc] initWithDic:responseObject[@"Msg"]];
+            if ([save length] == 0 ) {
+                NSFileManager * fileManager = [[NSFileManager alloc]init];
+                NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+                documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
+                [fileManager removeItemAtPath:documentDir error:nil];
+            }else{
+                NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+                documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
+                [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
+
+                [NSKeyedArchiver archiveRootObject:customer.customer_token toFile:XWLAccountFile];
+            }
+        }
+    } failure:^(NSError *error) {
+        
+    }];
 }
 
 - (void)gotoScrollView
@@ -63,14 +84,10 @@
 {
     LBTabBarController *tabVC = [[LBTabBarController alloc] init];
     self.window.rootViewController = tabVC;
-    
-    // 启动图片
-//    [[MCAdvertManager sharedInstance] setAdvertViewController];
 }
 
 
-- (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window
-{
+- (NSUInteger)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window{
     return UIInterfaceOrientationMaskPortrait;
 }
 
@@ -81,10 +98,7 @@
 
 
 - (void)applicationDidEnterBackground:(UIApplication *)application {
-    
     [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:nil];
-    
-
 }
 
 - (void)applicationWillEnterForeground:(UIApplication *)application {

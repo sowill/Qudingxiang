@@ -10,11 +10,12 @@
 #import "QDXRegisterViewController.h"
 #import "QDXCreateCodeViewController.h"
 #import "QDXForgetPasswordViewController.h"
-#import "QDXIsConnect.h"
 #import "QDXBindViewController.h"
 #import "LoginService.h"
 #import "MineViewController.h"
 #import "HomeController.h"
+
+#import "Customer.h"
 
 @interface QDXLoginViewController ()<UITextFieldDelegate>
 {
@@ -45,7 +46,7 @@
     //添加登陆页面
     [self setupLoginView];
     [[NSNotificationCenter defaultCenter]addObserver:self selector:@selector(didReceiveWechat:) name:@"WECHAT" object:nil];
-    tencentOAuth=[[TencentOAuth alloc]initWithAppId:@"1104830915" andDelegate:self];
+    tencentOAuth=[[TencentOAuth alloc]initWithAppId:QQ_KEY andDelegate:self];
     permissions= [NSArray arrayWithObjects:@"get_user_info", @"get_simple_userinfo", @"add_t", nil];
 }
 
@@ -280,9 +281,7 @@
 }
 
 -(void)OAuthWxinBtnClick
-
 {
-    
     SendAuthReq* request =[[SendAuthReq alloc]init];
     
     request.scope =@"snsapi_userinfo,snsapi_base";
@@ -290,14 +289,11 @@
     request.state =@"321";
     
     [WXApi sendReq:request];
-    
 }
 
 
 -(void)didReceiveWechat:(NSNotification*)not
-
 {
-    
     NSDictionary* info =not.userInfo;
     
     wxCode =[info objectForKey:@"code"];
@@ -307,17 +303,12 @@
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            
-            
             id jsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:Nil];
 //            NSLog(@"123%@",jsonData);
             wxAccessToken =[jsonData objectForKey:@"access_token"];
             wxOpenID =[jsonData objectForKey:@"openid"];
             [self WeiXinAccess];
-            
         });
-        
-        
     }];
     [task resume];
     
@@ -331,12 +322,8 @@
     NSURLSession *session = [NSURLSession sharedSession];
     NSURLSessionDataTask *task = [session dataTaskWithRequest:request completionHandler:^(NSData *data, NSURLResponse *response, NSError *error) {
         dispatch_async(dispatch_get_main_queue(), ^{
-            
-            
 //            id jsonData = [NSJSONSerialization JSONObjectWithData:data options:0 error:Nil];
-            
             [self QQandWXLogin];
-            
         });
         
         
@@ -346,22 +333,28 @@
 
 -(void)QQandWXLogin
 {
-    [LoginService QQandWXlog:^(NSMutableDictionary *dict) {
-        QDXIsConnect *isConnect = [QDXIsConnect mj_objectWithKeyValues:dict];
-        int ret = [isConnect.Code intValue];
+    NSString *url = [newHostUrl stringByAppendingString:qvLoginUrl];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"customer_qid"] = tencentOAuth.openId;
+    params[@"customer_wxid"] = wxOpenID;
+    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
+        int ret = [responseObject[@"Code"] intValue];
         if (ret==1) {
-            
-            [NSKeyedArchiver archiveRootObject:isConnect.Msg[@"token"] toFile:XWLAccountFile];
-            
+            Customer *customer = [[Customer alloc] initWithDic:responseObject[@"Msg"]];
+            [NSKeyedArchiver archiveRootObject:customer.customer_token toFile:XWLAccountFile];
             [self goHome];
-    }
-        else{
+        }else{
             QDXBindViewController *BindViewController =[[QDXBindViewController alloc] init];
             self.trendDelegate=BindViewController; //设置代理
             [self.trendDelegate passTrendValues:tencentOAuth.openId andWXValue:wxOpenID];
             [self.navigationController pushViewController:BindViewController animated:YES];
         }
-    } andWithTXOpenID:tencentOAuth.openId andWithWXOpenID:wxOpenID];
+    } failure:^(NSError *error) {
+        [MBProgressHUD showError:@"登录失败"];
+        NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
+        [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
+    }];
 }
 
 //登录
@@ -373,21 +366,29 @@
     NSString *username = telText.text;
     NSString *password = pwdText.text;
     
-    [LoginService logInBlock:^(NSMutableDictionary *dict) {
+    NSString *url = [newHostUrl stringByAppendingString:loginUrl];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"customer_code"] = username;
+    params[@"customer_pwd"] = password;
+    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
 
-        QDXIsConnect *isConnect = [QDXIsConnect mj_objectWithKeyValues:dict];
-        int ret = [isConnect.Code intValue];
+        int ret = [responseObject[@"Code"] intValue];
         if (ret==1) {
-            [NSKeyedArchiver archiveRootObject:isConnect.Msg[@"token"] toFile:XWLAccountFile];
+            Customer *customer = [[Customer alloc] initWithDic:responseObject[@"Msg"]];
+            [NSKeyedArchiver archiveRootObject:customer.customer_token toFile:XWLAccountFile];
+            NSLog(@"%@",save);
             [self goHome];
-        }
-        else{
+        }else{
             [MBProgressHUD showError:@"账号密码错误"];
             loginBtn.userInteractionEnabled = YES;
         }
-
-    } andWithUserName:[NSString stringWithFormat:@"%@", username] andWithPassWord:[NSString stringWithFormat:@"%@",password]];
-    
+        
+    } failure:^(NSError *error) {
+        [MBProgressHUD showError:@"登录失败"];
+        NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
+        [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
+    }];
 }
 
 - (void)goHome

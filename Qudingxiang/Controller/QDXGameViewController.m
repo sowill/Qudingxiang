@@ -608,7 +608,6 @@ toViewController:(UIViewController *)toVC {
             return nil;
         }
     }
-    
     return nil;
 }
 
@@ -1370,7 +1369,7 @@ toViewController:(UIViewController *)toVC {
     NSString *shareUrl = [[NSString alloc] init];
     shareUrl = [hostUrl stringByAppendingString:[NSString stringWithFormat:@"index.php/home/myline/mylineweb/myline_id/%@/tmp/%@",oldMyLineid,save]];
     if (imageIndex == 0) {
-        TencentOAuth *auth = [[TencentOAuth alloc] initWithAppId:@"1104830915"andDelegate:self];
+        TencentOAuth *auth = [[TencentOAuth alloc] initWithAppId:QQ_KEY andDelegate:self];
         NSURL *imgurl = [NSURL URLWithString:shareUrl];
         NSString *title = @"趣定向";
         NSString *description = @"我的成绩";
@@ -1381,7 +1380,7 @@ toViewController:(UIViewController *)toVC {
         SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:newsObj];
         QQApiSendResultCode sent = [QQApiInterface sendReq:req];
     } else if (imageIndex == 1){
-        TencentOAuth *auth = [[TencentOAuth alloc] initWithAppId:@"1104830915"andDelegate:self];
+        TencentOAuth *auth = [[TencentOAuth alloc] initWithAppId:QQ_KEY andDelegate:self];
         NSURL *imgurl = [NSURL URLWithString:shareUrl];
         NSString *utf8String =[imgurl absoluteString];
         NSString *title = @"趣定向";

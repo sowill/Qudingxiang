@@ -7,24 +7,21 @@
 //
 
 #import "MineViewController.h"
-#import "QDXChangeNameViewController.h"
+#import "editMineInfoViewController.h"
 #import "QDXLoginViewController.h"
 #import "MineLineController.h"
 #import "TeamLineController.h"
 #import "SettingViewController.h"
 #import "AboutUsViewController.h"
 #import "HomeController.h"
-#import "MineService.h"
-#import "MineModel.h"
-#import "UpdateService.h"
 #import "QDXNavigationController.h"
 #import "SignViewController.h"
 #import "UIImage+RTTint.h"
 #import "UIButton+ImageText.h"
+#import "Customer.h"
 
 @interface MineViewController ()<UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
-    NSDictionary *_peopleDict;
     NSString *_name;
     NSString *_filePath;
     NSString *_path;
@@ -40,6 +37,7 @@
 @property (nonatomic,strong) UIButton *phoneLab;
 @property (nonatomic,strong) UILabel *signLab;
 @property (nonatomic,strong) UIButton *editBtn;
+@property (nonatomic,strong) Customer *peopleDict;
 @end
 
 @implementation MineViewController
@@ -51,12 +49,50 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stateRefresh) name:@"stateRefresh" object:nil];
     
-    [self netData];
+    [self authLogin];
+}
+
+-(void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
 -(void)stateRefresh
 {
-    [self netData];
+    [self authLogin];
+}
+
+-(void)authLogin
+{
+    NSString *url = [newHostUrl stringByAppendingString:authLoginUrl];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"customer_token"] = save;
+    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
+        
+        if ([responseObject[@"Code"] intValue] == 0) {
+            NSFileManager *fileManager = [[NSFileManager alloc]init];
+            NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+            documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
+            [fileManager removeItemAtPath:documentDir error:nil];
+        }else{
+            Customer *customer = [[Customer alloc] initWithDic:responseObject[@"Msg"]];
+            if ([save length] == 0 ) {
+                NSFileManager * fileManager = [[NSFileManager alloc]init];
+                NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+                documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
+                [fileManager removeItemAtPath:documentDir error:nil];
+            }else{
+                NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+                documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
+                [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
+                [NSKeyedArchiver archiveRootObject:customer.customer_token toFile:XWLAccountFile];
+                _peopleDict = customer;
+            }
+        }
+        [self setupUI];
+    } failure:^(NSError *error) {
+        
+    }];
 }
 
 #pragma mark - UIScrollViewDelegate
@@ -73,8 +109,7 @@
     _infoView.frame = CGRectMake(FitRealValue(214), FitRealValue(138) - offset, QdxWidth - FitRealValue(214), FitRealValue(152));
     _imageView.frame = CGRectMake(FitRealValue(40),FitRealValue(138) - offset,FitRealValue(152),FitRealValue(152));
     
-    if (scrollView == self.tableView)
-    {
+    if (scrollView == self.tableView){
         CGFloat sectionHeaderHeight = FitRealValue(20);
         if (scrollView.contentOffset.y<=sectionHeaderHeight&&scrollView.contentOffset.y>=0) {
             scrollView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
@@ -97,40 +132,11 @@
     if ([save length] == 0) {
         [self signbtn];
     }else{
-        QDXChangeNameViewController *changeNameVC = [[QDXChangeNameViewController alloc] init];
-        changeNameVC.cusName = _peopleDict[@"Msg"][@"customer_name"];
-        changeNameVC.hidesBottomBarWhenPushed = YES;
-        [self.navigationController pushViewController:changeNameVC animated:YES];
+        editMineInfoViewController *editVC = [[editMineInfoViewController alloc] init];
+        editVC.peopleDict = _peopleDict;
+        editVC.hidesBottomBarWhenPushed = YES;
+        [self.navigationController pushViewController:editVC animated:YES];
     }
-}
-
-- (void)netData
-{
-    [MineService cellDataBlock:^(NSDictionary *dict) {
-        NSDictionary* _dic = [[NSDictionary alloc] initWithDictionary:dict];
-        _peopleDict=[NSDictionary dictionaryWithDictionary:_dic];
-        if ([_peopleDict[@"Code"] intValue] == 0) {
-            NSFileManager *fileManager = [[NSFileManager alloc]init];
-            NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-            
-            documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
-            [fileManager removeItemAtPath:documentDir error:nil];
-        }else{
-            if ([save length] == 0 ) {
-                NSFileManager * fileManager = [[NSFileManager alloc]init];
-                NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
-                documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
-                [fileManager removeItemAtPath:documentDir error:nil];
-            }else{
-                
-            }
-        }
-        
-        [self setupUI];
-        
-    } FailBlock:^(NSMutableArray *array) {
-        
-    } andWithToken:save];
 }
 
 -(void)setupUI
@@ -164,7 +170,7 @@
         _imageView.image = imgFromUrl3;
     }else{
         if([save length] != 0){
-            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,_peopleDict[@"Msg"][@"headurl"]]];
+            NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@",newHostUrl,_peopleDict.customer_headurl]];
             
             [_imageView setImageWithURL:url placeholderImage:[UIImage imageNamed:@"默认头像"]];
         }else{
@@ -187,17 +193,18 @@
     if ([save length] == 0) {
         _nameLab.text = @"昵称";
     }else{
-        _nameLab.text = _peopleDict[@"Msg"][@"customer_name"];
+        _nameLab.text = _peopleDict.customer_cn;
     }
     [_infoView addSubview:_nameLab];
     
     _signLab = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(10), FitRealValue(10 + 36 + 20 + 36 + 20), FitRealValue(380), FitRealValue(36))];
     _signLab.textColor = [UIColor whiteColor];
     _signLab.font = [UIFont systemFontOfSize:12];
-    if ([save length] == 0) {
+    
+    if ([save length] == 0 || _peopleDict.customer_signature.length == 0) {
         _signLab.text = @"签名:";
     }else{
-        _signLab.text = [@"签名:"stringByAppendingString:_peopleDict[@"Msg"][@"signature"]];
+        _signLab.text = [@"签名:"stringByAppendingString:_peopleDict.customer_signature];
     }
     [_infoView addSubview:_signLab];
     
@@ -205,10 +212,10 @@
     [_phoneLab setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     _phoneLab.titleLabel.font = [UIFont systemFontOfSize:12];
     
-    if ([save length] == 0) {
+    if ([save length] == 0 || _peopleDict.customer_code.length == 0) {
         [_phoneLab setTitle:@"************" forState:UIControlStateNormal];
     }else{
-        NSMutableString * str1 = [[NSMutableString alloc]initWithString:_peopleDict[@"Msg"][@"code"]];
+        NSMutableString * str1 = [[NSMutableString alloc]initWithString:_peopleDict.customer_code];
         [str1 deleteCharactersInRange:NSMakeRange(3,6)];
         [str1 insertString:@"******" atIndex:3];
         [_phoneLab setTitle:str1 forState:UIControlStateNormal];
@@ -370,7 +377,7 @@
         }else if (indexPath.row == 0 && indexPath.section == 2){
             
             AboutUsViewController *aboutVC = [[AboutUsViewController alloc] init];
-            aboutVC.level =  _peopleDict[@"Msg"][@"level"];
+            aboutVC.level =  _peopleDict.customer_level;
             aboutVC.hidesBottomBarWhenPushed = YES;
             [self.navigationController pushViewController:aboutVC animated:YES];
             
@@ -442,6 +449,7 @@
 
 - (void)imagePickerController:(UIImagePickerController *)picker didFinishPickingMediaWithInfo:(NSDictionary<NSString *,id> *)info
 {
+    
     [picker dismissViewControllerAnimated:YES completion:^{
         
     }];
@@ -458,78 +466,72 @@
      */
     _imageView.image = image;
     _im = image;
-    NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+
     NSData *data;
     
     if (UIImagePNGRepresentation(image) == nil) {
         
-        data = UIImageJPEGRepresentation(image, 1);
+        data = UIImageJPEGRepresentation(image,1.f);
         
     } else {
         
         data = UIImagePNGRepresentation(image);
         
     }
-    NSData *imgData= data;
-    long len = imgData.length/1024;
+    NSData *imageData= data;
+    long len = imageData.length/1024;
     float off =1.0f;
     while (len >1048) {
         off -= 0.01;
-        imgData= UIImageJPEGRepresentation(image, off);
-        len = imgData.length/1024;
+        imageData= UIImageJPEGRepresentation(image, off);
+        len = imageData.length/1024;
     }
     
     NSFileManager *fileManager = [NSFileManager defaultManager];
     
-    _filePath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"image"];         //将图片存储到本地documents
+    _filePath = [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"image"];  //将图片存储到本地documents
     [fileManager createDirectoryAtPath:_filePath withIntermediateDirectories:YES attributes:nil error:nil];
     
     [fileManager createFileAtPath:[_filePath stringByAppendingString:@"/image.png"] contents:data attributes:nil];
-    NSString *url = [NSString stringWithFormat:@"%@%@",hostUrl,imageUrl];
+    
+    NSString *url = [NSString stringWithFormat:@"%@%@",newHostUrl,getImageUrl];
     AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
     manager.responseSerializer.acceptableContentTypes=[NSSet setWithObject:@"text/html"];
     //2.上传文件
     manager.responseSerializer = [AFHTTPResponseSerializer serializer];
     [manager POST:url parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData>  _Nonnull formData) {
-        [formData appendPartWithFileData:imgData name:@"imgfile" fileName:_path mimeType:@"image/png"];
+        
+        [formData appendPartWithFileData:imageData name:@"imgfile" fileName:_path mimeType:@"image/png"];
     } progress:^(NSProgress * _Nonnull uploadProgress) {
         
         //打印下上传进度
-//        NSLog(@"%lf",1.0 *uploadProgress.completedUnitCount / uploadProgress.totalUnitCount);
+        //        NSLog(@"%lf",1.0 *uploadProgress.completedUnitCount / uploadProgress.totalUnitCount);
     } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
         
         NSString *result = [[NSString alloc] initWithData:responseObject encoding:NSUTF8StringEncoding];
-        AFHTTPSessionManager *manager = [AFHTTPSessionManager manager];
-        
-        manager.responseSerializer = [AFJSONResponseSerializer serializer];
+        NSString *url = [newHostUrl stringByAppendingString:modifyUrl];
         NSMutableDictionary *params = [NSMutableDictionary dictionary];
-        params[@"headurl"] = result;
-        params[@"TokenKey"] = save;
-        [manager POST:[hostUrl stringByAppendingString:@"index.php/Home/Customer/modify"] parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-            
-            
-        } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-            NSDictionary * dict = [NSDictionary dictionaryWithDictionary:responseObject];
-            if([dict[@"Code"] intValue] == 1){
-                NSString *token = dict[@"Msg"][@"token"];
+        params[@"customer_headurl"] = result;
+        params[@"customer_token"] = save;
+        [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
+            int ret = [responseObject[@"Code"] intValue];
+            if (ret==1) {
+                NSString *token = responseObject[@"Msg"][@"customer_token"];
                 NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
                 documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
                 [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
                 [NSKeyedArchiver archiveRootObject:token toFile:XWLAccountFile];
-                //[_tableView reloadData];
+            }else{
                 
             }
-        } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        } failure:^(NSError *error) {
             
         }];
-        
-        
     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
         
         //请求失败
-//        NSLog(@"请求失败：%@",error);
+        //        NSLog(@"请求失败：%@",error);
     }];
-    
 }
 
 

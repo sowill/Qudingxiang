@@ -33,6 +33,8 @@
                            height:(CGFloat)height
                         direction:(LrdOutputViewDirection)direction {
     if (self = [super initWithFrame:CGRectMake(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT)]) {
+        
+        
         //背景色为clearColor
         self.backgroundColor = [[UIColor blackColor]colorWithAlphaComponent:0.6];
         
@@ -46,8 +48,12 @@
         }
         if (direction == kLrdOutputViewDirectionLeft) {
             self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(origin.x, origin.y, width, height * _dataArray.count) style:UITableViewStylePlain];
-        }else {
+        }else if (direction == kLrdOutputViewDirectionRight){
             self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(origin.x, origin.y, -width, height * _dataArray.count) style:UITableViewStylePlain];
+        }else{
+            self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(origin.x, origin.y, width, -height * _dataArray.count) style:UITableViewStylePlain];
+            self.backgroundColor = [UIColor clearColor];
+            self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
         }
         
 //        _tableView.separatorColor = [UIColor colorWithWhite:0.400 alpha:1.000];
@@ -66,10 +72,11 @@
         if ([self.tableView respondsToSelector:@selector(setSeparatorInset:)]) {
             [self.tableView setSeparatorInset:CellLineEdgeInsets];
         }
-        
+            
         if ([self.tableView respondsToSelector:@selector(setLayoutMargins:)]) {
             [self.tableView setLayoutMargins:CellLineEdgeInsets];
         }
+
     }
     return self;
 }
@@ -84,20 +91,56 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"cell"];
-    cell.textLabel.textColor = [UIColor colorWithWhite:0.067 alpha:1.000];
-    cell.textLabel.font = [UIFont systemFontOfSize:14];
-    cell.backgroundColor = [UIColor clearColor];
     
-//    UIView *cellLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width, 1)];
-//    cellLine.backgroundColor = [UIColor colorWithWhite:0.961 alpha:1.000];
-//    [cell addSubview:cellLine];
-    //取出模型
-    LrdCellModel *model = [self.dataArray objectAtIndex:indexPath.row];
-    cell.textLabel.text = model.title;
-    cell.imageView.image = [UIImage imageNamed:model.imageName];
-    cell.selectedBackgroundView = [[UIView alloc] initWithFrame:cell.frame];
-    cell.selectedBackgroundView.backgroundColor = [UIColor grayColor];
+    if (self.direction == kLrdOutputViewDirectionTop) {
     
+        UIView *lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, FitRealValue(200), FitRealValue(170))];
+        lineView.backgroundColor = [UIColor whiteColor];
+        [cell addSubview:lineView];
+        
+        LrdCellModel *model = [self.dataArray objectAtIndex:indexPath.row];
+        UIImageView *mapImage = [[UIImageView alloc] initWithFrame:CGRectMake(FitRealValue(20), FitRealValue(20), FitRealValue(160), FitRealValue(100))];
+        mapImage.image = [UIImage imageNamed:model.imageName];
+        [lineView addSubview:mapImage];
+        
+        UIBezierPath *maskPath = [UIBezierPath bezierPathWithRoundedRect:mapImage.bounds byRoundingCorners:UIRectCornerTopLeft | UIRectCornerTopRight cornerRadii:CGSizeMake(2, 2)];
+        CAShapeLayer *maskLayer = [[CAShapeLayer alloc] init];
+        maskLayer.frame = mapImage.bounds;
+        maskLayer.path = maskPath.CGPath;
+        mapImage.layer.mask = maskLayer;
+        
+        UIView *bgView = [[UIView alloc] initWithFrame:CGRectMake(FitRealValue(20), FitRealValue(120), FitRealValue(160), FitRealValue(40))];
+        bgView.backgroundColor = [UIColor whiteColor];
+        [lineView addSubview:bgView];
+        
+        UIBezierPath *maskbgViewPath = [UIBezierPath bezierPathWithRoundedRect:bgView.bounds byRoundingCorners:UIRectCornerBottomLeft | UIRectCornerBottomRight cornerRadii:CGSizeMake(2, 2)];
+        CAShapeLayer *maskbgViewLayer = [[CAShapeLayer alloc] init];
+        maskbgViewLayer.frame = bgView.bounds;
+        maskbgViewLayer.path = maskbgViewPath.CGPath;
+        bgView.layer.mask = maskbgViewLayer;
+        
+        UILabel *mapTitle = [[UILabel alloc] initWithFrame:CGRectMake(0, 0, FitRealValue(160), FitRealValue(40))];
+        mapTitle.text = model.title;
+        mapTitle.textColor = QDXGray;
+        mapTitle.textAlignment = NSTextAlignmentCenter;
+        mapTitle.font = [UIFont systemFontOfSize:14];
+        [bgView addSubview:mapTitle];
+        
+    }else{
+        cell.textLabel.textColor = [UIColor colorWithWhite:0.067 alpha:1.000];
+        cell.textLabel.font = [UIFont systemFontOfSize:14];
+        cell.backgroundColor = [UIColor clearColor];
+        
+        //    UIView *cellLine = [[UIView alloc] initWithFrame:CGRectMake(0, 0, cell.frame.size.width, 1)];
+        //    cellLine.backgroundColor = [UIColor colorWithWhite:0.961 alpha:1.000];
+        //    [cell addSubview:cellLine];
+        //取出模型
+        LrdCellModel *model = [self.dataArray objectAtIndex:indexPath.row];
+        cell.textLabel.text = model.title;
+        cell.imageView.image = [UIImage imageNamed:model.imageName];
+        cell.selectedBackgroundView = [[UIView alloc] initWithFrame:cell.frame];
+        cell.selectedBackgroundView.backgroundColor = [UIColor grayColor];
+    }
     return cell;
 }
 
@@ -134,12 +177,20 @@
         CGContextAddLineToPoint(context, startX + 5, startY - 5);
         
         CGContextAddLineToPoint(context, startX + 10, startY);
-    }else {
+    }else if (self.direction == kLrdOutputViewDirectionRight) {
         CGFloat startX = self.origin.x - 20;
         CGFloat startY = self.origin.y;
         CGContextMoveToPoint(context, startX, startY);//设置起点
         
         CGContextAddLineToPoint(context, startX + 5, startY - 5);
+        
+        CGContextAddLineToPoint(context, startX + 10, startY);
+    }else {
+        CGFloat startX = self.origin.x + self.width/2 - 5;
+        CGFloat startY = self.origin.y;
+        CGContextMoveToPoint(context, startX, startY);//设置起点
+        
+        CGContextAddLineToPoint(context, startX + 5, startY + 5);
         
         CGContextAddLineToPoint(context, startX + 10, startY);
     }
@@ -159,29 +210,56 @@
 - (void)pop {
     UIWindow *keyWindow = [[UIApplication sharedApplication] keyWindow];
     [keyWindow addSubview:self];
-    //动画效果弹出
-    self.alpha = 0;
-    CGRect frame = self.tableView.frame;
-    self.tableView.frame = CGRectMake(self.origin.x, self.origin.y, 0, 0);
-    [UIView animateWithDuration:0.2 animations:^{
-        self.alpha = 1;
-        self.tableView.frame = frame;
-    }];
+    
+    if (self.direction == kLrdOutputViewDirectionTop){
+        self.alpha = 0;
+        CGRect frame = self.tableView.frame;
+        self.tableView.frame = CGRectMake(self.origin.x + self.width/2 - 5, self.origin.y, 0, 0);
+        [UIView animateWithDuration:0.2 animations:^{
+            self.alpha = 1;
+            self.tableView.frame = frame;
+        }];
+    }else{
+        //动画效果弹出
+        self.alpha = 0;
+        CGRect frame = self.tableView.frame;
+        self.tableView.frame = CGRectMake(self.origin.x, self.origin.y, 0, 0);
+        [UIView animateWithDuration:0.2 animations:^{
+            self.alpha = 1;
+            self.tableView.frame = frame;
+        }];
+    }
 }
 
 - (void)dismiss {
-    //动画效果淡出
-    [UIView animateWithDuration:0.2 animations:^{
-        self.alpha = 0;
-        self.tableView.frame = CGRectMake(self.origin.x, self.origin.y, 0, 0);
-    } completion:^(BOOL finished) {
-        if (finished) {
-            [self removeFromSuperview];
-            if (self.dismissOperation) {
-                self.dismissOperation();
+    
+    if (self.direction == kLrdOutputViewDirectionTop){
+        //动画效果淡出
+        [UIView animateWithDuration:0.2 animations:^{
+            self.alpha = 0;
+            self.tableView.frame = CGRectMake(self.origin.x + self.width/2 - 5, self.origin.y, 0, 0);
+        } completion:^(BOOL finished) {
+            if (finished) {
+                [self removeFromSuperview];
+                if (self.dismissOperation) {
+                    self.dismissOperation();
+                }
             }
-        }
-    }];
+        }];
+    }else{
+        //动画效果淡出
+        [UIView animateWithDuration:0.2 animations:^{
+            self.alpha = 0;
+            self.tableView.frame = CGRectMake(self.origin.x, self.origin.y, 0, 0);
+        } completion:^(BOOL finished) {
+            if (finished) {
+                [self removeFromSuperview];
+                if (self.dismissOperation) {
+                    self.dismissOperation();
+                }
+            }
+        }];
+    }
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {

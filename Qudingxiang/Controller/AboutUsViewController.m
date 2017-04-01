@@ -237,7 +237,7 @@
     NSString *title = @"趣定向";
     NSString *description = @"趣定向下载";
     if (imageIndex == 0) {
-        TencentOAuth *auth = [[TencentOAuth alloc] initWithAppId:@"1104830915"andDelegate:self];
+        TencentOAuth *auth = [[TencentOAuth alloc] initWithAppId:QQ_KEY andDelegate:self];
         NSString *imgPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Icon-76.png"];
         NSData *imgData = [NSData dataWithContentsOfFile:imgPath];
         QQApiNewsObject *newsObj = [QQApiNewsObject
@@ -245,7 +245,7 @@
         SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:newsObj];
         QQApiSendResultCode sent = [QQApiInterface sendReq:req];
     } else if (imageIndex == 1){
-        TencentOAuth *auth = [[TencentOAuth alloc] initWithAppId:@"1104830915"andDelegate:self];
+        TencentOAuth *auth = [[TencentOAuth alloc] initWithAppId:QQ_KEY andDelegate:self];
         NSString *imgPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Icon-76.png"];
         NSData *imgData = [NSData dataWithContentsOfFile:imgPath];
         QQApiNewsObject *newsObj = [QQApiNewsObject

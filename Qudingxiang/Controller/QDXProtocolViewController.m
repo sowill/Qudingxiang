@@ -7,9 +7,6 @@
 //
 
 #import "QDXProtocolViewController.h"
-#import "HomeController.h"
-#import "QDXGameViewController.h"
-#import "QDXNavigationController.h"
 
 @interface QDXProtocolViewController ()
 {
@@ -24,20 +21,12 @@
     // Do any additional setup after loading the view.
     
     [self setupFrame];
-    [self setupCurrentLine];
     [self setupProtocol];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(noti3) name:@"noti3" object:nil];
 }
 
 -(void)reloadData
 {
-    [self setupCurrentLine];
-}
-
--(void)noti3
-{
-    [self dismissViewControllerAnimated:YES completion:^{}];
+    [self setupProtocol];
 }
 
 -(void)setupFrame
@@ -73,66 +62,49 @@
 
 -(void)decline
 {
-    [[NSNotificationCenter defaultCenter] postNotificationName:@"noti2" object:nil];
     [self dismissViewControllerAnimated:YES completion:^{}];
 }
 
 -(void)accept
 {
-    QDXGameViewController *game = [[QDXGameViewController alloc] init];
-    [self.navigationController pushViewController:game animated:YES];
-    [NSKeyedArchiver archiveRootObject:@"Yes" toFile:QDXMyLineFile];
+    [self getMyline];
 }
 
-//获取myline_id
--(void)setupCurrentLine
+-(void)getMyline
 {
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
+    NSString *url = [newHostUrl stringByAppendingString:getMylineUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Myline/getCurrentLine"];
-    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
-        int ret = [infoDict[@"Code"] intValue];
-        if (ret == 1) {
-            [NSKeyedArchiver archiveRootObject:infoDict[@"Msg"][@"myline_id"] toFile:QDXCurrentMyLineFile];
+    params[@"customer_token"] = save;
+    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
+        if ([responseObject[@"Code"] intValue] == 0) {
+            UIAlertController *aalert = [UIAlertController alertControllerWithTitle:@"提示" message:responseObject[@"Msg"]preferredStyle:UIAlertControllerStyleAlert];
+            [aalert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action) {
+                
+            }]];
+            [self presentViewController:aalert animated:YES completion:nil];
+        }else{
+            [self dismissViewControllerAnimated:YES completion:^{}];
         }
-        else{
+    } failure:^(NSError *error) {
+        
+    }];
+}
+
+
+-(void)setupProtocol{
+    NSString *url = [newHostUrl stringByAppendingString:protocolUrl];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
+        NSLog(@"%@",responseObject);
+        
+        if ([responseObject[@"Code"] intValue] == 0) {
             
+        }else{
+            [protocol loadHTMLString:responseObject[@"Msg"] baseURL:nil];
         }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    } failure:^(NSError *error) {
         
     }];
-}
-
--(void)setupProtocol
-{
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Util/portocol"];
-    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
-        [protocol loadHTMLString:infoDict[@"Msg"] baseURL:nil];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-    }];
-}
-
-
--(void)dealloc
-{
-    //移除观察者，Observer不能为nil
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-    
 }
 
 - (void)didReceiveMemoryWarning {

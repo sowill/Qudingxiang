@@ -7,9 +7,7 @@
 //
 
 #import "QDXHistoryTableViewCell.h"
-#import "QDXHIstoryModel.h"
-#import "QDXPointModel.h"
-
+#import "HIstoryModel.h"
 
 @interface QDXHistoryTableViewCell()
 {
@@ -19,6 +17,7 @@
     UIImageView *lineViewTwo;
     UIImageView *lineViewOne;
     UIImageView *pointView;
+    UIButton *viewHistory;
 }
 @end
 
@@ -55,6 +54,11 @@
     useTime.font = [UIFont systemFontOfSize:12];
     [self.contentView addSubview:useTime];
     
+    viewHistory = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth - FitRealValue(48 + 40), 20, FitRealValue(48), FitRealValue(48))];
+    [viewHistory setBackgroundImage:[UIImage imageNamed:@"答题记录"] forState:UIControlStateNormal];
+    [viewHistory addTarget:self action:@selector(historyClick) forControlEvents:UIControlEventTouchUpInside];
+    [self.contentView addSubview:viewHistory];
+    
     pointView = [[UIImageView alloc] initWithFrame:CGRectMake(25, 20 + 5, 6, 7)];
     pointView.image = [UIImage imageNamed:@"到达点"];
     [self.contentView addSubview:pointView];
@@ -68,18 +72,24 @@
     [self.contentView addSubview:lineViewTwo];
 }
 
--(void)setHistoryInfo:(QDXHIstoryModel *)HistoryInfo
+-(void)historyClick{
+    if (self.historyBtnBlock) {
+        self.historyBtnBlock();
+    }
+}
+
+-(void)setHistoryInfo:(HistoryModel *)HistoryInfo
 {
     _HistoryInfo = HistoryInfo;
-    pointName.text = [@"目标点标:  " stringByAppendingString:HistoryInfo.point.point_name];
-    eDate.text = HistoryInfo.edate;
-    useTime.text = [@"消耗时长:  " stringByAppendingString:[ToolView scoreTransfer:HistoryInfo.score]];
-    NSRange srange = [_HistoryInfo.point.point_name rangeOfString:@"起"];
+    pointName.text = [@"目标点标:  " stringByAppendingString:HistoryInfo.pointmap_cn];
+    eDate.text = HistoryInfo.mylineinfo_score;
+    useTime.text = [@"消耗时长:  " stringByAppendingString:[ToolView scoreTransfer:HistoryInfo.mylineinfo_cdate]];
+    NSRange srange = [_HistoryInfo.pointmap_cn rangeOfString:@"起"];
     if (srange.length >0){//包含
         [lineViewTwo removeFromSuperview];
     }
     
-    NSRange erange = [_HistoryInfo.point.point_name rangeOfString:@"终"];
+    NSRange erange = [_HistoryInfo.pointmap_cn rangeOfString:@"终"];
     if (erange.length >0){//包含
         [lineViewOne removeFromSuperview];
     }

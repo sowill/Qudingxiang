@@ -7,7 +7,7 @@
 //
 
 #import "CustomAnimateTransitionPush.h"
-#import "QDXGameViewController.h"
+#import "BaseGameViewController.h"
 #import "QDXHistoryViewController.h"
 
 @interface CustomAnimateTransitionPush()
@@ -27,7 +27,7 @@
     self.transitionContext = transitionContext;
     
     // 获取动画的源控制器和目标控制器
-    QDXGameViewController * fromVC = (QDXGameViewController *)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
+    BaseGameViewController * fromVC = (BaseGameViewController *)[transitionContext viewControllerForKey:UITransitionContextFromViewControllerKey];
     QDXHistoryViewController *toVC = (QDXHistoryViewController *)[transitionContext viewControllerForKey:UITransitionContextToViewControllerKey];
     
     //获取容器视图

@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@class MineModel;
+@class Myline;
 @interface TeamLineController : BaseViewController
-@property (nonatomic, strong) MineModel *model;
+@property (nonatomic, strong) Myline *myline;
 @end

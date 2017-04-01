@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@class LineModel;
+@class Line;
 @protocol lineDelegate <NSObject>
 
 -(void)CellBtnClickedWithRow:(NSInteger)row;
@@ -15,8 +15,7 @@
 @end
 
 @interface LineCell : UITableViewCell
-@property (nonatomic, strong)LineModel *lineModel;
-@property(nonatomic,assign)NSInteger  row;
+@property (nonatomic, strong)Line *line;
 @property(nonatomic,assign)NSInteger  select;
 @property(nonatomic,weak)id<lineDelegate>delegate;
 @property(nonatomic, strong) void(^detailClick)();

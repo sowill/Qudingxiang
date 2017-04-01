@@ -7,7 +7,9 @@
 //
 
 #import "SignViewController.h"
-#import "MineService.h"
+#import "Customer.h"
+
+
 @interface SignViewController ()<UITextViewDelegate>
 {
     UITextView *_signText;
@@ -18,20 +20,16 @@
 @implementation SignViewController
 
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self signData];
 }
-- (void)viewDidLoad {
+
+- (void)viewDidLoad{
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"个性签名";
-
     [self createText];
-    
     [_signText becomeFirstResponder];
-
 }
 
 - (void)createText
@@ -75,72 +73,42 @@
     NSRange insertionPoint = NSMakeRange([_signText.text length], 0);
     _signText.selectedRange = insertionPoint;
 }
-- (void)signData
-{
-    [MineService cellDataBlock:^(NSDictionary *dict) {
-        NSDictionary* _dic = [[NSDictionary alloc] initWithDictionary:dict];
-        _signDict=[[NSDictionary alloc] initWithDictionary:_dic];
-        _signText.text = _signDict[@"Msg"][@"signature"];
-        if([_signDict[@"Code"] integerValue] == 0){
-            
-        }else{
-            
-        }
-        
-    } FailBlock:^(NSMutableArray *array) {
-        
-    } andWithToken:save];
 
-}
 - (void)upDate
 {
     [self.view endEditing:YES];
     NSString *text = _signText.text;
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
+    
+    NSString *url = [newHostUrl stringByAppendingString:modifyUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"TokenKey"] = save;
-    params[@"signature"] = [NSString stringWithFormat:@"%@", text];
-    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Customer/modify"];
-    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
+    params[@"customer_token"] = save;
+    params[@"customer_signature"] = [NSString stringWithFormat:@"%@", text];
+    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
         
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        if ([dict[@"Code"] intValue]==1) {
+        int ret = [responseObject[@"Code"] intValue];
+        if (ret==1) {
             [MBProgressHUD showSuccess:@"修改成功"];
-            
             NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
             documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
             [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
-            
-            [NSKeyedArchiver archiveRootObject:dict[@"Msg"][@"token"] toFile:XWLAccountFile];
+            Customer *customer = [[Customer alloc] initWithDic:responseObject[@"Msg"]];
+            [NSKeyedArchiver archiveRootObject:customer.customer_token toFile:XWLAccountFile];
             
             [self.navigationController popViewControllerAnimated:YES];
-
+            
             [[NSNotificationCenter defaultCenter] postNotificationName:@"stateRefresh" object:nil];
         }else{
             
         }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    } failure:^(NSError *error) {
         
     }];
 }
-
-
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

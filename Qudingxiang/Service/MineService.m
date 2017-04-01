@@ -19,7 +19,7 @@
     //封装请求参数
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"TokenKey"] = tokenKey;
-    NSString *cachekey = [NSString stringWithFormat:@"%@%@%@%@",urlString,tokenKey,VGoods,VLine];
+    NSString *cachekey = [NSString stringWithFormat:@"%@%@%@",urlString,tokenKey,VGoods];
     NSString *mineFile = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
     NSString *str = [ToolView md5:cachekey];
     NSString *fileName = [mineFile stringByAppendingPathComponent:str];

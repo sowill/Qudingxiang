@@ -11,6 +11,11 @@
 #import "UIImage+Image.h"
 #import "UIView+LBExtension.h"
 
+//是否提示
+#define     QDXPromptFile [[NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) lastObject]stringByAppendingPathComponent:@"prompt.data"]
+
+#define promptStr   [NSKeyedUnarchiver unarchiveObjectWithFile:QDXPromptFile]
+
 #define LBMagin 10
 @interface LBTabBar ()
 {

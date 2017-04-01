@@ -8,7 +8,7 @@
 
 #import "QDXBindViewController.h"
 //#import "TabbarController.h"
-#import "QDXIsConnect.h"
+#import "Customer.h"
 #import "QDXCreateCodeViewController.h"
 #import <TencentOpenAPI/TencentOAuth.h>
 
@@ -43,7 +43,7 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textChange) name:UITextFieldTextDidChangeNotification object:customerNameText];
     
-    tencentOAuth=[[TencentOAuth alloc]initWithAppId:@"1104830915" andDelegate:self];
+    tencentOAuth=[[TencentOAuth alloc]initWithAppId:QQ_KEY andDelegate:self];
     
     permissions= [NSArray arrayWithObjects:@"get_user_info", @"get_simple_userinfo", @"add_t", nil];
 }
@@ -72,34 +72,30 @@
 
 -(void)QQandWXLogin
 {
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
+    NSString *url = [newHostUrl stringByAppendingString:qvLoginUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"qid"] = qqOpenid;
-    params[@"wxid"] = wxOpenid;
-    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Customer/qvlogin"];
-    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        QDXIsConnect *isConnect = [QDXIsConnect mj_objectWithKeyValues:dict];
-        int ret = [isConnect.Code intValue];
+    params[@"customer_qid"] = qqOpenid;
+    params[@"customer_wxid"] = wxOpenid;
+    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
+        NSLog(@"%@",responseObject[@"Msg"]);
+        int ret = [responseObject[@"Code"] intValue];
         if (ret==1) {
             [MBProgressHUD showSuccess:@"登录成功"];
-            //存储Token信息
-            [NSKeyedArchiver archiveRootObject:isConnect.Msg[@"token"] toFile:XWLAccountFile];
+            Customer *customer = [[Customer alloc] initWithDic:responseObject[@"Msg"]];
+            [NSKeyedArchiver archiveRootObject:customer.customer_token toFile:XWLAccountFile];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"stateRefresh" object:nil];
             [self.navigationController popViewControllerAnimated:YES];
             [self dismissViewControllerAnimated:YES completion:^{
                 
             }];
-        }
-        else{
+        }else{
             
         }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    } failure:^(NSError *error) {
         [MBProgressHUD showError:@"登录失败"];
+        NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
+        [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
     }];
 }
 
@@ -210,22 +206,15 @@
     
     NSString *customername = customerNameText.text;
     NSString *password = passwordText.text;
-
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
+    
+    NSString *url = [newHostUrl stringByAppendingString:bindUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"qid"] = qqOpenid;
-    params[@"wxid"] = wxOpenid;
-    params[@"code"] = [NSString stringWithFormat:@"%@", customername];
-    params[@"password"] = [NSString stringWithFormat:@"%@",password];
-    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Customer/bind"];
-    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        QDXIsConnect *isConnect = [QDXIsConnect mj_objectWithKeyValues:dict];
-        int ret = [isConnect.Code intValue];
+    params[@"customer_code"] = customername;
+    params[@"customer_pwd"] = password;
+    params[@"customer_qid"] = qqOpenid;
+    params[@"customer_wxid"] = wxOpenid;
+    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
+        int ret = [responseObject[@"Code"] intValue];
         if (ret==1) {
             [MBProgressHUD showSuccess:@"绑定成功"];
             [self QQandWXLogin];
@@ -233,9 +222,8 @@
         else{
             [MBProgressHUD showError:@"绑定失败"];
         }
-        
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
+    } failure:^(NSError *error) {
+
     }];
 }
 

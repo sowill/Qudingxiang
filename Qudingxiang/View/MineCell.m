@@ -7,7 +7,7 @@
 //
 
 #import "MineCell.h"
-#import "MineModel.h"
+#import "Myline.h"
 @interface MineCell()
 {
     UILabel *_desLabel;
@@ -54,31 +54,31 @@
     [self.contentView addSubview:rightView];
 }
 
-- (void)setModel:(MineModel *)model
+-(void)setMyline:(Myline *)myline
 {
-    _model = model;
-    _desLabel.text = [NSString stringWithFormat:@"%@",model.line[@"line_name"]];
-    _nameLabel.text = [NSString stringWithFormat:@"%@",model.line[@"line_sub" ]];
-    _statusLabel.text = [NSString stringWithFormat:@"%@",model.mstatus[@"mstatus_name"]];
-    if([model.mstatus[@"mstatus_id"] isEqualToString:@"4"]){
+    _myline = myline;
+    _desLabel.text = [NSString stringWithFormat:@"%@",myline.line_cn];
+    _nameLabel.text = [NSString stringWithFormat:@"%@",myline.myline_preview];
+    _statusLabel.text = [NSString stringWithFormat:@"%@",myline.mylinest_cn];
+    if([myline.mylinest_id isEqualToString:@"4"]){
         _imageView.image = [UIImage imageNamed:@"强制结束"];
-    }else if([model.mstatus[@"mstatus_id"] isEqualToString:@"1"]){
+    }else if([myline.mylinest_id isEqualToString:@"1"]){
         _imageView.image = [UIImage imageNamed:@"未开始"];
-    }else if([model.mstatus[@"mstatus_id"] isEqualToString:@"3"]){
+    }else if([myline.mylinest_id isEqualToString:@"3"]){
         _imageView.image = [UIImage imageNamed:@"已完成"];
-    }else if([model.mstatus[@"mstatus_id"] isEqualToString:@"5"]){
+    }else if([myline.mylinest_id isEqualToString:@"5"]){
         _imageView.image = [UIImage imageNamed:@"超时结束"];
-    }else if([model.mstatus[@"mstatus_id"] isEqualToString:@"2"]){
+    }else if([myline.mylinest_id isEqualToString:@"2"]){
         _imageView.image = [UIImage imageNamed:@"活动中"];
     }
 }
 - (void)awakeFromNib {
     // Initialization code
+    [super awakeFromNib];
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
-    
     // Configure the view for the selected state
 }
 

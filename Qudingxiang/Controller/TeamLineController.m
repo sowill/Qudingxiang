@@ -8,12 +8,13 @@
 
 #import "TeamLineController.h"
 #import "QDXGameViewController.h"
-#import "MineModel.h"
+#import "MylineList.h"
+#import "Myline.h"
 #import "MineCell.h"
 #import "QDXNavigationController.h"
-#import "MineCellService.h"
+#import "QDXStateView.h"
 
-@interface TeamLineController ()<UITableViewDataSource,UITableViewDelegate>
+@interface TeamLineController ()<UITableViewDataSource,UITableViewDelegate,StateDelegate>
 {
     UITableView *_tableView;
     NSMutableArray *_dataArr;
@@ -21,34 +22,18 @@
     int page;
     int count;
 }
+@property (nonatomic, strong) QDXStateView *noThingView;
 @end
 
 @implementation TeamLineController
-
-//- (void)viewDidAppear:(BOOL)animated
-//{
-//    [super viewDidAppear:animated];
-//    if(save){
-//        [self netData];
-//    }
-//}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"团队路线";
-    self.view.backgroundColor = [UIColor colorWithRed:35/255 green:138/255 blue:215/255 alpha:1];
+    self.view.backgroundColor = QDXBGColor;
+    
     [self createUI];
-    
-    if ([_tableView respondsToSelector:@selector(setSeparatorInset:)])
-    {
-        [_tableView setSeparatorInset:UIEdgeInsetsZero];
-    }
-    if ([_tableView respondsToSelector:@selector(setLayoutMargins:)])
-    {
-        [_tableView setLayoutMargins:UIEdgeInsetsZero];
-    }
-    
 }
 
 - (void)createUI
@@ -118,44 +103,54 @@
     }
 }
 
+-(void)changeState
+{
+    [self.navigationController popViewControllerAnimated:YES];
+}
+
+- (void)createSadViewWithDetail :(NSString *)detail
+{
+    _noThingView = [[QDXStateView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight - 49)];
+    _noThingView.tag = 2;
+    _noThingView.delegate = self;
+    _noThingView.stateImg.image = [UIImage imageNamed:@"order_nothing"];
+    if ([detail length] == 0) {
+        _noThingView.stateDetail.text = @"还没有线路哦~";
+    }else{
+        _noThingView.stateDetail.text = detail;
+    }
+    [_noThingView.stateButton setTitle:@"返回上一页" forState:UIControlStateNormal];
+    [self.view addSubview:_noThingView];
+}
+
 - (void)netData
 {
-    
-    MineCellService *mineCell = [MineCellService sharedInstance];
-    [mineCell teamCellDatasucceed:^(id data) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments | NSJSONReadingMutableLeaves error:nil];
-        if ([dict[@"Code"] intValue] == 0) {
-            
+    _dataArr = [NSMutableArray arrayWithCapacity:0];
+    NSString *url = [newHostUrl stringByAppendingString:getTeamListUrl];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"customer_token"] = save;
+    params[@"curr"] = [NSString stringWithFormat:@"%d",curr];
+    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
+        NSLog(@"%@",responseObject);
+        MylineList *mylineList = [[MylineList alloc] initWithDic:responseObject];
+        count = [mylineList.count intValue];
+        curr = [mylineList.curr intValue];
+        page = [mylineList.allpage intValue];
+        
+        [_noThingView removeFromSuperview];
+        if (count == 0) {
+            [self createSadViewWithDetail: @"还没有线路哦~"];
         }else{
-            NSArray *dictData = dict[@"Msg"][@"data"];
-            if([dictData isEqual:[NSNull null]]){
-                
-                UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"提示" message:@"您当前没有团队路线" preferredStyle:UIAlertControllerStyleAlert];
-                [alert addAction:[UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action) {
-                    
-                }]];
-                
-                [self presentViewController:alert animated:YES completion:nil];
-                
-            }else{
-                curr = [dict[@"Msg"][@"curr"] intValue];
-                page = [dict[@"Msg"][@"page"] intValue];
-                if(curr ==1){
-                    _dataArr = [NSMutableArray arrayWithCapacity:0];
-                }
-                for(NSDictionary *dict in dictData){
-                    MineModel *model = [[MineModel alloc] init];
-                    [model setValuesForKeysWithDictionary:dict];
-                    [_dataArr addObject:model];
-                }
-                [_tableView reloadData];
-                [_tableView.mj_footer endRefreshing];
+            
+            for (Myline *myline in mylineList.mylineArray) {
+                [_dataArr addObject:myline];
             }
+            [_tableView reloadData];
         }
         
     } failure:^(NSError *error) {
         
-    }andWithCurr:[NSString stringWithFormat:@"%d",curr]];
+    }];
 }
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath
@@ -178,7 +173,7 @@
 {
     MineCell *cell = [MineCell baseCellWithTableView:_tableView];
     cell.selectionStyle = UITableViewCellSelectionStyleNone; 
-    cell.model = _dataArr[indexPath.row];
+    cell.myline = _dataArr[indexPath.row];
     return cell;
 }
 

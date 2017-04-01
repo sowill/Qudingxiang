@@ -81,7 +81,7 @@
     NSString *title = @"趣定向";
     NSString *description = _goods.goods_cn;
     if (imageIndex == 0) {
-        TencentOAuth *auth = [[TencentOAuth alloc] initWithAppId:@"1104830915"andDelegate:self];
+        TencentOAuth *auth = [[TencentOAuth alloc] initWithAppId:QQ_KEY andDelegate:self];
 
         NSString *imgPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Icon-76@2x.png"];
         NSData *imgData = [NSData dataWithContentsOfFile:imgPath];
@@ -91,7 +91,7 @@
         SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:newsObj];
         QQApiSendResultCode sent = [QQApiInterface sendReq:req];
     } else if (imageIndex == 1){
-        TencentOAuth *auth = [[TencentOAuth alloc] initWithAppId:@"1104830915"andDelegate:self];
+        TencentOAuth *auth = [[TencentOAuth alloc] initWithAppId:QQ_KEY andDelegate:self];
         NSString *utf8String =[imgurl absoluteString];
         NSString *imgPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Icon-76@2x.png"];
         NSData *imgData = [NSData dataWithContentsOfFile:imgPath];
@@ -160,7 +160,7 @@
     
     [_webView addObserver:self forKeyPath:@"estimatedProgress" options:NSKeyValueObservingOptionNew context:nil];
     
-    NSString *url = [hostUrl stringByAppendingString:[NSString stringWithFormat:@"index.php/home/goods/index/goods_id/%@",_goods.goods_id]];
+    NSString *url = [newHostUrl stringByAppendingString:[goodsIndexUrl stringByAppendingString:[NSString stringWithFormat:@"/goods_id/%@",_goods.goods_id]]];
     
     [_webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
     if([_goods.goodstatus_id isEqualToString:@"1"]){

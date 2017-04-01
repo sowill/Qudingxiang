@@ -8,7 +8,7 @@
 
 #import "QDXChangePwdViewController.h"
 //#import "TabbarController.h"
-#import "QDXIsConnect.h"
+#import "Customer.h"
 #import "CheckDataTool.h"
 
 @interface QDXChangePwdViewController ()<UITextFieldDelegate>
@@ -169,33 +169,28 @@
         return;
     }
     
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
+    NSString *url = [newHostUrl stringByAppendingString:modifyUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"password"] = [NSString stringWithFormat:@"%@", password];
-    params[@"TokenKey"] = save;
-    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Customer/modify"];
-    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
+    params[@"customer_token"] = save;
+    params[@"customer_pwd"] = [NSString stringWithFormat:@"%@", password];
+    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
         
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        QDXIsConnect *isConnect = [QDXIsConnect mj_objectWithKeyValues:dict];
-        int ret = [isConnect.Code intValue];
+        int ret = [responseObject[@"Code"] intValue];
         if (ret==1) {
             NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
             documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
             [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
-            [NSKeyedArchiver archiveRootObject:isConnect.Msg[@"token"] toFile:XWLAccountFile];
+            Customer *customer = [[Customer alloc] initWithDic:responseObject[@"Msg"]];
+            [NSKeyedArchiver archiveRootObject:customer.customer_token toFile:XWLAccountFile];
             
             [self dismissViewControllerAnimated:YES completion:^{
-                    
+                
             }];
+        }else{
+            
         }
-        else{
-
-        }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    } failure:^(NSError *error) {
         
     }];
 }

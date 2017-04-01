@@ -7,7 +7,7 @@
 //
 
 #import "QDXChangeNameViewController.h"
-#import "QDXIsConnect.h"
+#import "Customer.h"
 //#import "TabbarController.h"
 
 @interface QDXChangeNameViewController ()<UITextFieldDelegate>
@@ -100,36 +100,28 @@
 
     NSString *customername = customerNameText.text;
     
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
+    NSString *url = [newHostUrl stringByAppendingString:modifyUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"TokenKey"] = save;
-    params[@"customer_name"] = [NSString stringWithFormat:@"%@", customername];
-    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Customer/modify"];
-    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
+    params[@"customer_token"] = save;
+    params[@"customer_cn"] = [NSString stringWithFormat:@"%@", customername];
+    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
         
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        QDXIsConnect *isConnect = [QDXIsConnect mj_objectWithKeyValues:dict];
-        int ret = [isConnect.Code intValue];
-        
+        int ret = [responseObject[@"Code"] intValue];
         if (ret==1) {
             [MBProgressHUD showSuccess:@"修改成功"];
             
             NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
             documentDir= [documentDir stringByAppendingPathComponent:@"XWLAccount.data"];
             [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
+            Customer *customer = [[Customer alloc] initWithDic:responseObject[@"Msg"]];
+            [NSKeyedArchiver archiveRootObject:customer.customer_token toFile:XWLAccountFile];
             
-            [NSKeyedArchiver archiveRootObject:isConnect.Msg[@"token"] toFile:XWLAccountFile];
+            [self.navigationController popViewControllerAnimated:YES];
+        }else{
             
-            [self dismissViewControllerAnimated:YES completion:^{
-                
-            }];
         }
-        else{
-            }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    } failure:^(NSError *error) {
         
     }];
 }

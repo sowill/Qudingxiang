@@ -15,7 +15,7 @@
 #import "LBTabBarController.h"
 #import "MineViewController.h"
 
-#import "AppDelegate.h"
+//#import "AppDelegate.h"
 
 #import "QDXNavigationController.h"
 
@@ -89,9 +89,7 @@
         [_pageControl removeFromSuperview];
         
         LBTabBarController *tabVC = [[LBTabBarController alloc] init];
-        AppDelegate *app = [UIApplication sharedApplication].delegate;
-        app.window.rootViewController = tabVC;
-        
+        [UIApplication sharedApplication].delegate.window.rootViewController = tabVC;
     }];
 }
 
@@ -116,7 +114,6 @@
         _scrollView.contentOffset = CGPointMake(0, 0);
     }
     _pageControl.currentPage = _currentIndex;
-    
 }
 
 - (void)didReceiveMemoryWarning {

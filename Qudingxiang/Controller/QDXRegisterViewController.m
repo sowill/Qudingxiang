@@ -8,7 +8,8 @@
 
 #import "QDXRegisterViewController.h"
 //#import "TabbarController.h"
-#import "QDXIsConnect.h"
+#import "Customer.h"
+
 #import "CheckDataTool.h"
 #import "QDXLoginViewController.h"
 
@@ -274,36 +275,30 @@
         return;
     }
     
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
+    NSString *url = [newHostUrl stringByAppendingString:registerUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"code"] = [NSString stringWithFormat:@"%@", username];
-    params[@"password"] = [NSString stringWithFormat:@"%@", password];
-    params[@"customer_name"] = [NSString stringWithFormat:@"%@", customername];
-    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Customer/register"];
-    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
+    params[@"customer_cn"] = [NSString stringWithFormat:@"%@", customername];
+    params[@"customer_code"] = [NSString stringWithFormat:@"%@", username];
+    params[@"customer_pwd"] = [NSString stringWithFormat:@"%@", password];
+    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
         
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
-        QDXIsConnect *isConnect = [QDXIsConnect mj_objectWithKeyValues:dict];
-        int ret = [isConnect.Code intValue];
+        int ret = [responseObject[@"Code"] intValue];
         if (ret==1) {
             [MBProgressHUD showSuccess:@"注册成功"];
-            //存储Token信息
-            [NSKeyedArchiver archiveRootObject:isConnect.Msg[@"token"] toFile:XWLAccountFile];
+            Customer *customer = [[Customer alloc] initWithDic:responseObject[@"Msg"]];
+            [NSKeyedArchiver archiveRootObject:customer.customer_token toFile:XWLAccountFile];
             [self dismissViewControllerAnimated:YES completion:^{
                 
             }];
-        }
-        else{
-            NSString *showerror = [infoDict objectForKey:@"Msg"];
+        }else{
+            NSString *showerror = responseObject[@"Msg"];
             [MBProgressHUD showError:showerror];
         }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    } failure:^(NSError *error) {
         
     }];
+
 }
 
 

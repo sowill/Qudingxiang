@@ -12,4 +12,6 @@
 @property (nonatomic, strong) NSString *click;
 @property (nonatomic, strong) NSString *ticketID;
 @property (nonatomic, strong) LineList *lineList;
+
+@property (nonatomic, strong) void (^LineClickBlock)();
 @end

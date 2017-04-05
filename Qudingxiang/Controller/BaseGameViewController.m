@@ -88,8 +88,13 @@
     
     if (_myline_id.length == 0) {
 
-        QDXProtocolViewController *viewController = [[QDXProtocolViewController alloc] init];
-        QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:viewController];
+        QDXProtocolViewController *protocolVC = [[QDXProtocolViewController alloc] init];
+        QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:protocolVC];
+        protocolVC.declineBlock = ^(){
+            [self dismissViewControllerAnimated:YES completion:^{
+                
+            }];
+        };
         [self.navigationController presentViewController:nav animated:YES completion:^{
             
         }];
@@ -118,7 +123,6 @@
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
 
-    
     [self.MyCentralManager stopScan];
 }
 

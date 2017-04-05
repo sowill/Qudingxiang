@@ -130,10 +130,10 @@
             [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
                 int ret = [responseObject[@"Code"] intValue];
                 if (ret == 1) {
-                    BaseGameViewController *viewController = [[BaseGameViewController alloc] init];
-                    QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:viewController];
-                    [self.navigationController presentViewController:nav animated:YES completion:^{
-                        
+                    [self dismissViewControllerAnimated:YES completion:^{
+                        if (self.LineClickBlock) {
+                            self.LineClickBlock();
+                        }
                     }];
                 }else{
                     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"提示" message:[NSString stringWithFormat:@"%@",responseObject[@"Msg"]] delegate:self cancelButtonTitle:@"确定" otherButtonTitles:nil, nil];

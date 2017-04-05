@@ -18,6 +18,7 @@
 
 #import "QDXActivityViewController.h"
 
+#import "BaseGameViewController.h"
 #import "codeWebViewController.h"
 #import "QDXHomeTableViewCell.h"
 #import "QDXHomeCooperationCell.h"
@@ -586,6 +587,14 @@
             [self presentViewController:nav animated:YES completion:^{
                 
             }];
+            
+            lineVC.LineClickBlock = ^(){
+                BaseGameViewController *viewController = [[BaseGameViewController alloc] init];
+                QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:viewController];
+                [self.navigationController presentViewController:nav animated:YES completion:^{
+                    
+                }];
+            };
         }
     } failure:^(NSError *error) {
         

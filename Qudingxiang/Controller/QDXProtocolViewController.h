@@ -10,4 +10,6 @@
 
 @interface QDXProtocolViewController : BaseViewController
 
+@property (nonatomic, strong) void (^declineBlock)();
+
 @end

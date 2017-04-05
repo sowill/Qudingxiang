@@ -62,7 +62,11 @@
 
 -(void)decline
 {
-    [self dismissViewControllerAnimated:YES completion:^{}];
+    [self dismissViewControllerAnimated:YES completion:^{
+        if (self.declineBlock) {
+            self.declineBlock();
+        }
+    }];
 }
 
 -(void)accept

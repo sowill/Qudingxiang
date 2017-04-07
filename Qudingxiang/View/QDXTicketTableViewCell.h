@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-@class QDXTicketInfoModel;
+@class Ordersinfo;
 
 @interface QDXTicketTableViewCell : UITableViewCell
 @property (nonatomic,strong) UILabel *linePrice;
 @property (nonatomic,strong) UIImageView *ticketinfo_code;
 @property (nonatomic,strong) UILabel *ticketinfo_name;
-@property (nonatomic, strong) QDXTicketInfoModel *TicketInfo;
+@property (nonatomic, strong) Ordersinfo *ordersInfo;
 //@property (weak, nonatomic) IBOutlet UILabel *tstatus_id;
 @property (nonatomic,strong) UIButton *deleteButton;
 @property (nonatomic,strong) UILabel *lineName;

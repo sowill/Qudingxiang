@@ -7,9 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@class QDXOrdermodel;
-@class QDXTicketInfoModel;
+@class Orders;
 @interface QDXPayTableViewController : BaseViewController
-@property(nonatomic,retain) QDXOrdermodel *Order;
-@property(nonatomic,retain) QDXTicketInfoModel *ticketInfo;
+@property(nonatomic,retain) Orders *Order;
 @end

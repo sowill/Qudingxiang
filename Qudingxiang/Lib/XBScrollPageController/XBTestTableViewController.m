@@ -9,17 +9,12 @@
 #import "XBTestTableViewController.h"
 #import "XBConst.h"
 
-#import "QDXOrderInfoModel.h"
-#import "QDXOrdermodel.h"
-#import "QDXTicketInfoModel.h"
-#import "QDXostatus.h"
-#import "QDXpaytype.h"
+#import "OrdersList.h"
+#import "Orders.h"
+
+#import "QDXPayTableViewController.h"
 #import "QDXOrderTableViewCell.h"
 #import "QDXOrderDetailTableViewController.h"
-#import "OrderService.h"
-#import "QDXIsConnect.h"
-#import "QDXPayTableViewController.h"
-
 #import "QDXLoginViewController.h"
 #import "QDXNavigationController.h"
 
@@ -83,6 +78,7 @@
 //{
 //    [super viewWillAppear:animated];
 //    curr = 1;
+//
 //}
 
 - (void)viewDidLoad {
@@ -90,12 +86,10 @@
     
     curr = 1;
     [self getOrdersListAjax];
-    
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(stateRefresh) name:@"stateRefresh" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(payRefresh) name:@"pay" object:nil];
 }
 
--(void)stateRefresh
-{
+-(void)payRefresh{
     curr = 1;
     [self getOrdersListAjax];
 }
@@ -178,94 +172,72 @@
         [self createLoginView];
         return;
     }else{
-        [OrderService cellDataBlock:^(NSMutableDictionary *dict) {
-            QDXIsConnect *isConnect = [QDXIsConnect mj_objectWithKeyValues:dict];
-            int ret = [isConnect.Code intValue];
-            if (ret==1)  {
-                if (![dict[@"Msg"][@"count"] isEqualToString:@"0"]){
-                    // 将字典数据转为模型数据
-                    if(curr == 1){
-                        self.orders = [[NSMutableArray alloc] init];
-                        
-                        self.willPayOrders = [[NSMutableArray alloc] init];
-                        
-                        self.didPayOrders = [[NSMutableArray alloc] init];
-                        
-                        self.didCompleted = [[NSMutableArray alloc] init];
-                    }
-                    curr = [dict[@"Msg"][@"curr"] intValue];
-                    page = [dict[@"Msg"][@"page"] intValue];
-                    //将字典转模型
-                    NSArray *dataDict = dict[@"Msg"][@"data"];
-                    
-                    for(NSDictionary *dict in dataDict){
-                        [self.orders addObject:[QDXOrdermodel OrderWithDict:dict]];
-                        
-                        switch ([dict[@"Orders_st"] intValue]) {
-                            case 1:
-                                [self.willPayOrders addObject:[QDXOrdermodel OrderWithDict:dict]];
-                                break;
-                                
-                            case 2:
-                                [self.didPayOrders addObject:[QDXOrdermodel OrderWithDict:dict]];
-                                break;
-                                
-                            case 3:
-                                [self.didCompleted addObject:[QDXOrdermodel OrderWithDict:dict]];
-                                break;
-                                
-                            default:
-                                break;
-                        }
-                    }
+        self.orders = [NSMutableArray arrayWithCapacity:0];
+        self.willPayOrders = [NSMutableArray arrayWithCapacity:0];
+        self.didPayOrders = [NSMutableArray arrayWithCapacity:0];
+        self.didCompleted = [NSMutableArray arrayWithCapacity:0];
+        NSString *url = [newHostUrl stringByAppendingString:getOrdersListUrl];
+        NSMutableDictionary *params = [NSMutableDictionary dictionary];
+        params[@"customer_token"] = save;
+        [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
 
-                }else{
-                    self.orders = [[NSMutableArray alloc] init];
-                    self.willPayOrders = [[NSMutableArray alloc] init];
-                    self.didCompleted = [[NSMutableArray alloc] init];
-                    self.didPayOrders = [[NSMutableArray alloc] init];
-                    [self createSadViewWithDetail: @"您暂时还没有订单哦~"];
+            OrdersList *ordersList = [[OrdersList alloc] initWithDic:responseObject];
+            curr = [ordersList.curr intValue];
+            page = [ordersList.allpage intValue];
+            for (Orders *orders in ordersList.ordersArray) {
+                [self.orders addObject:orders];
+                switch ([orders.ordersst_id intValue]) {
+                    case 1:
+                        [self.willPayOrders addObject:orders];
+                        break;
+                        
+                    case 2:
+                        [self.didPayOrders addObject:orders];
+                        break;
+                        
+                    case 3:
+                        [self.didCompleted addObject:orders];
+                        break;
+                        
+                    default:
+                        break;
                 }
-                
-                if (self.didCompleted.count == 0 && [_XBParam intValue] == 3) {
-                    [self.tableview removeFromSuperview];
-                    [self createSadViewWithDetail: @"您暂时还没有已完成的订单哦~"];
-                }else if (self.didPayOrders.count == 0 && [_XBParam intValue] == 2){
-                    [self.tableview removeFromSuperview];
-                    [self createSadViewWithDetail: @"您暂时还没有已支付的订单哦~"];
-                }else if (self.willPayOrders.count == 0 && [_XBParam intValue] == 1){
-                    [self.tableview removeFromSuperview];
-                    [self createSadViewWithDetail: @"您暂时还没有待支付的订单哦~"];
-                }else if (self.orders.count == 0 && [_XBParam intValue] == 0){
-                    [self.tableview removeFromSuperview];
-                    [self createSadViewWithDetail: @"您暂时还没有订单哦~"];
-                }else{
-                    [_loginView removeFromSuperview];
-                    [_noThingView removeFromSuperview];
-                    [self createTableView];
-                }
-            }else{
-
             }
+            
+            if (self.didCompleted.count == 0 && [_XBParam intValue] == 3) {
+                [self.tableview removeFromSuperview];
+                [self createSadViewWithDetail: @"您暂时还没有已完成的订单哦~"];
+            }else if (self.didPayOrders.count == 0 && [_XBParam intValue] == 2){
+                [self.tableview removeFromSuperview];
+                [self createSadViewWithDetail: @"您暂时还没有已支付的订单哦~"];
+            }else if (self.willPayOrders.count == 0 && [_XBParam intValue] == 1){
+                [self.tableview removeFromSuperview];
+                [self createSadViewWithDetail: @"您暂时还没有待支付的订单哦~"];
+            }else if (self.orders.count == 0 && [_XBParam intValue] == 0){
+                [self.tableview removeFromSuperview];
+                [self createSadViewWithDetail: @"您暂时还没有订单哦~"];
+            }else{
+                [_loginView removeFromSuperview];
+                [_noThingView removeFromSuperview];
+                [self createTableView];
+            }
+            
             [self.tableview.mj_footer endRefreshing];
             // 刷新表格
             [self.tableview reloadData];
-        } FailBlock:^(NSMutableArray *array) {
-
-        } andWithToken:save andWithCurr:[NSString stringWithFormat:@"%d",curr]];
+            
+        } failure:^(NSError *error) {
+            
+        }];
     }
 }
 
-- (void)setXBParam:(NSString *)XBParam
-{
+- (void)setXBParam:(NSString *)XBParam{
     _XBParam = XBParam;
-    XBLog(@"XBTestTableViewController received param === %@",XBParam);
 }
 
-- (void)dealloc
-{
-    XBLog(@"XBTestTableViewController delloc");
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"stateRefresh" object:nil];
+- (void)dealloc{
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"pay" object:nil];
 }
 
 - (void)createLoginView
@@ -345,8 +317,8 @@
     
     cell.deleteBtnBlock= ^(){
         __strong __typeof(self) strongSelf = weakSelf;
-        
-        QDXOrdermodel *order = [[QDXOrdermodel alloc] init];
+
+        Orders *order = [[Orders alloc] init];
         if ([_XBParam intValue] == 0) {
             order = strongSelf.orders[indexPath.row];
         }else if([_XBParam intValue] == 1){
@@ -358,7 +330,7 @@
         UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"删除" message:@"是否删除当前订单" preferredStyle:UIAlertControllerStyleAlert];
         UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
         UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
-            [self deleteOrder:order.Orders_id];
+            [self deleteOrder:order.orders_id];
             
             if ([_XBParam intValue] == 0) {
                 [strongSelf.orders removeObjectAtIndex:indexPath.row];
@@ -371,7 +343,7 @@
             [strongSelf.tableview deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationMiddle];
             [strongSelf.tableview reloadData];
             
-            [[NSNotificationCenter defaultCenter] postNotificationName:@"stateRefresh" object:nil];
+            [self getOrdersListAjax];
         }];
         [alertController addAction:cancelAction];
         [alertController addAction:okAction];
@@ -382,9 +354,7 @@
         __strong __typeof(self) strongSelf = weakSelf;
         
         QDXPayTableViewController *payVC=[[QDXPayTableViewController alloc]init];
-        QDXOrdermodel *order = strongSelf.orders[indexPath.row];
         payVC.Order = strongSelf.orders[indexPath.row];
-        payVC.ticketInfo = order.TicketInfo[indexPath.row];
         payVC.hidesBottomBarWhenPushed = YES;
         [strongSelf.navigationController pushViewController:payVC animated:YES];
     };
@@ -414,25 +384,15 @@
     return cell;
 }
 
-- (void)deleteOrder:(int)withOID
-{
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
+- (void)deleteOrder:(NSString *)withOID{
+    
+    NSString *url = [newHostUrl stringByAppendingString:removeOrdersUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"TokenKey"] = save;
-    params[@"orders_id"] =[NSString stringWithFormat:@"%d",withOID];
-    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Orders/delOrder"];
-    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        if ([dict[@"Code"] intValue] == 1) {
-//            NSLog(@"成功删除");
-        }else{
-//            NSLog(@"%@",dict);
-        }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    params[@"customer_token"] = save;
+    params[@"orders_id"] = withOID;
+    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
+
+    } failure:^(NSError *error) {
         
     }];
 }
@@ -441,9 +401,9 @@
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if ([_XBParam intValue] == 0) {
-        QDXOrdermodel *orderModel  = self.orders[indexPath.row];
+        Orders *orderModel  = self.orders[indexPath.row];
         
-        if (orderModel.Orders_st == 2 || orderModel.Orders_st == 3) {
+        if ([orderModel.ordersst_id intValue] == 2 || [orderModel.ordersst_id intValue] == 3) {
             return FitRealValue(324 + 20);
         }else{
             return FitRealValue(412 + 20);
@@ -462,23 +422,23 @@
     
     switch ([_XBParam intValue]) {
         case 0:
-            ODetailVC.Order = self.orders[indexPath.row];
+            ODetailVC.orders = self.orders[indexPath.row];
             break;
             
         case 1:
-            ODetailVC.Order = self.willPayOrders[indexPath.row];
+            ODetailVC.orders = self.willPayOrders[indexPath.row];
             break;
             
         case 2:
-            ODetailVC.Order = self.didPayOrders[indexPath.row];
+            ODetailVC.orders = self.didPayOrders[indexPath.row];
             break;
             
         case 3:
-            ODetailVC.Order = self.didCompleted[indexPath.row];
+            ODetailVC.orders = self.didCompleted[indexPath.row];
             break;
             
         default:
-            ODetailVC.Order = self.orders[indexPath.row];
+            ODetailVC.orders = self.orders[indexPath.row];
             break;
     }
     

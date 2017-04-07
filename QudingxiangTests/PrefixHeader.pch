@@ -241,3 +241,21 @@
 
 //协议
 #define protocolUrl @"Home/Util/protocol"
+
+//获取订单列表 参数customer_token
+#define getOrdersListUrl @"Home/Orders/getList"
+
+//获取订单添加 传入参数:customer_token（必填)，goods_id（必填），add（必填，1为添加，其它为减少
+#define addOrdersUrl @"Home/Orders/addOrders"
+
+//获取删除订单 传入参数:customer_token（必填),orders_id（必填
+#define removeOrdersUrl @"Home/Orders/remove"
+
+//获取订单详情 传入参数: customer_token（必填),orders_id（必填）
+#define getOrdersInfoUrl @"Home/Orders/getInfo"
+
+//微信支付 传入参数: customer_token（必填),orders_id（必填）
+#define weixinPayUrl @"Home/Weixin/pay"
+
+//支付宝支付 传入参数: customer_token（必填),orders_id（必填）
+#define alipayPayUrl @"Home/Alipay/pay"

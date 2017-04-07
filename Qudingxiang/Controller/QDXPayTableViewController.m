@@ -16,6 +16,7 @@
 #import "QDXTicketInfoModel.h"
 #import "QDXOrderDetailTableViewController.h"
 #import "AppDelegate.h"
+#import "Orders.h"
 
 @interface QDXPayTableViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
@@ -41,7 +42,7 @@
     AppDelegate *appdelegate = [[UIApplication sharedApplication] delegate];
     appdelegate.WXPayBlock = ^(){
         QDXOrderDetailTableViewController* QDetailVC=[[QDXOrderDetailTableViewController alloc]init];
-        QDetailVC.orderId = [NSString stringWithFormat:@"%d",self.Order.Orders_id];
+        QDetailVC.orders= self.Order;
         [self.navigationController popViewControllerAnimated:YES];
     };
 }
@@ -129,7 +130,7 @@
         cost.textColor = QDXOrange;
         cost.textAlignment = NSTextAlignmentRight;
         cost.font = [UIFont systemFontOfSize:20];
-        cost.text =[@"¥" stringByAppendingString: self.Order.Orders_am];
+        cost.text =[@"¥" stringByAppendingString: self.Order.orders_am];
         [cell addSubview:cost];
         cell.backgroundColor = [UIColor colorWithRed:0.996 green:0.957 blue:0.800 alpha:1.000];
     }
@@ -239,18 +240,14 @@
     }
 }
 
--(void)getAlipayapp
-{
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
+-(void)getAlipayapp{
+    NSString *url = [newHostUrl stringByAppendingString:alipayPayUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Alipay/app"];
-    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
+    params[@"customer_token"] = save;
+    params[@"orders_id"] = self.Order.orders_id;
+    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
         
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        _Alipay = [AlipayModel mj_objectWithKeyValues:dict];
+        _Alipay = [AlipayModel mj_objectWithKeyValues:responseObject];
         pay.userInteractionEnabled = YES;
         CGFloat top = 25;
         CGFloat bottom = 25;
@@ -258,38 +255,35 @@
         CGFloat right = 5;
         UIEdgeInsets insets = UIEdgeInsetsMake(top, left, bottom, right);
         [pay setBackgroundImage:[[UIImage imageNamed:@"sign_button"] resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch] forState:UIControlStateNormal];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    } failure:^(NSError *error) {
         
     }];
 }
 
--(void)getWeixinpay
-{
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
+-(void)getWeixinpay{
+    NSString *url = [newHostUrl stringByAppendingString:weixinPayUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"TokenKey"]= save;
-    params[@"Orders_id"] = [NSString stringWithFormat:@"%d",self.Order.Orders_id];
-    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Weixin/pay"];
-    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
+    params[@"customer_token"] = save;
+    params[@"orders_id"] = self.Order.orders_id;
+    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
         
+        NSLog(@"%@",responseObject);
         
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        if(dict != nil){
-            NSMutableString *retcode = [dict objectForKey:@"retcode"];
-            if (retcode.intValue == 0){
-                _WXpay = [WeixinModel mj_objectWithKeyValues:dict];
-                pay.userInteractionEnabled = YES;
-                CGFloat top = 25;
-                CGFloat bottom = 25;
-                CGFloat left = 5;
-                CGFloat right = 5;
-                UIEdgeInsets insets = UIEdgeInsetsMake(top, left, bottom, right);
-                [pay setBackgroundImage:[[UIImage imageNamed:@"sign_button"] resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch] forState:UIControlStateNormal];
-            }
+        int ret = [responseObject[@"Code"] intValue];
+        if (ret == 1) {
+            
+            _WXpay = [WeixinModel mj_objectWithKeyValues:responseObject[@"Msg"]];
+            pay.userInteractionEnabled = YES;
+            CGFloat top = 25;
+            CGFloat bottom = 25;
+            CGFloat left = 5;
+            CGFloat right = 5;
+            UIEdgeInsets insets = UIEdgeInsetsMake(top, left, bottom, right);
+            [pay setBackgroundImage:[[UIImage imageNamed:@"sign_button"] resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch] forState:UIControlStateNormal];
+        }else{
+            [MBProgressHUD showError:responseObject[@"Msg"]];
         }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    } failure:^(NSError *error) {
         
     }];
 }
@@ -304,7 +298,7 @@
                 req.prepayId            = _WXpay.prepayid;
                 req.nonceStr            = _WXpay.noncestr;
                 req.timeStamp           = [stamp intValue];
-                req.package             = @"Sign=WXPay";
+                req.package             = _WXpay.package;
                 req.sign                = _WXpay.sign;
                 [WXApi sendReq:req];
     [MBProgressHUD hideHUD];
@@ -347,11 +341,11 @@
     Order *order = [[Order alloc] init];
     order.partner = partner;
     order.seller = seller;
-    order.tradeNO = self.Order.Orders_name; //订单ID（由商家自行制定）
-    order.productName = self.ticketInfo.ticketinfo_name; //商品标题
-    order.productDescription = self.ticketInfo.ticketinfo_name; //商品描述
-    order.amount = self.Order.Orders_am; //商品价格
-    order.notifyURL =  [hostUrl stringByAppendingString:@"index.php/Home/Alipay/notify"]; //回调URL
+    order.tradeNO = self.Order.orders_cn; //订单ID（由商家自行制定）
+    order.productName = self.Order.goods_cn; //商品标题
+    order.productDescription = self.Order.goods_cn; //商品描述
+    order.amount = self.Order.orders_am; //商品价格
+    order.notifyURL =  _Alipay.notify; //回调URL
     order.service = @"mobile.securitypay.pay";
     order.paymentType = @"1";
     order.inputCharset = @"utf-8";
@@ -390,7 +384,7 @@
             UIAlertController *aalert = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:UIAlertControllerStyleAlert];
             [aalert addAction:[UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action) {
                 QDXOrderDetailTableViewController* QDetailVC=[[QDXOrderDetailTableViewController alloc]init];
-                QDetailVC.orderId = [NSString stringWithFormat:@"%d",self.Order.Orders_id];
+                QDetailVC.orders = self.Order;
                 [self.navigationController popViewControllerAnimated:YES];
             }]];
             [self presentViewController:aalert animated:YES completion:nil];

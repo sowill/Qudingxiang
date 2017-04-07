@@ -7,11 +7,7 @@
 //
 
 #import "QDXOrderTableViewCell.h"
-#import "QDXOrderInfoModel.h"
-#import "QDXOrdermodel.h"
-#import "QDXTicketInfoModel.h"
-#import "QDXostatus.h"
-#import "QDXpaytype.h"
+#import "Orders.h"
 
 @implementation QDXOrderTableViewCell
 
@@ -102,36 +98,32 @@
     [self.payButton addTarget:self action:@selector(payButtonClick) forControlEvents:UIControlEventTouchUpInside];
 }
 
--(void)setOrder:(QDXOrdermodel *)order
-{
+-(void)setOrder:(Orders *)order{
     _order = order;
-    self.orders_name.text =[@"订单号：" stringByAppendingString:  order.Orders_name];
-    self.orders_ct.text = [@"下单时间：" stringByAppendingString:  order.Orders_ct];
+    self.orders_name.text =[@"订单号：" stringByAppendingString:  order.orders_cn];
+    self.orders_ct.text = [@"下单时间：" stringByAppendingString:  order.orders_cdate];
     
-    [self.order_img setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",hostUrl,order.img]] placeholderImage:[UIImage imageNamed:@"banner_cell"]];
-    
-    QDXostatus *ostatus = order.ostatus;
-    self.ostatus_name.text = ostatus.ostatus_name;
+    [self.order_img setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",newHostUrl,order.goods_url]] placeholderImage:[UIImage imageNamed:@"banner_cell"]];
     
     //高度固定不折行，根据字的多少计算label的宽度
-    NSString *str = [NSString stringWithFormat:@"数量：%d张 | 总价：",order.quantity];
+    NSString *str = [NSString stringWithFormat:@"数量：%@张 | 总价：",order.orders_quantity];
     CGSize size = [str sizeWithFont:self.ticket_ct.font constrainedToSize:CGSizeMake(MAXFLOAT, FitRealValue(28))];
     //根据计算结果重新设置UILabel的尺寸
     [self.ticket_ct setFrame:CGRectMake(FitRealValue(24 + 140 + 30), FitRealValue(100 + 44 + 28 + 26), size.width, FitRealValue(28))];
     self.ticket_ct.text = str;
     [self.BGView addSubview:self.ticket_ct];
     
-    self.orders_am.text = [@"¥" stringByAppendingString:order.Orders_am];
+    self.orders_am.text = [@"¥" stringByAppendingString:order.orders_am];
     CGFloat ticket_ctMaxX = CGRectGetMaxX(self.ticket_ct.frame);
     self.orders_am.frame = CGRectMake(ticket_ctMaxX,FitRealValue(100 + 44 + 28 + 24), FitRealValue(200), FitRealValue(32));
     
-    self.order_name.text = order.name;
+    self.order_name.text = order.orders_cn;
     
-    if (order.Orders_st == 2 || order.Orders_st == 3) {
+    if ([order.ordersst_id intValue] == 2 || [order.ordersst_id intValue] == 3) {
         self.BGView.frame = CGRectMake(0, FitRealValue(20), QdxWidth, FitRealValue(324));
         [self.deleteButton removeFromSuperview];
         [self.payButton removeFromSuperview];
-        if (order.Orders_st == 3) {
+        if ([order.ordersst_id intValue] == 3) {
             self.orders_am.textColor = QDXGray;
         }
     }else{

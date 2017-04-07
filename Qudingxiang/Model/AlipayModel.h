@@ -12,6 +12,7 @@
 @property (nonatomic, strong) NSString *partner;
 @property (nonatomic, strong) NSString *privateKey;
 @property (nonatomic, strong) NSString *seller;
+@property (nonatomic, strong) NSString *notify;
 
 //+(instancetype)alipayWithDict:(NSDictionary *)dict;
 //-(instancetype)initWithDict:(NSDictionary *)dict;

@@ -16,4 +16,5 @@
 @property (nonatomic, strong) NSString *prepayid;
 @property (nonatomic, strong) NSString *sign;
 @property (nonatomic, strong) NSString *timestamp;
+@property (nonatomic, strong) NSString *package;
 @end

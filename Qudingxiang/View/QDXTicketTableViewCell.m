@@ -15,6 +15,7 @@
 #import "QRCodeGenerator.h"
 #import "zoomImage.h"
 #import "QDXOrderDetailTableViewController.h"
+#import "Ordersinfo.h"
 
 @implementation QDXTicketTableViewCell
 
@@ -67,26 +68,26 @@
     [self.contentView addSubview:self.deleteButton];
 }
 
--(void)setTicketInfo:(QDXTicketInfoModel *)TicketInfo
+-(void)setOrdersInfo:(Ordersinfo *)ordersInfo
 {
-    _TicketInfo = TicketInfo;
-    self.ticketinfo_name.text = [@"票号：" stringByAppendingString: TicketInfo.ticketinfo_name];
-    self.ticketinfo_code.image = [QRCodeGenerator qrImageForString:TicketInfo.ticketinfo_name imageSize:89];
+    _ordersInfo = ordersInfo;
+    self.ticketinfo_name.text = [@"票号：" stringByAppendingString: ordersInfo.ordersinfo_cn];
+    [self.ticketinfo_code setImageWithURL:[NSURL URLWithString:ordersInfo.qrcode] placeholderImage:[UIImage imageNamed:@"banner_cell"]];
     self.ticketinfo_code.userInteractionEnabled = YES;
     UITapGestureRecognizer *tap  = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(bigButtonTapped:)];
     tap.numberOfTouchesRequired = 1;
     tap.numberOfTapsRequired = 1;
     [self.ticketinfo_code addGestureRecognizer:tap];
-
-    self.linePrice.text = [@"￥" stringByAppendingString:TicketInfo.goods_price];
-    self.lineName.text = [@"活动：" stringByAppendingString:TicketInfo.goods_name];
-    if ([TicketInfo.tstatus_name isEqualToString:@"已使用"]){
-        self.deleteButton.userInteractionEnabled = NO;
-        [self.deleteButton setTitle:TicketInfo.tstatus_name forState:UIControlStateNormal];
-    }else if ([TicketInfo.tstatus_name isEqualToString:@"未激活"]){
+    
+    if ([ordersInfo.ordersinfost_id isEqualToString:@"5"]) {
+        [self.deleteButton setTitle:@"删除" forState:UIControlStateNormal];
+    }else if ([ordersInfo.ordersinfost_id isEqualToString:@"1"]){
         self.deleteButton.layer.borderColor = [QDXBlue CGColor];
         [self.deleteButton setTitleColor:QDXBlue forState:UIControlStateNormal];
         [self.deleteButton setTitle:@"使用" forState:UIControlStateNormal];
+    }else{
+        self.deleteButton.userInteractionEnabled = NO;
+        [self.deleteButton setTitle:ordersInfo.ordersinfost_cn forState:UIControlStateNormal];
     }
 }
 

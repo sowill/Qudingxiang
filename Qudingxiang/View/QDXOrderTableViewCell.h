@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@class QDXOrdermodel;
+@class Orders;
 @interface QDXOrderTableViewCell : UITableViewCell
 @property (nonatomic, strong) UILabel *orders_name;
 @property (nonatomic, strong) UILabel *orders_ct;
@@ -19,7 +19,7 @@
 @property (nonatomic, strong) UIButton *deleteButton;
 @property (nonatomic, strong) UIButton *payButton;
 @property (nonatomic, strong) UIView *BGView;
-@property (nonatomic, strong) QDXOrdermodel *order;
+@property (nonatomic, strong) Orders *order;
 
 @property (nonatomic, strong)void (^deleteBtnBlock)();
 

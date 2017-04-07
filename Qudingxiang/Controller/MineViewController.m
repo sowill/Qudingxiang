@@ -54,7 +54,7 @@
 
 -(void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"stateRefresh" object:nil];
 }
 
 -(void)stateRefresh

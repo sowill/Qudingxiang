@@ -7,17 +7,21 @@
 //
 
 #import "QDXOrderDetailTableViewController.h"
+#import "QDXTicketTableViewCell.h"
+#import "QDXPayTableViewController.h"
+#import "QDXTicketSuccessViewController.h"
+#import "QDXNavigationController.h"
+#import "Orders.h"
+#import "OrdersinfoList.h"
+#import "Ordersinfo.h"
+#import "NSMutableAttributedString+ChangeColorFont.h"
+
+#import "StartModel.h"
 #import "QDXOrderInfoModel.h"
 #import "QDXOrdermodel.h"
 #import "QDXTicketInfoModel.h"
 #import "QDXostatus.h"
 #import "QDXpaytype.h"
-#import "QDXTicketTableViewCell.h"
-#import "QDXPayTableViewController.h"
-#import "StartModel.h"
-#import "HomeService.h"
-#import "QDXTicketSuccessViewController.h"
-#import "QDXNavigationController.h"
 
 @interface QDXOrderDetailTableViewController ()<UITableViewDataSource,UITableViewDelegate>
 {
@@ -26,15 +30,14 @@
     UIButton *complete;
     UILabel *sum_cost;
     UIView *bottom;
-//    int _code;
-    int _line;
-    
+    float _totalPrice;
+
     UIView *headerView;
 }
-@property (nonatomic, strong) NSMutableArray *ticket;
 @property (nonatomic, strong) NSMutableArray *orderInfo;
 @property (nonatomic, strong) UITableView *tableview;
-@property (nonatomic,strong) QDXStateView *noThingView;
+@property (nonatomic, strong) QDXStateView *noThingView;
+@property (nonatomic, strong) OrdersinfoList *ordersInfoList;
 @end
 
 @implementation QDXOrderDetailTableViewController
@@ -43,20 +46,6 @@
     [super viewDidLoad];
 
     self.title = @"订单详情";
-}
-
-- (void)state
-{
-    HomeService *http = [HomeService sharedInstance];
-    [http statesucceed:^(id data) {
-         NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments | NSJSONReadingMutableLeaves error:nil];
-        _line = [[NSString stringWithFormat:@"%@",dict[@"Code"]] intValue];
-    } failure:^(NSError *error) {
-        
-    } WithToken:save];
-//    [HomeService choiceLineStateBlock:^(NSMutableDictionary *dict) {
-//        _line = [[NSString stringWithFormat:@"%@",dict[@"Code"]] intValue];
-//    } andWithToken:save];
 }
 
 - (void) viewWillAppear:(BOOL)animated
@@ -70,17 +59,16 @@
 -(void)viewDidAppear:(BOOL)animated
 {
     [super viewDidAppear:animated];
-    [self state];
     [self getOrdersListAjax];
 }
 
 -(void)createButtom
 {
-    bottom = [[UIView alloc] initWithFrame:CGRectMake(0, QdxHeight-64 - 50, QdxWidth, 0.5)];
+    bottom = [[UIView alloc] initWithFrame:CGRectMake(0, QdxHeight-64 - FitRealValue(110 + 1), QdxWidth, 0.5)];
     bottom.backgroundColor = QDXLineColor;
     [self.view addSubview:bottom];
     // 添加底部按钮
-    pay = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth/2, QdxHeight- 50-64, QdxWidth/2, 50)];
+    pay = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth/2, QdxHeight- FitRealValue(110) - 64, QdxWidth/2, FitRealValue(110))];
     [pay setTitle:@"去支付" forState:UIControlStateNormal];
     [pay setBackgroundImage:[ToolView createImageWithColor:QDXBlue] forState:UIControlStateNormal];
     [pay setBackgroundImage:[ToolView createImageWithColor:QDXDarkBlue] forState:UIControlStateHighlighted];
@@ -91,25 +79,22 @@
     [pay addTarget:self action:@selector(pay) forControlEvents:UIControlEventTouchUpInside];
     [self.view addSubview:pay];
     
-    cost = [[UIButton alloc] initWithFrame:CGRectMake(0, QdxHeight- 50-64, QdxWidth/2, 50)];
+    cost = [[UIButton alloc] initWithFrame:CGRectMake(0, QdxHeight- FitRealValue(110)-64, QdxWidth/2, FitRealValue(110))];
     [cost setBackgroundColor:[UIColor whiteColor]];
     cost.userInteractionEnabled = NO;
     [self.view addSubview:cost];
-    UILabel *sum = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth/4 - 90/2 - 30/2, 50/2-25/2, 30, 25)];
-    sum.text = @"总计";
-    sum.textColor = QDXGray;
-    sum.font = [UIFont systemFontOfSize:14];
-    [cost addSubview:sum];
-    sum_cost = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth/4 - 90/2 + 20, 50/2-40/2, 90, 40)];
-    sum_cost.textColor = QDXOrange;
-    sum_cost.font = [UIFont systemFontOfSize:20];
-    [cost addSubview:sum_cost];
     
+    sum_cost = [[UILabel alloc] initWithFrame:CGRectMake(0, FitRealValue(110)/2-40/2, QdxWidth/2, 40)];
+    sum_cost.textAlignment = NSTextAlignmentCenter;
+    [cost addSubview:sum_cost];
+
 }
+
+
 
 -(void)createTableView
 {
-    self.tableview = [[UITableView alloc] initWithFrame:CGRectMake(0,0, QdxWidth, QdxHeight - 64 - 50) style:UITableViewStylePlain];
+    self.tableview = [[UITableView alloc] initWithFrame:CGRectMake(0,0, QdxWidth, QdxHeight - 64 - FitRealValue(110)) style:UITableViewStylePlain];
     self.tableview.delegate = self;
     self.tableview.dataSource = self;
     self.tableview.showsVerticalScrollIndicator = NO;
@@ -129,38 +114,21 @@
     [headerView addSubview:headerContantView];
     
     UILabel *header = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(24), FitRealValue(30), FitRealValue(500) , FitRealValue(40))];
-    if (self.orderId) {
-        header.text = [@"订单号：" stringByAppendingString:self.ordersName];
-    }else{
-        header.text = [@"订单号：" stringByAppendingString:self.Order.Orders_name];
-    }
+    header.text = [@"订单号：" stringByAppendingString:self.orders.orders_cn];
     header.textColor = QDXBlack;
     header.textAlignment = NSTextAlignmentLeft;
     header.font = [UIFont fontWithName:@"Arial" size:17];
     [headerContantView addSubview:header];
     
     UILabel *headerStatus = [[UILabel alloc] initWithFrame:CGRectMake(QdxWidth - FitRealValue(24 + 200), FitRealValue(30), FitRealValue(200), FitRealValue(40))];
-    if (self.orderId) {
-        headerStatus.text = self.ostatusName;
-    }else{
-        headerStatus.text = self.Order.ostatus.ostatus_name;
-    }
+    headerStatus.text = self.orders.ordersst_cn;
     headerStatus.textColor = QDXBlue;
     headerStatus.textAlignment = NSTextAlignmentRight;
     headerStatus.font = [UIFont fontWithName:@"Arial" size:17];
     [headerContantView addSubview:headerStatus];
-    
-    QDXTicketInfoModel *getAdressAndTime = [[QDXTicketInfoModel alloc] init];
-    getAdressAndTime = self.ticket[0];
-    
-    
-    
+
     UILabel *headerTime = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(24), FitRealValue(30 + 40 + 20), FitRealValue(500), FitRealValue(30))];
-    if (self.orderId) {
-        headerTime.text = [@"活动时间：" stringByAppendingString:getAdressAndTime.act_time];
-    }else{
-        headerTime.text = [@"活动时间：" stringByAppendingString:getAdressAndTime.act_time];
-    }
+    headerTime.text = [@"活动时间：" stringByAppendingString:self.ordersInfoList.goods_time];
     headerTime.textColor = QDXGray;
     headerTime.textAlignment = NSTextAlignmentLeft;
     headerTime.font = [UIFont fontWithName:@"Arial" size:14];
@@ -184,7 +152,7 @@
     headerPlace.lineBreakMode = NSLineBreakByWordWrapping;//换行方式
     headerPlace.textAlignment = NSTextAlignmentLeft;
     
-    NSString *strPlace = getAdressAndTime.act_address;
+    NSString *strPlace = self.ordersInfoList.goods_address;
     
     UIFont *font = [UIFont fontWithName:@"Arial" size:14];
     
@@ -225,7 +193,7 @@
 
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    if (indexPath.row == self.ticket.count - 1) {
+    if (indexPath.row == self.orderInfo.count - 1) {
         if ([cell respondsToSelector:@selector(setSeparatorInset:)]) {
             [cell setSeparatorInset:UIEdgeInsetsMake(0, 0, 0, 0)];
         }
@@ -265,40 +233,30 @@
 
 -(void)getOrdersListAjax
 {
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
+    _orderInfo = [NSMutableArray arrayWithCapacity:0];
+    NSString *url = [newHostUrl stringByAppendingString:getOrdersInfoUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"TokenKey"] = save;
-    if (self.orderId) {
-        params[@"Orders_id"] = self.orderId;
-    }else{
-        params[@"Orders_id"] = [NSString stringWithFormat:@"%d",self.Order.Orders_id];
-    }
-    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Orders/getInfoAjax"];
-    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        if (dict) {
-            NSMutableArray *orderInfoArray = [NSMutableArray array];
-            NSDictionary *dataInfoDict = dict;
-            [orderInfoArray addObject:[QDXOrdermodel OrderWithDict:dataInfoDict]];
-            self.orderInfo = orderInfoArray;
-            QDXOrdermodel *OrderInfo = self.orderInfo[0];
-            if (OrderInfo.Orders_st == 1) {
-                [self createButtom];
-                sum_cost.text = [@"￥" stringByAppendingString: OrderInfo.Orders_am];
-            }else if (OrderInfo.Orders_st == 2){
-                [self createComplete];
+    params[@"customer_token"] = save;
+    params[@"orders_id"] = _orders.orders_id;
+    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
+        int ret = [responseObject[@"Code"] intValue];
+        if (ret == 1) {
+
+            OrdersinfoList *ordersInfoList = [[OrdersinfoList alloc] initWithDic:responseObject[@"Msg"]];
+            self.ordersInfoList = ordersInfoList;
+            
+            for (Ordersinfo *ordersInfo in ordersInfoList.ordersinfoArray) {
+                [_orderInfo addObject:ordersInfo];
             }
-            NSMutableArray *ticketArray = [NSMutableArray array];
-            NSArray *dataDict = dict[@"ticketinfo"];
-            if (![dataDict isEqual:[NSNull null]]) {
-                for(NSDictionary *dict in dataDict){
-                    [ticketArray addObject:[QDXTicketInfoModel TicketInfoWithDict:dict]];
-                }
-                self.ticket = ticketArray;
+            
+            if ([_orders.ordersst_id intValue] == 1) {
+                [self createButtom];
+                
+                _totalPrice = [_orders.orders_am floatValue];
+                [self setUpPriceFont];
+
+            }else if ([_orders.ordersst_id intValue] == 2){
+                [self createComplete];
             }
             
             [self setHeaderView];
@@ -310,14 +268,75 @@
         [self.tableview setTableHeaderView:headerView];
         
         [self.tableview reloadData];
-
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    } failure:^(NSError *error) {
         
     }];
+    
+//    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
+//    mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
+//    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+//    params[@"TokenKey"] = save;
+//    if (self.orderId) {
+//        params[@"Orders_id"] = self.orderId;
+//    }else{
+//        params[@"Orders_id"] = [NSString stringWithFormat:@"%d",self.Order.Orders_id];
+//    }
+//    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Orders/getInfoAjax"];
+//    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
+//        
+//        
+//    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+//        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+//        if (dict) {
+//            NSMutableArray *orderInfoArray = [NSMutableArray array];
+//            NSDictionary *dataInfoDict = dict;
+//            [orderInfoArray addObject:[QDXOrdermodel OrderWithDict:dataInfoDict]];
+//            self.orderInfo = orderInfoArray;
+//            QDXOrdermodel *OrderInfo = self.orderInfo[0];
+//            if (OrderInfo.Orders_st == 1) {
+//                [self createButtom];
+//                sum_cost.text = [@"￥" stringByAppendingString: OrderInfo.Orders_am];
+//            }else if (OrderInfo.Orders_st == 2){
+//                [self createComplete];
+//            }
+//            NSMutableArray *ticketArray = [NSMutableArray array];
+//            NSArray *dataDict = dict[@"ticketinfo"];
+//            if (![dataDict isEqual:[NSNull null]]) {
+//                for(NSDictionary *dict in dataDict){
+//                    [ticketArray addObject:[QDXTicketInfoModel TicketInfoWithDict:dict]];
+//                }
+//                self.ticket = ticketArray;
+//            }
+//            
+//            [self setHeaderView];
+//            
+//            [self createTableView];
+//        }else{
+//            [self createSadView];
+//        }
+//        [self.tableview setTableHeaderView:headerView];
+//        
+//        [self.tableview reloadData];
+//
+//    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+//        
+//    }];
+}
+
+-(void)setUpPriceFont
+{
+    NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:@""];
+    [string appendString:@"总计:" withColor:QDXGray font:[UIFont systemFontOfSize:13]];
+    [string appendString:@"¥" withColor:QDXOrange font:[UIFont systemFontOfSize:14]];
+    NSRange range = [[NSString stringWithFormat:@"%.2f",_totalPrice]  rangeOfString:@"."];
+    NSString *a = [NSString stringWithFormat:@"%.2f",_totalPrice];
+    [string appendString:[a substringToIndex:(int)range.location] withColor:QDXOrange font:[UIFont systemFontOfSize:24]];
+    [string appendString:[a substringFromIndex:(int)range.location] withColor:QDXOrange font:[UIFont systemFontOfSize:14]];
+    sum_cost.attributedText = string;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return self.ticket.count;
+    return self.orderInfo.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -326,7 +345,7 @@
     QDXTicketTableViewCell *cell = [QDXTicketTableViewCell cellWithTableView:tableView];
     
     // 2.给cell传递模型数据
-    cell.TicketInfo = self.ticket[indexPath.row];
+    cell.ordersInfo = self.orderInfo[indexPath.row];
 //    if(_code == 1){
 //        cell.deleteButton.userInteractionEnabled = NO;
 //        [cell.deleteButton setBackgroundImage:[UIImage imageNamed:@"按钮2"] forState:UIControlStateNormal];
@@ -336,210 +355,103 @@
 //    }else{
 //        
 //    }
+    cell.linePrice.text = [@"￥" stringByAppendingString:self.ordersInfoList.goods_price];
+    cell.lineName.text = [@"活动：" stringByAppendingString:self.ordersInfoList.goods_cn];
     __weak __typeof(self) weakSelf = self;
     
     cell.btnBlock = ^(){
         
         __strong __typeof(self) strongSelf = weakSelf;
         
-        QDXTicketInfoModel *ticketInfo = strongSelf.ticket[indexPath.row];
-        QDXOrdermodel *OrderInfo = strongSelf.orderInfo[0];
-        if (OrderInfo.Orders_st == 2 && ![ticketInfo.tstatus_name isEqualToString:@"已使用"]) {
+        Ordersinfo *ticketInfo = strongSelf.orderInfo[indexPath.row];
+        if ([ticketInfo.ordersinfost_id isEqualToString:@"1"]) {
             NSString *message = @"是否使用当前活动券";
-            if(_line == 1){
-                message = @"您已在活动中";
-            }
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"使用" message:message preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
             UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
-                [strongSelf bindSelf:ticketInfo.ticketinfo_name];
-                [strongSelf.ticket removeObjectAtIndex:indexPath.row];
+                [strongSelf bindSelf:ticketInfo.ordersinfo_cn];
+                [strongSelf.orderInfo removeObjectAtIndex:indexPath.row];
                 [strongSelf.tableview deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationMiddle];
                 [strongSelf.tableview reloadData];
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"stateRefresh" object:nil];
-                [strongSelf state];
             }];
+            [alertController addAction:okAction];
             [alertController addAction:cancelAction];
-            if(_line != 1){
-                [alertController addAction:okAction];
-            }
             [strongSelf presentViewController:alertController animated:YES completion:nil];
 
-        }else if (OrderInfo.Orders_st == 1){
-            
+        }else if ([ticketInfo.ordersinfost_id isEqualToString:@"5"]){
             UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"删除" message:@"是否删除当前活动券" preferredStyle:UIAlertControllerStyleAlert];
             UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
             UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"删除" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
-                [strongSelf deleteTicket:ticketInfo.ticket_id];
-                [strongSelf.ticket removeObjectAtIndex:indexPath.row];
+                [strongSelf deleteTicket:strongSelf.ordersInfoList.goods_id];
+                [strongSelf.orderInfo removeObjectAtIndex:indexPath.row];
                 [strongSelf.tableview deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationMiddle];
                 [strongSelf.tableview reloadData];
             }];
             [alertController addAction:cancelAction];
             [alertController addAction:okAction];
             [strongSelf presentViewController:alertController animated:YES completion:nil];
-            
-        }else{
-            
-            UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"添加" message:@"是否添加当前活动券" preferredStyle:UIAlertControllerStyleAlert];
-            UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:nil];
-            UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"好的" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
-                [strongSelf addTicket:ticketInfo.ticket_id];
-                [strongSelf.ticket removeObjectAtIndex:indexPath.row];
-                [strongSelf.tableview deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationMiddle];
-                [strongSelf.tableview reloadData];
-            }];
-            [alertController addAction:cancelAction];
-            [alertController addAction:okAction];
-            [strongSelf presentViewController:alertController animated:YES completion:nil];
-            
         }
     };
     return cell;
 }
 
--(void)dealloc
-{
-    //移除观察者，Observer不能为nil
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
-}
 
 -(void)getOrders
 {
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"TokenKey"] = save;
-    if (self.orderId) {
-        params[@"Orders_id"] = self.orderId;
-    }else{
-        params[@"Orders_id"] = [NSString stringWithFormat:@"%d",self.Order.Orders_id];
-    }
-    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Orders/getInfoAjax"];
-    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        if (dict) {
-            NSMutableArray *orderInfoArray = [NSMutableArray array];
-            NSDictionary *dataInfoDict = dict;
-            [orderInfoArray addObject:[QDXOrdermodel OrderWithDict:dataInfoDict]];
-            self.orderInfo = orderInfoArray;
-            NSMutableArray *ticketArray = [NSMutableArray array];
-            NSArray *dataDict = dict[@"ticketinfo"];
-            if (![dataDict isEqual:[NSNull null]]) {
-                for(NSDictionary *dict in dataDict){
-                    [ticketArray addObject:[QDXTicketInfoModel TicketInfoWithDict:dict]];
-                }
-                self.ticket = ticketArray;
-            }
-            [self performSelectorOnMainThread:@selector(sussRes) withObject:nil waitUntilDone:YES];
-        }else
-        {
-
-        }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-    }];
+    [self performSelectorOnMainThread:@selector(sussRes) withObject:nil waitUntilDone:YES];
 }
 
 -(void)pay
 {
-
     [self performSelectorInBackground:@selector(getOrders) withObject:nil];
 }
 
--(void)sussRes
-{
+-(void)sussRes{
     QDXPayTableViewController *payVC=[[QDXPayTableViewController alloc]init];
-    payVC.Order = self.orderInfo[0];
-    payVC.ticketInfo = self.ticket[0];
+    payVC.Order = self.orders;
     [self.navigationController pushViewController:payVC animated:YES];
 }
 
-- (void)bindSelf:(NSString *)withTID
-{
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
+- (void)bindSelf:(NSString *)withTID{
+    NSString *url = [newHostUrl stringByAppendingString:selectMylineUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"TokenKey"] = save;
-    params[@"ticketinfo_name"] = withTID;
-    NSString *url = [NSString stringWithFormat:@"%@%@",hostUrl,actUrl];
-    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        StartModel *model = [[StartModel alloc] init];
-        [model setCode:dict[@"Code"] ];
-        [model setMsg:dict[@"Msg"]];
-        int temp = [model.Code intValue];
-        if (temp == 1) {
+    params[@"customer_token"] = save;
+    params[@"ticketinfo_cn"] = withTID;
+    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
+        int ret = [responseObject[@"Code"] intValue];
+        if (ret == 1) {
             QDXTicketSuccessViewController *successView=[[QDXTicketSuccessViewController alloc]init];
             [self.navigationController pushViewController:successView animated:YES];
-//            QDXNavigationController *navController = [[QDXNavigationController alloc] initWithRootViewController:successView];
-//            [self presentViewController:navController animated:YES completion:^{
-//                
-//            }];
         }else{
-            [MBProgressHUD showError:dict[@"Msg"]];
+            [MBProgressHUD showError:responseObject[@"Msg"]];
         }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    } failure:^(NSError *error) {
         
     }];
 }
 
-- (void)addTicket:(NSString *)withTID
-{
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
+- (void)deleteTicket:(NSString *)withTID{
+    NSString *url = [newHostUrl stringByAppendingString:addOrdersUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"TokenKey"] = save;
-    params[@"goods_id"] =withTID;
-    params[@"add"] = @"1";
-    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Orders/addOrders"];
-    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        if ([dict[@"Code"] intValue] == 1) {
-            [MBProgressHUD showSuccess:@"请返回上一页面进行支付"];
-        }else{
-            
-        }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-    }];
-}
-
-- (void)deleteTicket:(NSString *)withTID
-{
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"TokenKey"] = save;
-    params[@"goods_id"] =withTID;
+    params[@"customer_token"] = save;
+    params[@"goods_id"] = withTID;
     params[@"add"] = @"2";
-    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Orders/addOrders"];
-    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        if ([dict[@"Code"] intValue] == 1) {
-            sum_cost.text = [@"￥" stringByAppendingString:dict[@"Msg"][@"Orders_am"]];
+    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
+        int ret = [responseObject[@"Code"] intValue];
+        if (ret == 1) {
+            Orders *orders = [[Orders alloc] initWithDic:responseObject[@"Msg"]];
+
+            _totalPrice = [orders.orders_am floatValue];
+            [self setUpPriceFont];
         }else{
             sum_cost.text = [@"￥" stringByAppendingString:@"0"];
             [pay setTitle:@"不能付" forState:UIControlStateNormal];
             [pay setBackgroundColor:[UIColor grayColor]];
             [pay setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
             pay.userInteractionEnabled = NO;
-            self.orderId = nil;
             [self.navigationController popViewControllerAnimated:YES];
         }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+    } failure:^(NSError *error) {
         
     }];
 }

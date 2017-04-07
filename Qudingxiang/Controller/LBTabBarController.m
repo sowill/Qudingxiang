@@ -164,8 +164,6 @@
             }]];
             [self presentViewController:aalert animated:YES completion:nil];
         }else{
-#warning 待删除
-            [NSKeyedArchiver archiveRootObject:responseObject[@"Msg"] toFile:QDXCurrentMyLineFile];
             
             BaseGameViewController *game = [[BaseGameViewController alloc] init];
             game.myline_id = responseObject[@"Msg"];

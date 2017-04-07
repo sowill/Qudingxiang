@@ -7,9 +7,7 @@
 //
 
 #import "QDXTicketSuccessViewController.h"
-#import "QDXNavigationController.h"
-#import "QDXGameViewController.h"
-#import "QDXProtocolViewController.h"
+#import "BaseGameViewController.h"
 
 @interface QDXTicketSuccessViewController ()
 
@@ -36,23 +34,24 @@
 
 -(void)changeState
 {
-    NSString *isHave = [NSKeyedUnarchiver unarchiveObjectWithFile:QDXCurrentMyLineFile];
-    if (isHave) {
-        QDXGameViewController *game = [[QDXGameViewController alloc] init];
-        [self.navigationController pushViewController:game animated:YES];
+    NSString *url = [newHostUrl stringByAppendingString:getMylineUrl];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"customer_token"] = save;
+    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
+        if ([responseObject[@"Code"] intValue] == 0) {
+            UIAlertController *aalert = [UIAlertController alertControllerWithTitle:@"提示" message:responseObject[@"Msg"]preferredStyle:UIAlertControllerStyleAlert];
+            [aalert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action) {
+                
+            }]];
+            [self presentViewController:aalert animated:YES completion:nil];
+        }else{
+            BaseGameViewController *game = [[BaseGameViewController alloc] init];
+            game.myline_id = responseObject[@"Msg"];
+            [self.navigationController pushViewController:game animated:YES];
+        }
+    } failure:^(NSError *error) {
         
-//        QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:game];
-//        [self presentViewController:nav animated:YES completion:^{
-//            
-//        }];
-    }else{
-        QDXProtocolViewController *viewController = [[QDXProtocolViewController alloc] init];
-        [self.navigationController pushViewController:viewController animated:YES];
-//        QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:viewController];
-//        [self presentViewController:nav animated:YES completion:^{
-//            
-//        }];
-    }
+    }];
 }
 
 - (void)didReceiveMemoryWarning {

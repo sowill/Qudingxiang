@@ -113,7 +113,7 @@
     self.ticket_ct.text = str;
     [self.BGView addSubview:self.ticket_ct];
     
-    self.orders_am.text = [@"¥" stringByAppendingString:order.orders_am];
+    self.orders_am.text = [@"¥" stringByAppendingString:order.orders_account];
     CGFloat ticket_ctMaxX = CGRectGetMaxX(self.ticket_ct.frame);
     self.orders_am.frame = CGRectMake(ticket_ctMaxX,FitRealValue(100 + 44 + 28 + 24), FitRealValue(200), FitRealValue(32));
     

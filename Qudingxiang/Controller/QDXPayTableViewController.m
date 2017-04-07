@@ -130,7 +130,7 @@
         cost.textColor = QDXOrange;
         cost.textAlignment = NSTextAlignmentRight;
         cost.font = [UIFont systemFontOfSize:20];
-        cost.text =[@"¥" stringByAppendingString: self.Order.orders_am];
+        cost.text =[@"¥" stringByAppendingString: self.Order.orders_account];
         [cell addSubview:cost];
         cell.backgroundColor = [UIColor colorWithRed:0.996 green:0.957 blue:0.800 alpha:1.000];
     }
@@ -268,21 +268,16 @@
     [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
         
         NSLog(@"%@",responseObject);
-        
-        int ret = [responseObject[@"Code"] intValue];
-        if (ret == 1) {
             
-            _WXpay = [WeixinModel mj_objectWithKeyValues:responseObject[@"Msg"]];
-            pay.userInteractionEnabled = YES;
-            CGFloat top = 25;
-            CGFloat bottom = 25;
-            CGFloat left = 5;
-            CGFloat right = 5;
-            UIEdgeInsets insets = UIEdgeInsetsMake(top, left, bottom, right);
-            [pay setBackgroundImage:[[UIImage imageNamed:@"sign_button"] resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch] forState:UIControlStateNormal];
-        }else{
-            [MBProgressHUD showError:responseObject[@"Msg"]];
-        }
+        _WXpay = [WeixinModel mj_objectWithKeyValues:responseObject[@"Msg"]];
+        pay.userInteractionEnabled = YES;
+        CGFloat top = 25;
+        CGFloat bottom = 25;
+        CGFloat left = 5;
+        CGFloat right = 5;
+        UIEdgeInsets insets = UIEdgeInsetsMake(top, left, bottom, right);
+        [pay setBackgroundImage:[[UIImage imageNamed:@"sign_button"] resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch] forState:UIControlStateNormal];
+        
     } failure:^(NSError *error) {
         
     }];
@@ -344,7 +339,7 @@
     order.tradeNO = self.Order.orders_cn; //订单ID（由商家自行制定）
     order.productName = self.Order.goods_cn; //商品标题
     order.productDescription = self.Order.goods_cn; //商品描述
-    order.amount = self.Order.orders_am; //商品价格
+    order.amount = self.Order.orders_account; //商品价格
     order.notifyURL =  _Alipay.notify; //回调URL
     order.service = @"mobile.securitypay.pay";
     order.paymentType = @"1";

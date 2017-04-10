@@ -466,7 +466,7 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"customer_token"] = save;
     params[@"goods_id"] = _goods.goods_id;
-    params[@"add"] = number;
+    params[@"orders_quantity"] = number;
     [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
         int ret = [responseObject[@"Code"] intValue];
         if (ret == 1) {

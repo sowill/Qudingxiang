@@ -42,56 +42,59 @@
 
 @implementation XBTestTableViewController
 
-- (NSMutableArray *)orders
-{
-    if (_orders == nil) {
-        _orders = [NSMutableArray array];
-    }
-    return _orders;
-}
-
-- (NSMutableArray *)willPayOrders
-{
-    if (_willPayOrders == nil) {
-        _willPayOrders = [NSMutableArray array];
-    }
-    return _willPayOrders;
-}
-
-- (NSMutableArray *)didPayOrders
-{
-    if (_didPayOrders == nil) {
-        _didPayOrders = [NSMutableArray array];
-    }
-    return _didPayOrders;
-}
-
-- (NSMutableArray *)didCompleted
-{
-    if (_didCompleted == nil) {
-        _didCompleted = [NSMutableArray array];
-    }
-    return _didCompleted;
-}
-
-//- (void)viewWillAppear:(BOOL)animated
+//- (NSMutableArray *)orders
 //{
-//    [super viewWillAppear:animated];
-//    curr = 1;
-//
+//    if (_orders == nil) {
+//        _orders = [NSMutableArray array];
+//    }
+//    return _orders;
 //}
+//
+//- (NSMutableArray *)willPayOrders
+//{
+//    if (_willPayOrders == nil) {
+//        _willPayOrders = [NSMutableArray array];
+//    }
+//    return _willPayOrders;
+//}
+//
+//- (NSMutableArray *)didPayOrders
+//{
+//    if (_didPayOrders == nil) {
+//        _didPayOrders = [NSMutableArray array];
+//    }
+//    return _didPayOrders;
+//}
+//
+//- (NSMutableArray *)didCompleted
+//{
+//    if (_didCompleted == nil) {
+//        _didCompleted = [NSMutableArray array];
+//    }
+//    return _didCompleted;
+//}
+
+- (void)viewWillAppear:(BOOL)animated
+{
+    [super viewWillAppear:animated];
+    curr = 1;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    curr = 1;
     [self getOrdersListAjax];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(payRefresh) name:@"pay" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(payClick) name:@"pay" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(getOrdersListAjax) name:@"stateRefresh" object:nil];
 }
 
--(void)payRefresh{
-    curr = 1;
-    [self getOrdersListAjax];
+-(void)payClick{
+    
+    if (self.noThingView.frame.size.width > 0) {
+        [self getOrdersListAjax];
+    }
+ 
+    [self.tableview.mj_header beginRefreshing];
 }
 
 - (void)createTableView
@@ -238,10 +241,10 @@
 
 - (void)dealloc{
     [[NSNotificationCenter defaultCenter] removeObserver:self name:@"pay" object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:@"stateRefresh" object:nil];
 }
 
-- (void)createLoginView
-{
+- (void)createLoginView{
     _loginView = [[QDXStateView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight - 49)];
     _loginView.tag = 1;
     _loginView.delegate = self;
@@ -251,8 +254,7 @@
     [self.view addSubview:_loginView];
 }
 
--(void)changeState
-{
+-(void)changeState{
     if (_loginView.tag == 1) {
         [self sign_in];
     }else{
@@ -260,15 +262,13 @@
     }
 }
 
--(void)sign_in
-{
+-(void)sign_in{
     QDXLoginViewController *login=[[QDXLoginViewController alloc]init];
     login.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:login animated:YES];
 }
 
-- (void)createSadViewWithDetail :(NSString *)detail
-{
+- (void)createSadViewWithDetail :(NSString *)detail{
     _noThingView = [[QDXStateView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight - 49)];
     _noThingView.tag = 2;
     _noThingView.delegate = self;
@@ -343,7 +343,7 @@
             [strongSelf.tableview deleteRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationMiddle];
             [strongSelf.tableview reloadData];
             
-            [self getOrdersListAjax];
+            [self payClick];
         }];
         [alertController addAction:cancelAction];
         [alertController addAction:okAction];

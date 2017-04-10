@@ -210,8 +210,7 @@
     }
 }
 
--(void)createComplete
-{
+-(void)createComplete{
     complete = [[UIButton alloc] initWithFrame:CGRectMake(0, QdxHeight- FitRealValue(110)*2 - 5, QdxWidth, FitRealValue(110))];
     [complete setTitle:@"订单已完成支付，请尽快使用" forState:UIControlStateNormal];
     complete.titleLabel.font = [UIFont systemFontOfSize:14];
@@ -220,8 +219,7 @@
     [self.view addSubview:complete];
 }
 
-- (void)createSadView
-{
+- (void)createSadView{
     _noThingView = [[QDXStateView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight - 49)];
     _noThingView.tag = 2;
     _noThingView.delegate = self;
@@ -231,8 +229,7 @@
     [self.view addSubview:_noThingView];
 }
 
--(void)getOrdersListAjax
-{
+-(void)getOrdersListAjax{
     _orderInfo = [NSMutableArray arrayWithCapacity:0];
     NSString *url = [newHostUrl stringByAppendingString:getOrdersInfoUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
@@ -435,8 +432,9 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"customer_token"] = save;
     params[@"goods_id"] = withTID;
-    params[@"add"] = @"2";
+    params[@"orders_quantity"] = [NSString stringWithFormat:@"%lu",self.orderInfo.count - 1];
     [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
+        NSLog(@"%@",responseObject);
         int ret = [responseObject[@"Code"] intValue];
         if (ret == 1) {
             Orders *orders = [[Orders alloc] initWithDic:responseObject[@"Msg"]];

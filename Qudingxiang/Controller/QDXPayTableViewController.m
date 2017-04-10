@@ -44,6 +44,7 @@
         QDXOrderDetailTableViewController* QDetailVC=[[QDXOrderDetailTableViewController alloc]init];
         QDetailVC.orders= self.Order;
         [self.navigationController popViewControllerAnimated:YES];
+        [[NSNotificationCenter defaultCenter] postNotificationName:@"pay" object:nil];
     };
 }
 
@@ -266,10 +267,8 @@
     params[@"customer_token"] = save;
     params[@"orders_id"] = self.Order.orders_id;
     [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
-        
-        NSLog(@"%@",responseObject);
             
-        _WXpay = [WeixinModel mj_objectWithKeyValues:responseObject[@"Msg"]];
+        _WXpay = [WeixinModel mj_objectWithKeyValues:responseObject];
         pay.userInteractionEnabled = YES;
         CGFloat top = 25;
         CGFloat bottom = 25;
@@ -381,6 +380,7 @@
                 QDXOrderDetailTableViewController* QDetailVC=[[QDXOrderDetailTableViewController alloc]init];
                 QDetailVC.orders = self.Order;
                 [self.navigationController popViewControllerAnimated:YES];
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"pay" object:nil];
             }]];
             [self presentViewController:aalert animated:YES completion:nil];
             

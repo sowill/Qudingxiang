@@ -36,6 +36,16 @@
     [self createUI];
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self netDataisRemoveAll:NO];
+}
+
+-(void)reloadData
+{
+    [self netDataisRemoveAll:NO];
+}
+
 - (void)createUI
 {
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight-64) style:UITableViewStylePlain];
@@ -61,7 +71,7 @@
     }];
     
     // 马上进入刷新状态
-    [_tableView.mj_header beginRefreshing];
+//    [_tableView.mj_header beginRefreshing];
     
     // 2.上拉刷新(上拉加载更多数据)
     //    self.tableview.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
@@ -79,7 +89,7 @@
 - (void)loadNewData
 {
     curr = 1;
-    [self netData];
+    [self netDataisRemoveAll:YES];
     
     // 刷新表格
     [_tableView reloadData];
@@ -99,7 +109,7 @@
         
         [_tableView.mj_footer endRefreshingWithNoMoreData];
     }else{
-        [self netData];
+        [self netDataisRemoveAll:NO];
     }
 }
 
@@ -123,7 +133,7 @@
     [self.view addSubview:_noThingView];
 }
 
-- (void)netData
+- (void)netDataisRemoveAll:(BOOL)isRemoveAll
 {
     _dataArr = [NSMutableArray arrayWithCapacity:0];
     NSString *url = [newHostUrl stringByAppendingString:getTeamListUrl];
@@ -131,7 +141,7 @@
     params[@"customer_token"] = save;
     params[@"curr"] = [NSString stringWithFormat:@"%d",curr];
     [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
-        NSLog(@"%@",responseObject);
+
         MylineList *mylineList = [[MylineList alloc] initWithDic:responseObject];
         count = [mylineList.count intValue];
         curr = [mylineList.curr intValue];
@@ -141,13 +151,15 @@
         if (count == 0) {
             [self createSadViewWithDetail: @"还没有线路哦~"];
         }else{
-            
+            if (isRemoveAll) {
+                [_dataArr removeAllObjects];
+            }
             for (Myline *myline in mylineList.mylineArray) {
                 [_dataArr addObject:myline];
             }
-            [_tableView reloadData];
         }
-        
+        [_tableView.mj_footer endRefreshing];
+        [_tableView reloadData];
     } failure:^(NSError *error) {
         
     }];

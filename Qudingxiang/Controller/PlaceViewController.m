@@ -39,12 +39,13 @@ static NSString *placeReuseID = @"placeReuseID";
 
 @implementation PlaceViewController
 
-- (NSMutableArray *)actArray
-{
-    if (_actArray == nil) {
-        _actArray = [NSMutableArray array];
-    }
-    return _actArray;
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self getAreaisRemoveAll:NO];
+}
+
+-(void)reloadData{
+    [self getAreaisRemoveAll:NO];
 }
 
 - (void)viewDidLoad {
@@ -70,12 +71,10 @@ static NSString *placeReuseID = @"placeReuseID";
     self.navigationItem.rightBarButtonItems = @[negativeSpacer, buttonItem];
     
     [self createCollectionView];
-    [self getArea];
 }
 
--(void)getArea
+-(void)getAreaisRemoveAll:(BOOL)isRemoveAll
 {
-    _actArray = [NSMutableArray arrayWithCapacity:0];
     NSString *url = [newHostUrl stringByAppendingString:getAreaUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"city_id"] = _cityId;
@@ -89,12 +88,15 @@ static NSString *placeReuseID = @"placeReuseID";
         if (count == 0) {
             [self createSadViewWithDetail: @"该城市目前还没有场地哦~"];
         }else{
+            if (isRemoveAll) {
+                [_actArray removeAllObjects];
+            }
             for (Area *area in areaList.areaArray) {
                 [_actArray addObject:area];
             }
-            
-            [self.collectionView reloadData];
         }
+        [self.collectionView.mj_footer endRefreshing];
+        [self.collectionView reloadData];
     } failure:^(NSError *error) {
         
     }];
@@ -124,7 +126,7 @@ static NSString *placeReuseID = @"placeReuseID";
 {
     [locationBtn setTitle:city.city_cn forState:UIControlStateNormal];
     _cityId = city.city_id;
-    [self getArea];
+    [self getAreaisRemoveAll:NO];
 }
 
 -(void)locationClick
@@ -138,6 +140,7 @@ static NSString *placeReuseID = @"placeReuseID";
 
 -(void)createCollectionView
 {
+    _actArray = [NSMutableArray arrayWithCapacity:0];
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
     layout.itemSize = CGSizeMake(FitRealValue(346), FitRealValue(460 + 20));
     layout.minimumInteritemSpacing = 0;
@@ -187,7 +190,7 @@ static NSString *placeReuseID = @"placeReuseID";
 - (void)loadNewData
 {
     curr = 1;
-    [self getArea];
+    [self getAreaisRemoveAll:YES];
     
     // 刷新表格
     [self.collectionView reloadData];
@@ -207,7 +210,7 @@ static NSString *placeReuseID = @"placeReuseID";
         
         [self.collectionView.mj_footer endRefreshingWithNoMoreData];
     }else{
-        [self getArea];
+        [self getAreaisRemoveAll:NO];
     }
 }
 

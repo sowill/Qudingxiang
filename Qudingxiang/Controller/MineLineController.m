@@ -32,19 +32,25 @@
 
 -(void)reloadData
 {
-    [self netData];
+    [self netDataisRemoveAll:NO];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.title = @"我的路线";
-    [self netData];
+    
     [self createUI];
 }
 
-- (void)createUI
-{
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self netDataisRemoveAll:NO];
+}
+
+- (void)createUI{
+    _dataArr = [NSMutableArray arrayWithCapacity:0];
+    _myline_idArr = [NSMutableArray arrayWithCapacity:0];
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight-64) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -68,7 +74,7 @@
     }];
     
     // 马上进入刷新状态
-    [_tableView.mj_header beginRefreshing];
+//    [_tableView.mj_header beginRefreshing];
     
     // 2.上拉刷新(上拉加载更多数据)
     //    self.tableview.mj_footer = [MJRefreshAutoNormalFooter footerWithRefreshingBlock:^{
@@ -86,7 +92,7 @@
 - (void)loadNewData
 {
     curr = 1;
-    [self netData];
+    [self netDataisRemoveAll:YES];
     
     // 刷新表格
     [_tableView reloadData];
@@ -106,14 +112,12 @@
         
         [_tableView.mj_footer endRefreshingWithNoMoreData];
     }else{
-        [self netData];
+        [self netDataisRemoveAll:NO];
     }
 }
 
-- (void)netData
+- (void)netDataisRemoveAll:(BOOL)isRemoveAll
 {
-    _dataArr = [NSMutableArray arrayWithCapacity:0];
-    _myline_idArr = [NSMutableArray arrayWithCapacity:0];
     NSString *url = [newHostUrl stringByAppendingString:getListUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"customer_token"] = save;
@@ -129,14 +133,17 @@
         if (count == 0) {
             [self createSadViewWithDetail: @"还没有线路哦~"];
         }else{
-            
+            if (isRemoveAll) {
+                [_dataArr removeAllObjects];
+                [_myline_idArr removeAllObjects];
+            }
             for (Myline *myline in mylineList.mylineArray) {
                 [_dataArr addObject:myline];
                 [_myline_idArr addObject:myline.myline_id];
             }
-            [_tableView reloadData];
         }
-        
+        [_tableView.mj_footer endRefreshing];
+        [_tableView reloadData];
     } failure:^(NSError *error) {
         
     }];

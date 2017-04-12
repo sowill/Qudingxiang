@@ -19,10 +19,6 @@
 
 #import "QDXPopView.h"
 
-#define TASKWEIGHT                         QdxWidth * 0.875
-#define TASKHEIGHT                         QdxHeight * 0.73
-#define SHOWTASKHEIGHT                     TASKHEIGHT * 0.1
-
 @interface QDXHistoryViewController () <UITableViewDataSource,UITableViewDelegate,UINavigationControllerDelegate>
 
 @property (nonatomic, strong) NSMutableArray *historyArr;
@@ -102,10 +98,11 @@
         
         self.popView.task_button = strongSelf.viewHistory;
         
+        
         WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
         config.mediaPlaybackRequiresUserAction = NO;
         config.allowsInlineMediaPlayback = YES;
-        self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0,SHOWTASKHEIGHT, TASKWEIGHT, TASKHEIGHT - 2 * SHOWTASKHEIGHT) configuration:config];
+        self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0,FitRealValue(90), FitRealValue(710), FitRealValue(1074) - 2 * FitRealValue(90)) configuration:config];
         [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
         
         [self.popView.deliverView addSubview:self.webView];

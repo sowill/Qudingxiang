@@ -35,21 +35,31 @@
     self.navigationItem.title = self.area.area_cn;
     
     [self createTableView];
-    [self getGoods];
 }
 
--(void)getGoods
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    [self getGoodsisRemoveAll:NO];
+}
+
+-(void)reloadData{
+    [self getGoodsisRemoveAll:NO];
+}
+
+-(void)getGoodsisRemoveAll:(BOOL)isRemoveAll
 {
-    _actArray = [NSMutableArray arrayWithCapacity:0];
     NSString *url = [newHostUrl stringByAppendingString:getGoodsUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"area_id"] = self.area.area_id;
     [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
         GoodsList *goodsList = [[GoodsList alloc] initWithDic:responseObject];
+        if (isRemoveAll) {
+            [_actArray removeAllObjects];
+        }
         for (Goods *goods in goodsList.goodsArray) {
             [_actArray addObject:goods];
         }
-        
+        [self.tableView.mj_footer endRefreshing];
         [self.tableView reloadData];
     } failure:^(NSError *error) {
         
@@ -58,6 +68,7 @@
 
 - (void)createTableView
 {
+    _actArray = [NSMutableArray arrayWithCapacity:0];
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0,0, QdxWidth, QdxHeight -64) style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -100,7 +111,7 @@
 - (void)loadNewData
 {
     curr = 1;
-    [self getGoods];
+    [self getGoodsisRemoveAll:YES];
     
     // 刷新表格
     [self.tableView reloadData];
@@ -120,7 +131,7 @@
         
         [self.tableView.mj_footer endRefreshingWithNoMoreData];
     }else{
-        [self getGoods];
+        [self getGoodsisRemoveAll:NO];
     }
 }
 

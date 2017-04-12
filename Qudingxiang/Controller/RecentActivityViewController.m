@@ -33,16 +33,16 @@ static NSString *QDXSlideTableCellIdentifier = @"QDXSlideTableCellIdentifier";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    
+    [self getMatchorActionisRemoveAll:NO];
     [self setUpTableView];
-    
-    [self getMatchorAction];
-    
 }
 
--(void)getMatchorAction
+-(void)reloadData{
+    [self getMatchorActionisRemoveAll:NO];
+}
+
+-(void)getMatchorActionisRemoveAll:(BOOL)isRemoveAll
 {
-    _recentArray = [NSMutableArray arrayWithCapacity:0];
     if ([_typeId isEqualToString:@"2"]){
         url = [newHostUrl stringByAppendingString:getMatchUrl];
     }else{
@@ -56,10 +56,13 @@ static NSString *QDXSlideTableCellIdentifier = @"QDXSlideTableCellIdentifier";
         curr = [goodsList.curr intValue];
         count = [goodsList.count intValue];
         page = [goodsList.allpage intValue];
+        if (isRemoveAll) {
+            [_recentArray removeAllObjects];
+        }
         for (Goods *goods in goodsList.goodsArray) {
             [_recentArray addObject:goods];
         }
-        
+        [self.tableView.mj_footer endRefreshing];
         [self.tableView reloadData];
     } failure:^(NSError *error) {
         
@@ -68,6 +71,7 @@ static NSString *QDXSlideTableCellIdentifier = @"QDXSlideTableCellIdentifier";
 
 -(void)setUpTableView
 {
+    _recentArray = [NSMutableArray arrayWithCapacity:0];
     self.tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 40, QdxWidth, QdxHeight - 40 - 64) style:UITableViewStylePlain];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
@@ -112,7 +116,7 @@ static NSString *QDXSlideTableCellIdentifier = @"QDXSlideTableCellIdentifier";
 - (void)loadNewData
 {
     curr = 1;
-    [self getMatchorAction];
+    [self getMatchorActionisRemoveAll:YES];
     
     // 刷新表格
     [self.tableView reloadData];
@@ -132,7 +136,7 @@ static NSString *QDXSlideTableCellIdentifier = @"QDXSlideTableCellIdentifier";
         
         [self.tableView.mj_footer endRefreshingWithNoMoreData];
     }else{
-        [self getMatchorAction];
+        [self getMatchorActionisRemoveAll:NO];
     }
 }
 

@@ -7,10 +7,11 @@
 //
 
 #import "QDXPopView.h"
+#import "UIImage+RTTint.h"
 
-#define TASKWEIGHT                         QdxWidth * 0.875
-#define TASKHEIGHT                         QdxHeight * 0.73
-#define SHOWTASKHEIGHT                     TASKHEIGHT * 0.1
+#define TASKWEIGHT                         FitRealValue(710)
+#define TASKHEIGHT                         FitRealValue(1074)
+#define SHOWTASKHEIGHT                     FitRealValue(90)
 
 @implementation QDXPopView
 
@@ -26,37 +27,41 @@
     
     self.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
     
-    self.deliverView = [[UIView alloc] initWithFrame:CGRectMake(QdxWidth* 0.08,(QdxHeight - TASKHEIGHT)/2,TASKWEIGHT/2,TASKHEIGHT/2)];
+    self.deliverView = [[UIView alloc] initWithFrame:CGRectMake(FitRealValue(20),(QdxHeight - TASKHEIGHT)/2,TASKWEIGHT/2,TASKHEIGHT/2)];
     self.deliverView.backgroundColor = [UIColor clearColor];
     self.deliverView.layer.borderWidth = 1;
     self.deliverView.layer.cornerRadius = 12;
     self.deliverView.layer.borderColor = [[UIColor clearColor]CGColor];
     [self addSubview:self.deliverView];
     
-    
     _showOK_button = [[UIButton alloc] initWithFrame:CGRectMake(0, TASKHEIGHT - SHOWTASKHEIGHT,TASKWEIGHT, SHOWTASKHEIGHT)];
-    [_showOK_button addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
+    
     CGFloat top = 25; // 顶端盖高度
     CGFloat bottom = 25; // 底端盖高度
     CGFloat left = 5; // 左端盖宽度
     CGFloat right = 5; // 右端盖宽度
     UIEdgeInsets insets = UIEdgeInsetsMake(top, left, bottom, right);
     // 指定为拉伸模式，伸缩后重新赋值
-    [_showOK_button setBackgroundImage:[[UIImage imageNamed:@"任务卡－按钮"] resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch] forState:UIControlStateNormal];
+    [_showOK_button setBackgroundImage:[[[UIImage imageNamed:@"任务卡－按钮"] rt_tintedImageWithColor:QDXBlue] resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch] forState:UIControlStateNormal];
     [_showOK_button setTitle:@"好的" forState:UIControlStateNormal];
-    [_showOK_button setTitleColor:[UIColor colorWithRed:0.000 green:0.600 blue:0.992 alpha:1.000] forState:UIControlStateNormal];
+    [_showOK_button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
     [self.deliverView addSubview:_showOK_button];
+    
+    UIButton *ShowOKBtn = [[UIButton alloc] initWithFrame:CGRectMake(FitRealValue(20), (QdxHeight - TASKHEIGHT)/2 + TASKHEIGHT - SHOWTASKHEIGHT,TASKWEIGHT, SHOWTASKHEIGHT)];
+    [ShowOKBtn addTarget:self action:@selector(dismiss) forControlEvents:UIControlEventTouchUpInside];
+    ShowOKBtn.backgroundColor = [UIColor clearColor];
+    [self addSubview:ShowOKBtn];
     
     _showTitle_button = [[UIButton alloc] initWithFrame:CGRectMake(0,0,TASKWEIGHT, SHOWTASKHEIGHT)];
     _showTitle_button.userInteractionEnabled = NO;
-    [_showTitle_button setBackgroundImage:[[UIImage imageNamed:@"任务卡－按钮上面"] resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch] forState:UIControlStateNormal];
+    [_showTitle_button setBackgroundImage:[[[UIImage imageNamed:@"任务卡－按钮上面"] rt_tintedImageWithColor:QDXBlue] resizableImageWithCapInsets:insets resizingMode:UIImageResizingModeStretch] forState:UIControlStateNormal];
     [_showTitle_button setTitleColor:[UIColor colorWithWhite:0.067 alpha:1.000] forState:UIControlStateNormal];
     _showTitle_button.titleLabel.font = [UIFont systemFontOfSize:20];
     [self.deliverView addSubview:_showTitle_button];
     
     // 添加手势
-    UITapGestureRecognizer * gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismiss)];
-    [self addGestureRecognizer:gesture];
+//    UITapGestureRecognizer * gesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(dismiss)];
+//    [self addGestureRecognizer:gesture];
 }
 
 #pragma mark- 显示view

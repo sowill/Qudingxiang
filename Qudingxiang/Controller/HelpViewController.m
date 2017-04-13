@@ -7,11 +7,12 @@
 //
 
 #import "HelpViewController.h"
+#import <WebKit/WebKit.h>
 
-@interface HelpViewController ()
-{
-    UIWebView *protocol;
-}
+@interface HelpViewController ()<WKScriptMessageHandler>
+
+@property (nonatomic, retain) WKWebView* protocol;
+
 @end
 
 @implementation HelpViewController
@@ -20,33 +21,31 @@
     [super viewDidLoad];
     // Do any additional setup after loading the view.
     self.navigationItem.title = @"帮助";
+    
+    WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
+    config.mediaPlaybackRequiresUserAction = NO;
+    config.allowsInlineMediaPlayback = YES;
+    _protocol = [[WKWebView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight-15) configuration:config];
+    NSString *url = [newHostUrl stringByAppendingString:helpUrl];
+    [_protocol loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
+    WKUserContentController *userCC = config.userContentController;
+    //JS调用OC 添加处理脚本
+    [userCC addScriptMessageHandler:self name:@"Success"];
+    
+    [self.view addSubview:_protocol];
 
-    protocol = [[UIWebView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight-15)];
-    protocol.backgroundColor = [UIColor clearColor];
-    protocol.scrollView.showsVerticalScrollIndicator = FALSE;
-    NSString *url = [hostUrl stringByAppendingString:@"index.php/home/help/index.html"];
-    [protocol loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
-    [self.view addSubview:protocol];
 }
 
--(void)setupProtocol
-{
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/help/index.html"];
-    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
+#pragma mark - WKScriptMessageHandler
+- (void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message {
+    //    NSLog(@"%@",NSStringFromSelector(_cmd));
+    //    NSLog(@"%@",message.body);
+    
+    if ([message.name isEqualToString:@"Success"]) {
         
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
-        //[protocol loadHTMLString:infoDict[@"Msg"] baseURL:nil];
-        [protocol loadRequest:responseObject];
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        
-    }];
+    }
 }
+
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.

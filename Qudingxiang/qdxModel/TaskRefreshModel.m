@@ -20,6 +20,7 @@
         _pointmap_rssi = infoDict[@"pointmap_rssi"];
         _line_time = infoDict[@"line_time"];
         _linetype_id = infoDict[@"linetype_id"];
+        _myline_print = infoDict[@"myline_print"];
     }
     return self;
 }

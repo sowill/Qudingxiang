@@ -7,6 +7,7 @@
 //
 
 #import "QDXProtocolViewController.h"
+#import "BaseGameViewController.h"
 
 @interface QDXProtocolViewController ()
 {
@@ -62,45 +63,30 @@
 
 -(void)decline
 {
-    [self dismissViewControllerAnimated:YES completion:^{
-        if (self.declineBlock) {
-            self.declineBlock();
-        }
+    [self.navigationController popViewControllerAnimated:YES];
+    [self.navigationController dismissViewControllerAnimated:YES completion:^{
+        
     }];
 }
 
 -(void)accept
 {
-    [self getMyline];
-}
-
--(void)getMyline
-{
-    NSString *url = [newHostUrl stringByAppendingString:getMylineUrl];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"customer_token"] = save;
-    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
-        if ([responseObject[@"Code"] intValue] == 0) {
-            UIAlertController *aalert = [UIAlertController alertControllerWithTitle:@"提示" message:responseObject[@"Msg"]preferredStyle:UIAlertControllerStyleAlert];
-            [aalert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action) {
-                
-            }]];
-            [self presentViewController:aalert animated:YES completion:nil];
-        }else{
-            [self dismissViewControllerAnimated:YES completion:^{}];
-        }
-    } failure:^(NSError *error) {
-        
-    }];
+    NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    documentDir= [documentDir stringByAppendingPathComponent:@"QDXCurrentMyLine.data"];
+    [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
+    [NSKeyedArchiver archiveRootObject:_myline_id toFile:QDXCurrentMyLineFile];
+    
+    BaseGameViewController *game = [[BaseGameViewController alloc] init];
+    game.myline_id = _myline_id;
+    [self.navigationController pushViewController:game animated:YES];
 }
 
 
 -(void)setupProtocol{
-    NSString *url = [newHostUrl stringByAppendingString:protocolUrl];
+    NSString *url = [newHostUrl stringByAppendingString:portocolUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
-        NSLog(@"%@",responseObject);
-        
+
         if ([responseObject[@"Code"] intValue] == 0) {
             
         }else{

@@ -19,6 +19,7 @@
 #import "QDXActivityViewController.h"
 
 #import "BaseGameViewController.h"
+#import "QDXProtocolViewController.h"
 #import "codeWebViewController.h"
 #import "QDXHomeTableViewCell.h"
 #import "QDXHomeCooperationCell.h"
@@ -589,11 +590,22 @@
             }];
             
             lineVC.LineClickBlock = ^(){
-                BaseGameViewController *viewController = [[BaseGameViewController alloc] init];
-                QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:viewController];
-                [self.navigationController presentViewController:nav animated:YES completion:^{
-                    
-                }];
+                
+                if ([mylineid length] == 0) {
+                    QDXProtocolViewController *portocolVC = [[QDXProtocolViewController alloc] init];
+                    portocolVC.myline_id = responseObject[@"Msg"];
+                    QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:portocolVC];
+                    [self presentViewController:nav animated:YES completion:^{
+                        
+                    }];
+                }else{
+                    BaseGameViewController *game = [[BaseGameViewController alloc] init];
+                    game.myline_id = responseObject[@"Msg"];
+                    QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:game];
+                    [self presentViewController:nav animated:YES completion:^{
+                        
+                    }];
+                }
             };
         }
     } failure:^(NSError *error) {

@@ -190,6 +190,11 @@
 		4586959E1C4DD741009BAA81 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4586959D1C4DD741009BAA81 /* CoreMedia.framework */; };
 		458695A01C4DD748009BAA81 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4586959F1C4DD748009BAA81 /* QuartzCore.framework */; };
 		458695A21C4DD74E009BAA81 /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 458695A11C4DD74E009BAA81 /* AVFoundation.framework */; };
+		458BC6F31E9E2465003F824E /* PointModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 458BC6F21E9E2465003F824E /* PointModel.m */; };
+		458BC6F61E9E27BA003F824E /* MineCardViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 458BC6F51E9E27BA003F824E /* MineCardViewController.m */; };
+		458BC6F91E9E2DB8003F824E /* CardModel.m in Sources */ = {isa = PBXBuildFile; fileRef = 458BC6F81E9E2DB8003F824E /* CardModel.m */; };
+		458BC6FC1E9E2EE7003F824E /* CardList.m in Sources */ = {isa = PBXBuildFile; fileRef = 458BC6FB1E9E2EE7003F824E /* CardList.m */; };
+		458BC6FF1E9F0B4D003F824E /* MineCardTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 458BC6FE1E9F0B4D003F824E /* MineCardTableViewCell.m */; };
 		458EC8A41E83AA2A00C54097 /* BaseGameViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 458EC8A31E83AA2900C54097 /* BaseGameViewController.m */; };
 		459186A01E8F86B500524E4E /* QDXPopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4591869F1E8F86B500524E4E /* QDXPopView.m */; };
 		45983EE01E700C5700BA52E3 /* NSMutableAttributedString+ChangeColorFont.m in Sources */ = {isa = PBXBuildFile; fileRef = 45983EDF1E700C5700BA52E3 /* NSMutableAttributedString+ChangeColorFont.m */; };
@@ -769,6 +774,16 @@
 		4586959D1C4DD741009BAA81 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
 		4586959F1C4DD748009BAA81 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		458695A11C4DD74E009BAA81 /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		458BC6F11E9E2465003F824E /* PointModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PointModel.h; sourceTree = "<group>"; };
+		458BC6F21E9E2465003F824E /* PointModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PointModel.m; sourceTree = "<group>"; };
+		458BC6F41E9E27BA003F824E /* MineCardViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineCardViewController.h; sourceTree = "<group>"; };
+		458BC6F51E9E27BA003F824E /* MineCardViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineCardViewController.m; sourceTree = "<group>"; };
+		458BC6F71E9E2DB8003F824E /* CardModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardModel.h; sourceTree = "<group>"; };
+		458BC6F81E9E2DB8003F824E /* CardModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardModel.m; sourceTree = "<group>"; };
+		458BC6FA1E9E2EE7003F824E /* CardList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CardList.h; sourceTree = "<group>"; };
+		458BC6FB1E9E2EE7003F824E /* CardList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CardList.m; sourceTree = "<group>"; };
+		458BC6FD1E9F0B4D003F824E /* MineCardTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MineCardTableViewCell.h; sourceTree = "<group>"; };
+		458BC6FE1E9F0B4D003F824E /* MineCardTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MineCardTableViewCell.m; sourceTree = "<group>"; };
 		458EC8A21E83AA2900C54097 /* BaseGameViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseGameViewController.h; sourceTree = "<group>"; };
 		458EC8A31E83AA2900C54097 /* BaseGameViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseGameViewController.m; sourceTree = "<group>"; };
 		4591869E1E8F86B500524E4E /* QDXPopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = QDXPopView.h; sourceTree = "<group>"; };
@@ -2205,6 +2220,12 @@
 				45494F091E8B920D0063391C /* TeamList.m */,
 				45494F0E1E8B937F0063391C /* TeamModel.h */,
 				45494F0F1E8B937F0063391C /* TeamModel.m */,
+				458BC6F11E9E2465003F824E /* PointModel.h */,
+				458BC6F21E9E2465003F824E /* PointModel.m */,
+				458BC6F71E9E2DB8003F824E /* CardModel.h */,
+				458BC6F81E9E2DB8003F824E /* CardModel.m */,
+				458BC6FA1E9E2EE7003F824E /* CardList.h */,
+				458BC6FB1E9E2EE7003F824E /* CardList.m */,
 			);
 			path = qdxModel;
 			sourceTree = "<group>";
@@ -2418,6 +2439,8 @@
 				4556CD701CEDC5CF00577A61 /* SignViewController.m */,
 				45FD83591E8286A200C4D37A /* editMineInfoViewController.h */,
 				45FD835A1E8286A200C4D37A /* editMineInfoViewController.m */,
+				458BC6F41E9E27BA003F824E /* MineCardViewController.h */,
+				458BC6F51E9E27BA003F824E /* MineCardViewController.m */,
 			);
 			name = "我的";
 			sourceTree = "<group>";
@@ -2603,6 +2626,8 @@
 				45C6F5951C92A1D500C5AA31 /* MineCell.m */,
 				45C6F5961C92A1D500C5AA31 /* myViewCellTableViewCell.h */,
 				45C6F5971C92A1D500C5AA31 /* myViewCellTableViewCell.m */,
+				458BC6FD1E9F0B4D003F824E /* MineCardTableViewCell.h */,
+				458BC6FE1E9F0B4D003F824E /* MineCardTableViewCell.m */,
 				451A143B1DC7375A003B8805 /* XDMultTableView */,
 			);
 			name = "我的";
@@ -2786,6 +2811,7 @@
 				455A95B51C97E3EB0039FA88 /* MJExtensionConst.m in Sources */,
 				45C6F5671C92A07900C5AA31 /* QDXIsConnect.m in Sources */,
 				45D4FEA31E7A4360005958E3 /* ProvinceList.m in Sources */,
+				458BC6F31E9E2465003F824E /* PointModel.m in Sources */,
 				45C6F5791C92A0D800C5AA31 /* QDXTicketInfoModel.m in Sources */,
 				45CA52251DE452270025A376 /* MJRefreshHeader.m in Sources */,
 				4525944D1D50D31A002BF84B /* LocalDBService.m in Sources */,
@@ -2817,6 +2843,7 @@
 				45CA52341DE452270025A376 /* UIView+MJExtension.m in Sources */,
 				45494F0A1E8B920D0063391C /* TeamList.m in Sources */,
 				451828B01D40C87A00D5FC85 /* UIView+EAFeatureGuideView.m in Sources */,
+				458BC6F91E9E2DB8003F824E /* CardModel.m in Sources */,
 				45B25AC21E76665D00C0B518 /* AFImageDownloader.m in Sources */,
 				452577A31E88B116000F5F4D /* TaskRefreshModel.m in Sources */,
 				45C6F5861C92A10300C5AA31 /* AlipayModel.m in Sources */,
@@ -2863,6 +2890,7 @@
 				A35DAC701CCF59C700D01CF0 /* ImagePickerController.m in Sources */,
 				45C6F5DF1C92A39300C5AA31 /* LineController.m in Sources */,
 				45C6F6101C92A46500C5AA31 /* QDXCreateCodeViewController.m in Sources */,
+				458BC6F61E9E27BA003F824E /* MineCardViewController.m in Sources */,
 				4545CF371C80435000B73849 /* zoomImage.m in Sources */,
 				45C6F6011C92A42400C5AA31 /* HomeController.m in Sources */,
 				4569E56A1C4CB64B00FF4E8B /* JTSAnimatedGIFUtility.m in Sources */,
@@ -3049,6 +3077,7 @@
 				45C6F5991C92A1D500C5AA31 /* MineCell.m in Sources */,
 				A31822181C92B87C00A1882B /* LoginService.m in Sources */,
 				4571CDF71CE05B00002ED784 /* CYAlertPresentSystem.m in Sources */,
+				458BC6FF1E9F0B4D003F824E /* MineCardTableViewCell.m in Sources */,
 				45494F161E8B9E830063391C /* TextFieldTableViewCell.m in Sources */,
 				45C6F5A41C92A20400C5AA31 /* QDXTicketTableViewCell.m in Sources */,
 				452577AC1E890B62000F5F4D /* MapViewController.m in Sources */,
@@ -3087,6 +3116,7 @@
 				45B25ADC1E76667600C0B518 /* PPNetworkCache.m in Sources */,
 				4557D1531CD9A33300CA76BD /* QDXHistoryViewController.m in Sources */,
 				45C6F5B41C92A2D500C5AA31 /* QDXLoginViewController.m in Sources */,
+				458BC6FC1E9E2EE7003F824E /* CardList.m in Sources */,
 				45C6F5BB1C92A30600C5AA31 /* DetailCell.m in Sources */,
 				4569E59E1C4CB64B00FF4E8B /* AppDelegate.m in Sources */,
 				452594501D51A0D1002BF84B /* LocalSqlliteService.m in Sources */,

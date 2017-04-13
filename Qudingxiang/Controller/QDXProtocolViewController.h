@@ -10,6 +10,6 @@
 
 @interface QDXProtocolViewController : BaseViewController
 
-@property (nonatomic, strong) void (^declineBlock)();
+@property (nonatomic,strong) NSString *myline_id;
 
 @end

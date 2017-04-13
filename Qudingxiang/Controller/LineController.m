@@ -10,17 +10,11 @@
 #import "LineCell.h"
 #import "LineList.h"
 #import "Line.h"
-#import "QDXLineChooseViewController.h"
-
-#import "BaseGameViewController.h"
-
-#import "QDXNavigationController.h"
 
 @interface LineController ()<UITableViewDataSource,UITableViewDelegate>
 {
     UITableView *_tableView;
     NSMutableArray *_dataArr;
-    BOOL _isEnterToGame;
     UIImageView *_imageView;
     UIButton *_button;
     NSInteger _state;
@@ -37,7 +31,6 @@
     // Do any additional setup after loading the view.
 
     self.navigationItem.title = @"路线选择";
-    _isEnterToGame = NO;
     [self btnData];
     [self createTableView];
 }
@@ -104,11 +97,6 @@
     cell.line = _dataArr[indexPath.row];
     cell.select = 0;
     cell.selectionStyle = UITableViewCellSelectionStyleNone;
-    cell.detailClick= ^(){
-        QDXLineChooseViewController *choiceVC = [[QDXLineChooseViewController alloc] init];
-        choiceVC.model = _dataArr[indexPath.row];
-        [self.navigationController pushViewController:choiceVC animated:YES];
-    };
     
     __weak __typeof(cell) weakSelf = cell;
     cell.quickClick = ^(){
@@ -154,7 +142,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    return QdxHeight*0.114 +10;
+    return FitRealValue(130 + 20);
 }
 
 //点击cell

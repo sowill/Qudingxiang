@@ -19,6 +19,7 @@
 #import "UIImage+RTTint.h"
 #import "UIButton+ImageText.h"
 #import "Customer.h"
+#import "MineCardViewController.h"
 
 @interface MineViewController ()<UITableViewDataSource,UITableViewDelegate,UIImagePickerControllerDelegate,UINavigationControllerDelegate>
 {
@@ -368,7 +369,13 @@
     if ([save length] == 0) {
         [self login];
     }else{
-        if (indexPath.row == 1 && indexPath.section == 1){
+        if (indexPath.row == 0 && indexPath.section == 1) {
+            
+            MineCardViewController *cardVC = [[MineCardViewController alloc] init];
+            cardVC.hidesBottomBarWhenPushed = YES;
+            [self.navigationController pushViewController:cardVC animated:YES];
+            
+        }else if (indexPath.row == 1 && indexPath.section == 1){
             
             SettingViewController *setVC = [[SettingViewController alloc] init];
             setVC.hidesBottomBarWhenPushed = YES;

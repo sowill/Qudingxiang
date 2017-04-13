@@ -240,7 +240,7 @@
 #define teamqrcodeUrl @"Home/Team/teamqrcode"
 
 //协议
-#define protocolUrl @"Home/Util/protocol"
+#define portocolUrl @"Home/Util/portocol"
 
 //获取订单列表 参数customer_token
 #define getOrdersListUrl @"Home/Orders/getList"
@@ -259,3 +259,15 @@
 
 //支付宝支付 传入参数: customer_token（必填),orders_id（必填）
 #define alipayPayUrl @"Home/Alipay/pay"
+
+//修改点标坐标 传入参数: customer_token（必填),point_id(必填),point_lon（必填）,point_lat（必填）,point_power（选填）
+#define pointModifyUrl @"Home/Point/modify"
+
+//获取点标列表 传入参数: customer_token（必填)
+#define getPointListUrl @"Home/Point/getPointList"
+
+//获取Help 页面（web访问） 传入参数:
+#define helpUrl @"Home/Util/help"
+
+//获取我的卡包 传入参数: customer_token（必填)
+#define myCardUrl @"Home/Mycard/getList"

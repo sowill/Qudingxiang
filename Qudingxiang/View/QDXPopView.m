@@ -69,27 +69,27 @@
 {
     [_showTitle_button setTitle:_title forState:UIControlStateNormal];
     
-    CGPoint finalPoint;
-    
-    finalPoint = CGPointMake(TASKWEIGHT, TASKHEIGHT);
-    
-    CGFloat radius = sqrt((finalPoint.x * finalPoint.x) + (finalPoint.y * finalPoint.y));
-    UIBezierPath *maskFinalBP = [UIBezierPath bezierPathWithOvalInRect:CGRectInset(self.deliverView.frame, -radius, -radius)];
-
-    UIBezierPath *maskStartBP =  [UIBezierPath bezierPathWithOvalInRect:_task_button.frame];
-    
-    CAShapeLayer *maskLayer = [CAShapeLayer layer];
-    maskLayer.path = maskFinalBP.CGPath;
-    self.deliverView.layer.mask = maskLayer;
-    
-    CABasicAnimation *maskLayerAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
-    maskLayerAnimation.fromValue = (__bridge id)(maskStartBP.CGPath);
-    maskLayerAnimation.toValue = (__bridge id)((maskFinalBP.CGPath));
-    maskLayerAnimation.duration = 0.7;
-    maskLayerAnimation.timingFunction = [CAMediaTimingFunction  functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    maskLayerAnimation.delegate = self;
-    
-    [maskLayer addAnimation:maskLayerAnimation forKey:@"path"];
+//    CGPoint finalPoint;
+//    
+//    finalPoint = CGPointMake(TASKWEIGHT, TASKHEIGHT);
+//    
+//    CGFloat radius = sqrt((finalPoint.x * finalPoint.x) + (finalPoint.y * finalPoint.y));
+//    UIBezierPath *maskFinalBP = [UIBezierPath bezierPathWithOvalInRect:CGRectInset(self.deliverView.frame, -radius, -radius)];
+//
+//    UIBezierPath *maskStartBP =  [UIBezierPath bezierPathWithOvalInRect:_task_button.frame];
+//    
+//    CAShapeLayer *maskLayer = [CAShapeLayer layer];
+//    maskLayer.path = maskFinalBP.CGPath;
+//    self.deliverView.layer.mask = maskLayer;
+//    
+//    CABasicAnimation *maskLayerAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
+//    maskLayerAnimation.fromValue = (__bridge id)(maskStartBP.CGPath);
+//    maskLayerAnimation.toValue = (__bridge id)((maskFinalBP.CGPath));
+//    maskLayerAnimation.duration = 0.7;
+//    maskLayerAnimation.timingFunction = [CAMediaTimingFunction  functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+//    maskLayerAnimation.delegate = self;
+//    
+//    [maskLayer addAnimation:maskLayerAnimation forKey:@"path"];
 
     
 //    [self.passwordField becomeFirstResponder];
@@ -99,28 +99,28 @@
 #pragma mark- 隐藏view
 -(void)dismiss
 {
-    UIBezierPath *finalPath = [UIBezierPath bezierPathWithOvalInRect:self.task_button.frame];
-    
-    CGPoint finalPoint;
-    
-    finalPoint = CGPointMake(self.task_button.center.x - 0, self.task_button.center.y - 0);
-    
-    CGFloat radius = sqrt(finalPoint.x * finalPoint.x + finalPoint.y * finalPoint.y);
-    UIBezierPath *startPath = [UIBezierPath bezierPathWithOvalInRect:CGRectInset(self.task_button.frame, -radius, -radius)];
-    
-    CAShapeLayer *maskLayer = [CAShapeLayer layer];
-    maskLayer.path = finalPath.CGPath;
-    self.deliverView.layer.mask = maskLayer;
-    
-    CABasicAnimation *pingAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
-    pingAnimation.fromValue = (__bridge id)(startPath.CGPath);
-    pingAnimation.toValue   = (__bridge id)(finalPath.CGPath);
-    pingAnimation.duration = 0.7;
-    pingAnimation.timingFunction = [CAMediaTimingFunction  functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
-    
-    pingAnimation.delegate = self;
-    
-    [maskLayer addAnimation:pingAnimation forKey:@"pingInvert"];
+//    UIBezierPath *finalPath = [UIBezierPath bezierPathWithOvalInRect:self.task_button.frame];
+//    
+//    CGPoint finalPoint;
+//    
+//    finalPoint = CGPointMake(self.task_button.center.x - 0, self.task_button.center.y - 0);
+//    
+//    CGFloat radius = sqrt(finalPoint.x * finalPoint.x + finalPoint.y * finalPoint.y);
+//    UIBezierPath *startPath = [UIBezierPath bezierPathWithOvalInRect:CGRectInset(self.task_button.frame, -radius, -radius)];
+//    
+//    CAShapeLayer *maskLayer = [CAShapeLayer layer];
+//    maskLayer.path = finalPath.CGPath;
+//    self.deliverView.layer.mask = maskLayer;
+//    
+//    CABasicAnimation *pingAnimation = [CABasicAnimation animationWithKeyPath:@"path"];
+//    pingAnimation.fromValue = (__bridge id)(startPath.CGPath);
+//    pingAnimation.toValue   = (__bridge id)(finalPath.CGPath);
+//    pingAnimation.duration = 0.7;
+//    pingAnimation.timingFunction = [CAMediaTimingFunction  functionWithName:kCAMediaTimingFunctionEaseInEaseOut];
+//    
+//    pingAnimation.delegate = self;
+//    
+//    [maskLayer addAnimation:pingAnimation forKey:@"pingInvert"];
     
     dispatch_time_t time=dispatch_time(DISPATCH_TIME_NOW, 0.7 *NSEC_PER_SEC);
     dispatch_after(time, dispatch_get_main_queue(), ^{

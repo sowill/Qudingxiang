@@ -41,11 +41,12 @@ static NSString *placeReuseID = @"placeReuseID";
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self getAreaisRemoveAll:NO];
+    curr = 1;
+    [self getAreaisRemoveAll:YES];
 }
 
 -(void)reloadData{
-    [self getAreaisRemoveAll:NO];
+    [self getAreaisRemoveAll:YES];
 }
 
 - (void)viewDidLoad {

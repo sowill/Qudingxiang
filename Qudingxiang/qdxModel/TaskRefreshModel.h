@@ -19,6 +19,7 @@
 @property (nonatomic,copy) NSString *pointmap_rssi;
 @property (nonatomic,copy) NSString *line_time;
 @property (nonatomic,copy) NSString *linetype_id;
+@property (nonatomic,copy) NSString *myline_print;
 
 -(id)initWithDic:(NSDictionary *) infoDict;
 

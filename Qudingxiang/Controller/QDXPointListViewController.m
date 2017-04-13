@@ -8,7 +8,7 @@
 
 #import "QDXPointListViewController.h"
 #import "QDXPointSettingViewController.h"
-#import "QDXPointModel.h"
+#import "PointModel.h"
 
 @interface QDXPointListViewController ()<UITableViewDelegate,UITableViewDataSource>
 {
@@ -65,33 +65,22 @@
 
 -(void)getPointList
 {
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr.responseSerializer = [ AFHTTPResponseSerializer serializer ];
+    NSString *url = [newHostUrl stringByAppendingString:getPointListUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"TokenKey"] = save;
-    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Point/getPointList"];
-    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
-        
-        int ret = [infoDict[@"Code"] intValue];
+    params[@"customer_token"] = save;
+    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
+        int ret = [responseObject[@"Code"] intValue];
         if (ret == 1) {
-            pointArray = [QDXPointModel mj_objectArrayWithKeyValuesArray:infoDict[@"Msg"]];
-//            for (QDXPointModel *point in pointArray) {
-//                NSLog(@"%@", point.point_name);
-//            }
-            
+            pointArray = [PointModel mj_objectArrayWithKeyValuesArray:responseObject[@"Msg"]];
             [self createTableView];
-        }
-        else{
+        }else{
             
         }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+        
+    } failure:^(NSError *error) {
         
     }];
+
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -103,7 +92,7 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     QDXPointSettingViewController *pointSettingVC = [[QDXPointSettingViewController alloc] init];
-    QDXPointModel *pointModel =pointArray[indexPath.row];
+    PointModel *pointModel =pointArray[indexPath.row];
     pointSettingVC.pointModel = pointModel;
     [self.navigationController pushViewController:pointSettingVC animated:YES];
     
@@ -125,8 +114,8 @@
                 reuseIdentifier:CellIdentifier];
     }
     
-    QDXPointModel *point =pointArray[indexPath.row];
-    cell.textLabel.text = point.point_name;
+    PointModel *point =pointArray[indexPath.row];
+    cell.textLabel.text = point.point_cn;
     cell.accessoryType=UITableViewCellAccessoryDisclosureIndicator;
     return cell;
 }

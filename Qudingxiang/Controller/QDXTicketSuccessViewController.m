@@ -8,6 +8,7 @@
 
 #import "QDXTicketSuccessViewController.h"
 #import "BaseGameViewController.h"
+#import "QDXProtocolViewController.h"
 
 @interface QDXTicketSuccessViewController ()
 
@@ -45,9 +46,15 @@
             }]];
             [self presentViewController:aalert animated:YES completion:nil];
         }else{
-            BaseGameViewController *game = [[BaseGameViewController alloc] init];
-            game.myline_id = responseObject[@"Msg"];
-            [self.navigationController pushViewController:game animated:YES];
+            if ([mylineid length] == 0) {
+                QDXProtocolViewController *portocolVC = [[QDXProtocolViewController alloc] init];
+                portocolVC.myline_id = responseObject[@"Msg"];
+                [self.navigationController pushViewController:portocolVC animated:YES];
+            }else{
+                BaseGameViewController *game = [[BaseGameViewController alloc] init];
+                game.myline_id = responseObject[@"Msg"];
+                [self.navigationController pushViewController:game animated:YES];
+            }
         }
     } failure:^(NSError *error) {
         

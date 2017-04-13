@@ -7,17 +7,18 @@
 //
 
 #import "TeamLineController.h"
-#import "QDXGameViewController.h"
+#import "BaseGameViewController.h"
+#import "QDXProtocolViewController.h"
 #import "MylineList.h"
 #import "Myline.h"
 #import "MineCell.h"
-#import "QDXNavigationController.h"
 #import "QDXStateView.h"
 
 @interface TeamLineController ()<UITableViewDataSource,UITableViewDelegate,StateDelegate>
 {
     UITableView *_tableView;
     NSMutableArray *_dataArr;
+    NSMutableArray *_myline_idArr;
     int curr;
     int page;
     int count;
@@ -38,16 +39,19 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self netDataisRemoveAll:NO];
+    curr = 1;
+    [self netDataisRemoveAll:YES];
 }
 
 -(void)reloadData
 {
-    [self netDataisRemoveAll:NO];
+    [self netDataisRemoveAll:YES];
 }
 
 - (void)createUI
 {
+    _dataArr = [NSMutableArray arrayWithCapacity:0];
+    _myline_idArr = [NSMutableArray arrayWithCapacity:0];
     _tableView = [[UITableView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight-64) style:UITableViewStylePlain];
     _tableView.delegate = self;
     _tableView.dataSource = self;
@@ -135,7 +139,6 @@
 
 - (void)netDataisRemoveAll:(BOOL)isRemoveAll
 {
-    _dataArr = [NSMutableArray arrayWithCapacity:0];
     NSString *url = [newHostUrl stringByAppendingString:getTeamListUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"customer_token"] = save;
@@ -153,9 +156,11 @@
         }else{
             if (isRemoveAll) {
                 [_dataArr removeAllObjects];
+                [_myline_idArr removeAllObjects];
             }
             for (Myline *myline in mylineList.mylineArray) {
                 [_dataArr addObject:myline];
+                [_myline_idArr addObject:myline.myline_id];
             }
         }
         [_tableView.mj_footer endRefreshing];
@@ -197,11 +202,15 @@
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
-    QDXGameViewController *gameVC = [[QDXGameViewController alloc] init];
-
-    gameVC.model = _dataArr[indexPath.row];
-    
-    [self.navigationController pushViewController:gameVC animated:YES];
+    if ([mylineid length] == 0) {
+        QDXProtocolViewController *portocolVC = [[QDXProtocolViewController alloc] init];
+        portocolVC.myline_id = _myline_idArr[indexPath.row];
+        [self.navigationController pushViewController:portocolVC animated:YES];
+    }else{
+        BaseGameViewController *game = [[BaseGameViewController alloc] init];
+        game.myline_id = _myline_idArr[indexPath.row];
+        [self.navigationController pushViewController:game animated:YES];
+    }
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

@@ -164,13 +164,21 @@
             }]];
             [self presentViewController:aalert animated:YES completion:nil];
         }else{
-            
-            BaseGameViewController *game = [[BaseGameViewController alloc] init];
-            game.myline_id = responseObject[@"Msg"];
-            QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:game];
-            [self presentViewController:nav animated:YES completion:^{
+            if ([mylineid length] == 0) {
+                QDXProtocolViewController *portocolVC = [[QDXProtocolViewController alloc] init];
+                portocolVC.myline_id = responseObject[@"Msg"];
+                QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:portocolVC];
+                [self presentViewController:nav animated:YES completion:^{
                     
-            }];
+                }];
+            }else{
+                BaseGameViewController *game = [[BaseGameViewController alloc] init];
+                game.myline_id = responseObject[@"Msg"];
+                QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:game];
+                [self presentViewController:nav animated:YES completion:^{
+                    
+                }];
+            }
         }
     } failure:^(NSError *error) {
         

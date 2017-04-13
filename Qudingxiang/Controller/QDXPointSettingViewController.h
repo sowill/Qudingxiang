@@ -8,10 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
-@class QDXPointModel;
+@class PointModel;
 
 @interface QDXPointSettingViewController : BaseViewController
 
-@property(nonatomic,retain) QDXPointModel *pointModel;
+@property(nonatomic,retain) PointModel *pointModel;
 
 @end

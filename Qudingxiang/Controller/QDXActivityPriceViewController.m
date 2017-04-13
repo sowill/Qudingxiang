@@ -39,11 +39,12 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self getGoodsisRemoveAll:NO];
+    curr = 1;
+    [self getGoodsisRemoveAll:YES];
 }
 
 -(void)reloadData{
-    [self getGoodsisRemoveAll:NO];
+    [self getGoodsisRemoveAll:YES];
 }
 
 -(void)getGoodsisRemoveAll:(BOOL)isRemoveAll

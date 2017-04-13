@@ -7,7 +7,7 @@
 //
 
 #import "QDXPointSettingViewController.h"
-#import "QDXPointModel.h"
+#import "PointModel.h"
 #import "PointAnnotationView.h"
 
 @interface QDXPointSettingViewController ()<MAMapViewDelegate>
@@ -31,7 +31,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    self.navigationItem.title = self.pointModel.point_name;
+    self.navigationItem.title = self.pointModel.point_cn;
     
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"提交" style:UIBarButtonItemStylePlain target:self action:@selector(commitClick)];
 //    UIBarButtonItem *buttonItem = [[UIBarButtonItem alloc] initWithCustomView:commit];
@@ -59,11 +59,11 @@
     
     localLabel = [[UILabel alloc] initWithFrame:CGRectMake(FitRealValue(24),FitRealValue(26), QdxWidth - FitRealValue(24*2), FitRealValue(28))];
     
-    NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"已设置：经度%@  纬度%@",self.pointModel.LAT,self.pointModel.LON]];
+    NSMutableAttributedString *str = [[NSMutableAttributedString alloc]initWithString:[NSString stringWithFormat:@"已设置：经度%@  纬度%@",self.pointModel.point_lat,self.pointModel.point_lon]];
     
     [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1.0] range:NSMakeRange(0,6)];
     
-    [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1.0] range:NSMakeRange(7 + self.pointModel.LAT.length,3)];
+    [str addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:102/255.0 green:102/255.0 blue:102/255.0 alpha:1.0] range:NSMakeRange(7 + self.pointModel.point_lat.length,3)];
     
     //设置自定义位置字符串大小
     //    [str addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Arial"size:18]range:NSMakeRange(str.length-5,5)];
@@ -96,11 +96,11 @@
     
     CLLocationCoordinate2D coor;
     annotation_target = [[MAPointAnnotation alloc]init];
-    coor.latitude = [self.pointModel.LAT floatValue];
-    coor.longitude = [self.pointModel.LON floatValue];
+    coor.latitude = [self.pointModel.point_lat floatValue];
+    coor.longitude = [self.pointModel.point_lon floatValue];
     
     annotation_target.coordinate = coor;
-    annotation_target.title = self.pointModel.point_name;
+    annotation_target.title = self.pointModel.point_cn;
     [self.mapView addAnnotation:annotation_target];
 }
 
@@ -181,37 +181,27 @@
 
 -(void)PointModify
 {
-    
     NSString *lonStr = [lonLabel.text substringFromIndex:3];
     NSString *latStr = [latLabel.text substringFromIndex:3];
     
-    AFHTTPSessionManager *mgr = [AFHTTPSessionManager manager];
-    mgr. responseSerializer = [ AFHTTPResponseSerializer serializer ];
+    NSString *url = [newHostUrl stringByAppendingString:pointModifyUrl];
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"TokenKey"] = save;
+    params[@"customer_token"] = save;
     params[@"point_id"] = self.pointModel.point_id;
-    params[@"LON"] = lonStr;
-    params[@"LAT"] = latStr;
-    NSString *url = [hostUrl stringByAppendingString:@"index.php/Home/Point/modify"];
-    [mgr POST:url parameters:params progress:^(NSProgress * _Nonnull uploadProgress) {
-        
-        
-    } success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-        NSDictionary *dict = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
-        NSDictionary *infoDict = [[NSDictionary alloc] initWithDictionary:dict];
-        
-        int ret = [infoDict[@"Code"] intValue];
+    params[@"point_lon"] = lonStr;
+    params[@"point_lat"] = latStr;
+    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
+        int ret = [responseObject[@"Code"] intValue];
         if (ret == 1) {
-//            NSLog(@"%@",infoDict);
             [MBProgressHUD showSuccess:@"提交成功"];
             
             [self.navigationController popViewControllerAnimated:YES];
-        }
-        else{
+        }else{
             [MBProgressHUD showError:@"提交失败"];
         }
-    } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
-        [MBProgressHUD showError:@"提交失败"];
+        
+    } failure:^(NSError *error) {
+        
     }];
 }
 

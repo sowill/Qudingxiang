@@ -102,10 +102,10 @@
         WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
         config.mediaPlaybackRequiresUserAction = NO;
         config.allowsInlineMediaPlayback = YES;
-        self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0,FitRealValue(90), FitRealValue(710), FitRealValue(1074) - 2 * FitRealValue(90)) configuration:config];
+        self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(FitRealValue(20),FitRealValue(220), FitRealValue(710), FitRealValue(1074) - FitRealValue(2 * 90)) configuration:config];
         [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
         
-        [self.popView.deliverView addSubview:self.webView];
+        [self.popView addSubview:self.webView];
         
         [self.popView show];
         

@@ -25,11 +25,13 @@
 #import "CustomAnimateTransitionPush.h"
 #import "gameToMapPush.h"
 
-#import "QDXProtocolViewController.h"
-#import "QDXNavigationController.h"
 #import "QDXPopView.h"
+#import "QRCodeGenerator.h"
 
-@interface BaseGameViewController ()<CBCentralManagerDelegate,CBPeripheralDelegate,UITableViewDelegate,UITableViewDataSource,LrdOutputViewDelegate,WKScriptMessageHandler,UINavigationControllerDelegate>
+#define TASKWEIGHT                         FitRealValue(560)
+#define TASKHEIGHT                         FitRealValue(480)
+
+@interface BaseGameViewController ()<CBCentralManagerDelegate,CBPeripheralDelegate,UITableViewDelegate,UITableViewDataSource,LrdOutputViewDelegate,UINavigationControllerDelegate,WKScriptMessageHandler>
 
 @property (nonatomic, strong) UITableView* tableview;
 
@@ -69,6 +71,10 @@
 
 @property (nonatomic, strong) QDXPopView *popView;
 
+@property (nonatomic, strong) UIView* BGView; //遮罩
+
+@property (nonatomic, strong) UIView* deliverView; //底部View
+
 @end
 
 @implementation BaseGameViewController
@@ -81,20 +87,6 @@
     self.QDXScrollView.showsVerticalScrollIndicator = FALSE;
     self.QDXScrollView.backgroundColor = QDXBGColor;
     [self.view addSubview:self.QDXScrollView];
-    
-    if (_myline_id.length == 0) {
-
-        QDXProtocolViewController *protocolVC = [[QDXProtocolViewController alloc] init];
-        QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:protocolVC];
-        protocolVC.declineBlock = ^(){
-            [self dismissViewControllerAnimated:YES completion:^{
-                
-            }];
-        };
-        [self.navigationController presentViewController:nav animated:YES completion:^{
-            
-        }];
-    }
     
     _countDownTimer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timeFireMethod) userInfo:nil repeats:YES];
     
@@ -112,13 +104,15 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
+    
+    [_countDownTimer setFireDate:[NSDate distantPast]];
     // 必须在viewDidAppear或者viewWillAppear中写，因为每次都需要将delegate设为当前界面
     self.navigationController.delegate=self;
 }
 
 -(void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
-
+    [_countDownTimer setFireDate:[NSDate distantFuture]];
     [self.MyCentralManager stopScan];
 }
 
@@ -127,7 +121,6 @@
     NSMutableDictionary *params = [NSMutableDictionary dictionary];
     params[@"myline_id"] = _myline_id;
     [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
-        
         TaskRefreshModel *taskRefreshModel = [[TaskRefreshModel alloc] initWithDic:responseObject];
         _taskRefresh = taskRefreshModel;
         
@@ -382,6 +375,12 @@ toViewController:(UIViewController *)toVC {
     [_presentButton removeFromSuperview];
     [_task_button removeFromSuperview];
     
+    if ([mylineid isEqualToString:_myline_id]){
+        NSFileManager * fileManager = [[NSFileManager alloc]init];
+        NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        documentDir= [documentDir stringByAppendingPathComponent:@"QDXCurrentMyLine.data"];
+        [fileManager removeItemAtPath:documentDir error:nil];
+    }
     
     _historyArr = [NSMutableArray arrayWithCapacity:0];
     NSString *url = [newHostUrl stringByAppendingString:historyUrl];
@@ -462,10 +461,10 @@ toViewController:(UIViewController *)toVC {
         WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
         config.mediaPlaybackRequiresUserAction = NO;
         config.allowsInlineMediaPlayback = YES;
-        self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0,FitRealValue(90), FitRealValue(710), FitRealValue(1074) - 2 * FitRealValue(90)) configuration:config];
+        self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(FitRealValue(20),FitRealValue(220), FitRealValue(710), FitRealValue(1074) -  FitRealValue(2 * 90)) configuration:config];
         [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
         
-        [self.popView.deliverView addSubview:self.webView];
+        [self.popView addSubview:self.webView];
         
         [self.popView show];
         
@@ -505,6 +504,12 @@ toViewController:(UIViewController *)toVC {
     [_presentButton removeFromSuperview];
     [_task_button removeFromSuperview];
     
+    if ([mylineid isEqualToString:_myline_id]){
+        NSFileManager * fileManager = [[NSFileManager alloc]init];
+        NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+        documentDir= [documentDir stringByAppendingPathComponent:@"QDXCurrentMyLine.data"];
+        [fileManager removeItemAtPath:documentDir error:nil];
+    }
     UIImageView *sad = [[UIImageView alloc] init];
     CGFloat sadCenterX = QdxWidth * 0.5;
     CGFloat sadCenterY = QdxHeight * 0.22;
@@ -536,13 +541,13 @@ toViewController:(UIViewController *)toVC {
     WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
     config.mediaPlaybackRequiresUserAction = NO;
     config.allowsInlineMediaPlayback = YES;
-    self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(0,FitRealValue(90), FitRealValue(710), FitRealValue(1074) - 2 * FitRealValue(90)) configuration:config];
+    self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(FitRealValue(20),FitRealValue(220), FitRealValue(710), FitRealValue(1074) - FitRealValue(2 * 90)) configuration:config];
     [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
     WKUserContentController *userCC = config.userContentController;
     //JS调用OC 添加处理脚本
     [userCC addScriptMessageHandler:self name:@"Success"];
 
-    [self.popView.deliverView addSubview:self.webView];
+    [self.popView addSubview:self.webView];
     
     [self.popView show];
 }
@@ -558,6 +563,7 @@ toViewController:(UIViewController *)toVC {
     
     if ([message.name isEqualToString:@"Success"]) {
         [self getTaskRefresh];
+        _rmoveMacStr = @"0";
         [self.MyCentralManager scanForPeripheralsWithServices:nil  options:nil];
     }
 }
@@ -567,12 +573,10 @@ toViewController:(UIViewController *)toVC {
     switch (central.state) {
         case CBCentralManagerStatePoweredOn:
         {
-            //            NSLog(@"蓝牙已打开,请扫描外设");
             [self.MyCentralManager scanForPeripheralsWithServices:nil  options:nil];
         }
             break;
         case CBCentralManagerStatePoweredOff:
-            //            NSLog(@"蓝牙没有打开,请先打开蓝牙");
             break;
         default:
             break;
@@ -588,14 +592,17 @@ toViewController:(UIViewController *)toVC {
         NSMutableArray* macArr = [[NSMutableArray alloc] init];
         [macArr addObjectsFromArray:advertisementData[@"kCBAdvDataServiceUUIDs"]];
         NSString *string1 = [macArr componentsJoinedByString:@""];
-        NSArray *array1 = [string1 componentsSeparatedByString:@"Unknown (<"];
-        NSString *string2 = [array1 componentsJoinedByString:@""];
-        NSArray *array2 = [string2 componentsSeparatedByString:@">)"];
-        NSString *string3 = [array2 componentsJoinedByString:@""];
-        if (string3.length > 8) {
-            _macStr = [string3 substringFromIndex:8];
+//        NSArray *array1 = [string1 componentsSeparatedByString:@"Unknown (<"];
+//        NSString *string2 = [array1 componentsJoinedByString:@""];
+//        NSArray *array2 = [string2 componentsSeparatedByString:@">)"];
+//        NSString *string3 = [array2 componentsJoinedByString:@""];
+        if (string1.length > 8) {
+            _macStr = [string1 substringFromIndex:8];
             _macStr = [_macStr substringToIndex:12];
-            if ([_taskRefresh.pointmap_mac containsString:_macStr] && ![_macStr isEqualToString:_rmoveMacStr]) {
+            
+            NSString * result = [_taskRefresh.pointmap_mac stringByReplacingOccurrencesOfString:@":" withString:@""];
+            
+            if ([result containsString:_macStr] && ![_macStr isEqualToString:_rmoveMacStr]) {
                 [self.MyCentralManager stopScan];
                 _rmoveMacStr = _macStr;
                 
@@ -627,10 +634,7 @@ toViewController:(UIViewController *)toVC {
                 
             }
         }
-        
-        
     }
-    
 }
 
 -(void)codeClick{
@@ -652,12 +656,27 @@ toViewController:(UIViewController *)toVC {
 }
 
 -(void)moreClick:(UIButton *)btn{
-    LrdCellModel *one = [[LrdCellModel alloc] initWithTitle:@"扫一扫" imageName:@"下拉－扫一扫"];
-    LrdCellModel *two = [[LrdCellModel alloc] initWithTitle:@"帮助" imageName:@"下拉－帮助"];
-    LrdCellModel *three = [[LrdCellModel alloc] initWithTitle:@"组队" imageName:@"下拉－组队"];
-    LrdCellModel *four = [[LrdCellModel alloc] initWithTitle:@"退赛" imageName:@"下拉－退赛"];
-    self.dataArr = @[one, two, three, four];
-    
+    if ([_taskRefresh.mylinest_id intValue] == 1) {
+        LrdCellModel *one = [[LrdCellModel alloc] initWithTitle:@"扫一扫" imageName:@"下拉－扫一扫"];
+        LrdCellModel *two = [[LrdCellModel alloc] initWithTitle:@"帮助" imageName:@"下拉－帮助"];
+        LrdCellModel *three = [[LrdCellModel alloc] initWithTitle:@"组队" imageName:@"下拉－组队"];
+        LrdCellModel *four = [[LrdCellModel alloc] initWithTitle:@"退赛" imageName:@"下拉－退赛"];
+        self.dataArr = @[one, two, three, four];
+    }else if ([_taskRefresh.mylinest_id intValue] == 2){
+        LrdCellModel *one = [[LrdCellModel alloc] initWithTitle:@"扫一扫" imageName:@"下拉－扫一扫"];
+        LrdCellModel *two = [[LrdCellModel alloc] initWithTitle:@"帮助" imageName:@"下拉－帮助"];
+        LrdCellModel *three = [[LrdCellModel alloc] initWithTitle:@"退赛" imageName:@"下拉－退赛"];
+        self.dataArr = @[one,two,three];
+    }else if ([_taskRefresh.mylinest_id intValue] == 3){
+        LrdCellModel *one = [[LrdCellModel alloc] initWithTitle:@"分享" imageName:@"下拉－分享"];
+        LrdCellModel *two = [[LrdCellModel alloc] initWithTitle:@"帮助" imageName:@"下拉－帮助"];
+        LrdCellModel *three = [[LrdCellModel alloc] initWithTitle:@"打印成绩" imageName:@"下拉－打印"];
+        self.dataArr = @[one, two, three];
+    }else{
+        LrdCellModel *one = [[LrdCellModel alloc] initWithTitle:@"帮助" imageName:@"下拉－帮助"];
+        self.dataArr = @[one];
+    }
+
     CGFloat x = btn.center.x + 10;
     CGFloat y = btn.frame.origin.y + btn.bounds.size.height + 50;
     _outputView = [[LrdOutputView alloc] initWithDataArray:self.dataArr origin:CGPointMake(x, y) width:130 height:44 direction:kLrdOutputViewDirectionRight];
@@ -672,37 +691,163 @@ toViewController:(UIViewController *)toVC {
 
 - (void)didSelectedAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.row == 0) {
-        [self codeClick];
+        if ([_taskRefresh.mylinest_id intValue] == 1 || [_taskRefresh.mylinest_id intValue] == 2) {
+            [self codeClick];
+        }else if ([_taskRefresh.mylinest_id intValue] == 3){
+            [self shareClick];
+        }else{
+            HelpViewController *helpVC = [[HelpViewController alloc] init];
+            [self.navigationController pushViewController:helpVC animated:YES];
+        }
     }else if (indexPath.row == 1){
         HelpViewController *helpVC = [[HelpViewController alloc] init];
         [self.navigationController pushViewController:helpVC animated:YES];
     }else if (indexPath.row == 2){
-        QDXTeamsViewController *teamVC = [[QDXTeamsViewController alloc] init];
-        teamVC.myLineid = _myline_id;
-        [self.navigationController pushViewController:teamVC animated:YES];
+        if ([_taskRefresh.mylinest_id intValue] == 1) {
+            QDXTeamsViewController *teamVC = [[QDXTeamsViewController alloc] init];
+            teamVC.myLineid = _myline_id;
+            [self.navigationController pushViewController:teamVC animated:YES];
+        }else if ([_taskRefresh.mylinest_id intValue] == 2){
+            [self gameover];
+        }else{
+            [self setupCreateCode];
+        }
     }else if (indexPath.row == 3){
         [self gameover];
     }else{
-            //            QDXOffLineController *offline = [[QDXOffLineController alloc] init];
-            //            [self.navigationController pushViewController:offline animated:YES];
+        
+    }
+}
+
+-(void)setupCreateCode{
+    self.BGView                 = [[UIView alloc] init];
+    self.BGView.frame           = [[UIScreen mainScreen] bounds];
+    self.BGView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
+    UITapGestureRecognizer *tapGesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(BGViewClick)];
+    [self.BGView addGestureRecognizer:tapGesture];
+    [self.view addSubview:self.BGView];
+    float codeHeight = TASKHEIGHT;
+    
+    self.deliverView                 = [[UIView alloc] init];
+    self.deliverView.frame           = CGRectMake(QdxWidth/2 - TASKWEIGHT/2,(QdxHeight-64 - codeHeight)/2,TASKWEIGHT,codeHeight);
+    self.deliverView.backgroundColor = [UIColor whiteColor];
+    self.deliverView.layer.borderWidth = 1;
+    self.deliverView.layer.cornerRadius = 8;
+    self.deliverView.layer.borderColor = [[UIColor clearColor]CGColor];
+    [self.view addSubview:self.deliverView];
+    
+    UILabel *title = [[UILabel alloc] initWithFrame:CGRectMake(0,FitRealValue(36), TASKWEIGHT, 20)];
+    title.text = @"请到自助终端打印成绩单: ";
+    title.textColor = QDXBlack;
+    title.font = [UIFont systemFontOfSize:14];
+    title.textAlignment = NSTextAlignmentCenter;
+    [self.deliverView addSubview:title];
+    
+    UIImageView *createCode = [[UIImageView alloc] initWithFrame:CGRectMake(FitRealValue(110), title.frame.origin.y + 20 + FitRealValue(36), FitRealValue(340), FitRealValue(340))];
+    createCode.image = [QRCodeGenerator qrImageForString:_taskRefresh.myline_print imageSize:createCode.bounds.size.width];
+//    [createCode setImageWithURL:[NSURL URLWithString:_qrcdeString] placeholderImage:[UIImage imageNamed:@"加载中-1"]];
+    [self.deliverView addSubview:createCode];
+}
+
+-(void)BGViewClick{
+    [self.BGView removeFromSuperview];
+    [self.deliverView removeFromSuperview];
+}
+
+-(void)shareClick{
+    NSArray *shareButtonTitleArray = [[NSArray alloc] init];
+    NSArray *shareButtonImageNameArray = [[NSArray alloc] init];
+    shareButtonTitleArray = @[@"QQ好友",@"QQ空间",@"微信好友",@"朋友圈"];
+    shareButtonImageNameArray = @[@"qq好友",@"qq空间",@"微信好友",@"朋友圈"];
+    LXActivity *lxActivity = [[LXActivity alloc] initWithTitle:@"分享到" delegate:self cancelButtonTitle:@"取消分享" ShareButtonTitles:shareButtonTitleArray withShareButtonImagesName:shareButtonImageNameArray];
+    
+    UIWindow *appWindow = [[UIApplication sharedApplication] keyWindow];
+    [appWindow addSubview:lxActivity];
+}
+
+#pragma mark - LXActivityDelegate
+
+- (void)didClickOnImageIndex:(NSInteger *)imageIndex
+{
+    NSString *shareUrl = [[NSString alloc] init];
+    shareUrl = [newHostUrl stringByAppendingString:[taskIndexUrl stringByAppendingString:[NSString stringWithFormat:@"/myline_id/%@",_myline_id]]];
+    if (imageIndex == 0) {
+        TencentOAuth *auth = [[TencentOAuth alloc] initWithAppId:QQ_KEY andDelegate:self];
+        NSURL *imgurl = [NSURL URLWithString:shareUrl];
+        NSString *title = @"趣定向";
+        NSString *description = @"我的成绩";
+        NSString *imgPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Icon-76@2x.png"];
+        NSData *imgData = [NSData dataWithContentsOfFile:imgPath];
+        QQApiNewsObject *newsObj = [QQApiNewsObject
+                                    objectWithURL:imgurl title:title description:description previewImageData:imgData];
+        SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:newsObj];
+        QQApiSendResultCode sent = [QQApiInterface sendReq:req];
+    } else if (imageIndex == 1){
+        TencentOAuth *auth = [[TencentOAuth alloc] initWithAppId:QQ_KEY andDelegate:self];
+        NSURL *imgurl = [NSURL URLWithString:shareUrl];
+        NSString *utf8String =[imgurl absoluteString];
+        NSString *title = @"趣定向";
+        NSString *description = @"我的成绩";
+        NSString *imgPath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Icon-76@2x.png"];
+        NSData *imgData = [NSData dataWithContentsOfFile:imgPath];
+        QQApiNewsObject *newsObj = [QQApiNewsObject
+                                    objectWithURL:[NSURL URLWithString:utf8String] title:title description:description previewImageData:imgData];
+        SendMessageToQQReq *req = [SendMessageToQQReq reqWithContent:newsObj];
+        QQApiSendResultCode sent = [QQApiInterface SendReqToQZone:req];
+    }else if (imageIndex == 2){
+        WXMediaMessage *message = [WXMediaMessage message];
+        message.title = @"趣定向";
+        message.description = @"我的成绩";
+        [message setThumbImage:[UIImage imageNamed:@"Icon-76@2x.png"]];
+        WXWebpageObject *webpageObject = [WXWebpageObject object];
+        webpageObject.webpageUrl = shareUrl;
+        message.mediaObject = webpageObject;
+        SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
+        req.bText = NO;
+        req.message = message;
+        req.scene = WXSceneSession;
+        [WXApi sendReq:req];
+    }else if (imageIndex == 3){
+        WXMediaMessage *message = [WXMediaMessage message];
+        message.title = @"趣定向";
+        message.description = @"我的成绩";
+        [message setThumbImage:[UIImage imageNamed:@"Icon-76@2x.png"]];
+        WXWebpageObject *webpageObject = [WXWebpageObject object];
+        webpageObject.webpageUrl = shareUrl;
+        message.mediaObject = webpageObject;
+        SendMessageToWXReq *req = [[SendMessageToWXReq alloc] init];
+        req.bText = NO;
+        req.message = message;
+        req.scene = WXSceneTimeline;
+        [WXApi sendReq:req];
+        
     }
 }
 
 -(void)gameover{
-    NSString *url = [newHostUrl stringByAppendingString:gameoverUrl];
-    NSMutableDictionary *params = [NSMutableDictionary dictionary];
-    params[@"customer_token"] = save;
-    params[@"myline_id"] = _myline_id;
-    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
-        if ([responseObject[@"Code"] intValue] == 0) {
-            [MBProgressHUD showError:responseObject[@"Msg"]];
-        }else{
-            [MBProgressHUD showSuccess:responseObject[@"Msg"]];
-            [self getTaskRefresh];
-        }
-    } failure:^(NSError *error) {
+    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"提示" message:@"真的要结束活动吗？" preferredStyle:UIAlertControllerStyleAlert];
+    UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action){
         
     }];
+    UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
+        NSString *url = [newHostUrl stringByAppendingString:gameoverUrl];
+        NSMutableDictionary *params = [NSMutableDictionary dictionary];
+        params[@"customer_token"] = save;
+        params[@"myline_id"] = _myline_id;
+        [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
+            if ([responseObject[@"Code"] intValue] == 0) {
+                [MBProgressHUD showError:responseObject[@"Msg"]];
+            }else{
+                [MBProgressHUD showSuccess:responseObject[@"Msg"]];
+                [self getTaskRefresh];
+            }
+        } failure:^(NSError *error) {
+            
+        }];
+    }];
+    [alertController addAction:cancelAction];
+    [alertController addAction:okAction];
+    [self presentViewController:alertController animated:YES completion:nil];
 }
 
 - (void)didReceiveMemoryWarning {

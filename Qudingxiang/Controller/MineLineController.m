@@ -10,10 +10,10 @@
 
 #import "BaseGameViewController.h"
 #import "MineCell.h"
-#import "QDXNavigationController.h"
 #import "QDXStateView.h"
 #import "MylineList.h"
 #import "Myline.h"
+#import "QDXProtocolViewController.h"
 
 @interface MineLineController ()<UITableViewDataSource,UITableViewDelegate,StateDelegate>
 {
@@ -45,7 +45,8 @@
 
 -(void)viewWillAppear:(BOOL)animated{
     [super viewWillAppear:animated];
-    [self netDataisRemoveAll:NO];
+    curr = 1;
+    [self netDataisRemoveAll:YES];
 }
 
 - (void)createUI{
@@ -203,11 +204,15 @@
 {
     [tableView deselectRowAtIndexPath:indexPath animated:NO];
     
-    BaseGameViewController *gameVC = [[BaseGameViewController alloc] init];
-
-    gameVC.myline_id = _myline_idArr[indexPath.row];
-    
-    [self.navigationController pushViewController:gameVC animated:YES];
+    if ([mylineid length] == 0) {
+        QDXProtocolViewController *portocolVC = [[QDXProtocolViewController alloc] init];
+        portocolVC.myline_id = _myline_idArr[indexPath.row];
+        [self.navigationController pushViewController:portocolVC animated:YES];
+    }else{
+        BaseGameViewController *game = [[BaseGameViewController alloc] init];
+        game.myline_id = _myline_idArr[indexPath.row];
+        [self.navigationController pushViewController:game animated:YES];
+    }
 }
 
 - (void)didReceiveMemoryWarning {

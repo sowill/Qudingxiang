@@ -33,12 +33,18 @@ static NSString *QDXSlideTableCellIdentifier = @"QDXSlideTableCellIdentifier";
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
-    [self getMatchorActionisRemoveAll:NO];
+    
     [self setUpTableView];
 }
 
+-(void)viewWillAppear:(BOOL)animated{
+    [super viewWillAppear:animated];
+    curr = 1;
+    [self getMatchorActionisRemoveAll:YES];
+}
+
 -(void)reloadData{
-    [self getMatchorActionisRemoveAll:NO];
+    [self getMatchorActionisRemoveAll:YES];
 }
 
 -(void)getMatchorActionisRemoveAll:(BOOL)isRemoveAll

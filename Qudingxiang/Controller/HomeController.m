@@ -590,23 +590,42 @@
             }];
             
             lineVC.LineClickBlock = ^(){
-                
-                if ([mylineid length] == 0) {
-                    QDXProtocolViewController *portocolVC = [[QDXProtocolViewController alloc] init];
-                    portocolVC.myline_id = responseObject[@"Msg"];
-                    QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:portocolVC];
-                    [self presentViewController:nav animated:YES completion:^{
-                        
-                    }];
-                }else{
-                    BaseGameViewController *game = [[BaseGameViewController alloc] init];
-                    game.myline_id = responseObject[@"Msg"];
-                    QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:game];
-                    [self presentViewController:nav animated:YES completion:^{
-                        
-                    }];
-                }
+                [self getMyline];
             };
+        }
+    } failure:^(NSError *error) {
+        
+    }];
+}
+
+-(void)getMyline
+{
+    NSString *url = [newHostUrl stringByAppendingString:getMylineUrl];
+    NSMutableDictionary *params = [NSMutableDictionary dictionary];
+    params[@"customer_token"] = save;
+    [PPNetworkHelper POST:url parameters:params success:^(id responseObject) {
+        if ([responseObject[@"Code"] intValue] == 0) {
+            UIAlertController *aalert = [UIAlertController alertControllerWithTitle:@"提示" message:responseObject[@"Msg"]preferredStyle:UIAlertControllerStyleAlert];
+            [aalert addAction:[UIAlertAction actionWithTitle:@"取消" style:UIAlertActionStyleCancel handler:^(UIAlertAction*action) {
+                
+            }]];
+            [self presentViewController:aalert animated:YES completion:nil];
+        }else{
+            if ([mylineid length] == 0) {
+                QDXProtocolViewController *portocolVC = [[QDXProtocolViewController alloc] init];
+                portocolVC.myline_id = responseObject[@"Msg"];
+                QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:portocolVC];
+                [self presentViewController:nav animated:YES completion:^{
+                    
+                }];
+            }else{
+                BaseGameViewController *game = [[BaseGameViewController alloc] init];
+                game.myline_id = responseObject[@"Msg"];
+                QDXNavigationController *nav = [[QDXNavigationController alloc] initWithRootViewController:game];
+                [self presentViewController:nav animated:YES completion:^{
+                    
+                }];
+            }
         }
     } failure:^(NSError *error) {
         

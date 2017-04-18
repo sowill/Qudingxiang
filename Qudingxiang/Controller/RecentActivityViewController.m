@@ -106,7 +106,7 @@ static NSString *QDXSlideTableCellIdentifier = @"QDXSlideTableCellIdentifier";
     }];
     
     // 马上进入刷新状态
-//    [self.tableView.mj_header beginRefreshing];
+    [self.tableView.mj_header beginRefreshing];
     
     // 2.上拉刷新(上拉加载更多数据)
     self.tableView.mj_footer = [MJRefreshBackNormalFooter footerWithRefreshingTarget:self refreshingAction:@selector(loadMoreData)];

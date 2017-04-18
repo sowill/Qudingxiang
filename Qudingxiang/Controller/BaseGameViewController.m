@@ -25,6 +25,7 @@
 #import "CustomAnimateTransitionPush.h"
 #import "gameToMapPush.h"
 
+#import <AudioToolbox/AudioToolbox.h>
 #import "QDXPopView.h"
 #import "QRCodeGenerator.h"
 
@@ -163,6 +164,12 @@
     [self showOK_buttonClick];
     [_webView removeFromSuperview];
     
+    [_history_button removeFromSuperview];
+    [_presentButton removeFromSuperview];
+    [_task_button removeFromSuperview];
+    [_topView removeFromSuperview];
+    [_bottomView removeFromSuperview];
+    
     self.MyCentralManager = [[CBCentralManager alloc] initWithDelegate:self queue:nil];
     
     _topView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, QdxWidth, QdxHeight)];
@@ -239,13 +246,13 @@
     _pointLabel.font = [UIFont fontWithName:@"Helvetica-Bold" size:50];
     
     self.presentButton = [UIButton buttonWithType:UIButtonTypeCustom];
-    [_QDXScrollView addSubview:self.presentButton];
     self.presentButton.center = CGPointMake(QdxWidth/2, QdxHeight - FitRealValue(208 + 214));
     self.presentButton.bounds = CGRectMake(0, 0, FitRealValue(214), FitRealValue(214));
     self.presentButton.layer.cornerRadius = 25;
     self.presentButton.layer.masksToBounds = YES;
     [self.presentButton setImage:[UIImage imageNamed:@"地图"] forState:UIControlStateNormal];
     [self.presentButton addTarget:self action:@selector(presentButtonClick) forControlEvents:UIControlEventTouchUpInside];
+    [_QDXScrollView addSubview:self.presentButton];
     
     self.task_button = [[UIButton alloc] initWithFrame:CGRectMake(QdxWidth - FitRealValue(70 + 120), QdxHeight - FitRealValue(234+120) - 64, FitRealValue(120), FitRealValue(120))];
     [self.task_button setImage:[ToolView OriginImage:[UIImage imageNamed:@"任务"] scaleToSize:CGSizeMake(FitRealValue(120), FitRealValue(120))] forState:UIControlStateNormal];
@@ -369,6 +376,7 @@ toViewController:(UIViewController *)toVC {
 }
 
 -(void)finishUI{
+    
     [_topView removeFromSuperview];
     [_bottomView removeFromSuperview];
     [_history_button removeFromSuperview];
@@ -391,6 +399,7 @@ toViewController:(UIViewController *)toVC {
         if ([responseObject[@"Code"] intValue] == 0) {
             
         }else{
+            
             HistoryList *historyList = [[HistoryList alloc] initWithDic:responseObject];
             
             for (HistoryModel *history in historyList.historyArray) {
@@ -461,10 +470,10 @@ toViewController:(UIViewController *)toVC {
         WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
         config.mediaPlaybackRequiresUserAction = NO;
         config.allowsInlineMediaPlayback = YES;
-        self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(FitRealValue(20),FitRealValue(220), FitRealValue(710), FitRealValue(1074) -  FitRealValue(2 * 90)) configuration:config];
-        [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
+        WKWebView *wkWebView = [[WKWebView alloc] initWithFrame:CGRectMake(FitRealValue(20),FitRealValue(220), FitRealValue(710), FitRealValue(1074) -  FitRealValue(2 * 90)) configuration:config];
+        [wkWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
         
-        [self.popView addSubview:self.webView];
+        [self.popView addSubview:wkWebView];
         
         [self.popView show];
         
@@ -504,6 +513,12 @@ toViewController:(UIViewController *)toVC {
     [_presentButton removeFromSuperview];
     [_task_button removeFromSuperview];
     
+    NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
+    documentDir= [documentDir stringByAppendingPathComponent:@"QDXCurrentMyLine.data"];
+    NSLog(@"%@",documentDir);
+//    [[NSFileManager defaultManager] removeItemAtPath:documentDir error:nil];
+    NSLog(@"%@",mylineid);
+    
     if ([mylineid isEqualToString:_myline_id]){
         NSFileManager * fileManager = [[NSFileManager alloc]init];
         NSString *documentDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) objectAtIndex:0];
@@ -532,28 +547,78 @@ toViewController:(UIViewController *)toVC {
     [self.QDXScrollView addSubview:sadButton];
 }
 
+//完成动画的frame
+-(void)setupCompleteView
+{
+    [self showOK_buttonClick];
+    
+    self.BGView = [[UIView alloc] init];
+    self.BGView.frame = [[UIScreen mainScreen] bounds];
+    [self.view addSubview:self.BGView];
+    
+    self.deliverView = [[UIView alloc] init];
+    self.deliverView.frame = CGRectMake(QdxWidth* 0.08,0,FitRealValue(710)/2,FitRealValue(1074)/2);
+    [self.view addSubview:self.deliverView];
+
+    [UIView animateWithDuration:0.5
+                          delay:0
+         usingSpringWithDamping:0.8
+          initialSpringVelocity:0.3
+                        options:UIViewAnimationOptionCurveLinear
+                     animations:^{
+                         self.BGView.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
+                         self.deliverView.frame = CGRectMake(QdxWidth/2 - FitRealValue(710)/2,(QdxHeight-64 - FitRealValue(1074))/2,FitRealValue(710),FitRealValue(1074));
+                         self.deliverView.backgroundColor = [UIColor clearColor];
+                         self.deliverView.layer.borderWidth = 1;
+                         self.deliverView.layer.cornerRadius = 12;
+                         self.deliverView.layer.borderColor = [[UIColor clearColor]CGColor];
+                     }
+                     completion:^(BOOL finished) {
+                         
+                     }];
+    
+    UIImageView *successView = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, FitRealValue(710), FitRealValue(1074))];
+    
+    [successView setImageWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"%@%@",newHostUrl,_taskRefresh.pointmap_pop]] placeholderImage:[UIImage imageNamed:@"加载中"] options:SDWebImageRefreshCached];
+    
+    [self.deliverView addSubview:successView];
+    
+    UIButton *cancel_button = [[UIButton alloc] initWithFrame:CGRectMake(0, 0,FitRealValue(710), FitRealValue(1074))];
+    [cancel_button addTarget:self action:@selector(cancel_button) forControlEvents:UIControlEventTouchUpInside];
+    cancel_button.backgroundColor = [UIColor clearColor];
+    [self.deliverView addSubview:cancel_button];
+}
+
+-(void)cancel_button{
+    [self.BGView removeFromSuperview];
+    [self.deliverView removeFromSuperview];
+}
+
 -(void)showMsg_buttonClickWith:(NSString *)url{
 
+    [self showOK_buttonClick];
+    
     self.popView = [[QDXPopView alloc] init];
 
     self.popView.task_button = _task_button;
     
     WKWebViewConfiguration *config = [[WKWebViewConfiguration alloc] init];
-    config.mediaPlaybackRequiresUserAction = NO;
+//    config.mediaPlaybackRequiresUserAction = NO;
     config.allowsInlineMediaPlayback = YES;
-    self.webView = [[WKWebView alloc] initWithFrame:CGRectMake(FitRealValue(20),FitRealValue(220), FitRealValue(710), FitRealValue(1074) - FitRealValue(2 * 90)) configuration:config];
-    [self.webView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
+    WKWebView *wkWebView = [[WKWebView alloc] initWithFrame:CGRectMake(FitRealValue(20),FitRealValue(220), FitRealValue(710), FitRealValue(1074) - FitRealValue(2 * 90)) configuration:config];
+    [wkWebView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:url]]];
     WKUserContentController *userCC = config.userContentController;
     //JS调用OC 添加处理脚本
     [userCC addScriptMessageHandler:self name:@"Success"];
 
-    [self.popView addSubview:self.webView];
+    [self.popView addSubview:wkWebView];
     
     [self.popView show];
 }
 
 -(void)showOK_buttonClick{
     [self.popView dismiss];
+    [self.MyCentralManager scanForPeripheralsWithServices:nil  options:nil];
 }
 
 #pragma mark - WKScriptMessageHandler
@@ -562,6 +627,8 @@ toViewController:(UIViewController *)toVC {
 //    NSLog(@"%@",message.body);
     
     if ([message.name isEqualToString:@"Success"]) {
+        AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
+        [self setupCompleteView];
         [self getTaskRefresh];
         _rmoveMacStr = @"0";
         [self.MyCentralManager scanForPeripheralsWithServices:nil  options:nil];
@@ -603,6 +670,7 @@ toViewController:(UIViewController *)toVC {
             NSString * result = [_taskRefresh.pointmap_mac stringByReplacingOccurrencesOfString:@":" withString:@""];
             
             if ([result containsString:_macStr] && ![_macStr isEqualToString:_rmoveMacStr]) {
+                AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
                 [self.MyCentralManager stopScan];
                 _rmoveMacStr = _macStr;
                 
@@ -614,7 +682,12 @@ toViewController:(UIViewController *)toVC {
                         [self.MyCentralManager scanForPeripheralsWithServices:nil  options:nil];
                     }];
                     UIAlertAction *okAction = [UIAlertAction actionWithTitle:@"确定" style:UIAlertActionStyleDefault handler:^(UIAlertAction*action){
-                        [self taskRefresh];
+                        NSString *myline_id = [NSString stringWithFormat:@"/myline_id/%@",_myline_id];
+                        NSString *identifierForVendor = [[UIDevice currentDevice].identifierForVendor UUIDString];
+                        NSString *imei = [NSString stringWithFormat:@"/imei/%@",identifierForVendor];
+                        NSString *pointmap_mac = [NSString stringWithFormat:@"/pointmap_mac/%@",_taskRefresh.pointmap_mac];
+                        NSString *allString = [NSString stringWithFormat:@"%@%@%@",myline_id,imei,pointmap_mac];
+                        [self showMsg_buttonClickWith:[newHostUrl stringByAppendingString:[taskTaskUrl stringByAppendingString:allString]]];
                     }];
                     [alertController addAction:cancelAction];
                     [alertController addAction:okAction];
@@ -625,7 +698,7 @@ toViewController:(UIViewController *)toVC {
                     NSString *myline_id = [NSString stringWithFormat:@"/myline_id/%@",_myline_id];
                     NSString *identifierForVendor = [[UIDevice currentDevice].identifierForVendor UUIDString];
                     NSString *imei = [NSString stringWithFormat:@"/imei/%@",identifierForVendor];
-                    NSString *pointmap_mac = [NSString stringWithFormat:@"/pointmap_mac/%@",_macStr];
+                    NSString *pointmap_mac = [NSString stringWithFormat:@"/pointmap_mac/%@",_taskRefresh.pointmap_mac];
                     NSString *allString = [NSString stringWithFormat:@"%@%@%@",myline_id,imei,pointmap_mac];
                     
                     [self showMsg_buttonClickWith:[newHostUrl stringByAppendingString:[taskTaskUrl stringByAppendingString:allString]]];

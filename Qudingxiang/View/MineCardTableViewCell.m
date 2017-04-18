@@ -72,7 +72,7 @@
     if ([cardModel.onoff_id intValue] == 1) {
         _cardSTImageView.image = [UIImage imageNamed:@"已使用"];
     }else{
-        _cardSTImageView.image = [UIImage imageNamed:@"已过期"];
+        _cardSTImageView.image = [UIImage imageNamed:@"未使用"];
     }
 }
 

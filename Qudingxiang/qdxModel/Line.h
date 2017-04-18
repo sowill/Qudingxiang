@@ -7,6 +7,8 @@
 @property (nonatomic,copy) NSString *line_id; //编号
 @property (nonatomic,copy) NSString *line_cn; //线路名称
 @property (nonatomic,copy) NSString *linetype_id; //线路类型
+
+@property (nonatomic,copy) NSString *linetype_cn;
  
 @property (nonatomic,copy) NSString *line_number; //组队人数
 @property (nonatomic,copy) NSString *line_pass; //全员通过

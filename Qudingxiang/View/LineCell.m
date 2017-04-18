@@ -42,7 +42,7 @@
     _quickBtn.tag = 1;
     _desLabel = [ToolView createLabelWithFrame:CGRectMake(FitRealValue(87),FitRealValue(20), QdxWidth-70, FitRealValue(130)) text:@"路线" font:17 superView:self.contentView];
     _desLabel.textColor = QDXBlack;
-    _nameLabel = [ToolView createLabelWithFrame:CGRectMake(QdxWidth - FitRealValue(120 + 30), FitRealValue(20), FitRealValue(120), FitRealValue(130)) text:@"名字" font:15 superView:self.contentView];
+    _nameLabel = [ToolView createLabelWithFrame:CGRectMake(QdxWidth - FitRealValue(180 + 30), FitRealValue(20), FitRealValue(180), FitRealValue(130)) text:@"名字" font:15 superView:self.contentView];
     _nameLabel.textColor = QDXGray;
     
     if (QdxHeight >667) {
@@ -63,7 +63,7 @@
 {
     _line = line;
     _desLabel.text = [NSString stringWithFormat:@"%@",line.line_cn];
-    _nameLabel.text = [NSString stringWithFormat:@"%@",line.utilstatus_id];
+    _nameLabel.text = [NSString stringWithFormat:@"%@",line.linetype_cn];
 }
 
 -(void)setSelect:(NSInteger)select{

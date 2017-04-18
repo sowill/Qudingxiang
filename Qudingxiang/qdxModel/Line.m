@@ -9,7 +9,7 @@
 			_line_id = infoDict[@"line_id"];
 			_line_cn = infoDict[@"line_cn"];
 			_linetype_id = infoDict[@"linetype_id"];
-			 
+            _linetype_cn = infoDict[@"linetype_cn"];
 			_line_number = infoDict[@"line_number"];
 			_line_pass = infoDict[@"line_pass"];
 			

@@ -83,6 +83,9 @@ sqlite，本地文件</br>
 | 离线缓存服务 | ✅ | `Swift/OfflineDBService.swift`（Codable + JSON 文件，替代 LocalDBService 的 NSKeyedArchiver；提供 loadDb/checkTask/passChange/checkHistory/writeHistory/readMylineInfo/readMyline/writeMyline/readQuestion/resetQuestion/uploadHistory） |
 | 离线下载库 | ✅ | `Swift/OfflineDownloadStore.swift`（SQLite.swift，替代 QDXOfflineDB 的 sqlite3 C API；6 表 CRUD + 去重 + OfflineDownloadAPI 拉取并落地 myline/point/question/地图图片） |
 | 离线游戏控制器 | ✅ | `Swift/OfflineGameViewController.swift`（替代 QDXOffLineController：下载按钮 + 开始按钮 + 地图 + 计时 + 目标点标 + CoreBluetooth 扫描 + UIAlertController 四选一 + 历史/详情/扫码/退赛菜单） |
+| UIKit 工具扩展 | ✅ | `Swift/UIKitExtensions.swift`（集中迁移 ToolView / UIImage+watermark / UIImage+RTTint / UIButton+ImageText / NSMutableAttributedString+ChangeColorFont；新增 `QDXStateView` 通用占位视图） |
+| 二维码扫描 | ✅ | `Swift/QRScannerViewController.swift`（替代 ImagePickerController，AVFoundation 现代化 + 扫描框 + 扫描线动画 + ScanResult 回调） |
+| 绑定/协议/门票/帮助/通知 | ✅ | `Swift/MiscControllers.swift`（BindPhoneViewController / ProtocolViewController / TicketSuccessViewController / HelpViewController / NoticeViewController；含 `Notification.Name.stateRefresh` 扩展） |
 
 ### 集成步骤（在新分支基础上）
 
@@ -144,10 +147,24 @@ sqlite，本地文件</br>
 - 依赖：`Podfile` 新增 `SQLite.swift ~> 0.14`
 - 待补：扫码扫描器（Vision 替代 ZBar）、`UploadHistory` 与在线 `BaseGameViewController` 的状态同步
 
-**第六批 — 视图与工具**
-- `View/` 下所有 Cell / 自定义视图（用 SwiftUI 或纯 Swift UIKit 重写）
-- `Tool/` 工具类（`CheckDataTool`、`UIImage+watermark` 等）
-- 清理 `Lib/` 下已替代的 OC 第三方库（AFNetworking、MJExtension、ZBar、libqrencode、SGNetObserver 等）
+**第六批 — 视图与工具** ✅ 已完成（核心）
+- `Tool/ToolView` → `UIKitExtensions.swift` 中 `ToolView` 枚举（创建 ImageView/Label/Button、image(from:)、scale、applyAlpha、scoreTransfer、md5）
+- `Tool/UIImage+watermark` → `UIImage.qdx_watermark(text:)`
+- `Tool/UIImage+RTTint` → `UIImage.qdx_tinted(_:)`
+- `Tool/UIButton+ImageText` → `UIButton.qdx_setImage(position:spacing:)` / `qdx_setImage(position:margin:)`
+- `Tool/NSMutableAttributedString+ChangeColorFont` → `NSMutableAttributedString.qdx_append`
+- `Tool/CheckDataTool` → 已在第一批迁移为 `Validator`
+- `Tool/QDXOfflineDB` → 已在第五批迁移为 `OfflineDownloadStore`
+- `View/QDXStateView` → `UIKitExtensions.swift` 中 `QDXStateView` 类（图标 + 描述 + 按钮）
+- `View/QDXPopView` → 已在第三批迁移为 `PopContainerView`
+- `Controller/ImagePickerController` → `QRScannerViewController.swift`（AVFoundation 现代化 + 扫描框动画）
+- `Controller/QDXBindViewController` → `MiscControllers.swift` 中 `BindPhoneViewController`（SnapKit 卡片表单 + QQ/微信绑定 + qvLogin 自动登录）
+- `Controller/QDXProtocolViewController` → `MiscControllers.swift` 中 `ProtocolViewController`（WKWebView 协议 + 同意进入 BaseGameViewController）
+- `Controller/QDXTicketSuccessViewController` → `MiscControllers.swift` 中 `TicketSuccessViewController`（QDXStateView + getMyline 进入游戏）
+- `Controller/HelpViewController` → `MiscControllers.swift` 中 `HelpViewController`（WKWebView + JS Success 回调）
+- `Controller/NoticeViewController` → `MiscControllers.swift` 中 `NoticeViewController`（WKWebView + 拉取 HTML 渲染）
+- 新增 `Notification.Name.stateRefresh` 扩展统一全局通知名
+- 待补：`View/` 下其余 Cell（ActCell/HomeCell/LineCell/MineCell/QDXHistoryTableViewCell/QDXOrderTableViewCell/QDXTicketTableViewCell 等）已在各控制器内联实现，可按需独立抽出；`QDXPointListViewController` / `QDXPointSettingViewController`（点标管理）、`QDXTeamsViewController` / `QDXTaskViewController`（组队/任务）；清理 `Lib/` 下已替代的 OC 第三方库（AFNetworking、MJExtension、ZBar、libqrencode、SGNetObserver 等）
 
 ### 视觉优化要点
 

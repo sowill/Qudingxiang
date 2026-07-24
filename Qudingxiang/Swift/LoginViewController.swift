@@ -116,9 +116,11 @@ final class LoginViewController: BaseViewController {
         forgetButton.setTitle("忘记密码?", for: .normal)
         forgetButton.setTitleColor(QDXColor.gray, for: .normal)
         forgetButton.titleLabel?.font = QDXFont.regular(26)
+        forgetButton.addTarget(self, action: #selector(forgetTapped), for: .touchUpInside)
         registerButton.setTitle("新用户注册", for: .normal)
         registerButton.setTitleColor(QDXColor.primary, for: .normal)
         registerButton.titleLabel?.font = QDXFont.medium(26)
+        registerButton.addTarget(self, action: #selector(registerTapped), for: .touchUpInside)
 
         let bottomStack = UIStackView(arrangedSubviews: [forgetButton, registerButton])
         bottomStack.axis = .horizontal
@@ -202,5 +204,11 @@ final class LoginViewController: BaseViewController {
     }
     @objc private func qqTapped() {
         showToast("QQ 登录待接入")
+    }
+    @objc private func forgetTapped() {
+        navigationController?.pushViewController(ForgetPasswordViewController(), animated: true)
+    }
+    @objc private func registerTapped() {
+        navigationController?.pushViewController(RegisterViewController(), animated: true)
     }
 }

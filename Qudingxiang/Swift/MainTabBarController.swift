@@ -20,7 +20,7 @@ final class MainTabBarController: UITabBarController {
     private func setupChildControllers() {
         let home     = wrap(HomeController(),       title: "首页", normal: "index_home_nomal",  selected: "index_home_click")
         let discover = wrap(DiscoverController(),   title: "发现", normal: "index_location_nomal", selected: "index_location_click")
-        let order    = wrap(OrderController(),      title: "订单", normal: "index_order_nomal",  selected: "index_order_click")
+        let order    = wrap(OrderListController(),  title: "订单", normal: "index_order_nomal",  selected: "index_order_click")
         let mine     = wrap(MineController(),       title: "我的", normal: "index_more_nomal",   selected: "index_more_click")
 
         viewControllers = [home, discover, order, mine].map {
@@ -58,7 +58,7 @@ extension MainTabBarController: UITabBarControllerDelegate {
                           shouldSelect viewController: UIViewController) -> Bool {
         guard let nav = viewController as? UINavigationController,
               let root = nav.viewControllers.first else { return true }
-        let needLogin = (root is OrderController) || (root is MineController)
+        let needLogin = (root is OrderListController) || (root is MineController)
         if needLogin, !AccountManager.shared.isLoggedIn {
             let login = LoginViewController()
             let loginNav = QDXNavigationController(rootViewController: login)

@@ -52,10 +52,15 @@ sqlite，本地文件</br>
 | 核心模型 | ✅ | `Swift/Models.swift`（Customer/Goods/Orders/Line/City/Area/Partner/Banner，Codable） |
 | 主 TabBar | ✅ | `Swift/MainTabBarController.swift`（原生 TabBar + 未登录拦截 + 自定义导航） |
 | 引导页 | ✅ | `Swift/GuideViewController.swift`（渐变背景 + 分页 + 进入按钮） |
-| 登录页 | ✅ | `Swift/LoginViewController.swift`（卡片式表单、渐变头部、第三方入口） |
+| 登录页 | ✅ | `Swift/LoginViewController.swift`（卡片式表单、渐变头部、第三方入口、注册/找回跳转） |
+| 注册 / 忘记密码 / 修改密码 | ✅ | `Swift/RegisterViewController.swift`、`ForgetPasswordViewController.swift`、`ChangePasswordViewController.swift` |
+| 表单组件 | ✅ | `Swift/FormFields.swift`（FormField、PrimaryButton）、`Validator.swift`（替代 CheckDataTool） |
 | 首页 | ✅ | `Swift/HomeController.swift`（城市选择、Banner、CompositionalLayout、活动卡片） |
+| 订单列表 / 详情 | ✅ | `Swift/OrderListController.swift`（分段 + 卡片）、`OrderDetailViewController.swift` |
+| 订单 / 支付 API | ✅ | `Swift/OrderAPI.swift`（订单增删查 + 微信/支付宝参数）、`Models.swift` 已含 OrderInfo/WeixinPayParam/AlipayParam |
+| 支付页 / 支付管理 | ✅ | `Swift/PayViewController.swift`（金额卡片 + 单选支付方式）、`PayManager.swift`（微信/支付宝统一拉起） |
 | 游戏核心 | ✅ | `Swift/GameViewController.swift`（CoreBluetooth 感应 Beacon、进度条、点标列表） |
-| 发现/订单/我的 | 占位 | `Swift/PlaceholderControllers.swift`（后续逐模块迁移） |
+| 发现 / 我的 | 占位 | `Swift/PlaceholderControllers.swift`（后续逐模块迁移） |
 
 ### 集成步骤（在新分支基础上）
 
@@ -70,10 +75,12 @@ sqlite，本地文件</br>
 
 按依赖与价值排序，建议分批迁移：
 
-**第一批 — 用户与订单**
-- `QDXRegisterViewController` / `QDXForgetPasswordViewController` / `QDXBindViewController`
-- `OrderController` / `QDXOrderDetailTableViewController` / `QDXPayTableViewController`
-- 支付回调：微信 / 支付宝 / QQ（接入 `WechatOpenSDK`、`AlipaySDK`）
+**第一批 — 用户与订单** ✅ 已完成
+- `QDXRegisterViewController` / `QDXForgetPasswordViewController` / `QDXChangePwdViewController` → `RegisterViewController` / `ForgetPasswordViewController` / `ChangePasswordViewController`
+- `OrderController` / `QDXOrderDetailTableViewController` → `OrderListController` / `OrderDetailViewController`
+- `QDXPayTableViewController` → `PayViewController` + `PayManager`（微信/支付宝统一拉起）
+- `CheckDataTool` → `Validator`
+- 待补：`QDXBindViewController`（QQ/微信绑定）、微信/支付宝 SDK 真实回调接入
 
 **第二批 — 活动与场地**
 - `QDXActivityViewController` / `QDXActivityPriceViewController` / `RecentActivityViewController`

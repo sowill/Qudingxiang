@@ -62,6 +62,7 @@ enum APIPath {
     static let mineUrl          = "index.php/Home/Myline/getMyLineList"
     static let teamUrl          = "index.php/Home/Myline/getMyTeamLineList"
     static let areaUrl          = "index.php/Home/Line/getListAjax"
+    static let lineInfoUrl      = "index.php/Home/Line/getInfoAjax"
     static let choiceUrl        = "index.php/Home/Myline/selectMyline"
     static let lineUrl          = "index.php/Home/Myline/getCurrentLine"
     static let ticketUrl        = "index.php/Home/Ticketline/getListByTicket"

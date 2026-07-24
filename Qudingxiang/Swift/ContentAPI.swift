@@ -122,6 +122,27 @@ enum ContentAPI {
         }
     }
 
+    // MARK: - 区域路线列表（按场地）
+    static func linesByArea(areaID: String,
+                            completion: @escaping (Result<[Line], APIError>) -> Void) {
+        NetworkService.shared.requestJSON(
+            path: APIPath.areaUrl,
+            parameters: ["area_id": areaID],
+            needToken: false
+        ) { result in
+            switch result {
+            case .success(let dict):
+                // 后端返回 Msg.data 为路线数组；为空或 NSNull 时视为无数据
+                let msg = dict["Msg"] as? [String: Any]
+                let arr = (msg?["data"] as? [[String: Any]]) ?? []
+                let items = arr.compactMap { Line(from: $0) }
+                completion(.success(items))
+            case .failure(let e):
+                completion(.failure(e))
+            }
+        }
+    }
+
     // MARK: - 报名下单
     /// 返回新建订单
     static func signUp(goodsID: String, quantity: Int,

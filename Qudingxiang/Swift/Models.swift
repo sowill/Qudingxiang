@@ -208,6 +208,30 @@ struct Line: Codable {
         case cdate    = "line_cdate"
         case areaID   = "area_id"
     }
+    init(from dict: [String: Any]) {
+        id       = dict["line_id"]       as? String
+        cn       = dict["line_cn"]       as? String
+        typeID   = dict["linetype_id"]   as? String
+        typeCn   = dict["linetype_cn"]   as? String
+        number   = dict["line_number"]   as? String
+        pass     = dict["line_pass"]     as? String
+        qrcode   = dict["line_qrcode"]   as? String
+        bind     = dict["line_bind"]     as? String
+        mapOn    = dict["line_mapon"]    as? String
+        map      = dict["line_map"]      as? String
+        topLon   = dict["line_toplon"]   as? String
+        topLat   = dict["line_toplat"]   as? String
+        botLon   = dict["line_botlon"]   as? String
+        botLat   = dict["line_botlat"]   as? String
+        page     = dict["line_page"]     as? String
+        statusID = dict["utilstatus_id"] as? String
+        cdate    = dict["line_cdate"]    as? String
+        areaID   = dict["area_id"]       as? String
+    }
+    init?(from dict: [String: Any]?) {
+        guard let d = dict else { return nil }
+        self.init(from: d)
+    }
 }
 
 // MARK: - 城市 / 场地 / 合作单位

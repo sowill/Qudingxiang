@@ -89,6 +89,31 @@ sqlite，本地文件</br>
 | 点标管理 | ✅ | `Swift/PointManageControllers.swift`（PointListController inset grouped 列表 + PointSettingController 高德地图定位 + pointModify 提交；含 `PointItem` 模型与 `PointAPI`） |
 | 组队 | ✅ | `Swift/TeamsViewController.swift`（3 段表格：扫一扫组队 / 队名 / 队长+4 队员；QRCode 弹层 SDWebImage 加载；含 `TeamMember` 模型与 `TeamsAPI` getTeam/teamQRCode/setTeam；`TeamInputCell` 替代 TextFieldTableViewCell + UITextField+IndexPath） |
 | 任务卡弹层 | ✅ | `Swift/TaskCardViewController.swift`（替代 QDXTaskViewController，子控制器模式弹出：闯关成功图 + 查看提示按钮 → 标题栏 + WKWebView 加载 mylineweb + 好的/关闭按钮） |
+| 个性签名 / 合作单位 / 线路选择 | ✅ | `Swift/MoreControllers.swift`（SignController 卡片式签名编辑 + 字数统计；MoreCooperationController CompositionalLayout 合作单位网格；LineChooseController 地图+介绍+selectMyline + 双击全屏图 FullScreenImageViewController 替代 JTSImage） |
+| 玩法 / 区域路线 / 注册验证码 | ✅ | `Swift/RemainingControllers.swift`（MoreController 3 种玩法分页；AreaLineListController 调 linesByArea 区域路线列表；CreateCodeViewController setVcode+validateCode 进入注册） |
+
+### OC 控制器迁移覆盖情况
+
+经逐文件比对，`Controller/` 下所有 OC 控制器均已由 Swift 覆盖（部分合并迁移）：
+
+| OC 控制器 | Swift 替代 | 说明 |
+|-----------|-----------|------|
+| SignViewController | SignController | 签名编辑，合并字数统计 |
+| MoreCooperationViewController | MoreCooperationController | CompositionalLayout 网格 |
+| QDXLineChooseViewController / LineController | LineChooseController | 线路选择 + 自带全屏图查看 |
+| MoreViewController | MoreController | 玩法介绍分页 |
+| CellLineController | AreaLineListController | 区域路线列表（ContentAPI.linesByArea） |
+| QDXCreateCodeViewController | CreateCodeViewController | 注册前验证码 |
+| codeWebViewController | WebViewController（AboutUsController.swift） | 通用 WebView 容器，已覆盖 |
+| QDXChangeNameViewController | EditMineInfoController | 已合并入编辑资料 |
+| QDXNavigationController | MainTabBarController.swift 内同名类 | 自定义导航 |
+| LBTabBarController | MainTabBarController | 4 tab（中间发布按钮入口待评估） |
+| RecentActivityViewController / ActivityController | ActivityListController | 合并分段列表 |
+| TeamLineController / MineLineController | MyLineListController | 按 Mode 区分 |
+| QDXActivityPriceViewController | AreaGoodsListController | 场地产品列表 |
+| LocationChoiceViewController | CityChoiceController | 城市选择 |
+| ImagePickerController | QRScannerViewController | AVFoundation 扫码 |
+| 其余 QDX* / Mine* / Home / Place / Help / Notice / Setting / AboutUs 等 | 见上表对应行 | 均已迁移 |
 
 ### 集成步骤（在新分支基础上）
 
@@ -98,6 +123,50 @@ sqlite，本地文件</br>
 4. **移除 OC 入口冲突**：删除 `main.m` 和 `AppDelegate.h/.m`（已被 `Swift/AppDelegate.swift` 的 `@main` 取代，否则会出现 *duplicate symbol _main*）。
 5. **设置 Swift 版本**：Build Settings → `SWIFT_VERSION = 5.9`，`IPHONEOS_DEPLOYMENT_TARGET = 15.0`。
 6. **构建运行**：此时主流程（引导 → TabBar → 首页 → 登录 → 游戏）由 Swift 接管；其余 OC 控制器仍可在 OC→Swift 混编下继续使用，按下方路线图逐个迁移。
+
+### Lib/ 清理说明（文档化，未执行删除）
+
+> 经评估，`Lib/` 下 OC 第三方库均已被 `Podfile` 中的现代 Pod 或 Swift 原生方案替代。但仓库内 OC 控制器/模型/服务仍 `#import` 这些库，直接删除会导致 OC 源码引用悬空；且本仓库不含 `.xcodeproj`，无法在此环境管理构建阶段。因此清理以**文档化**方式记录，实际删除请在 Xcode 集成后按下方步骤执行。
+
+**前提**：执行任何删除前，必须先在 Xcode 中将对应 OC 文件从 `Qudingxiang` target 的 *Compile Sources* / *Copy Bundle Resources* 中移除（或删除 OC 文件本身），否则会产生悬空引用与编译错误。
+
+#### 可删除（已被 Pod / Swift 原生替代）
+
+| Lib/ 子目录 | 替代方案 |
+|-------------|----------|
+| `AFNetworking/` | `pod 'Alamofire'`（NetworkService.swift） |
+| `MJExtension/` | Swift 原生 `Codable`（Models.swift） |
+| `MJRefresh/` | `pod 'MJRefresh'`（Pod 版，Swift 可用） |
+| `SDWebImage/` | `pod 'SDWebImage'`（Pod 版） |
+| `MBProgressHUD/`（含 MBProgressHUD+MJ） | `pod 'MBProgressHUD'`（Pod 版） |
+| `SGNetObserver/` | `pod 'ReachabilitySwift'`（BaseViewController） |
+| `LocalCache/`（含 Reachability/Util） | ReachabilitySwift + 系统缓存 |
+| `CYAlertController/` | 系统 `UIAlertController` |
+| `JTSImage/` | `FullScreenImageViewController`（MoreControllers.swift） |
+| `LXActivity/` | 系统 `UIActivityViewController` |
+| `EAFeatureGuideView/` | `GuideViewController.swift` |
+| `ImgPageScrollView/` | `GuideViewController.swift` / `MoreController` |
+| `Need/`（转场动画） | 系统导航转场 / 自定义 UIViewControllerAnimatedTransitioning |
+| `PopMenuView/`（LrdOutputView） | `PopContainerView.swift` / `UIAlertController` |
+| `TTSExample/` | 系统 `AVSpeechSynthesizer`（按需） |
+| `XBScrollPageController/` | `ActivityListController` 横向分页 |
+| `YLPopView/` | `PopContainerView.swift` |
+| `libqrencode/` | `QRCodeGenerator.swift`（CoreImage） |
+| `Category/`（UIImage+Image / UIView+LBExtension） | `UIKitExtensions.swift` + SnapKit |
+| `SDK1.6.2/`（旧微信 SDK） | `pod 'WechatOpenSDK-XCFramework'` |
+| `TencentOpenAPI.framework/` | `pod 'TencentOpenApiSDK'` |
+| `TencentOpenApi_IOS_Bundle.bundle/` | 同上 Pod 自带 |
+| `AlipaySDK/` | `pod 'AlipaySDK-iOS'` |
+| `MAMapKit.framework/` | `pod 'AMap3DMap'` |
+| `AMapFoundationKit.framework/` | `pod 'AMap3DMap'` 依赖自带 |
+| `AMap.bundle/` | AMap3DMap Pod 自带 |
+| `YYCache/` | `pod 'YYCache'`（Pod 版，离线可选用） |
+
+#### 仍需保留（无 Pod 替代或属自有资产）
+
+- `Qudingxiang/WewayBeaconKit/`：iBeacon Kit 头文件。Swift 离线模块已改用 `CoreBluetooth` 直接扫描，但若仍需通过 Bridging Header 调用原厂 SDK 可保留；确认无引用后亦可删除。
+
+> 注：`Tool/`、`View/`、`Model/`、`qdxModel/`、`Service/`、`Controller/` 下的 OC 文件均为自有业务代码，其功能已由 `Swift/` 覆盖。全量切换到纯 Swift 时可一并删除，但需同步更新 `.xcodeproj` 构建阶段，建议在 Xcode 中操作。
 
 ### 迁移路线图（剩余模块）
 

@@ -31,6 +31,9 @@ target 'Qudingxiang' do
   # ---------- 缓存 ----------
   pod 'YYCache'                             # 本地缓存，仍可用
 
+  # ---------- 数据库 ----------
+  pod 'SQLite.swift', '~> 0.14'             # 替代 OC 原生 sqlite3，离线模式本地库
+
   # ---------- 地图 ----------
   pod 'AMap3DMap'                           # 高德 3D 地图（最新版）
   pod 'AMapSearch'                          # 高德搜索

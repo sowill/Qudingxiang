@@ -80,6 +80,9 @@ sqlite，本地文件</br>
 | 设置 | ✅ | `Swift/SettingController.swift`（缓存清理/修改密码/退出登录） |
 | 关于我们 | ✅ | `Swift/AboutUsController.swift`（Logo+版本+简介+须知+点标管理，含 `WebViewController`） |
 | 发现 | ✅ | `Swift/DiscoverController.swift`（承载 PlaceController） |
+| 离线缓存服务 | ✅ | `Swift/OfflineDBService.swift`（Codable + JSON 文件，替代 LocalDBService 的 NSKeyedArchiver；提供 loadDb/checkTask/passChange/checkHistory/writeHistory/readMylineInfo/readMyline/writeMyline/readQuestion/resetQuestion/uploadHistory） |
+| 离线下载库 | ✅ | `Swift/OfflineDownloadStore.swift`（SQLite.swift，替代 QDXOfflineDB 的 sqlite3 C API；6 表 CRUD + 去重 + OfflineDownloadAPI 拉取并落地 myline/point/question/地图图片） |
+| 离线游戏控制器 | ✅ | `Swift/OfflineGameViewController.swift`（替代 QDXOffLineController：下载按钮 + 开始按钮 + 地图 + 计时 + 目标点标 + CoreBluetooth 扫描 + UIAlertController 四选一 + 历史/详情/扫码/退赛菜单） |
 
 ### 集成步骤（在新分支基础上）
 
@@ -133,9 +136,13 @@ sqlite，本地文件</br>
 - API：`MineAPI`（authLogin/modify/myLines/teamLines/cards）+ `Myline`/`Card` 模型
 - 待补：`QDXChangeNameViewController`（修改昵称独立页，已并入编辑资料）、`HelpViewController` / `NoticeViewController` / `QDXProtocolViewController`（协议页）、`QDXCreateCodeViewController`（生成二维码，已有 QRCodeGenerator 可复用）、`ImagePickerController`（扫码，待用 Vision 替代 ZBar）
 
-**第五批 — 离线**
-- `LocalDBService` / `LocalSqlliteService` / `QDXOfflineDB`（迁移至 SQLite.swift 或 GRDB）
-- `QDXOffLineController`
+**第五批 — 离线** ✅ 已完成
+- `LocalDBService.m` → `OfflineDBService.swift`（Codable + JSON 文件，键名前缀沿用 `/MylineInfo` `/Myline` `/MylineHistory` `/MylineQuestion`；提供 loadDb/checkTask/passChange/checkHistory/writeHistory/readMylineInfo/readMyline/writeMyline/readQuestion/resetQuestion/uploadHistory）
+- `QDXOfflineDB.m` → `OfflineDownloadStore.swift`（SQLite.swift 类型安全封装，6 表 CRUD + deleteDuplicates 去重，数据库 `~/Documents/QDXOffine.sqlite`）
+- `LocalSqlliteService.m` → `OfflineDownloadAPI`（在 `OfflineDownloadStore.swift` 内，封装 setupMylineInfo/loadPoints/loadQuestions + 地图图片下载）
+- `QDXOffLineController.m` → `OfflineGameViewController.swift`（下载按钮 + 开始按钮 + 地图 + 计时 + 目标点标 + CoreBluetooth 扫描 + UIAlertController 四选一 + 历史/详情/扫码/退赛菜单 + 5 状态机）
+- 依赖：`Podfile` 新增 `SQLite.swift ~> 0.14`
+- 待补：扫码扫描器（Vision 替代 ZBar）、`UploadHistory` 与在线 `BaseGameViewController` 的状态同步
 
 **第六批 — 视图与工具**
 - `View/` 下所有 Cell / 自定义视图（用 SwiftUI 或纯 Swift UIKit 重写）

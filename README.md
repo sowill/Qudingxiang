@@ -86,6 +86,9 @@ sqlite，本地文件</br>
 | UIKit 工具扩展 | ✅ | `Swift/UIKitExtensions.swift`（集中迁移 ToolView / UIImage+watermark / UIImage+RTTint / UIButton+ImageText / NSMutableAttributedString+ChangeColorFont；新增 `QDXStateView` 通用占位视图） |
 | 二维码扫描 | ✅ | `Swift/QRScannerViewController.swift`（替代 ImagePickerController，AVFoundation 现代化 + 扫描框 + 扫描线动画 + ScanResult 回调） |
 | 绑定/协议/门票/帮助/通知 | ✅ | `Swift/MiscControllers.swift`（BindPhoneViewController / ProtocolViewController / TicketSuccessViewController / HelpViewController / NoticeViewController；含 `Notification.Name.stateRefresh` 扩展） |
+| 点标管理 | ✅ | `Swift/PointManageControllers.swift`（PointListController inset grouped 列表 + PointSettingController 高德地图定位 + pointModify 提交；含 `PointItem` 模型与 `PointAPI`） |
+| 组队 | ✅ | `Swift/TeamsViewController.swift`（3 段表格：扫一扫组队 / 队名 / 队长+4 队员；QRCode 弹层 SDWebImage 加载；含 `TeamMember` 模型与 `TeamsAPI` getTeam/teamQRCode/setTeam；`TeamInputCell` 替代 TextFieldTableViewCell + UITextField+IndexPath） |
+| 任务卡弹层 | ✅ | `Swift/TaskCardViewController.swift`（替代 QDXTaskViewController，子控制器模式弹出：闯关成功图 + 查看提示按钮 → 标题栏 + WKWebView 加载 mylineweb + 好的/关闭按钮） |
 
 ### 集成步骤（在新分支基础上）
 
@@ -164,7 +167,7 @@ sqlite，本地文件</br>
 - `Controller/HelpViewController` → `MiscControllers.swift` 中 `HelpViewController`（WKWebView + JS Success 回调）
 - `Controller/NoticeViewController` → `MiscControllers.swift` 中 `NoticeViewController`（WKWebView + 拉取 HTML 渲染）
 - 新增 `Notification.Name.stateRefresh` 扩展统一全局通知名
-- 待补：`View/` 下其余 Cell（ActCell/HomeCell/LineCell/MineCell/QDXHistoryTableViewCell/QDXOrderTableViewCell/QDXTicketTableViewCell 等）已在各控制器内联实现，可按需独立抽出；`QDXPointListViewController` / `QDXPointSettingViewController`（点标管理）、`QDXTeamsViewController` / `QDXTaskViewController`（组队/任务）；清理 `Lib/` 下已替代的 OC 第三方库（AFNetworking、MJExtension、ZBar、libqrencode、SGNetObserver 等）
+- 待补：`View/` 下其余 Cell（ActCell/HomeCell/LineCell/MineCell/QDXHistoryTableViewCell/QDXOrderTableViewCell/QDXTicketTableViewCell 等）已在各控制器内联实现，可按需独立抽出；清理 `Lib/` 下已替代的 OC 第三方库（AFNetworking、MJExtension、ZBar、libqrencode、SGNetObserver 等）
 
 ### 视觉优化要点
 

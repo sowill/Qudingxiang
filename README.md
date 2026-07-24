@@ -66,7 +66,12 @@ sqlite，本地文件</br>
 | 场地列表 | ✅ | `Swift/PlaceController.swift`（网格 + 城市切换 + PlaceCell） |
 | 城市选择 | ✅ | `Swift/CityChoiceController.swift`（定位 + 开放城市标签，左对齐 FlowLayout） |
 | 线路详情 | ✅ | `Swift/LineDetailViewController.swift`（WKWebView + 进度条 + 报名抽屉：步进器/总价/去支付） |
-| 游戏核心 | ✅ | `Swift/GameViewController.swift`（CoreBluetooth 感应 Beacon、进度条、点标列表） |
+| 游戏 API / 模型 | ✅ | `Swift/GameAPI.swift`（任务刷新/定位/历史/退赛）、`Models.swift` 追加 TaskRefresh/History/Pointmap/TaskLocation |
+| 地图 | ✅ | `Swift/MapViewController.swift`（高德 MAMapKit + 自定义底图 + 点标 + 悬浮按钮） |
+| 弹层容器 | ✅ | `Swift/PopContainerView.swift`（底部上浮圆角容器，替代 QDXPopView） |
+| 二维码生成 | ✅ | `Swift/QRCodeGenerator.swift`（CoreImage 替代 libqrencode） |
+| 游戏核心 | ✅ | `Swift/BaseGameViewController.swift`（4 状态机 + 蓝牙感应 MAC + 倒计时 + WKWebView 任务书 + JS 回调 + 完成弹层） |
+| 定向足迹 | ✅ | `Swift/HistoryViewController.swift`（足迹列表 + 详情 WebView） |
 | 发现 / 我的 | 占位 | `Swift/PlaceholderControllers.swift`（发现已承载 PlaceController；我的待迁移） |
 
 ### 集成步骤（在新分支基础上）
@@ -100,11 +105,15 @@ sqlite，本地文件</br>
 - 模型扩展：`City`/`Area` 增加省/区字段，新增 `PagedList<T>`
 - 待补：`MoreCooperationViewController`（合作单位）、`QDXLineChooseViewController` / `LineController` / `TeamLineController` / `MineLineController`（线路选择与我的线路）
 
-**第三批 — 游戏与地图**
-- `MapViewController`（高德 MAMapKit 迁移）
-- `BaseGameViewController` / `QDXHistoryViewController` / `QDXTicketSuccessViewController`
-- `QDXPointListViewController` / `QDXPointSettingViewController`
-- `QDXTeamsViewController` / `QDXTaskViewController`
+**第三批 — 游戏与地图** ✅ 已完成
+- `MapViewController.m` → `MapViewController.swift`（高德 MAMapKit + 自定义底图覆盖 + 点标 + 圆角悬浮按钮 + 卫星/平面切换）
+- `BaseGameViewController.m` → `BaseGameViewController.swift`（4 状态机：待开始/进行中/已完成/已失败 + CoreBluetooth 感应 MAC + 倒计时 + WKWebView 任务书 + JS Success 回调 + 完成弹层弹簧动画 + 更多菜单）
+- `QDXHistoryViewController.m` → `HistoryViewController.swift`（足迹列表 + 详情 WebView）
+- `QDXPopView` → `PopContainerView.swift`（底部上浮圆角容器 + 遮罩动画）
+- `libqrencode` → `QRCodeGenerator.swift`（CoreImage 生成二维码）
+- 模型：`TaskRefresh` / `History` / `Pointmap` / `TaskLocation`（Models.swift 追加）
+- API：`GameAPI`（任务刷新/定位/历史/退赛）
+- 待补：`QDXTicketSuccessViewController`（门票核销）、`QDXPointListViewController` / `QDXPointSettingViewController`（点标管理）、`QDXTeamsViewController` / `QDXTaskViewController`（组队/任务）、扫码扫描器（Vision 替代 ZBar）
 
 **第四批 — 我的与设置**
 - `MineViewController` / `editMineInfoViewController` / `MineCardViewController`

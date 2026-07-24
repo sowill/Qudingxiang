@@ -322,3 +322,103 @@ struct PagedList<T> {
     let curr: Int       // 当前页
 }
 
+// MARK: - 游戏：任务刷新（4 状态机）
+struct TaskRefresh: Codable {
+    var mylineAdate:    String?  // myline_adate    开始时间
+    var mylineID:       String?  // myline_id
+    var mylinestID:     String?  // mylinest_id     1待开始 2进行中 3已完成 4已失败
+    var pointmapCn:     String?  // pointmap_cn     当前点标名
+    var pointmapMac:    String?  // pointmap_mac    当前点标 MAC
+    var pointmapPop:    String?  // pointmap_pop    完成弹层图
+    var pointmapRssi:   String?  // pointmap_rssi   信号阈值
+    var lineTime:       String?  // line_time       限时秒数（linetype_id=3 倒计时）
+    var linetypeID:     String?  // linetype_id     3=限时
+    var mylinePrint:    String?  // myline_print    打印二维码内容
+
+    enum CodingKeys: String, CodingKey {
+        case mylineAdate  = "myline_adate"
+        case mylineID     = "myline_id"
+        case mylinestID   = "mylinest_id"
+        case pointmapCn   = "pointmap_cn"
+        case pointmapMac  = "pointmap_mac"
+        case pointmapPop  = "pointmap_pop"
+        case pointmapRssi = "pointmap_rssi"
+        case lineTime     = "line_time"
+        case linetypeID   = "linetype_id"
+        case mylinePrint  = "myline_print"
+    }
+    init(from dict: [String: Any]) {
+        mylineAdate  = dict["myline_adate"]    as? String
+        mylineID     = dict["myline_id"]       as? String
+        mylinestID   = dict["mylinest_id"]     as? String
+        pointmapCn   = dict["pointmap_cn"]     as? String
+        pointmapMac  = dict["pointmap_mac"]    as? String
+        pointmapPop  = dict["pointmap_pop"]    as? String
+        pointmapRssi = dict["pointmap_rssi"]   as? String
+        lineTime     = dict["line_time"]       as? String
+        linetypeID   = dict["linetype_id"]     as? String
+        mylinePrint  = dict["myline_print"]    as? String
+    }
+}
+
+// MARK: - 游戏：历史足迹
+struct History: Codable {
+    var cdate:      String?  // mylineinfo_cdate
+    var score:      String?  // mylineinfo_score
+    var pointmapCn: String?  // pointmap_cn
+    var pointmapID: String?  // pointmap_id
+
+    enum CodingKeys: String, CodingKey {
+        case cdate      = "mylineinfo_cdate"
+        case score      = "mylineinfo_score"
+        case pointmapCn = "pointmap_cn"
+        case pointmapID = "pointmap_id"
+    }
+    init(from dict: [String: Any]) {
+        cdate      = dict["mylineinfo_cdate"] as? String
+        score      = dict["mylineinfo_score"] as? String
+        pointmapCn = dict["pointmap_cn"]      as? String
+        pointmapID = dict["pointmap_id"]      as? String
+    }
+}
+
+// MARK: - 游戏：地图点标
+struct Pointmap: Codable {
+    var lat:        String?  // point_lat
+    var lon:        String?  // point_lon
+    var pointmapCn: String?  // pointmap_cn
+    init(from dict: [String: Any]) {
+        lat        = dict["point_lat"]    as? String
+        lon        = dict["point_lon"]    as? String
+        pointmapCn = dict["pointmap_cn"]  as? String
+    }
+}
+
+// MARK: - 游戏：任务定位（地图覆盖物）
+struct TaskLocation: Codable {
+    var lineBotLat: String?  // line_botlat
+    var lineBotLon: String?  // line_botlon
+    var lineID:     String?  // line_id
+    var lineMap:    String?  // line_map      自定义底图 URL
+    var lineMapon:  String?  // line_mapon    1=使用自定义底图
+    var lineTopLat: String?  // line_toplat
+    var lineTopLon: String?  // line_toplon
+    var pointmaps: [Pointmap] = []
+
+    init(from dict: [String: Any]) {
+        lineBotLat = dict["line_botlat"] as? String
+        lineBotLon = dict["line_botlon"] as? String
+        lineID     = dict["line_id"]     as? String
+        lineMap    = dict["line_map"]    as? String
+        lineMapon  = dict["line_mapon"]  as? String
+        lineTopLat = dict["line_toplat"] as? String
+        lineTopLon = dict["line_toplon"] as? String
+        if let arr = dict["pointmapArray"] as? [[String: Any]] {
+            pointmaps = arr.map { Pointmap(from: $0) }
+        } else if let arr = dict["Msg"] as? [[String: Any]] {
+            // 兼容某些返回结构
+            pointmaps = arr.map { Pointmap(from: $0) }
+        }
+    }
+}
+

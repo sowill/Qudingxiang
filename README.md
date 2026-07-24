@@ -72,7 +72,14 @@ sqlite，本地文件</br>
 | 二维码生成 | ✅ | `Swift/QRCodeGenerator.swift`（CoreImage 替代 libqrencode） |
 | 游戏核心 | ✅ | `Swift/BaseGameViewController.swift`（4 状态机 + 蓝牙感应 MAC + 倒计时 + WKWebView 任务书 + JS 回调 + 完成弹层） |
 | 定向足迹 | ✅ | `Swift/HistoryViewController.swift`（足迹列表 + 详情 WebView） |
-| 发现 / 我的 | 占位 | `Swift/PlaceholderControllers.swift`（发现已承载 PlaceController；我的待迁移） |
+| 我的 API / 模型 | ✅ | `Swift/MineAPI.swift`（authLogin/modify/myLines/teamLines/cards）+ `Myline`/`Card` 模型 |
+| 个人中心 | ✅ | `Swift/MineController.swift`（渐变头部 + 圆角头像 + 头像上传 + 卡片表格） |
+| 编辑资料 | ✅ | `Swift/EditMineInfoController.swift`（昵称/手机/签名） |
+| 我的/团队线路 | ✅ | `Swift/MyLineListController.swift`（按 Mode 区分个人/团队） |
+| 我的卡包 | ✅ | `Swift/MineCardController.swift`（卡包列表 + 二维码弹层） |
+| 设置 | ✅ | `Swift/SettingController.swift`（缓存清理/修改密码/退出登录） |
+| 关于我们 | ✅ | `Swift/AboutUsController.swift`（Logo+版本+简介+须知+点标管理，含 `WebViewController`） |
+| 发现 | ✅ | `Swift/DiscoverController.swift`（承载 PlaceController） |
 
 ### 集成步骤（在新分支基础上）
 
@@ -115,11 +122,16 @@ sqlite，本地文件</br>
 - API：`GameAPI`（任务刷新/定位/历史/退赛）
 - 待补：`QDXTicketSuccessViewController`（门票核销）、`QDXPointListViewController` / `QDXPointSettingViewController`（点标管理）、`QDXTeamsViewController` / `QDXTaskViewController`（组队/任务）、扫码扫描器（Vision 替代 ZBar）
 
-**第四批 — 我的与设置**
-- `MineViewController` / `editMineInfoViewController` / `MineCardViewController`
-- `QDXChangeNameViewController` / `QDXChangePwdViewController`
-- `SettingViewController` / `AboutUsViewController` / `HelpViewController` / `NoticeViewController` / `QDXProtocolViewController`
-- `QDXCreateCodeViewController` / `ImagePickerController`（用原生 Vision/CoreImage 替代 ZBar/libqrencode）
+**第四批 — 我的与设置** ✅ 已完成
+- `MineViewController.m` → `MineController.swift`（渐变头部 + 圆角头像 + 手机号脱敏 + 头像上传 UIImagePickerController + 卡片表格）
+- `editMineInfoViewController.m` → `EditMineInfoController.swift`（昵称/手机/签名编辑）
+- `MineLineController.m` + `TeamLineController.m` → `MyLineListController.swift`（按 Mode 区分个人/团队）
+- `MineCardViewController.m` → `MineCardController.swift`（卡包列表 + 二维码弹层）
+- `SettingViewController.m` → `SettingController.swift`（缓存清理/修改密码/退出登录）
+- `AboutUsViewController.m` → `AboutUsController.swift`（Logo+版本+简介+活动须知+点标管理，含通用 `WebViewController`）
+- `QDXChangePwdViewController.m` → 已在第一批迁移为 `ChangePasswordViewController`
+- API：`MineAPI`（authLogin/modify/myLines/teamLines/cards）+ `Myline`/`Card` 模型
+- 待补：`QDXChangeNameViewController`（修改昵称独立页，已并入编辑资料）、`HelpViewController` / `NoticeViewController` / `QDXProtocolViewController`（协议页）、`QDXCreateCodeViewController`（生成二维码，已有 QRCodeGenerator 可复用）、`ImagePickerController`（扫码，待用 Vision 替代 ZBar）
 
 **第五批 — 离线**
 - `LocalDBService` / `LocalSqlliteService` / `QDXOfflineDB`（迁移至 SQLite.swift 或 GRDB）

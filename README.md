@@ -59,8 +59,15 @@ sqlite，本地文件</br>
 | 订单列表 / 详情 | ✅ | `Swift/OrderListController.swift`（分段 + 卡片）、`OrderDetailViewController.swift` |
 | 订单 / 支付 API | ✅ | `Swift/OrderAPI.swift`（订单增删查 + 微信/支付宝参数）、`Models.swift` 已含 OrderInfo/WeixinPayParam/AlipayParam |
 | 支付页 / 支付管理 | ✅ | `Swift/PayViewController.swift`（金额卡片 + 单选支付方式）、`PayManager.swift`（微信/支付宝统一拉起） |
+| 活动 / 场地 API | ✅ | `Swift/ContentAPI.swift`（城市/场地/活动/合作/报名）、`Models.swift` 扩展 City/Area + `PagedList<T>` |
+| 活动列表（分段） | ✅ | `Swift/ActivityListController.swift`（UISegmentedControl + 横向分页 + 子列表） |
+| 活动卡片 Cell | ✅ | `Swift/ActivityCell.swift`（封面大图 + 状态徽标 + 价格） |
+| 场地产品列表 | ✅ | `Swift/AreaGoodsListController.swift`（场地下的活动列表） |
+| 场地列表 | ✅ | `Swift/PlaceController.swift`（网格 + 城市切换 + PlaceCell） |
+| 城市选择 | ✅ | `Swift/CityChoiceController.swift`（定位 + 开放城市标签，左对齐 FlowLayout） |
+| 线路详情 | ✅ | `Swift/LineDetailViewController.swift`（WKWebView + 进度条 + 报名抽屉：步进器/总价/去支付） |
 | 游戏核心 | ✅ | `Swift/GameViewController.swift`（CoreBluetooth 感应 Beacon、进度条、点标列表） |
-| 发现 / 我的 | 占位 | `Swift/PlaceholderControllers.swift`（后续逐模块迁移） |
+| 发现 / 我的 | 占位 | `Swift/PlaceholderControllers.swift`（发现已承载 PlaceController；我的待迁移） |
 
 ### 集成步骤（在新分支基础上）
 
@@ -82,10 +89,16 @@ sqlite，本地文件</br>
 - `CheckDataTool` → `Validator`
 - 待补：`QDXBindViewController`（QQ/微信绑定）、微信/支付宝 SDK 真实回调接入
 
-**第二批 — 活动与场地**
-- `QDXActivityViewController` / `QDXActivityPriceViewController` / `RecentActivityViewController`
-- `PlaceViewController` / `LocationChoiceViewController` / `MoreCooperationViewController`
-- `QDXLineChooseViewController` / `QDXLineDetailViewController` / `LineController` / `TeamLineController` / `MineLineController`
+**第二批 — 活动与场地** ✅ 已完成
+- `QDXActivityViewController` + `RecentActivityViewController` → `ActivityListController`（分段 + 横向分页 ScrollView + 子列表）
+- `QDXActivityPriceViewController` → `AreaGoodsListController`（场地产品列表）
+- `PlaceViewController` → `PlaceController`（场地网格 + 城市切换入口）
+- `LocationChoiceViewController` → `CityChoiceController`（定位 + 开放城市标签，左对齐 FlowLayout）
+- `QDXLineDetailViewController` → `LineDetailViewController`（WKWebView + 进度条 + 报名抽屉：步进器/总价/去支付）
+- `QDXActTableViewCell` → `ActivityCell`（封面大图卡片）
+- API：`ContentAPI`（城市/场地/活动/合作/报名）
+- 模型扩展：`City`/`Area` 增加省/区字段，新增 `PagedList<T>`
+- 待补：`MoreCooperationViewController`（合作单位）、`QDXLineChooseViewController` / `LineController` / `TeamLineController` / `MineLineController`（线路选择与我的线路）
 
 **第三批 — 游戏与地图**
 - `MapViewController`（高德 MAMapKit 迁移）

@@ -212,15 +212,87 @@ struct Line: Codable {
 
 // MARK: - 城市 / 场地 / 合作单位
 struct City: Codable {
-    var id: String?  // city_id
-    var cn: String?  // city_cn
-    enum CodingKeys: String, CodingKey { case id = "city_id"; case cn = "city_cn" }
+    var id: String?         // city_id
+    var cn: String?         // city_cn
+    var provinceID: String? // province_id
+    var provinceCn: String? // province_cn
+    var statusID: String?   // utilstatus_id
+    var statusCn: String?   // utilstatus_cn
+
+    enum CodingKeys: String, CodingKey {
+        case id         = "city_id"
+        case cn         = "city_cn"
+        case provinceID = "province_id"
+        case provinceCn = "province_cn"
+        case statusID   = "utilstatus_id"
+        case statusCn   = "utilstatus_cn"
+    }
+    init(from dict: [String: Any]) {
+        id         = dict["city_id"]        as? String
+        cn         = dict["city_cn"]        as? String
+        provinceID = dict["province_id"]    as? String
+        provinceCn = dict["province_cn"]    as? String
+        statusID   = dict["utilstatus_id"]  as? String
+        statusCn   = dict["utilstatus_cn"]  as? String
+    }
+    init?(from dict: [String: Any]?) {
+        guard let d = dict else { return nil }
+        self.init(from: d)
+    }
 }
 
 struct Area: Codable {
-    var id: String?  // area_id
-    var cn: String?  // area_cn
-    enum CodingKeys: String, CodingKey { case id = "area_id"; case cn = "area_cn" }
+    var id: String?          // area_id
+    var cn: String?          // area_cn
+    var type: String?        // area_type
+    var provinceID: String?  // province_id
+    var provinceCn: String?  // province_cn
+    var cityID: String?      // city_id
+    var cityCn: String?      // city_cn
+    var countyID: String?    // county_id
+    var countyCn: String?    // county_cn
+    var url: String?         // area_url
+    var vcode: String?       // area_vcode
+    var cdate: String?       // area_cdate
+    var sysuserID: String?   // sysuser_id
+    var sysuserCn: String?   // sysuser_cn
+
+    enum CodingKeys: String, CodingKey {
+        case id         = "area_id"
+        case cn         = "area_cn"
+        case type       = "area_type"
+        case provinceID = "province_id"
+        case provinceCn = "province_cn"
+        case cityID     = "city_id"
+        case cityCn     = "city_cn"
+        case countyID   = "county_id"
+        case countyCn   = "county_cn"
+        case url        = "area_url"
+        case vcode      = "area_vcode"
+        case cdate      = "area_cdate"
+        case sysuserID  = "sysuser_id"
+        case sysuserCn  = "sysuser_cn"
+    }
+    init(from dict: [String: Any]) {
+        id         = dict["area_id"]       as? String
+        cn         = dict["area_cn"]       as? String
+        type       = dict["area_type"]     as? String
+        provinceID = dict["province_id"]   as? String
+        provinceCn = dict["province_cn"]   as? String
+        cityID     = dict["city_id"]       as? String
+        cityCn     = dict["city_cn"]       as? String
+        countyID   = dict["county_id"]     as? String
+        countyCn   = dict["county_cn"]     as? String
+        url        = dict["area_url"]      as? String
+        vcode      = dict["area_vcode"]    as? String
+        cdate      = dict["area_cdate"]    as? String
+        sysuserID  = dict["sysuser_id"]    as? String
+        sysuserCn  = dict["sysuser_cn"]    as? String
+    }
+    init?(from dict: [String: Any]?) {
+        guard let d = dict else { return nil }
+        self.init(from: d)
+    }
 }
 
 struct Partner: Codable {
@@ -241,3 +313,12 @@ struct Banner: Codable {
         case id = "playimg_id"; case url = "playimg_url"; case link = "playimg_link"
     }
 }
+
+// MARK: - 分页列表响应
+struct PagedList<T> {
+    let items: [T]
+    let count: Int      // 总条数
+    let allPage: Int    // 总页数
+    let curr: Int       // 当前页
+}
+

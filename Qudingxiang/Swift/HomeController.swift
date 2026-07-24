@@ -11,7 +11,7 @@ import SnapKit
 import SDWebImage
 import MJRefresh
 
-final class HomeController: BaseViewController, UICollectionViewDataSource {
+final class HomeController: BaseViewController, UICollectionViewDataSource, UICollectionViewDelegate {
 
     private var banners: [Banner] = []
     private var goods: [Goods] = []
@@ -97,6 +97,7 @@ final class HomeController: BaseViewController, UICollectionViewDataSource {
     // MARK: - CollectionView
     private func setupCollectionView() {
         collectionView.dataSource = self
+        collectionView.delegate = self
         collectionView.register(HomeGoodsCell.self, forCellWithReuseIdentifier: HomeGoodsCell.reuseID)
         view.addSubview(collectionView)
         collectionView.snp.makeConstraints { make in
@@ -170,6 +171,11 @@ final class HomeController: BaseViewController, UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: HomeGoodsCell.reuseID, for: indexPath) as! HomeGoodsCell
         cell.configure(with: goods[indexPath.item])
         return cell
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let detail = LineDetailViewController()
+        detail.goods = goods[indexPath.item]
+        navigationController?.pushViewController(detail, animated: true)
     }
 }
 

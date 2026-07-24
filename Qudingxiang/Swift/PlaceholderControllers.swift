@@ -9,20 +9,20 @@
 import UIKit
 import SnapKit
 
-/// 发现
+/// 发现（场地列表入口，承载 PlaceController）
 final class DiscoverController: BaseViewController {
+    private let placeVC = PlaceController()
     override func viewDidLoad() {
         super.viewDidLoad()
-        navigationItem.title = "发现"
-        let label = UILabel()
-        label.text = "发现模块（迁移中）"
-        label.font = QDXFont.medium(30)
-        label.textColor = QDXColor.gray
-        label.textAlignment = .center
-        view.addSubview(label)
-        label.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-        }
+        addChild(placeVC)
+        view.addSubview(placeVC.view)
+        placeVC.view.snp.makeConstraints { $0.edges.equalToSuperview() }
+        placeVC.didMove(toParent: self)
+    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        // 委托给子控制器处理导航栏
+        placeVC.navigationItem.title = "发现"
     }
 }
 

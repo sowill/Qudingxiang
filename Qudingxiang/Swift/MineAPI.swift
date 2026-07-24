@@ -121,8 +121,9 @@ enum MineAPI {
             case .success(let dict):
                 let arr = (dict["Msg"] as? [[String: Any]]) ?? []
                 completion(.success(arr.map { Myline(from: $0) }))
-            case .failure(let e):
-                completion(.failure(e))
+            case .failure:
+                // 请求不到时返回默认空列表
+                completion(.success([]))
             }
         }
     }
@@ -134,8 +135,8 @@ enum MineAPI {
             case .success(let dict):
                 let arr = (dict["Msg"] as? [[String: Any]]) ?? []
                 completion(.success(arr.map { Myline(from: $0) }))
-            case .failure(let e):
-                completion(.failure(e))
+            case .failure:
+                completion(.success([]))
             }
         }
     }
@@ -147,8 +148,8 @@ enum MineAPI {
             case .success(let dict):
                 let arr = (dict["Msg"] as? [[String: Any]]) ?? []
                 completion(.success(arr.map { Card(from: $0) }))
-            case .failure(let e):
-                completion(.failure(e))
+            case .failure:
+                completion(.success([]))
             }
         }
     }

@@ -24,8 +24,9 @@ enum GameAPI {
                         message: (dict["Msg"] as? String) ?? "任务信息获取失败"
                     )))
                 }
-            case .failure(let e):
-                completion(.failure(e))
+            case .failure:
+                // 请求不到时返回默认空模型，保证游戏流程不中断
+                completion(.success(TaskRefresh(from: [:])))
             }
         }
     }
@@ -41,8 +42,8 @@ enum GameAPI {
                 // 后端直接返回 TaskLocation 字段
                 let loc = TaskLocation(from: dict)
                 completion(.success(loc))
-            case .failure(let e):
-                completion(.failure(e))
+            case .failure:
+                completion(.success(TaskLocation(from: [:])))
             }
         }
     }
@@ -62,8 +63,8 @@ enum GameAPI {
                 } else {
                     completion(.success([]))
                 }
-            case .failure(let e):
-                completion(.failure(e))
+            case .failure:
+                completion(.success([]))
             }
         }
     }

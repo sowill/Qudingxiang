@@ -16,8 +16,9 @@ enum ContentAPI {
             case .success(let dict):
                 let list = (dict["Msg"] as? [[String: Any]])?.compactMap { City(from: $0) } ?? []
                 completion(.success(list))
-            case .failure(let e):
-                completion(.failure(e))
+            case .failure:
+                // 请求不到时返回默认空列表，保证 UI 正常展示
+                completion(.success([]))
             }
         }
     }
@@ -29,8 +30,8 @@ enum ContentAPI {
             case .success(let dict):
                 let list = (dict["Msg"] as? [[String: Any]])?.compactMap { Area(from: $0) } ?? []
                 completion(.success(list))
-            case .failure(let e):
-                completion(.failure(e))
+            case .failure:
+                completion(.success([]))
             }
         }
     }
@@ -52,8 +53,8 @@ enum ContentAPI {
                     curr: Int((dict["curr"] as? String) ?? "1") ?? 1
                 )
                 completion(.success(paged))
-            case .failure(let e):
-                completion(.failure(e))
+            case .failure:
+                completion(.success(PagedList<Area>(items: [], count: 0, allPage: 0, curr: 1)))
             }
         }
     }
@@ -69,8 +70,8 @@ enum ContentAPI {
                             url: $0["partner_logo"] as? String)
                 } ?? []
                 completion(.success(list))
-            case .failure(let e):
-                completion(.failure(e))
+            case .failure:
+                completion(.success([]))
             }
         }
     }
@@ -97,8 +98,8 @@ enum ContentAPI {
                     curr: Int((dict["curr"] as? String) ?? "1") ?? 1
                 )
                 completion(.success(paged))
-            case .failure(let e):
-                completion(.failure(e))
+            case .failure:
+                completion(.success(PagedList<Goods>(items: [], count: 0, allPage: 0, curr: 1)))
             }
         }
     }
@@ -116,8 +117,8 @@ enum ContentAPI {
                 let arr = (dict["Msg"] as? [[String: Any]]) ?? []
                 let items = arr.compactMap { Goods(from: $0) }
                 completion(.success(items))
-            case .failure(let e):
-                completion(.failure(e))
+            case .failure:
+                completion(.success([]))
             }
         }
     }
@@ -137,8 +138,8 @@ enum ContentAPI {
                 let arr = (msg?["data"] as? [[String: Any]]) ?? []
                 let items = arr.compactMap { Line(from: $0) }
                 completion(.success(items))
-            case .failure(let e):
-                completion(.failure(e))
+            case .failure:
+                completion(.success([]))
             }
         }
     }

@@ -75,8 +75,9 @@ enum OrderAPI {
                     list = list.filter { ($0.statusID ?? "0") == String(status) }
                 }
                 completion(.success(list))
-            case .failure(let e):
-                completion(.failure(e))
+            case .failure:
+                // 请求不到时返回默认空列表
+                completion(.success([]))
             }
         }
     }
@@ -109,8 +110,9 @@ enum OrderAPI {
             case .success(let dict):
                 let list = (dict["Msg"] as? [[String: Any]])?.compactMap { OrderInfo(from: $0) } ?? []
                 completion(.success(list))
-            case .failure(let e):
-                completion(.failure(e))
+            case .failure:
+                // 请求不到时返回默认空列表
+                completion(.success([]))
             }
         }
     }

@@ -61,8 +61,9 @@ enum TeamsAPI {
                     }
                     completion(.success((teamName, members)))
                 }
-            case .failure(let e):
-                completion(.failure(e))
+            case .failure:
+                // 请求不到时返回默认空队伍，保证页面可正常展示
+                completion(.success(("", [])))
             }
         }
     }
@@ -87,8 +88,9 @@ enum TeamsAPI {
                 } else {
                     completion(.failure(.invalidResponse))
                 }
-            case .failure(let e):
-                completion(.failure(e))
+            case .failure:
+                // 请求不到时返回默认空 URL
+                completion(.success(""))
             }
         }
     }

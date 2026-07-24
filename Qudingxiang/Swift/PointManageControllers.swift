@@ -56,8 +56,9 @@ enum PointAPI {
                 } else {
                     completion(.success([]))
                 }
-            case .failure(let e):
-                completion(.failure(e))
+            case .failure:
+                // 请求不到时返回默认空列表
+                completion(.success([]))
             }
         }
     }
